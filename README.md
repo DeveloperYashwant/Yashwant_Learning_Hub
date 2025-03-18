@@ -1,6 +1,5 @@
 # Yashwant_Learning_Hub
 
-# Yashwant Learning Hub
 A hub for learning programming and technology.  
 
 ## 🔥 Topics Covered:
