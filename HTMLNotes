@@ -1,1 +1,99 @@
+**HTML5 and CSS3 Deep Study – Lecture 1**.
 
+
+## **Lecture 1: Introduction to HTML5 & CSS3**
+
+### **1. What is HTML5?**
+HTML5 is the latest version of **HyperText Markup Language (HTML)**, used to create structured web pages and web applications. It introduces new elements, attributes, and behaviors to improve web development.
+
+#### **Real-world example:**
+- Think of **HTML as the blueprint** of a house. It defines the structure – where walls, rooms, windows, and doors are placed.
+
+### **2. Features of HTML5**
+- **New Semantic Elements:** `<header>`, `<nav>`, `<section>`, `<article>`, `<footer>`
+- **Multimedia Support:** `<audio>`, `<video>` without external plugins like Flash.
+- **Form Enhancements:** `<input type="date">`, `<input type="email">`
+- **Canvas & SVG:** 2D and vector graphics for animations.
+- **Geolocation API:** Fetch user location in real-time.
+
+#### **Real-world example:**
+- A news website uses `<article>` for each news post, `<header>` for the title, and `<footer>` for author details.
+
+### **3. Basic HTML5 Page Structure**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First HTML5 Page</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to HTML5</h1>
+    </header>
+    <section>
+        <p>This is a sample paragraph in HTML5.</p>
+    </section>
+    <footer>
+        <p>© 2025 My Website</p>
+    </footer>
+</body>
+</html>
+
+## **Lecture 1 (Continued): Introduction to CSS3**
+### **1. What is CSS3?**
+CSS3 (**Cascading Style Sheets 3**) is used to design and style HTML elements. It controls layout, colors, fonts, and animations.
+
+#### **Real-world example:**
+- If HTML is a house’s **structure**, CSS is the **paint and decoration**—color, layout, fonts, etc.
+
+### **2. Features of CSS3**
+- **Selectors:** Target specific elements (`.class`, `#id`, `element`)
+- **Media Queries:** Make websites responsive for different screen sizes.
+- **Animations & Transitions:** Create interactive effects.
+- **Flexbox & Grid:** Advanced layout systems.
+
+### **3. CSS3 Syntax**
+
+body {
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: darkblue;
+    text-align: center;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+### **4. Real-World Example: Styling a Card**
+#### **HTML:**
+
+<div class="card">
+    <img src="profile.jpg" alt="Profile Picture">
+    <h2>John Doe</h2>
+    <p>Web Developer</p>
+</div>
+
+#### **CSS:**
+.card {
+    width: 250px;
+    border: 2px solid #000;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px gray;
+}
+This creates a **beautiful profile card**—just like what we see on social media.
+
+---
+
+## **Conclusion**
+- **HTML5 gives structure.**
+- **CSS3 makes it look attractive.**
+- **Together, they create a modern, user-friendly website.**
