@@ -1,0 +1,210 @@
+# **Lecture 4: Conditional Rendering & Lists in React**  
+
+
+## **1 Conditional Rendering in React**
+** What is Conditional Rendering?**  
+Conditional rendering in React means displaying elements **based on a condition**. React does this using **if statements, ternary operators (`? :`), and logical operators (`&&`)**.
+
+###  Example 1: If-Else Statement**
+**Use case:** Show a **Login** or **Logout** button based on user status.
+
+--jsx
+import React, { useState } from "react";
+
+const UserStatus = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  if (isLoggedIn) {
+    return <h2>Welcome, User! <button onClick={() => setIsLoggedIn(false)}>Logout</button></h2>;
+  } else {
+    return <h2>Please Login <button onClick={() => setIsLoggedIn(true)}>Login</button></h2>;
+  }
+};
+
+export default UserStatus;
+
+
+---
+
+###  Example 2: Using the Ternary Operator (`? :`)**
+**Shorter version** of if-else.
+
+-- jsx
+const UserStatus = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  return (
+    <div>
+      <h2>{isLoggedIn ? "Welcome, User!" : "Please Login"}</h2>
+      <button onClick={() => setIsLoggedIn(!isLoggedIn)}>
+        {isLoggedIn ? "Logout" : "Login"}
+      </button>
+    </div>
+  );
+};
+
+
+**Real-world Example:**  
+**E-commerce website** – Show **"Add to Cart"** or **"Out of Stock"** button.
+
+jsx
+const Product = ({ name, inStock }) => {
+  return (
+    <div>
+      <h3>{name}</h3>
+      <button disabled={!inStock}>
+        {inStock ? "Add to Cart" : "Out of Stock"}
+      </button>
+    </div>
+  );
+};
+
+export default Product;
+
+
+---
+
+## **2️ Rendering Lists in React**
+### ** What is List Rendering?**  
+List rendering is when we display **multiple items dynamically** from an array using `.map()`.
+
+ **Example:** Display a list of fruits dynamically.
+
+--jsx
+const FruitsList = () => {
+  const fruits = ["Apple", "Banana", "Mango", "Grapes"];
+
+  return (
+    <div>
+      <h2>Fruits List:</h2>
+      <ul>
+        {fruits.map((fruit, index) => (
+          <li key={index}>{fruit}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+
+---
+
+###  Example: Rendering List of Objects**
+ **E-commerce Example:** Display a **list of products with price**.
+
+--jsx
+const ProductList = () => {
+  const products = [
+    { id: 1, name: "Laptop", price: 999.99 },
+    { id: 2, name: "Smartphone", price: 499.99 },
+    { id: 3, name: "Headphones", price: 59.99 },
+  ];
+
+  return (
+    <div>
+      <h2>Product List:</h2>
+      <ul>
+        {products.map((product) => (
+          <li key={product.id}>
+            {product.name} - ${product.price}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+** Keys in Lists:**  
+Always use a **unique key (like `id`)** when rendering lists to optimize performance.
+
+---
+
+## **3 ️Combining Conditional Rendering & Lists**
+**Scenario:** Show a list of students, but only highlight those who have passed.
+
+--jsx
+const StudentsList = () => {
+  const students = [
+    { id: 1, name: "Ankit", score: 85 },
+    { id: 2, name: kiran", score: 45 },
+    { id: 3, name: "Poonam", score: 75 },
+  ];
+
+  return (
+    <div>
+      <h2>Student Scores:</h2>
+      <ul>
+        {students.map((student) => (
+          <li key={student.id} style={{ color: student.score >= 50 ? "green" : "red" }}>
+            {student.name} - {student.score} {student.score >= 50 ? " Pass" : "Fail"}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+
+---
+
+## **4  Real-World Mini Project: Task List**
+*Scenario:** A **To-Do List** where users can mark tasks as "Done".
+
+-- jsx
+import React, { useState } from "react";
+
+const TaskList = () => {
+  const [tasks, setTasks] = useState([
+    { id: 1, task: "Complete React assignment", done: false },
+    { id: 2, task: "Read a book", done: false },
+    { id: 3, task: "Go for a walk", done: false },
+  ]);
+
+  const toggleTask = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  };
+
+  return (
+    <div>
+      <h2>To-Do List</h2>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>
+            <span style={{ textDecoration: task.done ? "line-through" : "none" }}>
+              {task.task}
+            </span>
+            <button onClick={() => toggleTask(task.id)}>
+              {task.done ? "Undo" : "Done"}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TaskList;
+
+
+---
+
+## **📝 Summary**
+| Concept                | Example |
+|------------------------|---------|
+| **Conditional Rendering** | Show **Login/Logout** button based on user state |
+| **Ternary Operator (`? :`)** | Shorter way to render based on condition |
+| **List Rendering (`.map()`)** | Display **lists of fruits, students, products** |
+| **Combining Lists & Conditional Rendering** | Highlight **passing students**, Task List **( Done)** |
+
+---
+
+##  Homework for Students**
+1. **Create a React component** that **renders a list of books** and shows whether each book is "Available" or "Not Available".
+2. **Enhance the Task List** to allow users to **add new tasks dynamically**.
+3. **Build a small e-commerce cart** where products are **added or removed** dynamically.
+
+---

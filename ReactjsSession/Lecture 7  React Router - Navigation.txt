@@ -1,0 +1,110 @@
+### Lecture 7 React Router - Navigation in React.js  - **  
+
+
+## **1. Introduction to React Router**
+React Router is a **popular library** that enables navigation between different components (pages) in a React application **without a full-page reload**. It allows us to create a **single-page application (SPA)** with multiple views.
+
+---
+
+## **2. Installing React Router in a Vite Project**
+### **Step 1: Create a React App using Vite**
+
+npm create vite@latest my-react-app --template react
+cd my-react-app
+npm install
+
+### **Step 2: Install React Router**
+
+npm install react-router-dom
+
+---
+
+## **3. Setting Up React Router**
+### **Step 1: Create a `Router` Component**
+In your `src` folder, create a file named `AppRouter.jsx` and set up routes using `react-router-dom`.
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Navbar from "./components/Navbar";
+
+const AppRouter = () => {
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default AppRouter;
+
+---
+
+## **4. Creating Components for Navigation**
+### **Step 1: Create Pages**
+Inside the `src/pages/` folder, create `Home.jsx`, `About.jsx`, and `Contact.jsx`.
+
+**Home.jsx**
+
+const Home = () => {
+  return <h1>Welcome to Home Page</h1>;
+};
+export default Home;
+
+**About.jsx**
+
+const About = () => {
+  return <h1>About Us</h1>;
+};
+export default About;
+
+**Contact.jsx**
+
+const Contact = () => {
+  return <h1>Contact Us</h1>;
+};
+export default Contact;
+
+---
+
+### **Step 2: Create a Navbar**
+Create a `components/Navbar.jsx` file for navigation links.
+
+import { Link } from "react-router-dom";
+
+const Navbar = () => {
+  return (
+    <nav>
+      <ul>
+        <li><Link to="/">Home</Link></li>  in react "link tag " use place of "<a>";
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/contact">Contact</Link></li>
+      </ul>
+    </nav>
+  );
+};
+
+export default Navbar;
+---
+
+## **5. Using `AppRouter` in `main.jsx`**
+Finally, update `main.jsx` to use `AppRouter` instead of rendering `App`.
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import AppRouter from "./AppRouter";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <AppRouter />
+  </React.StrictMode>
+);
+
+---
+

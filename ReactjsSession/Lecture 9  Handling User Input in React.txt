@@ -1,0 +1,238 @@
+
+#  Lecture 9: Handling User Input in React.js **
+
+---
+
+## **2️ Handling Text Input (Controlled Components)**
+React keeps form elements in sync with state using the `useState` hook.
+
+**Example: Handling Text Input**
+
+import { useState } from "react";
+
+const UserForm = () => {
+  // State to store user input
+  const [name, setName] = useState("");
+
+  // Function to handle input changes
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+
+  // Function to handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`Submitted Name: ${name}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Enter Name:</label>
+      <input type="text" value={name} onChange={handleChange} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default UserForm;
+
+**Explanation:**
+- `useState("")`: Initializes state for the input field.
+- `handleChange(event)`: Updates state when the user types.
+- `handleSubmit(event)`: Prevents form reload and displays input value.
+
+---
+
+## **3️ Handling Multiple Inputs (Forms)**
+
+**Example: Handling Multiple Inputs**
+
+import { useState } from "react";
+
+const UserProfileForm = () => {
+  const [user, setUser] = useState({ name: "", email: "" });
+
+  // Function to handle input changes
+  const handleChange = (event) => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  // Function to handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`Name: ${user.name}, Email: ${user.email}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="name" placeholder="Name" value={user.name} onChange={handleChange} />
+      <input type="email" name="email" placeholder="Email" value={user.email} onChange={handleChange} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default UserProfileForm;
+
+**Key Features:**
+- Uses a **single state object** `{ name: "", email: "" }`
+- Updates state dynamically with `[event.target.name]`
+- Supports **multiple input fields** in a form
+
+---
+
+## **4️ Handling Checkbox & Radio Inputs**
+**Example: Handling Checkbox & Radio**
+
+import { useState } from "react";
+
+const PreferencesForm = () => {
+  const [agree, setAgree] = useState(false);
+  const [gender, setGender] = useState("");
+
+  return (
+    <form>
+      {/* Checkbox */}
+      <label>
+        <input type="checkbox" checked={agree} onChange={() => setAgree(!agree)} />
+        I agree to the terms
+      </label>
+
+      {/* Radio Buttons */}
+      <div>
+        <label>
+          <input type="radio" name="gender" value="Male" onChange={(e) => setGender(e.target.value)} />
+          Male
+        </label>
+        <label>
+          <input type="radio" name="gender" value="Female" onChange={(e) => setGender(e.target.value)} />
+          Female
+        </label>
+      </div>
+
+      <p>Selected Gender: {gender}</p>
+      <p>Agreement: {agree ? "Accepted" : "Not Accepted"}</p>
+    </form>
+  );
+};
+
+export default PreferencesForm;
+
+**Key Features:**
+- **Checkbox** uses `checked={agree}` and toggles with `setAgree(!agree)`.
+- **Radio buttons** use `value` and `onChange` to update the state.
+
+---
+
+## **5️ Handling Select Dropdown**
+**Example: Handling Dropdown Selection**
+
+import { useState } from "react";
+
+const CountrySelector = () => {
+  const [country, setCountry] = useState("India");
+
+  return (
+    <form>
+      <label>Select Country:</label>
+      <select value={country} onChange={(e) => setCountry(e.target.value)}>
+        <option value="India">India</option>
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+      </select>
+
+      <p>Selected Country: {country}</p>
+    </form>
+  );
+};
+
+export default CountrySelector;
+
+**Key Features:**
+- Uses a **`select` dropdown** with predefined options.
+- Stores the selected value in the **state**.
+
+---
+
+## **6️ Handling File Upload**
+**Example: Uploading Files**
+
+import { useState } from "react";
+
+const FileUpload = () => {
+  const [file, setFile] = useState(null);
+
+  const handleChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  return (
+    <form>
+      <input type="file" onChange={handleChange} />
+      {file && <p>Selected File: {file.name}</p>}
+    </form>
+  );
+};
+
+export default FileUpload;
+
+**Key Features:**
+- Uses `type="file"` to select a file.
+- Displays the selected file name.
+
+---
+
+## **7️ Handling User Input with API Calls**
+**Example: Sending Form Data to an API**
+
+import { useState } from "react";
+
+const UserFormAPI = () => {
+  const [user, setUser] = useState({ name: "", email: "" });
+
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+
+      const result = await response.json();
+      console.log("User Added:", result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="name" placeholder="Name" value={user.name} onChange={handleChange} />
+      <input type="email" name="email" placeholder="Email" value={user.email} onChange={handleChange} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default UserFormAPI;
+
+**Key Features:**
+- Sends `POST` request to an API using `fetch()`.
+- Handles form submission with **async/await**.
+
+---
+
+##Summary of Concepts Covered**
+Handling user input with `useState`  
+Managing **text, email, number** inputs  
+Handling **checkbox, radio, select dropdowns, and file uploads**  
+Sending **form data to APIs**  

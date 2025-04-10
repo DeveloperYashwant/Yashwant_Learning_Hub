@@ -1,0 +1,378 @@
+
+#  Real-World Example Using React Hooks (`useState`, `useEffect`, `useRef`)**  
+
+##  Project: Employee Dashboard**
+We will build an **Employee Dashboard** that:  
+ Fetches employee data from an API using `useEffect`.  
+ Allows searching employees by name using `useState`.  
+ Tracks the previous search input using `useRef`.  
+
+---
+
+
+import { useState, useEffect, useRef } from "react";
+
+function EmployeeDashboard() {
+  //  State for storing employees list
+  const [employees, setEmployees] = useState([]);
+  
+  //  State for handling search input
+  const [search, setSearch] = useState("");
+  
+  //  useRef to store the previous search value
+  const previousSearch = useRef("");
+
+  //  Fetching employee data when the component mounts
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then(data => setEmployees(data)); // Set fetched data into state
+  }, []); // Runs once on component mount
+
+  // Update previousSearch whenever search changes
+  useEffect(() => {
+    previousSearch.current = search;
+  }, [search]); // Runs only when search state 
+
+  return (updates
+    <div style={{ padding: "20px" }}>
+      <h2>Employee Dashboard</h2>
+      
+      {/* Search Input */}
+      <input
+        type="text"
+        placeholder="Search Employee..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <p>Previous Search: {previousSearch.current}</p> {/* Show previous search */}
+
+      {/* Employee List */}
+      <ul>
+        {employees
+          .filter(employee =>
+            employee.name.toLowerCase().includes(search.toLowerCase())
+          )
+          .map(employee => (
+            <li key={employee.id}>{employee.name} - {employee.email}</li>
+          ))}
+      </ul>
+    </div>
+  );
+}
+
+export default EmployeeDashboard;
+
+---
+
+## How Each Hook Works in This Real-World Example**
+| **Hook** | **Purpose in the Project** | **How It Works Here** |
+|----------|----------------------------|------------------------|
+| **`useState`** | Manages dynamic data (employees, search input) | Stores employees list & search input |
+| **`useEffect`** | Handles side effects (API calls, updates) | Fetches employee data once on mount & tracks search history |
+| **`useRef`** | Stores a value without causing re-render | Stores previous search input |
+
+---
+
+##Features in This Example**
+**Fetches employee data from API on page load**  
+**Implements a search filter for employees**  
+**Stores the previous search input using `useRef`**  
+
+===============
+
+# **React Lecture 6: Deep Explanation of Hooks – `useState`, `useEffect`, `useRef`**  
+
+##  What Are React Hooks?**  
+
+#  1. `useState` Hook (Managing State in Functional Components)**  
+
+##  What is `useState`?**  
+The `useState` hook **allows functional components to have state variables** just like class components use `this.state`.  
+
+###  Example: Counter with `useState`**
+
+import { useState } from "react";
+
+function Counter() {
+  // useState(initialValue) returns an array with two values:
+  // 1. The current state value (count)
+  // 2. A function to update the state (setCount)
+  const [count, setCount] = useState(0);
+
+  // Function to increase the counter
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  // Function to decrease the counter
+  const decrement = () => {
+    setCount(count - 1);
+  };
+
+  return (
+    <div>
+      <h2>Counter: {count}</h2>
+      <button onClick={increment}>Increase</button>
+      <button onClick={decrement}>Decrease</button>
+    </div>
+  );
+}
+
+export default Counter;
+
+###  Explanation:**  
+  **`useState(0)`** initializes the state variable `count` with a value of `0`.  
+  `setCount(count + 1)` updates the state, causing the component to **re-render**.  
+   Clicking buttons **modifies the state**, updating the UI dynamically.  
+
+---
+
+#  2. `useEffect` Hook (Handling Side Effects in Functional Components)**  
+
+##  What is `useEffect`?**  
+The `useEffect` hook **performs side effects** in a React component. Side effects include:  
+ Fetching data from an API.  
+ Updating the DOM (e.g., changing the title).  
+ Setting up event listeners.  
+
+###  Example: Using `useEffect` to Fetch Data**
+
+import { useState, useEffect } from "react";
+
+function UserList() {
+  const [users, setUsers] = useState([]);
+
+  // useEffect runs after the component mounts
+  useEffect(() => {
+    console.log("Fetching data...");
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then(data => setUsers(data));
+  }, []); // Empty dependency array means this runs only ONCE when the component mounts.
+
+  return (
+    <div>
+      <h2>User List</h2>
+      <ul>
+        {users.map(user => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default UserList;
+
+
+###  Explanation:**  
+ `useEffect(() => {...}, [])` runs **only once** after the component **mounts**.  
+ The `fetch()` function retrieves user data from an API.  
+`setUsers(data)` updates the state, triggering a **re-render** to display the user list.  
+
+---
+
+## `useEffect` with Dependencies (Re-run When a Value Changes)**  
+If you pass **state variables** in the dependency array, `useEffect` will run **every time those values change**.
+
+### Example: `useEffect` Runs When `count` Changes**
+
+import { useState, useEffect } from "react";
+
+function CounterWithEffect() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log(`Count changed: ${count}`);
+    document.title = `Count: ${count}`;
+  }, [count]); // Runs only when count changes.
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+}
+
+export default CounterWithEffect;
+
+### Explanation:**  
+ `useEffect(() => {...}, [count])` runs **only when `count` changes**.  
+  Updates the **page title dynamically** whenever `count` is updated.  
+
+---
+
+#  3. `useRef` Hook (Accessing DOM Elements and Keeping Values Between Renders)**  
+
+##  What is `useRef`?**  
+The `useRef` hook allows us to:  
+ Access and modify **DOM elements** directly.  
+ Store values **without causing re-renders**.  
+
+###  Example: Focus Input Box with `useRef`**
+
+import { useRef } from "react";
+
+function InputFocus() {
+  const inputRef = useRef(null); // Creating a reference to the input element.
+
+  const focusInput = () => {
+    inputRef.current.focus(); // Focus the input box when button is clicked.
+  };
+
+  return (
+    <div>
+      <input type="text" ref={inputRef} placeholder="Type something..." />
+      <button onClick={focusInput}>Focus Input</button>
+    </div>
+  );
+}
+
+export default InputFocus;
+
+
+###  Explanation:**  
+`useRef(null)` creates a reference to store the input field.  
+`inputRef.current.focus()` is used to **programmatically focus** the input box.  
+ Clicking the button sets the cursor inside the input field **without re-rendering the component**.  
+
+---
+
+## ** `useRef` for Storing Values Without Re-Rendering**  
+Unlike `useState`, `useRef` **does not cause re-renders** when its value changes.
+
+### **Example: Tracking Previous Value**
+
+import { useState, useEffect, useRef } from "react";
+
+function PreviousValueTracker() {
+  const [count, setCount] = useState(0);
+  const previousCount = useRef(null); // Storing previous count value.
+
+  useEffect(() => {
+    previousCount.current = count; // Updating ref without causing a re-render.
+  }, [count]); // Runs when count changes.
+
+  return (
+    <div>
+      <h2>Current: {count}</h2>
+      <h2>Previous: {previousCount.current}</h2>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  );
+}
+
+export default PreviousValueTracker;
+
+### ** Explanation:**  
+`useRef(null)` stores the **previous `count` value** without causing re-renders.  
+`useEffect(() => {...}, [count])` updates `previousCount.current` whenever `count` changes.  
+
+
+===================
+## **1️ useState Hook – To-Do List App**
+-- jsx
+import React, { useState } from "react"; // Import React and useState hook
+
+function TodoApp() {
+  const [tasks, setTasks] = useState([]); // Initialize state for storing tasks (empty array)
+  const [task, setTask] = useState(""); // Initialize state for input value (empty string)
+
+  // Function to add a new task
+  const addTask = () => {
+    if (task.trim() !== "") { // Check if task is not empty
+      setTasks([...tasks, task]); // Update tasks array by adding a new task
+      setTask(""); // Clear input field after adding a task
+    }
+  };
+
+  return (
+    <div>
+      <h2>To-Do List</h2> 
+      <input
+        type="text"
+        placeholder="Enter a task" // Placeholder text inside input box
+        value={task} // Controlled input bound to state
+        onChange={(e) => setTask(e.target.value)} // Update state when user types
+      />
+      <button onClick={addTask}>Add Task</button> {/* Call addTask function when button is clicked */}
+      <ul>
+        {tasks.map((t, index) => (
+          <li key={index}>{t}</li> // Display each task in a list
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default TodoApp; // Export component for use in other files
+
+
+---
+
+## **2 useEffect Hook – Fetching Data from an API**
+jsx
+import React, { useState, useEffect } from "react"; // Import React, useState, and useEffect hooks
+
+function NewsApp() {
+  const [news, setNews] = useState([]); // Initialize state for storing news data (empty array)
+
+  useEffect(() => {
+    // Fetch news data when component mounts (only runs once)
+    fetch("https://jsonplaceholder.typicode.com/posts") // Fake API for testing
+      .then((response) => response.json()) // Convert response to JSON format
+      .then((data) => setNews(data.slice(0, 5))); // Store first 5 news items in state
+  }, []); // Empty dependency array ensures this effect runs only once
+
+  return (
+    <div>
+      <h2>Latest News</h2>
+      <ul>
+        {news.map((item) => (
+          <li key={item.id}>{item.title}</li> // Display news title inside list
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default NewsApp; // Export component for use
+
+
+---
+
+## 3️ useRef Hook – Auto Focus Input Field**
+-- jsx
+import React, { useRef, useEffect } from "react"; // Import React, useRef, and useEffect hooks
+
+function LoginForm() {
+  const usernameRef = useRef(null); // Create a reference for the username input field
+
+  useEffect(() => {
+    usernameRef.current.focus(); // Auto-focus on input field when component loads
+  }, []); // Empty dependency array ensures this runs only once
+
+  return (
+    <div>
+      <h2>Login</h2>
+      <input ref={usernameRef} type="text" placeholder="Enter username" /> {/* Attach ref to input */}
+      <br />
+      <input type="password" placeholder="Enter password" />
+      <br />
+      <button>Login</button>
+    </div>
+  );
+}
+
+export default LoginForm; // Export component for use in other files
+
+---
+
+###  Summary of Hooks with Comments**
+| Hook       | Purpose                   | Key Comment           |
+|------------|---------                  |--------------         |
+| useState  | Manage state in components | `"useState([]) initializes an empty array for storing tasks"` |
+| useEffect | Handle side effects (API calls, event listeners) | `"useEffect(() => {...}, []) ensures API call runs only once when component loads"` |
+| useRef    | Reference DOM elements without re-renders | `"useRef(null) creates a reference for the input field"` |

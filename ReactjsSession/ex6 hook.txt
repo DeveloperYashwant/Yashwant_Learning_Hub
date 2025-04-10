@@ -1,0 +1,179 @@
+Example 1:
+import React, { useState, useEffect, useRef } from "react";
+
+function RegistrationForm() {
+  //  Managing form state using useState
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    gender: "",
+  });
+
+  // useRef to focus on the name input field when the form loads
+  const nameInputRef = useRef(null);
+
+  // useEffect to simulate fetching existing user data
+  useEffect(() => {
+    console.log("Fetching user data...");
+    
+    // Auto-filling with dummy data after 2 seconds
+    setTimeout(() => {
+      setFormData({
+        name: "John Doe",
+        email: "john@example.com",
+        password: "password123",
+        gender: "male",
+      });
+    }, 2000);
+
+    // Focus on the name input when the component loads
+    nameInputRef.current.focus();
+  }, []); // Runs only once when the component mounts
+
+  //  Function to handle input changes
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  //  Function to handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("User Registered:", formData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
+      <h2>Register Here</h2>
+
+      {/*  Name Field with useRef for auto-focus */}
+      <label>Name:</label>
+      <input
+        type="text"
+        name="name"
+        ref={nameInputRef}
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
+      <br /><br />
+
+      {/*  Email Field */}
+      <label>Email:</label>
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+      <br /><br />
+
+      {/*  Password Field */}
+      <label>Password:</label>
+      <input
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
+      <br /><br />
+
+      {/*  Gender Selection */}
+      <label>Gender:</label>
+      <input type="radio" name="gender" value="male" checked={formData.gender === "male"} onChange={handleChange} /> Male
+      <input type="radio" name="gender" value="female" checked={formData.gender === "female"} onChange={handleChange} /> Female
+      <br /><br />
+
+      {/*  Submit Button */}
+      <button type="submit">Register</button>
+    </form>
+  );
+}
+
+export default RegistrationForm;
+===================
+
+import React, { useState, useEffect, useRef } from "react";
+
+function LoginForm() {
+  //  Managing login form state using useState
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  //  useRef to focus on the email input field when the component loads
+  const emailInputRef = useRef(null);
+
+  //  useEffect to simulate fetching saved credentials (for demo purposes)
+  useEffect(() => {
+    console.log("Fetching saved credentials...");
+
+    // Simulating an API call to fetch a pre-saved user
+    setTimeout(() => {
+      setCredentials({
+        email: "user@example.com",
+        password: "password123",
+      });
+    }, 2000);
+
+    // Focus on the email input when the form loads
+    emailInputRef.current.focus();
+  }, []); // Runs only once when the component mounts
+
+  //  Handling input changes
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setCredentials({ ...credentials, [name]: value });
+  };
+
+  //  Handling form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    // Simulating authentication (Hardcoded for demo)
+    if (credentials.email === "user@example.com" && credentials.password === "password123") {
+      alert(" Login Successful!");
+    } else {
+      alert(" Invalid Credentials!");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
+      <h2>Login</h2>
+
+      {/*  Email Field with useRef for auto-focus */}
+      <label>Email:</label>
+      <input
+        type="email"
+        name="email"
+        ref={emailInputRef}
+        value={credentials.email}
+        onChange={handleChange}
+        required
+      />
+      <br /><br />
+
+      {/*  Password Field */}
+      <label>Password:</label>
+      <input
+        type="password"
+        name="password"
+        value={credentials.password}
+        onChange={handleChange}
+        required
+      />
+      <br /><br />
+
+      {/*  Login Button */}
+      <button type="submit">Login</button>
+    </form>
+  );
+}
+
+export default LoginForm;
+

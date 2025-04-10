@@ -1,0 +1,149 @@
+npx create-react-app demo
+cd demo
+npm start
+
+
+1st Lecture Intro For Reactjs 
+
+### **1. Start with the Basics**
+**Question:** *What is Vite, and why do we use it?*  
+👉 **Answer:** Vite is a modern build tool that provides faster development and optimized production builds compared to Webpack.
+
+**Live Demo:** Create a Vite project:
+
+npm create vite@latest my-vite-app
+cd my-vite-app
+npm install
+npm run dev
+=====================
+
+
+#### **📂 `my-vite-app/` (Root Folder)**
+
+📂 node_modules/   -> Stores installed dependencies
+📂 public/         -> Static assets (favicon, images)
+📂 src/            -> Main source code
+   ├── 📄 main.jsx -> Entry file for React apps
+   ├── 📄 App.jsx  -> Main component
+   ├── 📂 assets/  -> Images, CSS, etc.
+   ├── 📂 components/ -> Reusable components
+📄 index.html      -> Entry HTML file
+📄 package.json    -> Project metadata & dependencies
+📄 vite.config.js  -> Configuration file for Vite
+
+💡 **Activity: "What will happen if we delete `public/favicon.ico`?"*  
+(Try it and reload the browser!)
+======================
+
+index.html
+
+🔹 **Interactive Question:** *What is `<div id="root"></div>` doing here?*  
+✔️ Answer: It is the mount point where React will render the app.
+=================
+Main.jsx:
+
+### **1️ ⃣ What is `ReactDOM.createRoot` doing?**  
+💡 **Q:** *Why do we use `createRoot(document.getElementById('root'))` instead of the old `ReactDOM.render`?*  
+✔️ **Expected Answer:**  
+- `createRoot` is part of React 18's concurrent rendering for better performance.  
+- The older `ReactDOM.render` method is deprecated.
+
+---
+
+### **2 ️⃣ What happens if we remove `<React.StrictMode>`?**  
+💡 **Q:** *Why is `React.StrictMode` used, and what happens if we remove it?*  
+✔️ **Expected Answer:**  
+- `StrictMode` helps find potential issues by running lifecycle methods **twice in development mode**.  
+- If removed, the app still works, but you won’t see warnings for bad practices.
+
+🔹 **Hands-on Test:** Ask them to **remove `React.StrictMode`** and observe any changes in console logs.
+
+---
+
+### **3 ️⃣ What happens if we import `App` incorrectly?**  
+💡 **Q:** *What if we write `import App from './app.jsx';` instead of `import App from './App.jsx';`?*  
+✔️ **Expected Answer:**  
+- In Windows, it **might work** (case-insensitive file system).  
+- In Linux/macOS, it will **fail** because filenames are case-sensitive.
+
+🔹 **Hands-on Test:** Let them rename `App.jsx` to `app.jsx` and try importing it as `./App.jsx`.
+
+---
+
+### **4 ️⃣ Why do we import `./index.css` in `main.jsx`?**  
+💡 **Q:** *What happens if we remove this import?*  
+✔️ **Expected Answer:**  
+- The global styles in `index.css` won’t apply to the app.  
+- Vite doesn’t automatically inject styles unless explicitly imported.
+
+🔹 **Hands-on Test:** Remove `import './index.css';` and observe styling changes.
+
+---
+
+### **5 ️⃣ What will happen if `document.getElementById('root')` returns `null`?**  
+💡 **Q:** *What happens if the `root` div is missing in `index.html`?*  
+✔️ **Expected Answer:**  
+- `createRoot(null)` will throw an **error** (`TypeError: Cannot read properties of null`).  
+- The app won’t render anything.
+
+🔹 **Hands-on Test:** Remove `<div id="root"></div>` from `index.html` and reload the page.
+
+---
+
+### **6 ️⃣ How does Vite handle the `import` statements differently from Webpack?**  
+💡 **Q:** *Why do we use `import App from './App.jsx';` directly without `require` or `module.exports`?*  
+✔️ **Expected Answer:**  
+- Vite **natively supports ES Modules (ESM)**, meaning we use `import` instead of `require`.  
+- Webpack requires transpilation, but Vite leverages the **browser’s native support** for ESM.
+
+
+===============
+
+#### **`vite.config.js`**
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+});
+
+🔹 **Question:** *What happens if we remove `react()` from plugins?*  
+💡 **Experiment:** Remove it and try running `npm run dev` (React features like JSX will break).
+================
+
+### **4. Wrap Up with Q&A**
+- What is the difference between `public/` and `src/assets/`?
+- How does Vite handle hot module replacement (HMR)?
+- Why is Vite faster than Webpack?
+============================================
+
+Answer
+
+
+### **1. Difference between `public/` and `src/assets/` in Vite**  
+- **`public/`**:  
+  - Files in `public/` are served as static assets **without modification**.  
+  - Accessible directly via the browser (e.g., `/public/logo.png` can be accessed as `/logo.png`).  
+  - Suitable for large files like **favicons, fonts, or external images**.  
+
+- **`src/assets/`**:  
+  - Files in `src/assets/` are **processed by Vite** (optimized, bundled, hashed).  
+  - Used for assets **imported inside JavaScript, CSS, or components** (e.g., `import logo from './assets/logo.png'`).  
+  - Recommended for images, styles, or other files used within your app.  
+
+---
+
+### **2. How Vite Handles Hot Module Replacement (HMR)?**  
+- **Vite uses native ES modules and a dev server to handle HMR efficiently.**  
+- When a file changes, Vite **only updates the modified part** instead of reloading the full page.  
+- Vite sends an HMR update to the browser via **WebSocket**, replacing the affected module instantly.  
+- Faster than traditional bundlers because it **avoids full rebuilds**.  
+
+---
+
+### **3. Why is Vite Faster than Webpack?**  
+- **No bundling in dev mode**: Vite serves modules directly using the **ES module system**, while Webpack compiles everything first.  
+- **Pre-bundling with esbuild**: Vite uses **esbuild (written in Go)** for super-fast dependency handling, whereas Webpack uses slower JavaScript-based bundling.  
+- **On-demand compilation**: Vite compiles and serves only **the files that are requested**, while Webpack processes everything upfront.  
+- **HMR optimization**: Vite’s HMR updates only the necessary modules, avoiding slow recompilations.  

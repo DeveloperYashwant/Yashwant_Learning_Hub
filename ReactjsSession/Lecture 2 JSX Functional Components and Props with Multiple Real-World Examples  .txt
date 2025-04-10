@@ -1,0 +1,196 @@
+### **Lecture 2: JSX Functional Components and Props with Multiple Real-World Examples**  
+
+#### **Concept Recap**
+1. **Functional Components**: Functions that return JSX to render UI.  
+2. **Props (Properties)**: Used to pass data from one component (Parent) to another (Child).  
+
+---
+
+###  Real-World Example 1: E-commerce Product Display**  
+Imagine an **Amazon-like online shopping website**. Each product has a **name, price, and image**.  
+
+####  `Product.js` (Child Component)**
+-- jsx
+import React from "react";
+
+const Product = (props) => {
+  return (
+    <div className="product-card">
+      <img src={props.image} alt={props.name} width="150" />
+      <h3>{props.name}</h3>
+      <p>Price: ${props.price}</p>
+    </div>
+  );
+};
+
+export default Product;
+
+
+#### `App.js` (Parent Component)**
+-- jsx
+import React from "react";
+import Product from "./Product";
+
+const App = () => {
+  return (
+    <div>
+      <h1>Online Store</h1>
+      <Product name="Laptop" price="999.99" image="https://via.placeholder.com/150" />
+      <Product name="Smartphone" price="499.99" image="https://via.placeholder.com/150" />
+      <Product name="Headphones" price="59.99" image="https://via.placeholder.com/150" />
+    </div>
+  );
+};
+
+export default App;
+
+
+### Concept Connection**
+- Just like an **e-commerce website dynamically displays multiple products**, React **reuses** the `Product` component with **different props**.  
+- Instead of creating separate components for Laptop, Smartphone, and Headphones, we **use props** to change the data.
+
+---
+
+### Real-World Example 2: Student Report Card**  
+Imagine a **school's report card** where we display multiple students with **name, subject, and marks**.
+
+#### `Student.js` (Child Component)**
+-- jsx
+import React from "react";
+
+const Student = (props) => {
+  return (
+    <div className="student-card">
+      <h3>Name: {props.name}</h3>
+      <p>Subject: {props.subject}</p>
+      <p>Marks: {props.marks}</p>
+    </div>
+  );
+};
+
+export default Student;
+
+
+#### `App.js` (Parent Component)**
+-- jsx
+import React from "react";
+import Student from "./Student";
+
+const App = () => {
+  return (
+    <div>
+      <h1>Student Report Card</h1>
+      <Student name="Omkar" subject="Math" marks="95" />
+      <Student name="Abhang" subject="Science" marks="88" />
+      <Student name="Ganesh" subject="English" marks="92" />
+    </div>
+  );
+};
+
+export default App;
+
+
+### Concept Connection**
+- Just like a **school has many students**, we **reuse** the `Student` component with **different props**.  
+- The report card dynamically **renders student details without creating separate components**.
+
+---
+
+### Real-World Example 3: Employee List (Company HR System)**  
+A company HR system needs to display **employee details** dynamically.
+
+####  `Employee.js` (Child Component)**
+--jsx
+import React from "react";
+
+const Employee = (props) => {
+  return (
+    <div className="employee-card">
+      <h3>Employee Name: {props.name}</h3>
+      <p>Department: {props.department}</p>
+      <p>Salary: ${props.salary}</p>
+    </div>
+  );
+};
+
+export default Employee;
+
+
+#### `App.js` (Parent Component)**
+--jsx
+import React from "react";
+import Employee from "./Employee";
+
+const App = () => {
+  return (
+    <div>
+      <h1>Company Employees</h1>
+      <Employee name="Anamika" department="IT" salary="70000" />
+      <Employee name="Shifa" department="HR" salary="65000" />
+      <Employee name="Neha" department="Finance" salary="75000" />
+    </div>
+  );
+};
+
+export default App;
+
+
+### Concept Connection**
+- Just like a **company has multiple employees**, we **reuse** the `Employee` component with **different props**.  
+- This approach is scalable for **large companies** with thousands of employees.
+
+---
+
+###  Real-World Example 4: Weather App**  
+A weather app needs to show the **city name, temperature, and weather condition**.
+
+####  `Weather.js` (Child Component)**
+-- jsx
+import React from "react";
+
+const Weather = (props) => {
+  return (
+    <div className="weather-card">
+      <h3>City: {props.city}</h3>
+      <p>Temperature: {props.temperature}°C</p>
+      <p>Condition: {props.condition}</p>
+    </div>
+  );
+};
+
+export default Weather;
+
+
+#### `App.js` (Parent Component)**
+--jsx
+import React from "react";
+import Weather from "./Weather";
+
+const App = () => {
+  return (
+    <div>
+      <h1>Weather Forecast</h1>
+      <Weather city="New York" temperature="25" condition="Sunny" />
+      <Weather city="London" temperature="18" condition="Cloudy" />
+      <Weather city="Tokyo" temperature="30" condition="Rainy" />
+    </div>
+  );
+};
+
+export default App;
+
+
+### Concept Connection**
+- Just like a **weather app dynamically shows different city weather data**, React **reuses the `Weather` component with different props**.  
+- This is useful for real-time **API-based weather applications**.
+
+---
+
+## Conclusion**
+- **Functional Components** are **reusable building blocks** of React applications.
+- **Props** allow **dynamic data passing** to make components flexible.
+- **Real-World Examples**:
+  -   **E-commerce App** → Products  
+  -   **Student Report Card** → Student Data  
+  -   **HR System** → Employees  
+  -   **Weather App** → City Forecast  

@@ -1,0 +1,140 @@
+
+### ** Lecture 11: State Management in React (useState & useReducer)**
+
+### **1️ Understanding State Management**
+- **State** in React allows components to store and update data dynamically.
+- **Why use state?** It helps React components track user input, API responses, and UI changes.
+
+---
+
+### **2️ Managing State with `useState` (Basic Example)**
+The `useState` hook is used to manage simple state variables in functional components.
+
+
+import { useState } from "react";
+
+const Counter = () => {
+  //  Declare a state variable 'count' with initial value 0
+  const [count, setCount] = useState(0);
+
+  return (
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h2>Counter: {count}</h2>
+      {/* Increase count when button is clicked */}
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+      {/* Decrease count when button is clicked */}
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+    </div>
+  );
+};
+
+export default Counter;
+
+ **Key Points:**  
+ `useState(0)` initializes the count with `0`.  
+ `setCount(count + 1)` updates the count dynamically.  
+ This is useful for simple states like form inputs, toggles, and counters.
+
+---
+
+### **3️ Using `useReducer` for Complex State Logic**
+If your state has mutiple conditions or actions, `useReducer` is better than `useState`.
+
+import { useReducer } from "react";
+
+//  Reducer function that handles state changes
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + 1 };
+    case "decrement":
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+};
+
+const CounterWithReducer = () => {
+  // useReducer takes reducer function and initial state
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+  return (
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h2>Counter: {state.count}</h2>
+      {/*  Dispatch actions to modify state */}
+      <button onClick={() => dispatch({ type: "increment" })}>Increase</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>Decrease</button>
+    </div>
+  );
+};
+
+export default CounterWithReducer;
+
+**Key Points:**  
+`useReducer(reducer, initialState)` handles state logic.  
+`dispatch({ type: "increment" })` updates state via action types.  
+Best for **forms, authentication, API calls, and large state objects**.
+
+---
+
+### **4️⃣ When to Use `useState` vs `useReducer`**
+| Scenario                     | useState | useReducer |
+|----------                    |---------|------------|
+| Simple states (toggle, form inputs, counters) | ✅ | ❌ |
+| Multiple state transitions with logic | ❌ | ✅ |
+| Handling API responses      | ✅ | ✅ |
+| Global state (Context API) | ❌ | ✅ |
+
+---
+
+###  Real-World Example: Form Handling**
+Let's build a form using `useState`:
+
+import { useState } from "react";
+
+const UserForm = () => {
+  const [user, setUser] = useState({ name: "", email: "" });
+
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Submitted: ${user.name}, ${user.email}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{ padding: "20px" }}>
+      <input
+        type="text"
+        name="name"
+        placeholder="Enter Name"
+        value={user.name}
+        onChange={handleChange}
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter Email"
+        value={user.email}
+        onChange={handleChange}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default UserForm;
+
+**Key Points:**  
+`useState` manages form inputs dynamically.  
+`handleChange` updates the state when users type.  
+`handleSubmit` prevents default form submission.
+
+---
+
+### **Summary**
+**useState** → Simple state (e.g., toggles, counters, form inputs).  
+**useReducer** → Complex state (e.g., API responses, authentication, cart management).  
+**Forms** → Use `useState` to track user input efficiently.

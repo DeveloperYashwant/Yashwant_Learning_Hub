@@ -1,0 +1,188 @@
+### ** Lecture 12: React Router (Navigation System in Vite)**
+---
+
+## **1️ What is React Router?**
+React Router allows you to create **single-page applications (SPAs)** by handling navigation without full page reloads.
+
+- **Without React Router:** Clicking a link reloads the whole page.
+-  **With React Router:** Only specific components update dynamically.
+
+---
+
+## **2️ Setting Up React Router in Vite**
+### **Step 1: Install React Router**
+
+npm install react-router-dom
+
+### **Step 2: Create `App.jsx` (Main Router Setup)**
+Modify `App.jsx` to include **BrowserRouter, Routes, and Route**:
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+ 
+
+---
+
+## **3️ Creating Components**
+Inside the `src/pages/` folder, create three components.
+
+### **`Home.jsx`**
+
+const Home = () => {
+  return <h1>  Welcome to Home Page</h1>;
+};
+
+export default Home;
+
+
+### **`About.jsx`*
+const About = () => {
+  return <h1> About Us</h1>;
+};
+
+export default About;
+
+### **`Contact.jsx`**
+
+const Contact = () => {
+  return <h1> Contact Us</h1>;
+};
+
+export default Contact;
+
+
+---
+
+## **4️ Creating a Navigation Bar**
+Inside the `src/components/` folder, create `Navbar.jsx`:
+
+
+import { Link } from "react-router-dom";
+import "./Navbar.css"; // Styling
+
+const Navbar = () => {
+  return (
+    <nav className="navbar">
+      <h1 className="logo">My Website</h1>
+      <ul className="nav-links">
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/contact">Contact</Link></li>
+      </ul>
+    </nav>
+  );
+};
+
+export default Navbar;
+
+
+---
+
+## **5️ Styling the Navbar (`Navbar.css`)**
+Inside `src/components/`, create `Navbar.css`:
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.nav-links a:hover {
+  transform: scale(1.1);
+}
+
+
+---
+
+## **6️ Adding 404 (Not Found) Page**
+If a user enters a wrong URL, show a **404 page**.
+
+Modify `App.jsx`:
+
+
+import NotFound from "./pages/NotFound";
+
+<Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/about" element={<About />} />
+  <Route path="/contact" element={<Contact />} />
+  <Route path="*" element={<NotFound />} />
+</Routes>
+
+Create `NotFound.jsx`:
+
+
+const NotFound = () => {
+  return <h1> 404 - Page Not Found</h1>;
+};
+
+export default NotFound;
+
+
+---
+
+## **7️ Navigating Programmatically**
+You can navigate users dynamically using `useNavigate()`.
+
+import { useNavigate } from "react-router-dom";
+
+const Home = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <h1>Welcome to Home Page</h1>
+      <button onClick={() => navigate("/about")}>Go to About Page</button>
+    </div>
+  );
+};
+
+export default Home;
+
+
+---
+
+## **Summary**
+**React Router** creates a SPA navigation experience.  
+**`<Routes>` & `<Route>`** define page components.  
+**`<Link>`** replaces `<a>` for client-side navigation.  
+**404 Page** handles invalid URLs.  
+**`useNavigate()`** enables programmatic navigation.  
+
+---

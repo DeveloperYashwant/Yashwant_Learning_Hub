@@ -1,0 +1,285 @@
+###  Lecture 8 React Context API – Global State Management**  
+
+## Why Use Context API?**
+When we pass data **from a parent to a deeply nested child**, we need to pass props through multiple components. This is called **prop drilling** and makes code harder to manage.  
+
+**Example of Prop Drilling Problem:**
+
+function App() {
+  const user = "Yashwant";
+  return <Parent user={user} />;
+}
+
+function Parent({ user }) {
+  return <Child user={user} />;
+}
+
+function Child({ user }) {
+  return <GrandChild user={user} />;
+}
+
+function GrandChild({ user }) {
+  return <h2>Welcome, {user}!</h2>;
+}
+
+### ** Solution: Context API**
+Context API **provides a global state** that any component can access without passing props manually.
+
+---
+
+## ** (Using Context API)**
+
+### 1️ **UserContext.js** (Creating Context)
+
+import { createContext } from "react";
+
+//  Creating a Context
+const UserContext = createContext();
+
+export default UserContext;
+
+
+---
+
+### 2️ **App.jsx** (Providing Global State)
+
+import React, { useState } from "react";
+import UserContext from "./UserContext";
+import Parent from "./Parent";
+
+function App() {
+  const [user, setUser] = useState("Yashwant"); // Global state
+
+  return (
+    <UserContext.Provider value={user}>
+      <h1>React Context API Example</h1>
+      <Parent />
+    </UserContext.Provider>
+  );
+}
+
+export default App;
+
+`UserContext.Provider` **wraps** the components to provide the `user` value globally.
+
+---
+
+### 3️ **Parent.jsx**
+
+import React from "react";
+import Child from "./Child";
+
+function Parent() {
+  return <Child />;
+}
+
+export default Parent;
+
+---
+
+### 4️ **Child.jsx**
+
+import React from "react";
+import GrandChild from "./GrandChild";
+
+function Child() {
+  return <GrandChild />;
+}
+
+export default Child;
+
+---
+
+### 5️ **GrandChild.jsx** (Using `useContext` to Access Data)
+
+import React, { useContext } from "react";
+import UserContext from "./UserContext";
+
+function GrandChild() {
+  const user = useContext(UserContext); //  Accessing global state
+
+  return <h2>Welcome, {user}!</h2>;
+}
+
+export default GrandChild;
+
+-------------------
+##  Key Takeaways**
+| Feature | Without Context API | With Context API |
+|---------|---------------------|------------------|
+| Data Sharing | Passed via props (prop drilling) | Available globally |
+| Complexity | Increases with more components | Easier to manage |
+| Performance | Can slow down with deep nesting | More optimized |
+
+---
+
+=============================
+
+
+##  User Authentication System with React Hooks (`useState`, `useEffect`, `useRef`) and Context API**  
+
+In this example, we’ll build a **User Authentication System** using:  
+`useState` for managing input fields  
+`useEffect` for checking authentication status  
+`useRef` for focusing the input field  
+**Context API** for managing authentication globally  
+
+---
+
+## **Code**
+### **1️ Create `AuthContext.js` (Global Authentication Context)**
+
+import { createContext, useState, useEffect } from "react";
+
+//  Create Context
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null); //  Manage user state
+
+  // Simulate checking login status (like checking localStorage)
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  // Login function
+  const login = (userData) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData)); // Save login data
+  };
+
+  // Logout function
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthContext;
+
+Here, we manage **login state** globally and store it in `localStorage`.  
+
+---
+
+### **2️ App.jsx (Using `AuthProvider` to Provide Authentication)**
+
+import React from "react";
+import { AuthProvider } from "./AuthContext";
+import Home from "./Home";
+import Login from "./Login";
+
+function App() {
+  return (
+    <AuthProvider>
+      <h1>React Authentication Example</h1>
+      <Login />
+      <Home />
+    </AuthProvider>
+  );
+}
+
+export default App;
+
+---
+
+### **3️ Login.jsx (Handling Login with `useState` and `useRef`)**
+
+import React, { useState, useContext, useRef } from "react";
+import AuthContext from "./AuthContext";
+
+function Login() {
+  const { login, user } = useContext(AuthContext); // Access auth functions
+  const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const inputRef = useRef(null); // useRef to focus input field
+
+  // Focus input field on render
+  React.useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (credentials.username && credentials.password) {
+      login(credentials); // Call login function
+    }
+  };
+
+  return (
+    <div>
+      {user ? (
+        <p>Already logged in as {user.username}</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <input ref={inputRef} type="text" name="username" placeholder="Username" value={credentials.username} onChange={handleChange} />
+          <input type="password" name="password" placeholder="Password" value={credentials.password} onChange={handleChange} />
+          <button type="submit">Login</button>
+        </form>
+      )}
+    </div>
+  );
+}
+
+export default Login;
+
+**Features Used**:  
+`useState` → Manages form inputs  
+`useRef` → Focuses username field  
+`useContext` → Accesses login function  
+
+---
+
+### **4️ Home.jsx (Showing User Data & Logout Button)**
+
+import React, { useContext } from "react";
+import AuthContext from "./AuthContext";
+
+function Home() {
+  const { user, logout } = useContext(AuthContext); //  Get user data
+
+  return (
+    <div>
+      {user ? (
+        <>
+          <h2>Welcome, {user.username}!</h2>
+          <button onClick={logout}>Logout</button>
+        </>
+      ) : (
+        <h2>Please log in.</h2>
+      )}
+    </div>
+  );
+}
+
+export default Home;
+
+---
+
+4️ **Test the Login System**  
+- Enter a username & password → Click **Login**  
+- Username appears in **Home page**  
+- Refresh the page → Still logged in (saved in `localStorage`)  
+- Click **Logout** → Clears authentication  
+
+---
+
+##  Key Takeaways**
+| Feature | Used in |
+|---------|---------|
+| `useState` | Manages form inputs |
+| `useEffect` | Checks login status on page load |
+| `useRef` | Focuses username field |
+| `useContext` | Shares authentication state globally |
+| `localStorage` | Stores user session |

@@ -1,0 +1,298 @@
+## **Lecture 3: State Management and Events in React**  
+
+##  Part 1: Understanding State Management**
+### What is State?**
+- In React, **state** is an object that holds dynamic data and determines how a component behaves.
+- When state changes, the component **re-renders automatically**.
+- **State is mutable** (it can change), unlike props.
+
+###  Real-World Example:**  
+Imagine a **shopping cart** in an e-commerce website:
+- Initially, the cart is **empty** (`cartItems = []`).
+- When a user **adds an item**, the state updates (`cartItems.push(product)`).
+- The cart icon updates dynamically to reflect the new **total items**.
+
+###  Basic Example: Counter App**
+Let’s create a simple **Counter App** to demonstrate state changes.
+
+#### **📝 Code: Counter using `useState`**
+-- jsx
+import React, { useState } from "react"; 
+
+const Counter = () => {
+  const [count, setCount] = useState(0); // State variable
+
+  return (
+    <div>
+      <h2>Counter: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+    </div>
+  );
+};
+
+export default Counter;
+
+###  Explanation:**
+1. `useState(0)` initializes **count** with **0**.
+2. `setCount(count + 1)` updates the state when **Increase** is clicked.
+3. `setCount(count - 1)` updates the state when **Decrease** is clicked.
+
+---
+
+## Part 2: Handling Events in React**
+###  What are Events?**
+- Events are **user interactions** such as **clicking, typing, or submitting a form**.
+- In React, event handling is similar to JavaScript but uses **camelCase** (`onClick` instead of `onclick`).
+
+### Real-World Example:**  
+**Login Form Handling**
+- When a user enters their **email & password** and clicks **Login**, the form should:
+  - **Validate input**
+  - **Show an error or success message**
+  - **Send data to the backend**
+
+---
+
+###  Example: Handling User Input in a Form**
+####  Code: Simple Login Form**
+-- jsx
+import React, { useState } from "react"; 
+
+const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent page reload
+    alert(`Logging in with Email: ${email}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Login Form</h2>
+      <input 
+        type="email" 
+        placeholder="Enter email" 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} 
+      />
+      <input 
+        type="password" 
+        placeholder="Enter password" 
+        value={password} 
+        onChange={(e) => setPassword(e.target.value)} 
+      />
+      <button type="submit">Login</button>
+    </form>
+  );
+};
+
+export default LoginForm;
+
+
+### Explanation:**
+1. **State (`useState`) holds email & password.**
+2. **`onChange` updates the state as the user types.**
+3. **`handleSubmit` prevents default form submission and shows an alert.**
+
+---
+
+##  Part 3: Combining State and Events**
+###  Real-World Example: Shopping Cart**
+- Users can **add/remove products** from the cart.
+- The **total price updates dynamically**.
+
+#### Code: Simple Shopping Cart**
+--jsx
+import React, { useState } from "react";
+
+const ShoppingCart = () => {
+  const [cart, setCart] = useState(0);
+
+  return (
+    <div>
+      <h2>🛒 Shopping Cart: {cart} Items</h2>
+      <button onClick={() => setCart(cart + 1)}>Add Item</button>
+      <button onClick={() => cart > 0 && setCart(cart - 1)}>Remove Item</button>
+    </div>
+  );
+};
+
+export default ShoppingCart;
+
+
+###  Explanation:**
+1. `cart` is a state variable to track the number of items.
+2. `Add Item` button **increments** the cart count.
+3. `Remove Item` button **decrements** it, but prevents it from going below 0.
+
+---
+
+## Summary**
+| Topic | Key Takeaways |
+|--------|--------------|
+| **State Management** | Used to manage dynamic data within a component using `useState`. |
+| **Event Handling** | Handles user actions like clicks and form submissions. |
+| **Real-World Example** | Login Form, Shopping Cart, and Counter App. |
+
+---
+
+##  Homework for Students**
+1. **Modify the Counter App**: Add a **Reset** button to reset the counter to 0.
+2. **Enhance the Login Form**: Display an error if email/password fields are empty.
+3. **Extend the Shopping Cart**: Show the total price based on **items × price per item**.
+====================
+
+
+##  Third Lecture: State Management and Event Handling in React**  
+
+##  What is State in React?**
+State in React is an object that holds **dynamic data** that affects the UI. When the state updates, React automatically **re-renders** the component.
+
+###  Real-World Example of State:**  
+Think of a **WhatsApp unread message counter**. Every time a new message arrives, the number **updates automatically**—this is **state in action**.
+
+---
+
+##  What is Event Handling in React?**
+Event handling in React is the process of capturing **user interactions** (clicks, typing, etc.) and updating the UI accordingly.
+
+###  Real-World Example of Event Handling:**  
+ In an **online store**, clicking the "Add to Cart" button triggers an event that updates the **cart state**.
+
+---
+
+##  Practical Example 1: State and Button Click Event**
+Let's create a **Counter App** that increases and decreases when buttons are clicked.
+
+###  Code: Counter with `useState`**
+-- jsx
+import React, { useState } from "react";
+
+const Counter = () => {
+  const [count, setCount] = useState(0); // State to track count
+
+  return (
+    <div>
+      <h2>Counter: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  );
+};
+
+export default Counter;
+
+
+###  Explanation:**
+1. **`useState(0)`** initializes the count state with `0`.
+2. Clicking **Increase** → calls `setCount(count + 1)`, updating the state.
+3. Clicking **Decrease** → calls `setCount(count - 1)`, updating the state.
+4. Clicking **Reset** → calls `setCount(0)`, resetting the state.
+
+**Concepts Covered:** `useState`, button click events, state updates.
+
+---
+
+##  Practical Example 2: Handling Input Events**
+Let's create a **real-time input field** where users can type their name, and the UI updates instantly.
+
+###  Code: Real-time Input Handling**
+--jsx
+import React, { useState } from "react";
+
+const UserInput = () => {
+  const [name, setName] = useState(""); // State to track user input
+
+  return (
+    <div>
+      <h2>Enter Your Name:</h2>
+      <input 
+        type="text" 
+        placeholder="Type here..." 
+        value={name} 
+        onChange={(e) => setName(e.target.value)} 
+      />
+      <p>Hello, {name ? name : "Stranger"}!</p>
+    </div>
+  );
+};
+
+export default UserInput;
+
+
+###  Explanation:**
+1. **`useState("")`** initializes `name` with an empty string.
+2. When the user types, `onChange` updates the `name` state.
+3. The `p` tag dynamically updates to greet the user.
+
+**Concepts Covered:** Handling input events, `onChange` event listener.
+
+---
+
+##  Practical Example 3: Form Submission Event**
+Let's create a **Login Form** that captures **email and password** and shows an alert on submit.
+
+###  Code: Login Form Handling Submit Event**
+-- jsx
+import React, { useState } from "react";
+
+const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevents page reload
+    alert(`Login Successful!\nEmail: ${email}\nPassword: ${password}`);
+  };
+
+  return (
+    <div>
+      <h2>Login Form</h2>
+      <form onSubmit={handleSubmit}>
+        <input 
+          type="email" 
+          placeholder="Enter email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+        />
+        <input 
+          type="password" 
+          placeholder="Enter password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
+
+export default LoginForm;
+
+
+### Explanation:**
+1. **Two states** (`email`, `password`) store user input.
+2. **`onSubmit` event** prevents page reload and displays an alert.
+3. **Inputs update state** dynamically using `onChange`.
+
+ **Concepts Covered:** `onSubmit`, `onChange`, preventing form reload.
+
+---
+
+##  Summary of Lecture**
+| Concept | Real-World Example | React Code Example |
+|---------|-------------------|-------------------|
+| **State Management (`useState`)** | WhatsApp unread messages | Counter App |
+| **Button Click Event (`onClick`)** | Add to cart button in e-commerce | Counter App |
+| **Input Handling (`onChange`)** | Google Search Bar | Name Input Example |
+| **Form Submission (`onSubmit`)** | Login Forms | Login Form Example |
+
+---
+
+## Student Exercises**
+1. Task:** Modify the Counter App to display an error if the count goes below 0.
+2. Task:** Create a Registration Form that collects **name, email, and password** and displays the input values on submit.
+3. Task:** Create a simple **To-Do List** app where users can add tasks using an input field.

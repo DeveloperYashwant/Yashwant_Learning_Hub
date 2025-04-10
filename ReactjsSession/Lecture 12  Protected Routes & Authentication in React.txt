@@ -1,0 +1,157 @@
+### **📌 Lecture 13: Protected Routes & Authentication in React (Vite + React Router)**  
+
+## **1️⃣ What Are Protected Routes?**
+Protected routes **only allow access** if a user is logged in. If not, they are redirected to a login page.
+
+✅ **Example Use Cases:**  
+- **Dashboard** should be visible **only after login**  
+- **Profile Page** should be **protected from unauthenticated users**  
+
+---
+
+## **2️⃣ Setting Up Authentication State**  
+Create a new **`AuthContext.jsx`** inside `src/context/`:  
+
+```jsx
+import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Create Authentication Context
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  const login = () => {
+    setIsAuthenticated(true);
+    navigate("/dashboard"); // Redirect to Dashboard after login
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    navigate("/login"); // Redirect to Login after logout
+  };
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+// Custom Hook for easy access
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+```
+
+---
+
+## **3️⃣ Creating a Protected Route Component**  
+Now, create `ProtectedRoute.jsx` in `src/components/`:  
+
+```jsx
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
+
+export default ProtectedRoute;
+```
+🔹 **How It Works?**  
+- If `isAuthenticated === true`, show the page.  
+- Otherwise, **redirect to `/login`**.
+
+---
+
+## **4️⃣ Implementing Routes in `App.jsx`**  
+Now, update `App.jsx`:
+
+```jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+
+          {/* Protected Route */}
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+
+        </Routes>
+      </AuthProvider>
+    </Router>
+  );
+}
+
+export default App;
+```
+---
+
+## **5️⃣ Creating Login & Dashboard Pages**  
+
+### **📌 Login Page (`Login.jsx`)**
+```jsx
+import { useAuth } from "../context/AuthContext";
+
+const Login = () => {
+  const { login } = useAuth();
+
+  return (
+    <div>
+      <h1>🔑 Login Page</h1>
+      <button onClick={login}>Login</button>
+    </div>
+  );
+};
+
+export default Login;
+```
+
+### **📌 Dashboard Page (`Dashboard.jsx`)**
+```jsx
+import { useAuth } from "../context/AuthContext";
+
+const Dashboard = () => {
+  const { logout } = useAuth();
+
+  return (
+    <div>
+      <h1>📊 Welcome to Dashboard</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+};
+
+export default Dashboard;
+```
+
+---
+
+## **✅ Summary**
+✔ **Protected Routes** restrict access to certain pages.  
+✔ **Authentication Context** manages login/logout state.  
+✔ **`<ProtectedRoute>`** component handles redirection.  
+✔ **Login Page** lets users authenticate.  
+✔ **Dashboard Page** is protected.  
+
+---
