@@ -1,0 +1,127 @@
+### **Lecture 11: JavaScript Local Storage and Session Storage**  
+
+#### **Topics Covered:**  
+1. **Introduction to Web Storage API**  
+   - Difference between Local Storage and Session Storage  
+   - Advantages of Web Storage over Cookies  
+
+2. **Working with Local Storage**  
+   - Storing and retrieving data (`localStorage.setItem()`, `localStorage.getItem()`)  
+   - Removing data (`localStorage.removeItem()`, `localStorage.clear()`)  
+   - Storing objects using `JSON.stringify()` and `JSON.parse()`  
+
+3. **Working with Session Storage**  
+   - Similarities and differences with Local Storage  
+   - Storing session-based data  
+
+4. **Practical Examples and Exercises**  
+   - **Building a To-Do List App with Local Storage**  
+   - **Saving User Preferences (Theme, Language, etc.)**  
+   - **Auto-Saving Form Data with Session Storage**  
+
+---
+
+### **Example: Simple To-Do List Using Local Storage**  
+This example allows users to **add and remove tasks** while ensuring that the tasks remain saved even after a page refresh.
+
+#### **Step 1: HTML Structure**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List with Local Storage</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        ul { list-style: none; padding: 0; }
+        li { background: #f4f4f4; padding: 10px; margin: 5px; display: flex; justify-content: space-between; }
+        button { background: red; color: white; border: none; padding: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+---
+
+#### **Step 2: JavaScript (script.js)**
+
+document.addEventListener("DOMContentLoaded", loadTasks);
+
+function addTask() {
+    let taskInput = document.getElementById("taskInput");
+    let taskText = taskInput.value.trim();
+
+    if (taskText === "") {
+        alert("Please enter a task!");
+        return;
+    }
+
+    let taskList = document.getElementById("taskList");
+
+    // Create a list item
+    let li = document.createElement("li");
+    li.textContent = taskText;
+
+    // Add a delete button
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.onclick = function () {
+        taskList.removeChild(li);
+        saveTasks();
+    };
+
+    li.appendChild(deleteBtn);
+    taskList.appendChild(li);
+
+    saveTasks(); // Save updated task list
+    taskInput.value = ""; // Clear input field
+}
+
+// Function to save tasks in local storage
+function saveTasks() {
+    let tasks = [];
+    document.querySelectorAll("#taskList li").forEach(li => {
+        tasks.push(li.textContent.replace("Delete", "").trim());
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// Function to load tasks from local storage
+function loadTasks() {
+    let savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) {
+        JSON.parse(savedTasks).forEach(task => {
+            let taskInput = document.getElementById("taskInput");
+            taskInput.value = task;
+            addTask();
+        });
+    }
+}
+
+
+---
+
+### **How It Works**
+1. **User enters a task and clicks "Add Task".**  
+2. The task is **added to the list dynamically.**  
+3. The task list is **saved in Local Storage** so it remains after page refresh.  
+4. Clicking "Delete" **removes the task and updates storage.**  
+
+---
+
+### **Next Steps **  
+Would you like to extend this by adding:  
+**Dark Mode (Save Theme Preference in Local Storage)**  
+**Auto-Saving Form Data in Session Storage**  
+
+

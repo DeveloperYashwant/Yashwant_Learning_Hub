@@ -1,0 +1,79 @@
+### **CSS Lecture 1: Introduction to CSS**  
+
+#### **1. What is CSS?**  
+CSS (Cascading Style Sheets) is used to style and layout web pages. It controls the presentation of HTML elements, including colors, fonts, spacing, and positioning.
+
+#### **2. Why is CSS Needed?**  
+- Enhances the appearance of web pages  
+- Separates content (HTML) from design (CSS)  
+- Makes websites responsive for different screen sizes  
+- Improves website performance by reducing repeated code  
+
+#### **3. CSS Syntax**  
+
+selector {
+  property: value;
+}
+
+Example:  
+
+p {
+  color: blue;
+  font-size: 20px;
+}
+
+#### **4. Types of CSS**  
+There are three ways to apply CSS:  
+
+1. **Inline CSS** (applies to a single element)  
+
+   <p style="color: red;">This is inline CSS</p>
+
+2. **Internal CSS** (defined in the `<style>` tag inside the `<head>`)  
+
+   <style>
+       p {
+           color: green;
+       }
+   </style>
+
+3. **External CSS** (linked through a `.css` file)  
+
+   <link rel="stylesheet" href="styles.css">
+
+   **styles.css**  
+
+   p {
+       color: purple;
+   }
+
+#### **5. How to Add CSS in HTML**  
+- Use the `<style>` tag inside the `<head>` for internal CSS  
+- Use the `style` attribute for inline CSS  
+- Use the `<link>` tag to connect an external CSS file  
+
+#### **6. Comments in CSS**  
+Comments help organize CSS code and do not affect the output.  
+<!--- --->
+/* This is a comment */
+p {
+  color: orange; /* Another comment */
+}
+
+#### **7. Basic CSS Properties**  
+| Property   | Description | Example |
+|------------|------------|---------|
+| `color`    | Text color | `color: red;` |
+| `font-size` | Text size | `font-size: 16px;` |
+| `background-color` | Background color | `background-color: yellow;` |
+| `width` | Width of an element | `width: 200px;` |
+| `height` | Height of an element | `height: 100px;` |
+
+---
+
+### **Practice Questions**
+1. What is the difference between inline, internal, and external CSS?
+2. Write an example of each type of CSS.
+3. How do you add an external CSS file in an HTML page?
+4. What is the correct syntax for writing a CSS rule?
+5. Explain the purpose of the `color` and `background-color` properties in CSS.

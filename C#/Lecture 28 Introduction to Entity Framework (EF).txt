@@ -1,0 +1,124 @@
+## **Lecture 28: Introduction to Entity Framework (EF)**
+
+---
+
+###  **What is Entity Framework?**
+
+**Entity Framework (EF)** is an **Object Relational Mapper (ORM)** developed by Microsoft.  
+It helps developers work with **databases using .NET objects**, **without writing SQL queries** manually.
+
+---
+
+### **Why Use Entity Framework?**
+
+| Feature                     | Benefit                                               |
+|----------------------------|--------------------------------------------------------|
+| No SQL required             | Work with data using C# objects and LINQ              |
+| Auto DB mapping             | Maps tables to classes, columns to properties         |
+| CRUD operations simplified  | Insert, update, delete with just `.Add()`, `.Remove()`|
+| Cross-database support      | Works with SQL Server, MySQL, SQLite, etc.            |
+| Maintained by Microsoft     | Stable and widely supported                           |
+
+---
+
+###  **Entity Framework Approaches**
+
+1. **Database First**  
+   - Start from an **existing database**  
+   - EF creates classes from DB tables
+
+2. **Code First**  
+   - Start by **writing C# classes**, EF creates the database  
+   - Migrations manage schema changes
+
+3. **Model First (Legacy)**  
+   - Visual design of entities in EDMX file (less used now)
+
+---
+
+### **Entity Framework Core vs Entity Framework 6**
+
+| Feature                 | EF 6                        | EF Core                      |
+|------------------------|-----------------------------|------------------------------|
+| Platform               | .NET Framework only          | .NET Core & .NET 5+          |
+| Performance            | Slower                       | Faster, lightweight          |
+| Cross-platform         | ❌                          | ✅                           |
+| Migrations             | Basic                        | Advanced and flexible        |
+
+**EF Core** is the future and recommended for new development.
+
+---
+
+### **Key Concepts**
+
+| Term             | Description                                                        |
+|------------------|---------------------------------------------------------------------|
+| `DbContext`      | Bridge between your app and the database                            |
+| `DbSet<T>`       | Represents a table, where `T` is your entity class                  |
+| `Model`          | C# class representing a table in the database                       |
+| `LINQ` Queries   | Language-integrated queries to interact with DB via C#              |
+
+---
+
+###**Install EF Core (NuGet)**
+
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Microsoft.EntityFrameworkCore.Tools
+
+
+---
+
+### **Simple EF Code First Example**
+
+#### 1️ Create a Model Class
+csharp
+public class Student
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Course { get; set; }
+}
+
+
+#### 2️ Create DbContext
+csharp
+public class StudentContext : DbContext
+{
+    public DbSet<Student> Students { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        options.UseSqlServer("Data Source=.;Initial Catalog=StudentEFDB;Integrated Security=True");
+    }
+}
+
+
+#### 3️ Insert Record
+csharp
+using (var context = new StudentContext())
+{
+    var student = new Student { Name = "Raj", Course = "C#" };
+    context.Students.Add(student);
+    context.SaveChanges();
+}
+
+
+---
+
+###  CRUD Operations with EF
+
+| Operation | Code Example |
+|----------|--------------|
+| Create   | `context.Add()` |
+| Read     | `context.Students.ToList()` |
+| Update   | `context.Update(obj)` |
+| Delete   | `context.Remove(obj)` |
+
+---
+
+### Summary
+
+- EF makes database coding simple and object-oriented
+- Use **DbContext** and **LINQ** to interact with tables
+- Prefer **EF Core** for modern apps
+

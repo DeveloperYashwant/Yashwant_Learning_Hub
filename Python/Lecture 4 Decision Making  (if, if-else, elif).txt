@@ -1,0 +1,401 @@
+### **Lecture 4: Decision Making in Python (if, if-else, elif)**  
+
+---
+
+#### **Introduction:**  
+Decision-making statements in Python allow the program to make decisions based on conditions. These statements control the flow of execution based on whether a condition is `True` or `False`.  
+
+
+### **1. if Statement:**  
+The `if` statement executes a block of code if a specified condition is `True`.  
+
+**Syntax:**  
+
+if condition:
+    statement(s)
+
+**Real-World Example:**  
+Checking if a person is eligible to vote:  
+
+age = 20
+if age >= 18:
+    print("Eligible to vote")
+
+**Output:**  
+
+Eligible to vote
+
+---
+
+### **2. if-else Statement:**  
+The `if-else` statement executes one block of code if the condition is `True`, and another block if the condition is `False`.  
+
+**Syntax:**  
+
+if condition:
+    statement(s) if true
+else:
+    statement(s) if false
+
+**Real-World Example:**  
+Checking if a number is even or odd:  
+
+num = 7
+if num % 2 == 0:
+    print("Even Number")
+else:
+    print("Odd Number")
+
+**Output:**  
+
+Odd Number
+
+---
+
+### **3. if-elif-else Statement:**  
+The `if-elif-else` ladder is used when there are multiple conditions to check. It checks conditions one by one and executes the first block that is `True`.  
+
+**Syntax:**  
+
+if condition1:
+    statement(s) for condition1
+elif condition2:
+    statement(s) for condition2
+else:
+    statement(s) if none are true
+
+**Real-World Example:**  
+Grading system based on marks:  
+
+marks = 85
+
+if marks >= 90:
+    print("Grade: A+")
+elif marks >= 80:
+    print("Grade: A")
+elif marks >= 70:
+    print("Grade: B")
+elif marks >= 60:
+    print("Grade: C")
+else:
+    print("Grade: Fail")
+
+**Output:**  
+
+Grade: A
+
+---
+
+### **4. Nested if Statement:**  
+You can place an `if` statement inside another `if` statement. This is called nested if.  
+
+**Syntax:**  
+
+if condition1:
+    if condition2:
+        statement(s) for both true
+
+**Real-World Example:**  
+Checking eligibility to vote and country of residence:  
+
+age = 20
+citizenship = "India"
+
+if age >= 18:
+    if citizenship == "India":
+        print("Eligible to vote in India")
+    else:
+        print("Not eligible to vote in India")
+else:
+    print("Not old enough to vote")
+
+**Output:**  
+
+Eligible to vote in India
+
+---
+
+### **5. One-Line if Statement:**  
+If you have a single statement to execute, you can write it on one line.  
+
+**Syntax:**  
+
+print("Positive") if num > 0 else print("Negative")
+
+**Real-World Example:**  
+Check if a number is positive or negative:  
+
+num = -5
+print("Positive") if num > 0 else print("Negative")
+
+**Output:**  
+
+Negative
+
+---
+
+### **6. if with Multiple Conditions:**  
+You can use logical operators (`and`, `or`, `not`) with the `if` statement.  
+
+**Real-World Example:**  
+Checking for a valid username and password:  
+
+username = "admin"
+password = "1234"
+
+if username == "admin" and password == "1234":
+    print("Login successful")
+else:
+    print("Invalid credentials")
+
+**Output:**  
+
+Login successful
+
+---
+
+### **Common Mistakes to Avoid:**  
+1. **Missing Colon:**  
+   - Always put a colon `:` after the condition.  
+
+   if age >= 18    # Incorrect
+   if age >= 18:   # Correct
+
+2. **Indentation Errors:**  
+   - Indentation is crucial in Python to define the scope.  
+
+   if age >= 18:
+   print("Eligible")    # Incorrect
+   if age >= 18:
+       print("Eligible") # Correct
+
+3. **Improper Use of elif:**  
+   - Use `elif` only after an `if` statement.  
+
+---
+
+### **Real-World Scenario:**  
+#### **Electricity Bill Calculation:**  
+Calculate the electricity bill based on units consumed:  
+- Units <= 100: ₹3 per unit  
+- Units <= 200: ₹5 per unit  
+- Units > 200: ₹8 per unit  
+
+**Code:**  
+
+units = 180
+
+if units <= 100:
+    bill = units * 3
+elif units <= 200:
+    bill = (100 * 3) + (units - 100) * 5
+else:
+    bill = (100 * 3) + (100 * 5) + (units - 200) * 8
+
+print(f"Electricity Bill: ₹{bill}")
+
+**Output:**  
+
+Electricity Bill: ₹800
+==============================
+
+
+### **Real-World Examples of Decision Making  
+
+---
+
+#### **1. ATM Withdrawal System:**  
+Check if a user has sufficient balance before allowing a withdrawal.  
+
+balance = 5000
+withdraw_amount = 3000
+
+if withdraw_amount <= balance:
+    balance -= withdraw_amount
+    print(f"Withdrawal successful! Remaining balance: ₹{balance}")
+else:
+    print("Insufficient balance!")
+
+**Output:**  
+
+Withdrawal successful! Remaining balance: ₹2000
+
+---
+
+#### **2. Traffic Light System:**  
+Display the action based on the color of the traffic light.  
+
+light_color = "Red"
+
+if light_color == "Green":
+    print("Go")
+elif light_color == "Yellow":
+    print("Slow down")
+elif light_color == "Red":
+    print("Stop")
+else:
+    print("Invalid light color")
+
+**Output:**  
+Stop
+
+---
+
+#### **3. Online Shopping Discount:**  
+Calculate the final price after applying a discount based on the purchase amount.  
+
+purchase_amount = 1200
+
+if purchase_amount >= 1000:
+    discount = 0.1 * purchase_amount  # 10% discount
+elif purchase_amount >= 500:
+    discount = 0.05 * purchase_amount  # 5% discount
+else:
+    discount = 0  # No discount
+
+final_price = purchase_amount - discount
+print(f"Final Price after discount: ₹{final_price}")
+
+**Output:**  
+Final Price after discount: ₹1080.0
+
+---
+
+#### **4. Movie Ticket Pricing:**  
+Calculate ticket price based on age group.  
+
+age = 15
+
+if age < 12:
+    ticket_price = 50
+elif age <= 18:
+    ticket_price = 75
+elif age <= 60:
+    ticket_price = 100
+else:
+    ticket_price = 60
+
+print(f"Ticket Price: ₹{ticket_price}")
+
+**Output:**  
+
+Ticket Price: ₹75
+
+---
+
+#### **5. Student Grade Calculation:**  
+Assign a grade based on the percentage scored.  
+
+percentage = 82
+
+if percentage >= 90:
+    grade = "A+"
+elif percentage >= 80:
+    grade = "A"
+elif percentage >= 70:
+    grade = "B"
+elif percentage >= 60:
+    grade = "C"
+else:
+    grade = "Fail"
+
+print(f"Your Grade: {grade}")
+
+**Output:**  
+
+Your Grade: A
+
+---
+
+#### **6. Food Ordering System:**  
+Display the food menu based on the cuisine selected.  
+
+
+cuisine = "Italian"
+
+if cuisine == "Indian":
+    print("Biryani, Butter Chicken, Paneer Tikka")
+elif cuisine == "Chinese":
+    print("Noodles, Manchurian, Fried Rice")
+elif cuisine == "Italian":
+    print("Pizza, Pasta, Risotto")
+else:
+    print("Cuisine not available")
+
+**Output:**  
+
+Pizza, Pasta, Risotto
+
+---
+
+#### **7. Temperature Check:**  
+Suggest what to wear based on the temperature.  
+
+
+temperature = 15
+
+if temperature > 30:
+    print("Wear light clothes")
+elif 20 <= temperature <= 30:
+    print("Wear comfortable clothes")
+elif 10 <= temperature < 20:
+    print("Wear a jacket")
+else:
+    print("Wear a coat and scarf")
+
+**Output:**  
+
+Wear a jacket
+
+---
+
+#### **8. Exam Result:**  
+Determine if the student has passed or failed.  
+
+marks = 45
+
+if marks >= 40:
+    print("Pass")
+else:
+    print("Fail")
+
+**Output:**  
+Pass
+
+---
+
+#### **9. Online Food Delivery Status:**  
+Check the status of the delivery.  
+
+status = "Delivered"
+
+if status == "Ordered":
+    print("Your order has been placed.")
+elif status == "Dispatched":
+    print("Your order is on the way.")
+elif status == "Delivered":
+    print("Your order has arrived.")
+else:
+    print("Invalid status")
+
+**Output:**  
+
+Your order has arrived.
+
+---
+
+#### **10. Loan Eligibility Check:**  
+Check if a person is eligible for a loan based on age and income.  
+
+
+age = 30
+income = 40000
+
+if age >= 21 and income >= 25000:
+    print("Loan Approved")
+else:
+    print("Loan Not Approved")
+
+**Output:**  
+
+Loan Approved

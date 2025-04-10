@@ -1,0 +1,97 @@
+Lecture 9 Form Designing
+### **What is Form Designing?**  
+Form designing involves creating interactive elements on a webpage that let users enter information, such as text, numbers, or selections, and then submit it. Forms are commonly used for tasks like registration, login, surveys, and feedback.
+
+---
+
+### **Basic Elements of a Form:**  
+Forms are created using the `<form>` HTML tag, and they include various input elements:  
+
+1. **Text Input:** Used to collect short text (like names or addresses).  
+
+   <input type="text" placeholder="Enter your name">
+
+2. **Password Input:** Masks the entered text.  
+
+   <input type="password" placeholder="Enter your password">
+
+3. **Email Input:** Used for collecting email addresses.  
+
+   <input type="email" placeholder="Enter your email">
+
+4. **Radio Buttons:** Allow users to select one option from a group.  
+
+   <input type="radio" name="gender" value="male"> Male  
+   <input type="radio" name="gender" value="female"> Female  
+
+
+5. **Checkboxes:** Allow users to select multiple options.  
+
+   <input type="checkbox" name="hobby" value="reading"> Reading  
+   <input type="checkbox" name="hobby" value="sports"> Sports  
+
+6. **Dropdown (Select) Menu:** Provides a list of options.  
+
+   <select>
+       <option value="volvo">Volvo</option>
+       <option value="saab">Saab</option>
+   </select>
+
+
+7. **Textarea:** Allows users to enter multi-line text.  
+
+   <textarea placeholder="Your message..."></textarea>
+
+8. **Submit Button:** Submits the form data.  
+
+   <input type="submit" value="Submit">
+
+---
+
+### **Form Structure:**  
+A complete form usually looks like this:  
+
+<form action="/submit" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Enter your name"><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email"><br>
+
+    <label>Gender:</label>
+    <input type="radio" name="gender" value="male"> Male
+    <input type="radio" name="gender" value="female"> Female<br>
+
+    <label for="message">Message:</label><br>
+    <textarea id="message" name="message" placeholder="Write something..."></textarea><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+---
+
+### **How Form Data is Sent:**  
+- The **action** attribute specifies where to send the form data.  
+- The **method** attribute can be `GET` (appends data to URL) or `POST` (sends data securely).  
+- On submission, the browser sends the data to the server specified in the `action` attribute.  
+
+---
+
+### **Form Validation:**  
+Form validation ensures that the data entered by the user is correct.  
+- **Client-Side Validation:** Performed using HTML attributes like `required`, `minlength`, or JavaScript.  
+- **Server-Side Validation:** Performed on the server after the data is submitted.  
+
+Example:  
+
+<input type="text" name="username" required minlength="5">
+
+This ensures that the user must enter at least 5 characters.  
+
+---
+
+### **Why Use Forms?**  
+- To collect user information (like registration).  
+- To get feedback or survey responses.  
+- To handle login and authentication.  
+- To submit data to be processed on the server.  

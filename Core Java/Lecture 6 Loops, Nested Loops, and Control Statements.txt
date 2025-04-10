@@ -1,0 +1,430 @@
+### **Java Lecture 6: Loops, Nested Loops, and Control Statements**  
+
+#### **1. Introduction to Loops:**  
+Loops are used to execute a block of code repeatedly based on a given condition.  
+They help in reducing code redundancy and efficiently handling repetitive tasks.  
+
+---
+
+#### **2. Types of Loops in Java:**  
+1. **For Loop:** Used when the number of iterations is known.  
+2. **While Loop:** Used when the condition is checked before executing the loop.  
+3. **Do-While Loop:** Executes at least once, as the condition is checked after execution.  
+4. **Enhanced For Loop (For-Each):** Mainly used to traverse arrays or collections.  
+
+---
+
+#### **3. Syntax and Examples:**  
+
+**1. For Loop:**  
+
+for (int i = 0; i < 5; i++) {
+    System.out.println("Iteration: " + i);
+}
+
+- **Initialization:** int i = 0  
+- **Condition:** i < 5  
+- **Increment:** i++  
+
+---
+
+**2. While Loop:**  
+
+int i = 0;
+while (i < 5) {
+    System.out.println("Iteration: " + i);
+    i++;
+}
+
+- Suitable when the number of iterations is not known in advance.  
+
+---
+
+**3. Do-While Loop:**  
+
+int i = 0;
+do {
+    System.out.println("Iteration: " + i);
+    i++;
+} while (i < 5);
+
+- Executes the code block at least once, even if the condition is false initially.  
+
+---
+
+**4. Enhanced For Loop:**  
+
+int[] numbers = {10, 20, 30};
+for (int num : numbers) {
+    System.out.println("Number: " + num);
+}
+
+- Efficient for iterating over arrays or collections.  
+
+---
+
+#### **4. Nested Loops:**  
+A loop inside another loop.  
+**Example: Printing a pattern**  
+
+for (int i = 1; i <= 3; i++) {
+    for (int j = 1; j <= i; j++) {
+        System.out.print("* ");
+    }
+    System.out.println();
+}
+
+**Output:**  
+
+*  
+* *  
+* * *  
+
+- Used when multiple levels of iteration are required.  
+
+---
+
+#### **5. Control Statements:**  
+1. **Break:** Exits the loop immediately.  
+2. **Continue:** Skips the current iteration and moves to the next.  
+3. **Return:** Exits from the method.  
+
+---
+
+**Example with Break and Continue:**  
+
+for (int i = 1; i <= 5; i++) {
+    if (i == 3) {
+        continue;  // Skip the iteration when i is 3
+    }
+    if (i == 5) {
+        break;  // Exit the loop when i is 5
+    }
+    System.out.println("Number: " + i);
+}
+
+**Output:**  
+
+Number: 1  
+Number: 2  
+Number: 4  
+
+---
+
+#### **6. Real-World Example: Vending Machine**  
+A vending machine that takes user input to select items:  
+- **Break:** Stops the selection process if the user chooses to exit.  
+- **Continue:** Skips if an invalid choice is made.  
+
+
+import java.util.Scanner;
+
+public class VendingMachine {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] items = {"Chips", "Soda", "Candy"};
+        
+        while (true) {
+            System.out.println("Select an item (1-Chips, 2-Soda, 3-Candy, 0-Exit): ");
+            int choice = sc.nextInt();
+
+            if (choice == 0) {
+                System.out.println("Exiting...");
+                break;  // Exit the loop
+            }
+            
+            if (choice < 1 || choice > 3) {
+                System.out.println("Invalid choice. Try again.");
+                continue;  // Skip to the next iteration
+            }
+
+            System.out.println("You selected: " + items[choice - 1]);
+        }
+    }
+}
+
+---
+
+#### **7. Key Takeaways:**  
+- Loops simplify repetitive tasks.  
+- Nested loops are useful for multi-dimensional data processing.  
+- Control statements enhance loop control for better program flow.  
+- Always be cautious of infinite loops when using **while** or **do-while**.  
+
+
+=============
+### **Scenario: School Attendance System**  
+A school wants to record the attendance of students in different classes.  
+- The school has **3 classes**, each with **5 students**.  
+- The system should ask if a student is present (Y/N) and record the attendance.  
+- If the user enters an invalid input (other than Y or N), it should skip that student and move to the next.  
+
+---
+
+####**Java Program: School Attendance System**  
+
+import java.util.Scanner;
+
+public class AttendanceSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Outer loop: Iterate over classes
+        for (int classNum = 1; classNum <= 3; classNum++) {
+            System.out.println("Class " + classNum + " Attendance:");
+
+            // Inner loop: Iterate over students
+            for (int studentNum = 1; studentNum <= 5; studentNum++) {
+                System.out.print("Is Student " + studentNum + " present (Y/N)? ");
+                char attendance = sc.next().charAt(0);
+
+                // Control statement: Skip if invalid input
+                if (attendance != 'Y' && attendance != 'N') {
+                    System.out.println("Invalid input! Skipping this student.");
+                    continue;  // Skip to the next student
+                }
+
+                // Display the recorded attendance
+                if (attendance == 'Y') {
+                    System.out.println("Student " + studentNum + ": Present");
+                } else {
+                    System.out.println("Student " + studentNum + ": Absent");
+                }
+            }
+            System.out.println(); // Print a blank line between classes
+        }
+
+        sc.close();
+    }
+}
+
+
+---
+
+### **Explanation:**  
+1. **Outer Loop (Classes):**  
+   - Iterates through each class (1 to 3).  
+   - Represents the **class level**.  
+
+2. **Inner Loop (Students):**  
+   - Iterates through each student (1 to 5) in the current class.  
+   - Represents the **student level within a class**.  
+
+3. **Control Statement (continue):**  
+   - Used to **skip** a student if the input is invalid (anything other than 'Y' or 'N').  
+   - Ensures that the system doesn't crash due to invalid data.  
+
+---
+
+### **Example Output:**  
+
+Class 1 Attendance:  
+Is Student 1 present (Y/N)? Y  
+Student 1: Present  
+Is Student 2 present (Y/N)? N  
+Student 2: Absent  
+Is Student 3 present (Y/N)? A  
+Invalid input! Skipping this student.  
+Is Student 4 present (Y/N)? Y  
+Student 4: Present  
+Is Student 5 present (Y/N)? N  
+Student 5: Absent  
+
+Class 2 Attendance:  
+
+
+---
+
+###**Why Use Loops and Control Statements?**  
+- **Loops:** Efficiently handle repetitive tasks, like taking attendance for multiple classes and students.  
+- **Nested Loops:** Manage multiple levels (class and student) systematically.  
+- **Control Statements (continue):** Skip invalid input and move to the next student without breaking the loop.  
+=========================
+
+
+**practical scenario**.  
+
+---
+
+### **Scenario: Hotel Room Booking System**  
+A hotel has multiple floors, each with several rooms. The system needs to:  
+1. Display all rooms on each floor.  
+2. Mark rooms as "Booked" or "Available" based on user input.  
+3. Stop the booking process when the user enters "exit".  
+
+---
+
+#### **Java Program: Hotel Room Booking System**  
+
+import java.util.Scanner;
+
+public class HotelBooking {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Loop through floors
+        for (int floor = 1; floor <= 3; floor++) {
+            System.out.println("Floor " + floor + ":");
+
+            // Nested loop for rooms on each floor
+            for (int room = 1; room <= 5; room++) {
+                System.out.print("Is room " + room + " booked? (yes/no/exit): ");
+                String status = sc.next().toLowerCase();
+
+                // Control statement: Stop the booking process if "exit" is entered
+                if (status.equals("exit")) {
+                    System.out.println("Booking process terminated.");
+                    return; // Exit the program
+                }
+
+                // Check if the input is valid
+                if (!status.equals("yes") && !status.equals("no")) {
+                    System.out.println("Invalid input! Skipping this room.");
+                    continue; // Skip the current room and move to the next
+                }
+
+                // Display room status
+                if (status.equals("yes")) {
+                    System.out.println("Room " + room + " is Booked.");
+                } else {
+                    System.out.println("Room " + room + " is Available.");
+                }
+            }
+            System.out.println(); // Blank line between floors
+        }
+
+    }
+}
+
+---
+
+### **Explanation:**  
+1. **Outer Loop (Floors):**  
+   - Iterates through each floor (1 to 3).  
+   - Represents the **floor level** in the hotel.  
+
+2. **Inner Loop (Rooms):**  
+   - Iterates through each room (1 to 5) on the current floor.  
+   - Represents the **room level within a floor**.  
+
+3. **Control Statements:**  
+   - **`return`:** Exits the program when the user types "exit".  
+   - **`continue`:** Skips to the next room if the input is invalid (neither "yes" nor "no").  
+
+---
+
+### **Example Output:**  
+
+Floor 1:  
+Is room 1 booked? (yes/no/exit): yes  
+Room 1 is Booked.  
+Is room 2 booked? (yes/no/exit): no  
+Room 2 is Available.  
+Is room 3 booked? (yes/no/exit): maybe  
+Invalid input! Skipping this room.  
+Is room 4 booked? (yes/no/exit): exit  
+Booking process terminated.  
+
+---
+
+### **Why Use Loops and Control Statements Here?**  
+- **Loops:** Efficiently manage repetitive booking checks for each room on every floor.  
+- **Nested Loops:** Separate floors and rooms logically.  
+- **Control Statements (`return`, `continue`):**  
+  - Stop the program when needed.  
+  - Skip invalid entries without crashing.  
+==========
+
+
+### **Scenario: Restaurant Billing System**  
+A restaurant needs to generate bills for multiple tables.  
+- The restaurant has **3 tables**, each with **4 items** ordered.  
+- The system should:  
+  1. Take the price of each item.  
+  2. Calculate the total bill for each table.  
+  3. If an item price is **negative**, skip it and move to the next item.  
+  4. If the input is **0**, stop the billing process completely.  
+
+---
+
+#### **Java Program: Restaurant Billing System**  
+
+import java.util.Scanner;
+
+public class RestaurantBilling {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Loop through tables
+        for (int table = 1; table <= 3; table++) {
+            double totalBill = 0;
+            System.out.println("Table " + table + ":");
+
+            // Nested loop for items ordered at each table
+            for (int item = 1; item <= 4; item++) {
+                System.out.print("Enter the price of item " + item + " (or 0 to stop): ");
+                double price = sc.nextDouble();
+
+                // Control statement: Stop the billing process if 0 is entered
+                if (price == 0) {
+                    System.out.println("Billing process terminated.");
+                    return;  // Exit the program
+                }
+
+                // Skip if price is negative
+                if (price < 0) {
+                    System.out.println("Invalid price! Skipping this item.");
+                    continue;  // Skip the current item and move to the next
+                }
+
+                // Add the valid price to the total bill
+                totalBill += price;
+                System.out.println("Item " + item + " price added: ₹" + price);
+            }
+
+            // Display total bill for the current table
+            System.out.println("Total bill for Table " + table + ": ₹" + totalBill);
+            System.out.println();  // Blank line between tables
+        }
+
+       
+    }
+}
+
+
+---
+
+### **Explanation:**  
+1. **Outer Loop (Tables):**  
+   - Iterates through each table (1 to 3).  
+   - Represents the **table number**.  
+
+2. **Inner Loop (Items):**  
+   - Iterates through each item ordered (1 to 4) on the current table.  
+   - Represents the **item number** within a table.  
+
+3. **Control Statements:**  
+   - **`return`:** Stops the entire billing process when the input is **0**.  
+   - **`continue`:** Skips to the next item if the price is **negative**.  
+
+---
+
+### **Example Output:**  
+Table 1:  
+Enter the price of item 1 (or 0 to stop): 120  
+Item 1 price added: ₹120.0  
+Enter the price of item 2 (or 0 to stop): -50  
+Invalid price! Skipping this item.  
+Enter the price of item 3 (or 0 to stop): 80  
+Item 3 price added: ₹80.0  
+Enter the price of item 4 (or 0 to stop): 0  
+Billing process terminated.  
+
+---
+
+### **Why Use Loops and Control Statements Here?**  
+- **Loops:** Efficiently handle repetitive tasks for each table and each item.  
+- **Nested Loops:** Differentiate between multiple tables and items ordered at each table.  
+- **Control Statements:**  
+  - **`return`**: Stops the entire process if the user enters **0**.  
+  - **`continue`**: Skips any negative price input to maintain data integrity.  

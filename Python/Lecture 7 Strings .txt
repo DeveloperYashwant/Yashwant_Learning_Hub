@@ -1,0 +1,209 @@
+### **Lecture 7: Strings in Python**
+
+A **string** in Python is a sequence of characters enclosed in single (`'...'`) or double (`"..."`) quotes. Strings are immutable, meaning once created, they cannot be changed.
+
+
+### **1. Creating Strings:**
+You can create strings using single, double, or triple quotes.
+
+**Example:**
+
+name = "Yashwant"
+greeting = 'Hello, World!'
+multi_line = """This is a
+multi-line string."""
+print(name)
+print(greeting)
+print(multi_line)
+
+**Output:**
+
+Yashwant
+Hello, World!
+This is a
+multi-line string.
+
+---
+
+### **2. Accessing Characters in a String:**
+You can access individual characters using **indexing**.
+
+**Example:**
+
+text = "Python"
+print(text[0])    # First character: P
+print(text[-1])   # Last character: n
+print(text[1:4])  # Slicing: yth
+
+**Output:**
+
+P
+n
+yth
+
+---
+
+### **3. String Operations:**
+
+- **Concatenation:** Joining two or more strings using the `+` operator.
+- **Repetition:** Repeating a string using the `*` operator.
+
+**Example:**
+
+first = "Hello"
+second = "World"
+print(first + " " + second)  # Concatenation
+print(first * 3)             # Repetition
+
+**Output:**
+
+Hello World
+HelloHelloHello
+
+---
+
+### **4. String Methods:**
+
+| Method         | Description                             | Example                                 |
+|---------------|-----------------------------------------|-----------------------------------------|
+| `upper()`      | Converts to uppercase                    | `"hello".upper()` -> `HELLO`              |
+| `lower()`      | Converts to lowercase                    | `"HELLO".lower()` -> `hello`              |
+| `title()`      | Capitalizes the first letter of each word | `"hello world".title()` -> `Hello World`  |
+| `strip()`      | Removes whitespace from both ends        | `"  hello  ".strip()` -> `hello`          |
+| `replace()`    | Replaces a substring with another        | `"cat".replace("c", "b")` -> `bat`        |
+| `find()`       | Finds the position of a substring        | `"hello".find("e")` -> `1`                |
+| `count()`      | Counts occurrences of a substring        | `"banana".count("a")` -> `3`              |
+
+**Example:**
+
+text = "  Welcome to Python Programming!  "
+print(text.upper())
+print(text.lower())
+print(text.strip())
+print(text.replace("Python", "Java"))
+print(text.find("Python"))
+print(text.count("o"))
+
+**Output:**
+
+  WELCOME TO PYTHON PROGRAMMING!  
+  welcome to python programming!  
+Welcome to Python Programming!
+  Welcome to Java Programming!  
+15
+3
+
+---
+
+### **5. String Formatting:**
+
+- **Using f-strings:** (Python 3.6+)
+
+name = "Yashwant"
+age = 26
+print(f"Hello, my name is {name} and I am {age} years old.")
+
+**Output:**
+
+Hello, my name is Yashwant and I am 26 years old.
+
+- **Using the format() method:**
+
+print("My name is {} and I am {} years old.".format(name, age))
+
+---
+
+### **6. String Splitting and Joining:**
+- **split():** Breaks a string into a list.
+- **join():** Combines a list into a single string.
+
+**Example:**
+
+text = "Learn Python Programming"
+words = text.split()        # Splits by space by default
+print(words)
+
+joined_text = "-".join(words)  # Joins list with "-"
+print(joined_text)
+
+**Output:**
+
+['Learn', 'Python', 'Programming']
+Learn-Python-Programming
+
+---
+
+### **7. String Iteration:**
+Loop through each character in a string.
+
+**Example:**
+
+for char in "Python":
+    print(char)
+
+**Output:**
+
+P
+y
+t
+h
+o
+n
+
+---
+
+### **8. String Length:**
+Use `len()` to find the length of a string.
+
+**Example:**
+
+text = "Hello, World!"
+print(f"Length: {len(text)}")
+
+**Output:**
+Length: 13
+
+---
+
+### **9. Checking String Content:**
+- **isalpha():** Checks if all characters are alphabets.
+- **isdigit():** Checks if all characters are digits.
+- **isalnum():** Checks if characters are alphanumeric.
+- **isspace():** Checks for whitespace.
+
+**Example:**
+
+print("Hello".isalpha())    # True
+print("12345".isdigit())    # True
+print("Hello123".isalnum()) # True
+print("   ".isspace())      # True
+
+---
+
+### **10. Escape Characters:**
+Use backslash (`\`) for special characters.
+
+| Escape Character | Description       |
+|-----------------|-------------------|
+| `\'`            | Single Quote       |
+| `\"`            | Double Quote       |
+| `\\`            | Backslash          |
+| `\n`            | New Line           |
+| `\t`            | Tab                |
+
+**Example:**
+
+print("Hello\nWorld!")
+print("Path: C:\\Users\\Yashwant")
+
+**Output:**
+
+Hello
+World!
+
+---
+
+### **Student Practice:**
+1. Write a function to count vowels in a given string.
+2. Create a formatted string using f-strings to display your name and favorite hobby.
+3. Write a program to reverse a string without using the reverse() function.

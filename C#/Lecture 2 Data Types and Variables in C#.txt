@@ -1,0 +1,112 @@
+# **Lecture 2: Data Types and Variables in C#**
+
+## **1. What Are Data Types?**
+A **data type** defines what kind of data a variable can store in a program. C# is a **strongly-typed language**, meaning every variable must have a specified data type.
+
+🔹 **Real-World Example:**  
+Imagine you are filling out a form:  
+- Name: Text (string)  
+- Age: Number (int)  
+- Height: Decimal value (float/double)  
+- Is a student: Yes/No (bool)  
+
+Similarly, in C#, we use different data types for different values.
+
+---
+
+## **2. Types of Data Types in C#**
+C# data types are divided into three main categories:
+
+### **A) Value Types (Stored in Stack)**
+1. **Integer Types:**
+   - `int` (4 bytes) → Stores whole numbers (e.g., 10, 500)
+   - `long` (8 bytes) → For larger numbers (e.g., 1000000000)
+   - `short` (2 bytes) → Small-range numbers (e.g., 32767)
+   - `byte` (1 byte) → Smallest storage (e.g., 255)
+
+2. **Floating-Point Types:**
+   - `float` (4 bytes) → Up to 7 decimal places (e.g., 3.14F)
+   - `double` (8 bytes) → Up to 15 decimal places (e.g., 3.1415926535)
+   - `decimal` (16 bytes) → Used for financial calculations (e.g., 99.99M)
+
+3. **Character & Boolean:**
+   - `char` (2 bytes) → Stores single character (e.g., ‘A’)
+   - `bool` (1 byte) → Stores `true` or `false`
+
+🔹 **Real-World Example (Shopping App):**  
+- `int price = 500;` (Price of an item)  
+- `float discount = 10.5F;` (Discount percentage)  
+- `bool inStock = true;` (Is the item available?)  
+
+---
+
+### **B) Reference Types (Stored in Heap)**
+1. **string** → Sequence of characters (e.g., `"Hello, World!"`)  
+2. **object** → Can store any type (e.g., `object x = 10;`)  
+3. **dynamic** → Can change type at runtime  
+
+🔹 **Real-World Example (User Profile):**  
+
+string userName = "John Doe";  
+object userAge = 25;  
+dynamic userCountry = "USA";  
+
+---
+
+### **C) Nullable Types**
+A nullable type can store `null` values.  
+
+int? age = null;  
+
+🔹 **Real-World Example (Bank Account Details):**  
+- `decimal? accountBalance = null;` (No balance info yet)  
+
+---
+
+## **3. What Are Variables?**
+A **variable** is a container for storing data.
+
+🔹 **Syntax:**
+
+datatype variableName = value;
+
+Example:
+
+int age = 25;
+
+🔹 **Real-World Example (Library System):**  
+- `string bookTitle = "C# Programming";`  
+- `int bookPages = 300;`  
+
+---
+
+## **4. Naming Rules for Variables**
+✅ Can contain letters, digits, and underscores (_).  
+✅ Must **start with a letter** (not a number).  
+✅ Case-sensitive (`Age` and `age` are different).  
+✅ Cannot use C# **keywords** (e.g., `int`, `class`).  
+
+---
+
+## **5. Example Program**
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Declaring variables
+        string name = "Alice";
+		int age = 20;
+		
+        float height = 5.4F;
+        bool isStudent = true;
+
+        // Printing values
+        Console.WriteLine("Name: " + name);
+        Console.WriteLine("Age: " + age);
+        Console.WriteLine("Height: " + height);
+        Console.WriteLine("Is Student: " + isStudent);
+    }
+}

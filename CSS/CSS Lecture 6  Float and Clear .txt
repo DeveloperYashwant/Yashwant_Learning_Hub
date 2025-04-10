@@ -1,0 +1,145 @@
+### **CSS Lecture 6: Float and Clear in CSS**  
+
+## **1. What is Float in CSS?**  
+The `float` property is used to **position elements** to the left or right, allowing text or other elements to wrap around them.
+
+### **Syntax**  
+
+.element {
+  float: left;  /* Moves the element to the left */
+}
+
+.element {
+  float: right; /* Moves the element to the right */
+}
+
+.element {
+  float: none; /* Default value, no floating */
+}
+
+### **Example**: Floating an Image  
+
+<img src="image.jpg" alt="Example" style="float: right; width: 150px; height: 100px;">
+<p>This text will wrap around the floated image.</p>
+
+---
+
+## **2. Float Values**  
+
+| Value | Description |
+|--------|------------|
+| `left` | Moves the element to the **left** of the container, allowing content to wrap around its right side. |
+| `right` | Moves the element to the **right** of the container, allowing content to wrap around its left side. |
+| `none` | Default value, no floating applied. |
+| `inherit` | Inherits the float value from its parent. |
+
+---
+
+## **3. How to Clear Floats? (`clear` Property)**  
+When an element is floated, it can affect the layout of following elements. The `clear` property is used to **prevent elements from wrapping around a floated element**.
+
+### **Syntax**  
+
+.clearfix {
+  clear: both; /* Stops floating effects */
+}
+
+### **Values of `clear`**  
+
+| Value | Description |
+|--------|------------|
+| `left` | Prevents wrapping around **left-floated** elements. |
+| `right` | Prevents wrapping around **right-floated** elements. |
+| `both` | Prevents wrapping around **both left and right-floated** elements. |
+| `none` | Default value, no clearing applied. |
+
+---
+
+### **Example: Float Without Clear**  
+
+<style>
+    .box {
+        width: 100px;
+        height: 100px;
+        background: lightblue;
+        float: left;
+        margin: 10px;
+    }
+</style>
+
+<div class="box">Box 1</div>
+<div class="box">Box 2</div>
+<div class="box">Box 3</div>
+<p>This text wraps around the floated boxes.</p>
+
+---
+
+### **Example: Using `clear` to Fix Layout Issues**  
+
+<style>
+    .box {
+        width: 100px;
+        height: 100px;
+        background: lightblue;
+        float: left;
+        margin: 10px;
+    }
+    .clearfix {
+        clear: both;
+    }
+</style>
+
+<div class="box">Box 1</div>
+<div class="box">Box 2</div>
+<div class="box">Box 3</div>
+<div class="clearfix"></div>
+<p>This text now starts below the floated elements.</p>
+
+---
+
+## **4. Clearing Floats with a "clearfix" Hack**  
+A common technique to fix floating issues is the **clearfix hack**. It forces a container to wrap around floated elements.
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+### **Example: Applying `clearfix` to a Container**  
+
+<style>
+    .container {
+        width: 300px;
+        border: 2px solid black;
+    }
+    .box {
+        width: 100px;
+        height: 100px;
+        float: left;
+        background: orange;
+    }
+    .clearfix::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+</style>
+
+<div class="container clearfix">
+    <div class="box">1</div>
+    <div class="box">2</div>
+    <div class="box">3</div>
+</div>
+
+---
+
+## **5. When to Use Float & Clear?**  
+
+| Property | When to Use? |
+|----------|-------------|
+| `float: left/right` | To create layouts with floating elements, such as text wrapping around images. |
+| `clear: left/right/both` | To fix layout issues caused by floating elements. |
+| `clearfix` | To ensure that containers correctly wrap floated elements. |
+
+---

@@ -1,0 +1,216 @@
+### **Lecture 12: Abstract Classes and Interfaces in C#**
+
+---
+
+#### **1. Introduction to Abstraction**
+- **Definition:** Abstraction hides complex implementation details and shows only essential features.
+- **Objective:** To provide a blueprint for derived classes without implementing the entire method.
+
+---
+
+#### **2. Real-World Analogy:**
+- **Car Interface:** A car's steering wheel gives an interface for direction control, but the internal working of the steering mechanism is abstracted.
+
+---
+
+#### **3. Abstract Classes:**
+- Cannot be instantiated.
+- Can contain abstract methods (no implementation) and concrete methods (with implementation).
+- Used when classes share a common base but also have unique behaviors.
+
+---
+
+**Syntax:**
+
+abstract class Shape
+{
+    public abstract void Draw();  // Abstract method
+    public void Display()
+    {
+        Console.WriteLine("Displaying shape");
+    }
+}
+
+---
+
+#### **4. Example: Abstract Class Usage**
+**Base Abstract Class:**
+
+abstract class Animal
+{
+    public abstract void Sound();
+    public void Sleep()
+    {
+        Console.WriteLine("Sleeping...");
+    }
+}
+
+**Derived Class:**
+
+class Dog : Animal
+{
+    public override void Sound()
+    {
+        Console.WriteLine("Barks");
+    }
+}
+
+class Cat : Animal
+{
+    public override void Sound()
+    {
+        Console.WriteLine("Meows");
+    }
+}
+
+**Usage:**
+
+Animal myDog = new Dog();
+myDog.Sound();  // Output: Barks
+myDog.Sleep();  // Output: Sleeping...
+
+Animal myCat = new Cat();
+myCat.Sound();  // Output: Meows
+myCat.Sleep();  // Output: Sleeping...
+
+---
+
+#### **5. Interfaces in C#:**
+- Provides complete abstraction.
+- Cannot contain method implementations.
+- Supports multiple inheritance.
+
+---
+
+**Syntax:**
+
+interface IAnimal
+{
+    void Speak();
+}
+
+---
+
+#### **6. Example: Interface Usage**
+**Defining Interface:**
+
+interface IVehicle
+{
+    void Start();
+    void Stop();
+}
+
+**Implementing Interface:**
+
+class Car : IVehicle
+{
+    public void Start()
+    {
+        Console.WriteLine("Car starts");
+    }
+    public void Stop()
+    {
+        Console.WriteLine("Car stops");
+    }
+}
+
+class Bike : IVehicle
+{
+    public void Start()
+    {
+        Console.WriteLine("Bike starts");
+    }
+    public void Stop()
+    {
+        Console.WriteLine("Bike stops");
+    }
+}
+
+**Usage:**
+
+IVehicle vehicle;
+
+vehicle = new Car();
+vehicle.Start();  // Output: Car starts
+vehicle.Stop();   // Output: Car stops
+
+vehicle = new Bike();
+vehicle.Start();  // Output: Bike starts
+vehicle.Stop();   // Output: Bike stops
+
+---
+
+#### **7. Key Differences between Abstract Classes and Interfaces:**
+
+| Feature                    | Abstract Class                   | Interface                     |
+|---------------------------|----------------------------------|-------------------------------|
+| Inheritance               | Single inheritance                | Multiple inheritance           |
+| Method Implementation     | Can have both abstract and concrete methods | Only method signatures         |
+| Access Modifiers          | Can have access modifiers         | Cannot have access modifiers   |
+| Fields                    | Can have fields                   | Cannot have fields             |
+
+---
+
+#### **8. Real-World Example: Payment Gateway**
+
+**Interface:**
+
+interface IPayment
+{
+    void ProcessPayment();
+}
+
+**Implementation:**
+
+class CreditCardPayment : IPayment
+{
+    public void ProcessPayment()
+    {
+        Console.WriteLine("Processing Credit Card Payment");
+    }
+}
+
+class PayPalPayment : IPayment
+{
+    public void ProcessPayment()
+    {
+        Console.WriteLine("Processing PayPal Payment");
+    }
+}
+
+**Usage:**
+
+IPayment payment;
+
+payment = new CreditCardPayment();
+payment.ProcessPayment();  // Output: Processing Credit Card Payment
+
+payment = new PayPalPayment();
+payment.ProcessPayment();  // Output: Processing PayPal Payment
+
+---
+
+#### **9. When to Use Abstract Classes vs Interfaces:**
+
+- **Use Abstract Classes when:**
+  - You want to provide some common functionality along with abstract methods.
+  - There is a need for base class functionality.
+
+- **Use Interfaces when:**
+  - You only want to define behavior and not provide any implementation.
+  - You need to support multiple inheritance.
+
+---
+
+#### **10. Best Practices:**
+- Favor interfaces when you need pure abstraction.
+- Use abstract classes when you have common methods or fields to share among derived classes.
+- Avoid implementing unnecessary methods when using interfaces.
+
+---
+
+#### **11. Practical Exercise:**
+1. Create an abstract class called `Appliance` with an abstract method `TurnOn()`.
+2. Implement the `Appliance` class with `Fan` and `Light`.
+3. Create an interface called `IRemoteControl` with methods `IncreaseSpeed()` and `DecreaseSpeed()`.
+4. Implement the interface in a `RemoteFan` class.

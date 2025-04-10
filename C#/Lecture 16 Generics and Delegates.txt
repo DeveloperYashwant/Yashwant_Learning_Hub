@@ -1,0 +1,151 @@
+
+
+## **Lecture 16: Generics and Delegates in C#**
+
+## **Part 1: GENERICS in C#**
+
+---
+
+### **What are Generics?**
+Generics allow you to write **type-safe, reusable code**. You can define a class, method, or interface **without specifying the data type** in advance.
+
+Think of Generics as templates for writing flexible code.
+
+---
+
+### **Why use Generics?**
+- Type safety (no runtime errors due to wrong casting)
+- Reusability
+- Performance (no boxing/unboxing)
+
+---
+
+### **Generic Method Example**
+csharp
+public class GenericExample
+{
+    public void ShowData<T>(T data)
+    {
+        Console.WriteLine("Data: " + data);
+    }
+}
+
+// Usage
+GenericExample g = new GenericExample();
+g.ShowData<int>(100);
+g.ShowData<string>("Hello");
+
+
+---
+
+### **Generic Class Example**
+csharp
+public class Box<T>
+{
+    public T Value;
+
+    public void Display()
+    {
+        Console.WriteLine("Value: " + Value);
+    }
+}
+
+// Usage
+Box<int> intBox = new Box<int>();
+intBox.Value = 10;
+intBox.Display(); // Output: Value: 10
+
+
+---
+
+###  **When to Use Generics**
+- Creating **collections** (`List<T>`, `Dictionary<T, K>`)
+- Writing **utility methods**
+- Building **type-independent classes**
+
+---
+
+## **Part 2: DELEGATES in C#**
+
+---
+
+### **What is a Delegate?**
+A **delegate** is like a **pointer to a method**. It’s a **type-safe function reference**.
+
+ You can use delegates to **pass methods as parameters**.
+
+---
+
+### **Why use Delegates?**
+- Call methods **dynamically**
+- Enable **event handling**
+- Support **callback methods**
+
+---
+
+### **Simple Delegate Example**
+csharp
+public delegate void GreetDelegate(string name);
+
+public class Greeting
+{
+    public static void SayHello(string name)
+    {
+        Console.WriteLine("Hello " + name);
+    }
+}
+
+// Usage
+GreetDelegate del = Greeting.SayHello;
+del("Yashwant");
+
+
+---
+
+###  **Multicast Delegates**
+- A delegate can call **multiple methods**.
+csharp
+public delegate void MyDelegate();
+
+public class Test
+{
+    public static void One() => Console.WriteLine("One");
+    public static void Two() => Console.WriteLine("Two");
+}
+
+// Usage
+MyDelegate del = Test.One;
+del += Test.Two;
+del(); // Output: One Two
+
+
+---
+
+### **Func, Action, Predicate (Inbuilt Delegates)**
+- `Func<T>`: Returns a value  
+- `Action<T>`: No return value  
+- `Predicate<T>`: Returns true/false
+
+Func<int, int, int> add = (a, b) => a + b;
+Console.WriteLine(add(2, 3)); // Output: 5
+
+Action<string> print = name => Console.WriteLine("Hi " + name);
+print("Student"); // Output: Hi Student
+
+Predicate<int> isEven = x => x % 2 == 0;
+Console.WriteLine(isEven(4)); // Output: True
+
+
+---
+
+##  **Mini Quiz – 5 Marks Each**
+
+1. What is the purpose of Generics in C#?
+2. Write a generic method to display any type of data.
+3. Define a delegate and call a method using it.
+4. Differentiate between `Action`, `Func`, and `Predicate`.
+5. What will be the output?
+
+Func<int, int> square = x => x * x;
+Console.WriteLine(square(4));
+

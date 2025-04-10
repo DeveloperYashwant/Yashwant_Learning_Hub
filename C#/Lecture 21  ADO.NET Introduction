@@ -1,0 +1,123 @@
+## **Lecture 21: ADO.NET Introduction**
+
+---
+
+###  **What is ADO.NET?**
+
+**ADO.NET (ActiveX Data Objects .NET)** is a part of the .NET Framework that allows applications to **interact with databases** like SQL Server, Oracle, or MySQL.
+
+It provides a **bridge between your C# application and a database** to perform operations like:
+- Insert
+- Update
+- Delete
+- Read
+
+---
+
+###  **Why Use ADO.NET?**
+
+- Connect your app to a **database**
+- Run **SQL commands**
+- Read and write **data**
+- Handle **data efficiently** with **disconnected architecture**
+
+---
+
+### **Main Components of ADO.NET**
+
+| Component | Description |
+|----------|-------------|
+| `SqlConnection` | Connects to the database |
+| `SqlCommand`    | Executes SQL queries (SELECT, INSERT, etc.) |
+| `SqlDataReader` | Reads data (forward-only, fast) |
+| `SqlDataAdapter`| Acts as a bridge between `DataSet` and database |
+| `DataSet`       | In-memory data storage (disconnected) |
+| `DataTable`     | Stores individual tables in a DataSet |
+
+---
+
+###  **Simple Example: Read Data from SQL Server**
+
+csharp
+using System;
+using System.Data.SqlClient;
+
+class Program
+{
+    static void Main()
+    {
+        string connectionString = "Data Source=.;Initial Catalog=StudentDB;Integrated Security=True";
+        string query = "SELECT * FROM Students";
+
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            SqlCommand cmd = new SqlCommand(query, con);
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Console.WriteLine(reader["Name"] + " - " + reader["Course"]);
+            }
+
+            reader.Close();
+        }
+    }
+}
+
+
+---
+
+### **Working of ADO.NET**
+
+1. **Connect** to DB using `SqlConnection`
+2. **Execute** query using `SqlCommand`
+3. **Fetch** results using `SqlDataReader` or `DataAdapter`
+4. **Close** the connection
+
+---
+
+### **Connected vs Disconnected Mode**
+
+| Mode | Description | Objects |
+|------|-------------|---------|
+| Connected | Continuous DB connection | `SqlDataReader` |
+| Disconnected | Fetch once, work offline | `DataSet`, `DataTable` |
+
+---
+
+### **Namespace Used**
+
+csharp
+using System.Data;
+using System.Data.SqlClient;
+
+
+---
+
+### Use Cases
+
+- Desktop apps that need DB support
+- Web apps (like ASP.NET) that talk to SQL
+- Admin panels, dashboards, forms, etc.
+
+---
+
+###  Tip
+
+Use **`using` blocks** to auto-close connections:
+csharp
+using (SqlConnection con = new SqlConnection(...))
+{
+    // no need to call con.Close()
+}
+
+
+---
+
+### Summary
+
+- ADO.NET = Data Access in .NET
+- Supports both connected and disconnected models
+- Use `SqlCommand`, `SqlConnection`, `SqlDataReader`, `DataSet`, etc.
+- Fast, reliable, and commonly used in .NET applications

@@ -1,0 +1,182 @@
+### **Lecture 14: File I/O in Python**
+
+#### **What is File I/O?**
+- **File I/O (Input/Output)** allows you to **read from and write to files** on your system.
+- Python provides built-in functions to perform file operations.
+
+---
+
+### **Why Learn File I/O?**
+- To **store data** permanently.
+- To **process data** from external files.
+- To **log information** or store user inputs.
+
+---
+
+### **Common File Operations:**
+1. **Open a file:** `open()` function.
+2. **Read from a file:** `read()`, `readline()`, `readlines()`.
+3. **Write to a file:** `write()`, `writelines()`.
+4. **Close a file:** `close()` function.
+
+---
+
+### **Opening a File: Syntax**
+file = open("filename.txt", "mode")
+
+**Modes:**
+- **`r`** - Read (default)
+- **`w`** - Write (overwrites existing content)
+- **`a`** - Append (adds to the end of file)
+- **`r+`** - Read and write
+
+---
+
+### **Example 1: Writing to a File**
+file = open("example.txt", "w")
+file.write("Hello, World!\n")
+file.write("Learning File I/O in Python.")
+file.close()
+print("Data written successfully!")
+
+**Output:**
+
+Data written successfully!
+
+**File Content:**
+
+Hello, World!
+Learning File I/O in Python.
+
+
+---
+
+### **Example 2: Reading from a File**
+
+file = open("example.txt", "r")
+content = file.read()
+print("File Content:")
+print(content)
+file.close()
+
+**Output:**
+
+File Content:
+Hello, World!
+Learning File I/O in Python.
+
+---
+
+### **Example 3: Appending to a File**
+
+file = open("example.txt", "a")
+file.write("\nAppending a new line.")
+file.close()
+print("Line appended successfully!")
+
+**Output:**
+
+Line appended successfully!
+
+**File Content:**
+
+Hello, World!
+Learning File I/O in Python.
+Appending a new line.
+
+---
+
+### **Example 4: Reading Line by Line**
+
+file = open("example.txt", "r")
+for line in file:
+    print(line.strip())  # Remove extra newlines
+file.close()
+
+**Output:**
+
+Hello, World!
+Learning File I/O in Python.
+Appending a new line.
+
+---
+
+### **Example 5: Using `with` Statement (Best Practice)**
+- Automatically closes the file.
+
+with open("example.txt", "r") as file:
+    content = file.read()
+    print("Using 'with':")
+    print(content)
+
+**Output:**
+Using 'with':
+Hello, World!
+Learning File I/O in Python.
+Appending a new line.
+
+---
+
+### **Real-World Example: Student Registration System**
+
+#### **Step 1: Writing Student Details**
+
+def add_student(name, age):
+    with open("students.txt", "a") as file:
+        file.write(f"{name}, {age}\n")
+    print("Student added successfully!")
+
+add_student("John", 20)
+add_student("Alice", 22)
+
+---
+
+#### **Step 2: Reading Student Details**
+
+def display_students():
+    with open("students.txt", "r") as file:
+        print("Student List:")
+        for line in file:
+            print(line.strip())
+
+display_students()
+
+**Output:**
+
+Student List:
+John, 20
+Alice, 22
+
+---
+
+### **Handling File Errors**
+
+try:
+    with open("non_existent.txt", "r") as file:
+        content = file.read()
+except FileNotFoundError:
+    print("Error: The file does not exist!")
+
+**Output:**
+
+Error: The file does not exist!
+
+---
+
+### **Important Tips:**
+1. **Always close files** after opening. Use `with` for automatic closure.
+2. **Check file existence** using exception handling.
+3. **Use appropriate file modes** (`r`, `w`, `a`) for the required operation.
+
+---
+
+### **Practice Problems:**
+1. **Diary Application:**  
+   - Write a program to **add daily diary entries** and **read past entries**.  
+
+2. **Grade Management System:**  
+   - Write student names and grades to a file.  
+   - Display all stored grades.  
+
+3. **Simple Logger:**  
+   - Log every program execution in a file with a **timestamp**.  

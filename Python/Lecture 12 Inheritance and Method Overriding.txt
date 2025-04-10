@@ -1,0 +1,144 @@
+### **Lecture 12: Inheritance and Method Overriding in Python**
+
+#### **What is Inheritance?**
+- Inheritance is a mechanism where a **new class (child)** derives properties and behaviors from an **existing class (parent)**.
+- It allows **code reusability** and **extensibility**.
+
+#### **What is Method Overriding?**
+- Method Overriding occurs when a **child class** provides a specific implementation of a method that is already defined in its **parent class**.
+- It allows a child class to **customize or extend** the behavior of a method.
+
+---
+
+### **Syntax: Inheritance and Method Overriding**
+
+class Parent:
+    def show(self):
+        print("This is the parent class.")
+
+class Child(Parent):
+    def show(self):  # Overriding the parent method
+        print("This is the child class.")
+
+# Creating objects
+p = Parent()
+c = Child()
+
+p.show()  # Calls parent method
+c.show()  # Calls overridden child method
+
+**Output:**
+
+This is the parent class.  
+This is the child class.
+
+---
+
+## **Real-World Example: Online Learning System**
+
+Imagine you are creating an online learning system with two types of users:
+1. **General User (Parent Class)**
+2. **Premium User (Child Class)**
+
+Both users can **view courses**, but **premium users** have access to **exclusive content**.
+
+---
+
+### **Step 1: Creating the Parent Class (General User)**
+
+class User:
+    def __init__(self, name):
+        self.name = name
+
+    def access_content(self):
+        print(f"{self.name} can access free courses.")
+
+---
+
+### **Step 2: Creating the Child Class (Premium User)**
+
+class PremiumUser(User):
+    def access_content(self):
+        print(f"{self.name} can access free and premium courses!")
+
+---
+
+### **Step 3: Demonstrating Inheritance and Overriding**
+
+# Creating objects of both classes
+user1 = User("John")
+user2 = PremiumUser("Alice")
+
+# Accessing content
+user1.access_content()   # Calls parent method
+user2.access_content()   # Calls overridden child method
+
+**Output:**
+
+John can access free courses.  
+Alice can access free and premium courses!
+
+---
+
+## **Step 4: Enhancing with Additional Features**
+
+Let's add a method to **display user type** to both classes.
+
+
+class User:
+    def __init__(self, name):
+        self.name = name
+
+    def access_content(self):
+        print(f"{self.name} can access free courses.")
+
+    def user_type(self):
+        print(f"{self.name} is a General User.")
+
+
+class PremiumUser(User):
+    def access_content(self):
+        print(f"{self.name} can access free and premium courses!")
+
+    def user_type(self):
+        print(f"{self.name} is a Premium User.")
+
+# Creating users
+user1 = User("John")
+user2 = PremiumUser("Alice")
+
+# Displaying content access and user type
+user1.access_content()
+user1.user_type()
+
+user2.access_content()
+user2.user_type()
+
+**Output:**
+
+John can access free courses.  
+John is a General User.  
+Alice can access free and premium courses!  
+Alice is a Premium User.
+
+---
+
+## **Why Use Inheritance and Method Overriding?**
+1. **Code Reusability:** Inherit common features from the parent class.
+2. **Customization:** Overridden methods allow specialized behavior.
+3. **Efficiency:** Reduces code duplication and improves maintainability.
+
+---
+
+## **Student Practice:**
+1. **Vehicle System:**  
+   - Parent Class: `Vehicle` with a method `start_engine()`.  
+   - Child Classes: `Car`, `Bike` overriding `start_engine()` with specific sounds.  
+
+2. **Library Management:**  
+   - Parent Class: `Book` with a method `get_info()`.  
+   - Child Classes: `Fiction`, `NonFiction`, each with its own `get_info()` implementation.  
+
+3. **Banking System:**  
+   - Parent Class: `Account` with a method `show_balance()`.  
+   - Child Classes: `SavingsAccount`, `CurrentAccount` overriding `show_balance()` for specific details.  

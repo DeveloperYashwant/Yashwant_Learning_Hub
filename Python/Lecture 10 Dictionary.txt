@@ -1,0 +1,168 @@
+### **Lecture 10: Dictionary in Python**
+
+#### **What is a Dictionary?**
+A dictionary in Python is a collection of **key-value pairs**. It is:
+- **Mutable:** You can change, add, or remove items.
+- **Unordered:** Items do not have a fixed order.
+- **Unique Keys:** Each key in a dictionary must be unique.
+- **Defined using curly braces `{}`**.
+
+---
+
+### **Syntax: Creating a Dictionary**
+
+# Creating a dictionary
+student = {
+    "name": "John",
+    "age": 20,
+    "grade": "A"
+}
+print(student)
+
+**Output:**
+
+{'name': 'John', 'age': 20, 'grade': 'A'}
+
+---
+
+### **Real-World Example: Student Report Card**
+
+Imagine you are developing a system to manage students' report cards. Each report card contains:
+1. Student Name
+2. Roll Number
+3. Marks in Subjects
+
+#### **Step 1: Creating the Report Card as a Dictionary**
+
+report_card = {
+    "name": "Alice",
+    "roll_no": 101,
+    "marks": {
+        "Math": 85,
+        "Science": 90,
+        "English": 78
+    }
+}
+print("Student Report Card:", report_card)
+
+**Output:**
+
+Student Report Card: {'name': 'Alice', 'roll_no': 101, 'marks': {'Math': 85, 'Science': 90, 'English': 78}}
+
+---
+
+### **Step 2: Accessing Dictionary Values**
+
+# Accessing the name and Science marks
+print("Name:", report_card["name"])
+print("Science Marks:", report_card["marks"]["Science"])
+
+**Output:**
+
+Name: Alice
+Science Marks: 90
+
+---
+
+### **Step 3: Updating the Dictionary**
+
+# Updating marks
+report_card["marks"]["Math"] = 92
+print("Updated Math Marks:", report_card["marks"]["Math"])
+
+**Output:**
+
+Updated Math Marks: 92
+
+---
+
+### **Step 4: Adding a New Subject**
+
+# Adding a new subject
+report_card["marks"]["History"] = 88
+print("Updated Marks:", report_card["marks"])
+
+**Output:**
+
+Updated Marks: {'Math': 92, 'Science': 90, 'English': 78, 'History': 88}
+
+---
+
+### **Step 5: Removing a Subject**
+
+# Removing a subject
+del report_card["marks"]["English"]
+print("After Removing English Marks:", report_card["marks"])
+
+**Output:**
+
+After Removing English Marks: {'Math': 92, 'Science': 90, 'History': 88}
+
+---
+
+### **Step 6: Iterating through the Dictionary**
+
+# Printing all subjects and marks
+for subject, mark in report_card["marks"].items():
+    print(f"Subject: {subject}, Marks: {mark}")
+
+**Output:**
+
+Subject: Math, Marks: 92
+Subject: Science, Marks: 90
+Subject: History, Marks: 88
+
+---
+
+### **Step 7: Calculating the Average Marks**
+
+# Finding the average of marks
+total_marks = sum(report_card["marks"].values())
+num_subjects = len(report_card["marks"])
+average = total_marks / num_subjects
+print("Average Marks:", round(average, 2))
+
+**Output:**
+
+Average Marks: 90.0
+
+---
+
+### **Why Use Dictionaries?**
+- **Structured Data:** Perfect for organizing related information.
+- **Fast Access:** Access values quickly using keys.
+- **Dynamic:** Easily add, update, or remove key-value pairs.
+
+---
+
+### **Common Dictionary Methods:**
+1. **get()**: Safely access values without errors.
+
+   print(report_card.get("name", "Not found"))
+
+2. **keys()**: Get all keys.
+
+   print(report_card.keys())
+
+3. **values()**: Get all values.
+
+   print(report_card.values())
+
+4. **items()**: Get all key-value pairs.
+
+   print(report_card.items())
+
+5. **pop()**: Remove a key-value pair.
+
+   report_card.pop("roll_no")
+
+6. **clear()**: Remove all items.
+
+   report_card.clear()
+
+---
+
+### **Student Practice:**
+1. Create a dictionary to store employee details (name, age, department). Update the department and print the updated dictionary.
+2. Write a program to store contact names and phone numbers in a dictionary. Allow the user to add, remove, and search contacts.
+3. Create a dictionary to store product prices in a store and calculate the total price of selected items.

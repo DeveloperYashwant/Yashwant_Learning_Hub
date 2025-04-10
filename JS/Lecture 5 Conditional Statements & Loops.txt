@@ -1,0 +1,210 @@
+# **JavaScript – Lecture 5: Conditional Statements & Loops **  
+
+In this lecture, we will cover:  
+1. **Conditional Statements (if, if-else, else-if, switch case)**  
+2. **Loops (for, while, do-while)**  
+3. **Real-World Applications of Loops**  
+
+---
+
+## **1. Conditional Statements**  
+Conditional statements allow us to make decisions based on conditions.  
+
+### **(A) if Statement**  
+Executes a block of code if a condition is true.  
+
+
+let age = 18;  
+if (age >= 18) {  
+    console.log("You are eligible to vote.");  
+}
+
+### **Real-World Example: Checking if a user is old enough to drive**  
+let age = 17;  
+if (age >= 18) {  
+    console.log("You can apply for a driving license.");  
+}
+
+---
+
+### **(B) if-else Statement**  
+Executes one block if true, another if false.  
+
+let marks = 40;  
+if (marks >= 35) {  
+    console.log("Pass");  
+} else {  
+    console.log("Fail");  
+}
+
+### **Real-World Example: Checking Free Delivery Eligibility**  
+
+let orderAmount = 450;  
+if (orderAmount >= 500) {  
+    console.log("Free delivery available!");  
+} else {  
+    console.log("Delivery charges apply.");  
+}
+
+---
+
+### **(C) if-else-if Ladder**  
+Checks multiple conditions in sequence.  
+
+let percentage = 75;  
+if (percentage >= 80) {  
+    console.log("Grade: A");  
+} else if (percentage >= 60) {  
+    console.log("Grade: B");  
+} else if (percentage >= 40) {  
+    console.log("Grade: C");  
+} else {  
+    console.log("Fail");  
+}
+
+### **Real-World Example: E-commerce Discount System**  
+
+let purchaseAmount = 900;  
+if (purchaseAmount >= 1000) {  
+    console.log("You get a 20% discount!");  
+} else if (purchaseAmount >= 500) {  
+    console.log("You get a 10% discount!");  
+} else {  
+    console.log("No discount available.");  
+}
+
+---
+
+### **(D) Switch Case**  
+Used when there are multiple possible values for a variable.  
+
+
+let day = "Monday";  
+switch (day) {  
+    case "Monday":  
+        console.log("Start of the work week!");  
+        break;  
+    case "Friday":  
+        console.log("Weekend is coming!");  
+        break;  
+    case "Sunday":  
+        console.log("Relax, it's Sunday!");  
+        break;  
+    default:  
+        console.log("Just another day!");  
+}
+
+### **Real-World Example: ATM Machine Menu**  
+
+let option = 2;  
+switch (option) {  
+    case 1:  
+        console.log("Withdraw Cash");  
+        break;  
+    case 2:  
+        console.log("Check Balance");  
+        break;  
+    case 3:  
+        console.log("Deposit Cash");  
+        break;  
+    default:  
+        console.log("Invalid Option");  
+}
+
+---
+
+## **2. Loops in JavaScript**  
+Loops are used to execute a block of code multiple times.
+
+---
+
+### **(A) for Loop**  
+Repeats a block of code a specific number of times.  
+
+
+for (let i = 1; i <= 5; i++) {  
+    console.log("Hello! This is message " + i);  
+}
+
+### **Real-World Example: Printing a Table (Multiplication Table of 5)**  
+
+for (let i = 1; i <= 10; i++) {  
+    console.log(`5 x ${i} = ${5 * i}`);  
+}
+
+
+---
+
+### **(B) while Loop**  
+Repeats a block of code as long as a condition is true.  
+
+let count = 1;  
+while (count <= 5) {  
+    console.log("Count: " + count);  
+    count++;  
+}
+
+### **Real-World Example: Checking Account Balance Until It Becomes Zero**  
+
+let balance = 1000;  
+while (balance > 0) {  
+    console.log("Your balance is: ₹" + balance);  
+    balance -= 200; // Deducting ₹200 in each iteration  
+}
+console.log("Your account balance is zero.");
+
+---
+
+### **(C) do-while Loop**  
+Similar to `while`, but guarantees one execution.  
+
+
+let num = 1;  
+do {  
+    console.log("Number: " + num);  
+    num++;  
+} while (num <= 5);
+
+
+### **Real-World Example: ATM Withdrawal Until Balance Is Low**  
+
+let accountBalance = 5000;  
+do {  
+    console.log("Withdrawing ₹1000, Remaining Balance: ₹" + accountBalance);  
+    accountBalance -= 1000;  
+} while (accountBalance >= 1000);
+console.log("Minimum balance reached!");
+
+---
+
+## **3. Real-World Applications of Loops**  
+
+### **1. Generating a Shopping List**  
+
+let items = ["Milk", "Eggs", "Bread", "Butter"];  
+for (let i = 0; i < items.length; i++) {  
+    console.log("Buy: " + items[i]);  
+}
+
+
+### **2. Ticket Booking Counter**  
+
+let tickets = 5;  
+while (tickets > 0) {  
+    console.log("Ticket booked! Remaining tickets: " + tickets);  
+    tickets--;  
+}
+console.log("All tickets sold out!");
+
+---
+
+## **Summary**  
+| Concept | Description |
+|---------|------------|
+| **if Statement** | Executes a block if condition is true |
+| **if-else Statement** | Executes one block if true, another if false |
+| **else-if Ladder** | Checks multiple conditions |
+| **switch Case** | Checks a variable against multiple values |
+| **for Loop** | Runs a block for a specific number of times |
+| **while Loop** | Runs a block while a condition is true |
+| **do-while Loop** | Runs at least once before checking condition |

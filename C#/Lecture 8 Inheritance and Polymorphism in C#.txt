@@ -1,0 +1,214 @@
+### **Lecture 8: Inheritance and Polymorphism in C# **
+
+---
+
+#### **1. Introduction to Inheritance**
+- **Definition:** Inheritance allows one class (derived class) to inherit fields and methods from another class (base class).
+- **Real-World Analogy:** 
+  - **Example:** Think of a **Vehicle** as a base class. A **Car** and a **Bike** are derived classes. Both share common properties like speed and fuel type, but they also have unique features.
+  
+---
+
+#### **2. Base and Derived Classes**
+
+- **Syntax:**
+
+  class Vehicle  // Base Class
+  {
+      public string brand = "Ford";  
+      public void honk()
+      {
+          Console.WriteLine("Honk! Honk!");
+      }
+  }
+
+  class Car : Vehicle  // Derived Class
+  {
+      public string modelName = "Mustang";
+  }
+
+- **Example:**
+
+  Car myCar = new Car();
+  Console.WriteLine(myCar.brand);  // Inherited field
+  myCar.honk();  // Inherited method
+  Console.WriteLine(myCar.modelName);  // Derived class field
+
+- **Output:**
+ 
+ Ford
+  Honk! Honk!
+  Mustang
+ 
+---
+
+#### **3. Real-World Example of Inheritance**
+- **Scenario:** 
+  - **Base Class:** Employee (common attributes: Name, Age, Salary).
+  - **Derived Classes:** 
+    - **Developer:** Additional attribute: ProgrammingLanguage.
+    - **Manager:** Additional attribute: TeamSize.
+  
+ 
+  class Employee
+  {
+      public string Name;
+      public int Age;
+      public double Salary;
+
+      public void DisplayDetails()
+      {
+          Console.WriteLine($"Name: {Name}, Age: {Age}, Salary: {Salary}");
+      }
+  }
+
+  class Developer : Employee
+  {
+      public string ProgrammingLanguage;
+  }
+
+  class Manager : Employee
+  {
+      public int TeamSize;
+  }
+
+- **Usage:**
+
+  Developer dev = new Developer() { Name = "rakesh", Age = 30, Salary = 70000, ProgrammingLanguage = "C#" };
+  Manager mgr = new Manager() { Name = "Mahesh", Age = 40, Salary = 90000, TeamSize = 10 };
+
+  dev.DisplayDetails();
+  Console.WriteLine($"Language: {dev.ProgrammingLanguage}");
+  mgr.DisplayDetails();
+  Console.WriteLine($"Team Size: {mgr.TeamSize}");
+
+---
+
+#### **4. Polymorphism with Real-World Example**
+
+- **Definition:** Polymorphism allows methods to behave differently based on the object that calls them.
+- **Scenario:** 
+  - **Base Class:** Animal
+  - **Derived Classes:** Dog, Cat
+  - **Method:** Speak()
+  - **Behavior:** Different animals make different sounds.
+
+  class Animal
+  {
+      public virtual void Speak()
+      {
+          Console.WriteLine("Some sound");
+      }
+  }
+
+  class Dog : Animal
+  {
+      public override void Speak()
+      {
+          Console.WriteLine("Bark");
+      }
+  }
+
+  class Cat : Animal
+  {
+      public override void Speak()
+      {
+          Console.WriteLine("Meow");
+      }
+  }
+
+- **Usage:**
+
+  Animal myDog = new Dog();
+  Animal myCat = new Cat();
+
+  myDog.Speak();  // Output: Bark
+  myCat.Speak();  // Output: Meow
+
+---
+
+#### **5. Abstract Classes with Real-World Example**
+
+- **Scenario:** 
+  - **Abstract Class:** Shape
+  - **Derived Classes:** Circle, Rectangle
+  - **Method:** CalculateArea()
+
+  abstract class Shape
+  {
+      public abstract void CalculateArea();
+  }
+
+  class Circle : Shape
+  {
+      public double Radius;
+      public override void CalculateArea()
+      {
+          Console.WriteLine("Area of Circle: " + (3.14 * Radius * Radius));
+      }
+  }
+
+  class Rectangle : Shape
+  {
+      public double Length;
+      public double Width;
+      public override void CalculateArea()
+      {
+          Console.WriteLine("Area of Rectangle: " + (Length * Width));
+      }
+  }
+
+- **Usage:**
+
+  Shape circle = new Circle() { Radius = 5 };
+  Shape rectangle = new Rectangle() { Length = 4, Width = 6 };
+
+  circle.CalculateArea();     // Output: Area of Circle: 78.5
+  rectangle.CalculateArea();  // Output: Area of Rectangle: 24
+
+---
+
+#### **6. Interfaces with Real-World Example**
+
+- **Scenario:** 
+  - **Interface:** IVehicle
+  - **Classes:** Car, Bike
+  - **Method:** Start()
+
+interface IVehicle
+  {
+      void Start();
+
+  }
+
+  class Car : IVehicle
+  {
+      public void Start()
+      {
+          Console.WriteLine("Car engine started");
+      }
+  }
+
+  class Bike : IVehicle
+  {
+      public void Start()
+      {
+          Console.WriteLine("Bike engine started");
+      }
+  }
+  
+- **Usage:**
+  
+  IVehicle myCar = new Car();
+  IVehicle myBike = new Bike();
+
+  myCar.Start();  // Output: Car engine started
+  myBike.Start();  // Output: Bike engine started
+  
+---
+
+#### **7. Summary and Best Practices**
+- Inheritance promotes code reuse and method overriding.
+- Use polymorphism to handle different object types through a single interface.
+- Prefer composition over inheritance when classes are not logically related.
+- Use abstract classes for common base behavior and interfaces for m

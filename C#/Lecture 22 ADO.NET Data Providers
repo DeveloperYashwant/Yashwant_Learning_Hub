@@ -1,0 +1,91 @@
+
+## **Lecture 22: ADO.NET Data Providers**
+
+---
+
+### **What is a Data Provider in ADO.NET?**
+
+A **Data Provider** is a set of classes that allows a .NET application to **interact with a specific type of database**.
+
+Think of it as a **bridge between the app and the database**, providing all necessary tools to **connect, retrieve, insert, update, and delete** data.
+
+---
+
+### **Common ADO.NET Data Providers**
+
+| Provider | Description | Namespace |
+|----------|-------------|-----------|
+| **SQL Server** | For Microsoft SQL Server | `System.Data.SqlClient` |
+| **OLE DB** | For Access, Excel, or other OLE DB sources | `System.Data.OleDb` |
+| **ODBC** | For databases using ODBC (like MySQL, DB2) | `System.Data.Odbc` |
+| **Oracle** | For Oracle databases | `System.Data.OracleClient` *(deprecated, use Oracle.ManagedDataAccess)* |
+| **MySQL** | Third-party provider for MySQL | `MySql.Data.MySqlClient` |
+
+---
+
+### **Main Classes in Each Provider**
+
+| Purpose | Class Example |
+|--------|----------------|
+| Connection | `SqlConnection`, `OleDbConnection` |
+| Command | `SqlCommand`, `OleDbCommand` |
+| Data Reader | `SqlDataReader`, `OleDbDataReader` |
+| Data Adapter | `SqlDataAdapter`, `OleDbDataAdapter` |
+
+---
+
+###  **Example: SQL Server Data Provider**
+
+csharp
+using System;
+using System.Data.SqlClient;
+
+class Program
+{
+    static void Main()
+    {
+        string conStr = "Data Source=.;Initial Catalog=StudentDB;Integrated Security=True";
+        SqlConnection con = new SqlConnection(conStr);
+        SqlCommand cmd = new SqlCommand("SELECT * FROM Students", con);
+
+        con.Open();
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        while (reader.Read())
+        {
+            Console.WriteLine(reader["Name"]);
+        }
+
+        reader.Close();
+        con.Close();
+    }
+}
+
+
+---
+
+###  **Choosing the Right Provider**
+
+| Database | Provider |
+|----------|----------|
+| SQL Server | `SqlClient` (fastest and most efficient for SQL Server) |
+| MS Access / Excel | `OleDbClient` |
+| MySQL | `MySqlClient` (requires NuGet package) |
+| Any ODBC-compatible DB | `OdbcClient` |
+
+---
+
+###  Tips
+
+- Always match your provider to the database you're using.
+- For SQL Server, use `SqlClient` for best performance.
+- Use `using` blocks to handle connection closing automatically.
+
+---
+
+### Summary
+
+- Data Providers are the backbone of ADO.NET.
+- They include connection, command, adapter, and reader classes.
+- Different providers are available for different databases.
+- They help your app connect and interact with DBs efficiently.

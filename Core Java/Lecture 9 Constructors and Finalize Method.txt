@@ -1,0 +1,315 @@
+### **Lecture 9: Constructors and Finalize Method in Java**  
+
+#### **1. Constructors:**  
+A constructor is a special method in Java used to initialize objects. It has the same name as the class and does not have a return type.  
+
+**Types of Constructors:**  
+1. **Default Constructor**: No parameters.  
+2. **Parameterized Constructor**: Accepts arguments.  
+3. **Copy Constructor**: Copies data from one object to another.  
+
+---
+
+**Syntax of a Constructor:**  
+
+class ClassName {
+    ClassName() {
+        // Constructor code
+    }
+}
+
+---
+
+**Example of Constructors:**  
+
+class Student {
+    String name;
+    int age;
+
+    // Default Constructor
+    Student() {
+        name = "Unknown";
+        age = 0;
+        System.out.println("Default Constructor Called");
+    }
+
+    // Parameterized Constructor
+    Student(String n, int a) {
+        name = n;
+        age = a;
+        System.out.println("Parameterized Constructor Called");
+    }
+
+    void display() {
+        System.out.println("Name: " + name + ", Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        Student s1 = new Student();  // Default Constructor
+        s1.display();
+
+        Student s2 = new Student("Kamlesh", 20);  // Parameterized Constructor
+        s2.display();
+    }
+}
+
+**Output:**  
+
+Default Constructor Called  
+Name: Unknown, Age: 0  
+Parameterized Constructor Called  
+Name: Kamlesh, Age: 20  
+
+---
+
+#### **2. Finalize Method:**  
+The `finalize()` method in Java is used to perform cleanup before an object is garbage collected. It is called by the Garbage Collector when the object becomes unreachable.  
+
+**Syntax of Finalize Method:**  
+
+protected void finalize() throws Throwable {
+    // Cleanup code
+}
+
+---
+
+**Example of Finalize Method:**  
+
+class Demo {
+    // Finalize method
+    protected void finalize() {
+        System.out.println("Finalize method called");
+    }
+
+    public static void main(String[] args) {
+        Demo obj1 = new Demo();
+        Demo obj2 = new Demo();
+
+        obj1 = null;  // Making obj1 eligible for garbage collection
+        obj2 = null;  // Making obj2 eligible for garbage collection
+
+        // Requesting JVM to call Garbage Collector
+        System.gc();
+        System.out.println("Main method ends");
+    }
+}
+
+**Output:**  
+
+Main method ends  
+Finalize method called  
+Finalize method called  
+
+---
+
+### **Real-World Example: Bank Account Creation**  
+
+When a user opens a new bank account, the system needs to create an account object (constructor) and clean up the old account data when the account is closed (finalize).  
+
+**Constructor:** Initializes the account with details like name and balance.  
+**Finalize:** Cleans up resources when the account object is no longer needed.  
+
+---
+
+### **Interview Tips:**  
+1. **When to Use Constructors:**  
+   - To initialize instance variables.  
+   - To perform setup operations when an object is created.  
+
+2. **When to Use Finalize:**  
+   - Rarely used.  
+   - Only when you need to release resources before the object is destroyed.  
+
+3. **Important Points:**  
+   - A constructor cannot be abstract, final, static, or synchronized.  
+   - You cannot rely on `finalize()` for cleaning up resources as it’s not guaranteed to be called.  
+================
+
+
+### **Online Shopping System (Constructors and Finalize)**  
+
+Imagine you are developing an **Online Shopping System**.  
+- When a **customer places an order**, the system creates an **Order object**.  
+- Once the **order is processed and delivered**, the system **cleans up resources** related to that order.  
+
+---
+
+#### **1. Constructors: Initializing Order Details**  
+- When a customer places an order, the system initializes the order details like order ID, product name, and quantity.  
+
+#### **2. Finalize: Cleaning Up After Order Completion**  
+- Once the order is delivered and the object is no longer needed, the system releases the resources used to track the order.  
+
+---
+
+### **Java Code Example:**  
+
+class Order {
+    int orderId;
+    String productName;
+    int quantity;
+
+    // Constructor to initialize order details
+    Order(int id, String name, int qty) {
+        orderId = id;
+        productName = name;
+        quantity = qty;
+        System.out.println("Order Created: " + orderId + " - " + productName + " x" + quantity);
+    }
+
+    // Method to display order details
+    void displayOrder() {
+        System.out.println("Order ID: " + orderId);
+        System.out.println("Product: " + productName);
+        System.out.println("Quantity: " + quantity);
+    }
+
+    // Finalize method to clean up order data
+    @Override
+    protected void finalize() {
+        System.out.println("Cleaning up Order ID: " + orderId);
+    }
+
+    public static void main(String[] args) {
+        // Creating an order using the constructor
+        Order order1 = new Order(101, "Smartphone", 2);
+        order1.displayOrder();
+
+        // Making the order eligible for garbage collection
+        order1 = null;
+
+        // Requesting garbage collection
+        System.gc();
+
+        System.out.println("End of Online Shopping System");
+    }
+}
+
+---
+
+### **Output:**  
+
+Order Created: 101 - Smartphone x2  
+Order ID: 101  
+Product: Smartphone  
+Quantity: 2  
+End of Online Shopping System  
+Cleaning up Order ID: 101  
+
+---
+
+### **Explanation:**  
+1. **Constructor Usage:**  
+   - Initializes the order details when a new order is created.  
+   - Takes `orderId`, `productName`, and `quantity` as parameters.  
+
+2. **Using Finalize:**  
+   - Automatically called when the object is ready for garbage collection.  
+   - Releases order-related resources and prints a message.  
+
+3. **Garbage Collection Trigger:**  
+   - Setting `order1 = null` makes it eligible for garbage collection.  
+   - Calling `System.gc()` suggests to the JVM to perform garbage collection.  
+
+---
+
+### **Why This Example Is Realistic:**  
+- In an online shopping system, when an order is placed, it needs to be **created with specific details (constructor)**.  
+- Once the order is delivered or completed, the system can **clear the data to free up memory (finalize)**.  
+================
+
+### **GC (Garbage Collection) in Java**
+
+Garbage Collection (GC) is the process of **automatically freeing memory** by removing objects that are no longer in use. The **JVM (Java Virtual Machine)** takes care of this process, so developers don’t need to manually manage memory.  
+
+---
+
+#### **Why Do We Need Garbage Collection?**  
+- Java programs create many objects that occupy memory.  
+- Some objects become **unreachable** when they are no longer needed.  
+- Without garbage collection, memory leaks can occur, leading to **OutOfMemoryError**.  
+
+---
+
+### **How Does GC Work?**  
+1. **Identification of Unreachable Objects:**  
+   - An object becomes unreachable if there are no more references pointing to it.  
+
+2. **Garbage Collection Process:**  
+   - The GC finds such objects and **deallocates memory** occupied by them.  
+   - The space is then made available for new objects.  
+
+3. **Automatic Process:**  
+   - Garbage collection runs **automatically** in Java.  
+   - You can **request** GC to run using `System.gc()`, but it’s not guaranteed to execute immediately.  
+
+---
+
+### **Example:**  
+
+public class GarbageCollectionDemo {
+    public static void main(String[] args) {
+        // Creating a new object
+        GarbageCollectionDemo obj1 = new GarbageCollectionDemo();
+
+        // Making the object eligible for garbage collection
+        obj1 = null;
+
+        // Suggesting JVM to run Garbage Collector
+        System.gc();
+
+        System.out.println("End of the main method");
+    }
+
+    // Override finalize method to see when GC collects the object
+    @Override
+    protected void finalize() {
+        System.out.println("Garbage Collector called and object cleaned");
+    }
+}
+
+
+---
+
+### **Output:**  
+
+End of the main method  
+Garbage Collector called and object cleaned  
+
+---
+
+### **Key Points:**  
+1. **`System.gc();`**  
+   - This method **suggests** the JVM to start garbage collection.  
+   - It does not guarantee that GC will run immediately.  
+
+2. **`Runtime.getRuntime().gc();`**  
+   - An alternative way to request garbage collection.  
+   
+3. **`finalize()` Method:**  
+   - Called by GC before collecting the object.  
+   - Used to **perform cleanup operations** (like closing resources).  
+   - Not reliable for critical cleanup since it may not always be called.  
+
+---
+
+### **When Does GC Occur?**  
+- When the **heap memory is full**.  
+- When you **explicitly request** using `System.gc()`.  
+- At **JVM’s discretion** based on memory management policies.  
+
+---
+
+### **Types of Garbage Collectors in Java:**  
+1. **Serial GC:** Suitable for single-threaded environments.  
+2. **Parallel GC:** Uses multiple threads for faster performance.  
+3. **CMS (Concurrent Mark Sweep) GC:** Reduces pause times during GC.  
+4. **G1 GC (Garbage-First):** Aims for low pause times and is suitable for large heap sizes.  
+
+---
+
+### **Real-World Analogy:**  
+Think of GC as a **cleaning robot** in your house:  
+- The robot automatically starts cleaning when it detects a mess (heap is full).  
+- You can **ask the robot to clean** (`System.gc()`), but it may or may not listen immediately.  
+- Once it finishes cleaning, it **disposes of the trash (deletes unreachable objects)**.  

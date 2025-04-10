@@ -1,0 +1,311 @@
+
+
+# **Lecture 5: Loops in C# **  
+
+---
+
+## **1. Introduction to Loops in C#**  
+Loops are used to execute a block of code **multiple times**.  
+
+🔹 **Real-World Example:**  
+- Counting **from 1 to 10**.  
+- A **watch ticking every second**.  
+- Sending a **birthday message to all contacts** in a list.
+
+### **Types of Loops in C#**
+| **Loop Type** | **Use Case** |
+|-------------|--------------------------|
+| `for` loop  | When the number of iterations is **known** |
+| `while` loop | When the number of iterations is **unknown** |
+| `do-while` loop | Similar to `while`, but **executes at least once** |
+| `foreach` loop | Used for **collections (arrays, lists, etc.)** |
+
+---
+
+## **2. For Loop (Definite Loop)**
+🔹 **Real-World Example: Printing Numbers from 1 to 10**  
+
+using System;
+
+class Program {
+    static void Main() {
+        for (int i = 1; i <= 10; i++) {
+            Console.WriteLine(i);
+        }
+    }
+}
+
+---
+
+### **3. While Loop (Indefinite Loop)**
+🔹 **Real-World Example: Taking User Input Until They Enter ‘exit’**  
+
+using System;
+
+class Program {
+    static void Main() {
+        string input;
+        
+        while (true) {
+            Console.Write("Enter a word (type 'exit' to stop): ");
+            input = Console.ReadLine();
+
+            if (input == "exit") {
+                break; // Stop loop
+            }
+
+            Console.WriteLine("You entered: " + input);
+        }
+    }
+}
+
+---
+
+### **4. Do-While Loop (Runs At Least Once)**
+🔹 **Real-World Example: ATM Pin Verification (Runs at least once)**  
+
+using System;
+
+class Program {
+    static void Main() {
+        int pin;
+
+        do {
+            Console.Write("Enter ATM Pin: ");
+            pin = Convert.ToInt32(Console.ReadLine());
+        } while (pin != 1234);
+
+        Console.WriteLine("Access Granted!");
+    }
+}
+
+---
+
+### **5. Nested Loop (Loop Inside Another Loop)**
+🔹 **Real-World Example: Multiplication Table Generator**  
+
+using System;
+
+class Program {
+    static void Main() {
+        for (int i = 1; i <= 5; i++) {  
+            for (int j = 1; j <= 10; j++) {  
+                Console.WriteLine(i + " x " + j + " = " + (i * j));
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+---
+
+### **6. Foreach Loop (Looping Through Collections)**
+🔹 **Real-World Example: Displaying Student Names**  
+
+using System;
+
+class Program {
+    static void Main() {
+        string[] students = { "Dipesh", "Sai", "Ganesh", "Omkar" };
+
+        foreach (string student in students) {
+            Console.WriteLine("Student: " + student);
+        }
+    }
+}
+
+(Used when **looping through an array or list**)
+
+---
+
+# **7. Special Problems **  
+
+### **7.1 Factorial of a Number**  
+Factorial (n!) is the **product of all numbers from 1 to n**.  
+
+ **Example:**  
+- `5! = 5 × 4 × 3 × 2 × 1 = 120`  
+
+#### **C# Program**
+
+using System;
+
+class Program {
+    static void Main() {
+        int num, fact = 1;
+        Console.Write("Enter a number: ");
+        num = Convert.ToInt32(Console.ReadLine());
+
+        for (int i = 1; i <= num; i++) {
+            fact *= i;
+        }
+
+        Console.WriteLine("Factorial of " + num + " is: " + fact);
+    }
+}
+
+---
+
+### **7.2 Fibonacci Series**  
+The Fibonacci series starts with **0, 1**, and each number is the sum of the **previous two numbers**.  
+
+🔹 **Example:**  
+`0, 1, 1, 2, 3, 5, 8, 13...`  
+
+
+using System;
+
+class Program {
+    static void Main() {
+        int n1 = 0, n2 = 1, n3, count;
+        
+        Console.Write("Enter the number of terms: ");
+        count = Convert.ToInt32(Console.ReadLine());
+
+        Console.Write(n1 + " " + n2 + " "); 
+
+        for (int i = 2; i < count; i++) {
+            n3 = n1 + n2;
+            Console.Write(n3 + " ");
+            n1 = n2;
+            n2 = n3;
+        }
+    }
+}
+
+---
+
+### **7.3 Reverse a Number**  
+
+
+using System;
+
+class Program {
+    static void Main() {
+        int num, reverse = 0, remainder;
+
+        Console.Write("Enter a number: ");
+        num = Convert.ToInt32(Console.ReadLine());
+
+        while (num > 0) {
+            remainder = num % 10;
+            reverse = reverse * 10 + remainder;
+            num /= 10;
+        }
+
+        Console.WriteLine("Reversed Number: " + reverse);
+    }
+}
+
+---
+
+## **8. Summary**
+✅ **For Loop** → Use when **count is known**  
+✅ **While Loop** → Use when **count is unknown**  
+✅ **Do-While Loop** → Runs **at least once**  
+✅ **Nested Loop** → Used for **tables, patterns, etc.**  
+✅ **Foreach Loop** → Used for **arrays and lists**  
+✅ **Deep Examples:** **Factorial, Fibonacci, Reverse Number**
+
+
+
+### **Next Lecture 6:** Patterns in C# (Triangle, Pyramid, Diamond Patterns Using Loops)  
+
+### **1. Factorial of a Number (Without Convert.ToInt32)**
+
+using System;
+
+class Program {
+    static void Main() {
+        Console.Write("Enter a number: ");
+        int num = int.Parse(Console.ReadLine()); // Using int.Parse()
+        int fact = 1;
+
+        for (int i = 1; i <= num; i++) {
+            fact *= i;
+        }
+
+        Console.WriteLine("Factorial of " + num + " is: " + fact);
+    }
+}
+
+**Replaces `Convert.ToInt32()` with `int.Parse()`**  
+
+---
+
+### **2. Fibonacci Series (Without Convert.ToInt32)**
+
+using System;
+
+class Program {
+    static void Main() {
+        Console.Write("Enter the number of terms: ");
+        int count = int.Parse(Console.ReadLine());
+
+        int n1 = 0, n2 = 1, n3;
+        Console.Write(n1 + " " + n2 + " ");
+
+        for (int i = 2; i < count; i++) {
+            n3 = n1 + n2;
+            Console.Write(n3 + " ");
+            n1 = n2;
+            n2 = n3;
+        }
+    }
+}
+
+Uses `int.Parse()` instead of `Convert.ToInt32()`  
+
+---
+
+### **3. Reverse a Number (Without Convert.ToInt32)**
+
+using System;
+
+class Program {
+    static void Main() {
+        Console.Write("Enter a number: ");
+        int num = int.Parse(Console.ReadLine());
+        int reverse = 0, remainder;
+
+        while (num > 0) {
+            remainder = num % 10;
+            reverse = reverse * 10 + remainder;
+            num /= 10;
+        }
+
+        Console.WriteLine("Reversed Number: " + reverse);
+    }
+}
+
+Uses `int.Parse()` instead of `Convert.ToInt32()`  
+
+---
+
+### **Alternative: Using `int.TryParse()` for Error Handling**
+If you want to **avoid errors** when a user enters a non-numeric value, use `int.TryParse()` instead of `int.Parse()`.  
+
+
+using System;
+
+class Program {
+    static void Main() {
+        Console.Write("Enter a number: ");
+        string input = Console.ReadLine();
+        int num;
+
+        if (int.TryParse(input, out num)) {
+            Console.WriteLine("Valid number entered: " + num);
+        } else {
+            Console.WriteLine("Invalid input! Please enter a number.");
+        }
+    }
+}
+
+---
+
+### **Which One to Use?**
+| Method | Use Case |
+|--------|----------|
+| `int.Parse()` |  When input is guaranteed to be a number |
+| `int.TryParse()` | When input might App

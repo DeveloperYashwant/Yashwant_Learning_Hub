@@ -1,0 +1,508 @@
+Lecture 6 Function
+
+### **What is a Function in Python?**
+
+A **function** in Python is a block of reusable code that performs a specific task. It helps break the program into smaller and manageable parts, making the code more organized and efficient.
+
+---
+
+### **Why Use Functions?**
+1. **Code Reusability:** Write once, use multiple times.
+2. **Modularity:** Break large programs into smaller parts.
+3. **Maintainability:** Easier to update or fix.
+4. **Avoid Redundancy:** Reduces code repetition.
+5. **Clarity:** Makes the program more understandable.
+
+---
+
+### **Syntax of a Function:**
+
+def function_name(parameters):
+    # Block of code
+    return value
+
+
+**Explanation:**
+1. **def:** Keyword to define a function.
+2. **function_name:** A unique name to identify the function.
+3. **parameters:** Optional values passed to the function.
+4. **return:** (Optional) Sends back a result to the caller.
+
+---
+
+### **Example 1: Simple Greeting Function**
+
+def greet(name):
+    print(f"Hello, {name}! Welcome to the Python class.")
+
+greet("Yashwant")
+
+**Output:**
+
+Hello, Yashwant! Welcome to the Python class.
+
+---
+
+### **Example 2: Function with Return Value**
+
+def add_numbers(a, b):
+    result = a + b
+    return result
+
+sum = add_numbers(5, 3)
+print("Sum:", sum)
+
+**Output:**
+
+Sum: 8
+
+---
+
+### **Types of Functions:**
+
+1. **Built-in Functions:** Predefined functions in Python (like `print()`, `len()`).
+2. **User-defined Functions:** Functions created by the programmer.
+3. **Lambda Functions:** Anonymous functions for small tasks.
+4. **Recursive Functions:** Functions that call themselves.
+
+---
+
+### **Example 3: Using Functions in Real Life**
+Imagine a **billing system** in a store:
+- A function to calculate the total bill.
+- A function to apply a discount.
+- A function to print the final receipt.
+
+
+def calculate_total(price, quantity):
+    return price * quantity
+
+def apply_discount(total, discount):
+    return total - (total * discount / 100)
+
+price = float(input("Enter price: "))
+quantity = int(input("Enter quantity: "))
+discount = float(input("Enter discount (%): "))
+
+total = calculate_total(price, quantity)
+final_amount = apply_discount(total, discount)
+
+print(f"Final amount after discount: ${final_amount:.2f}")
+
+---
+
+### **Advantages of Functions:**
+1. **Simplicity:** Code is easier to read and understand.
+2. **Debugging:** Errors can be isolated within a function.
+3. **Code Reuse:** Functions can be used multiple times.
+
+---
+
+### **Student Task: Practice Problem**
+Write a function called `calculate_area()` that takes the length and width of a rectangle as arguments and returns the area. 
+
+===================
+### Problem Statement:
+Create a program for a **Café Billing System** that calculates the bill based on ordered items and their quantities.
+
+---
+
+### Step 1: Define the Menu
+
+def display_menu():
+    print("----- Café Menu -----")
+    print("1. Coffee - $5")
+    print("2. Tea - $3")
+    print("3. Sandwich - $7")
+    print("4. Cake - $4")
+    print("---------------------")
+
+### Step 2: Calculate the Total Bill
+
+def calculate_bill(order):
+    prices = {"Coffee": 5, "Tea": 3, "Sandwich": 7, "Cake": 4}
+    total = 0
+    for item, quantity in order.items():
+        total += prices[item] * quantity
+    return total
+
+### Step 3: Take the Order
+
+def take_order():
+    order = {}
+    while True:
+        item = input("Enter item name (or 'done' to finish): ").title()
+        if item == 'Done':
+            break
+        if item in ["Coffee", "Tea", "Sandwich", "Cake"]:
+            quantity = int(input(f"Enter quantity of {item}: "))
+            order[item] = order.get(item, 0) + quantity
+        else:
+            print("Invalid item. Please choose from the menu.")
+    return order
+
+### Step 4: Main Function to Run the Program
+
+def main():
+    display_menu()
+    order = take_order()
+    total = calculate_bill(order)
+    print(f"Your total bill is: ${total}")
+
+if __name__ == "__main__":
+    main()
+
+---
+
+### Output Example:
+
+----- Café Menu -----
+1. Coffee - $5
+2. Tea - $3
+3. Sandwich - $7
+4. Cake - $4
+---------------------
+Enter item name (or 'done' to finish): Coffee
+Enter quantity of Coffee: 2
+Enter item name (or 'done' to finish): Cake
+Enter quantity of Cake: 1
+Enter item name (or 'done' to finish): done
+Your total bill is: $14
+
+---
+
+### Explanation:
+1. **display_menu()**: Shows the café menu.
+2. **calculate_bill(order)**: Calculates the total bill by multiplying item prices with quantities.
+3. **take_order()**: Takes the user input for items and quantities.
+4. **main()**: Orchestrates the process by calling the above functions.
+===============
+
+### **Problem: Calculate the Area of a Rectangle**
+
+**Task:** Create a function to calculate the area of a rectangle given its length and width.
+
+---
+
+### **Step 1: Define the Function**
+
+def calculate_area(length, width):
+    area = length * width
+    return area
+
+**Explanation:**
+1. `def` - Defines the function.
+2. `calculate_area` - Name of the function.
+3. `length, width` - Parameters to accept inputs.
+4. `area` - Calculates the rectangle's area.
+5. `return` - Sends the calculated area back.
+
+---
+
+### **Step 2: Use the Function**
+
+# Get user input
+length = float(input("Enter the length of the rectangle: "))
+width = float(input("Enter the width of the rectangle: "))
+
+# Call the function and print the result
+area = calculate_area(length, width)
+print(f"The area of the rectangle is: {area} square units")
+
+---
+
+### **Example Output:**
+
+Enter the length of the rectangle: 5
+Enter the width of the rectangle: 3
+The area of the rectangle is: 15 square units
+
+
+---
+
+### **Why Use a Function Here?**
+- You can reuse the `calculate_area()` function for different rectangles without rewriting the logic.
+- Makes the code cleaner and more organized.
+
+===============
+
+### **1. Built-in Functions:**
+These functions are pre-defined in Python, like `print()`, `len()`, `sum()`, etc.
+
+**Example:**
+
+numbers = [10, 20, 30]
+print("Length of list:", len(numbers))  # Output: 3
+print("Sum of list:", sum(numbers))     # Output: 60
+
+---
+
+### **2. User-defined Functions:**
+Functions created by users to perform specific tasks.
+
+**Syntax:**
+
+def function_name(parameters):
+    # Code block
+    return value
+
+**Example:**
+
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("Yashwant"))  # Output: Hello, Yashwant!
+
+---
+
+### **3. Anonymous Functions (Lambda Functions):**
+Short functions without a name, created using the `lambda` keyword.
+
+**Syntax:**
+
+lambda arguments: expression
+
+**Example:**
+
+square = lambda x: x * x
+print("Square of 5:", square(5))  # Output: 25
+
+---
+
+### **4. Recursive Functions:**
+Functions that call themselves to solve a problem.
+
+**Example: Factorial Calculation**
+
+def factorial(n):
+    if n == 1:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+print("Factorial of 5:", factorial(5))  # Output: 120
+
+---
+
+### **5. Higher-Order Functions:**
+Functions that take other functions as arguments or return them.
+
+**Example:**
+
+def add(x):
+    return x + 1
+
+def operate(func, number):
+    return func(number)
+
+print(operate(add, 10))  # Output: 11
+
+---
+
+### **6. Nested Functions:**
+Functions defined inside other functions.
+
+**Example:**
+
+def outer():
+    def inner():
+        return "Hello from inner!"
+    return inner()
+
+print(outer())  # Output: Hello from inner!
+
+---
+
+### **7. Generator Functions:**
+Functions that yield values one at a time using the `yield` keyword.
+
+**Example:**
+
+def countdown(n):
+    while n > 0:
+        yield n
+        n -= 1
+
+for num in countdown(5):
+    print(num)
+
+**Output:**
+
+5
+4
+3
+2
+1
+
+---
+
+### **Key Takeaways:**
+1. **Built-in Functions:** Ready to use, like `print()` and `len()`.
+2. **User-defined Functions:** Custom functions made by the user.
+3. **Lambda Functions:** One-liner anonymous functions.
+4. **Recursive Functions:** Call themselves to solve problems.
+5. **Higher-Order Functions:** Take functions as arguments or return them.
+6. **Nested Functions:** Functions within functions.
+7. **Generator Functions:** Yield one value at a time for efficiency.
+
+---
+
+### **Student Task: Practice Problem**
+Write a lambda function to calculate the cube of a number.  
+**Hint:** Use `lambda x: x**3`
+
+=====================
+
+### ** Function Arguments **
+
+Functions can accept input values known as **arguments** or **parameters**. Understanding function arguments helps in making functions more dynamic and reusable.
+
+---
+
+### **Types of Function Arguments:**
+
+1. **Positional Arguments**
+2. **Keyword Arguments**
+3. **Default Arguments**
+4. **Variable-Length Arguments (`*args`, `**kwargs`)**
+
+---
+
+### **1. Positional Arguments:**
+Arguments passed to a function in the correct positional order.
+
+**Example:**
+
+def student_info(name, age):
+    print(f"Name: {name}, Age: {age}")
+
+student_info("Yashwant", 26)
+
+**Output:**
+
+Name: Yashwant, Age: 26
+
+
+>  *Note:* The order of arguments matters.
+
+---
+
+### **2. Keyword Arguments:**
+Arguments passed as key-value pairs, making the order irrelevant.
+
+**Example:**
+
+def student_info(name, age):
+    print(f"Name: {name}, Age: {age}")
+
+student_info(age=26, name="Yashwant")
+
+**Output:**
+
+Name: Yashwant, Age: 26
+
+
+>  *Note:* Keyword arguments make the code more readable.
+
+---
+
+### **3. Default Arguments:**
+Provides a default value if no argument is passed.
+
+**Example:**
+
+def greet(name="Student"):
+    print(f"Hello, {name}!")
+
+greet("Yashwant")
+greet()
+
+**Output:**
+
+Hello, Yashwant!
+Hello, Teacher!
+
+
+>  *Note:* Default arguments are specified at function definition.
+
+---
+
+### **4. Variable-Length Arguments (`*args`):**
+Used when the number of arguments is unknown. Uses an asterisk `*` before the parameter name.
+
+**Example:**
+
+def add_numbers(*args):
+    total = sum(args)
+    print(f"Sum: {total}")
+
+add_numbers(10, 20, 30)
+add_numbers(5, 15)
+
+**Output:**
+
+Sum: 60
+Sum: 20
+
+
+> *Note:* `*args` collects all positional arguments into a tuple.
+
+---
+
+### **5. Keyword Variable-Length Arguments (`**kwargs`):**
+Used when the number of keyword arguments is unknown. Uses double asterisks `**`.
+
+**Example:**
+
+def print_details(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_details(name="Yashwant", age=26, course="Python")
+
+**Output:**
+
+name: Yashwant
+age: 26
+course: Python
+
+>  *Note:* `**kwargs` collects all keyword arguments into a dictionary.
+
+---
+
+### **Combining Different Types of Arguments:**
+The order of arguments should be:
+1. Positional
+2. *args
+3. Default
+4. **kwargs
+
+**Example:**
+def mixed_arguments(a, *args, b=10, **kwargs):
+    print(f"Positional: {a}")
+    print(f"Variable-length (*args): {args}")
+    print(f"Default: {b}")
+    print(f"Keyword variable-length (**kwargs): {kwargs}")
+
+mixed_arguments(5, 1, 2, 3, b=20, name="Yashwant", age=26)
+
+**Output:**
+
+Positional: 5
+Variable-length (*args): (1, 2, 3)
+Default: 20
+Keyword variable-length (**kwargs): {'name': 'Yashwant', 'age': 26}
+
+---
+
+### **Key Takeaways:**
+1. **Positional Arguments:** Ordered arguments.
+2. **Keyword Arguments:** Use key-value pairs.
+3. **Default Arguments:** Predefined values.
+4. **Variable-Length Arguments (*args):** Flexible positional arguments.
+5. **Keyword Variable-Length Arguments (**kwargs):** Flexible keyword arguments.
+
+---
+
+### **Student Task: Practice Problem**
+Write a function called `student_profile()` that takes a name, age, and a variable number of subjects as arguments. Print the profile in a formatted way.

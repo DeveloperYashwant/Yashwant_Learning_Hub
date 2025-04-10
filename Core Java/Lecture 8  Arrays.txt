@@ -1,0 +1,367 @@
+### **Java Lecture 8: Arrays**
+
+
+#### **1. Introduction to Arrays:**  
+An **array** is a data structure that stores a fixed-size collection of elements of the same data type.  
+- Arrays are used to store multiple values in a single variable.  
+- In Java, arrays are objects that can store **primitive data types** or **objects**.  
+
+---
+
+### **2. Why Use Arrays?**  
+- To store multiple values of the same type.  
+- Efficient way to manage large amounts of data.  
+- Access elements using **indexing**.  
+- Useful for storing lists, matrices, and more.  
+
+---
+
+### **3. Declaring and Initializing Arrays:**  
+
+#### **Syntax:**  
+
+dataType[] arrayName;          // Declaration
+arrayName = new dataType[size]; // Allocation
+
+or  
+
+dataType[] arrayName = new dataType[size]; // Declaration and allocation
+
+#### **Example:**  
+
+int[] numbers = new int[5];    // Array of 5 integers
+numbers[0] = 10;               // Initializing first element
+numbers[1] = 20;
+
+#### **Shortcut Initialization:**  
+
+int[] numbers = {10, 20, 30, 40, 50}; // Direct initialization
+
+---
+
+### **4. Accessing Array Elements:**  
+Array elements are accessed using the **index**.  
+- Indexing starts from **0**.  
+- Access using: `arrayName[index]`  
+
+#### **Example:**  
+
+System.out.println(numbers[0]); // Outputs 10
+
+---
+
+### **5. Real-World Example: Storing Student Marks**  
+
+class StudentMarks {
+    public static void main(String[] args) {
+        int[] marks = {85, 90, 78, 92, 88};  // Marks of 5 students
+
+        System.out.println("Marks of students:");
+        for (int i = 0; i < marks.length; i++) {
+            System.out.println("Student " + (i + 1) + ": " + marks[i]);
+        }
+    }
+}
+
+**Output:**  
+
+Marks of students:  
+Student 1: 85  
+Student 2: 90  
+Student 3: 78  
+Student 4: 92  
+Student 5: 88  
+
+**Explanation:**  
+- An integer array stores the marks of 5 students.  
+- A loop iterates over the array to print each mark.  
+
+---
+
+### **6. Types of Arrays:**  
+1. **Single-Dimensional Array:** One row of elements.  
+2. **Multi-Dimensional Array:** Multiple rows and columns (like a matrix).  
+
+---
+
+#### **Single-Dimensional Array Example:**  
+
+class OneDArray {
+    public static void main(String[] args) {
+        String[] fruits = {"Apple", "Banana", "Cherry"};
+        for (String fruit : fruits) {
+            System.out.println(fruit);
+        }
+    }
+}
+
+**Output:**  
+
+Apple  
+Banana  
+Cherry  
+
+---
+
+#### **Multi-Dimensional Array Example:**  
+
+class MultiDArray {
+    public static void main(String[] args) {
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        
+        System.out.println("2D Array Elements:");
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+**Output:**  
+
+2D Array Elements:  
+1 2 3  
+4 5 6  
+7 8 9  
+
+---
+
+### **7. Real-World Example: Student Attendance Tracker**  
+
+class Attendance {
+    public static void main(String[] args) {
+        String[][] attendance = {
+            {"Pratik", "Present"},
+            {"Divakar", "Absent"},
+            {"Manish", "Present"}
+        };
+
+        System.out.println("Attendance Record:");
+        for (int i = 0; i < attendance.length; i++) {
+            System.out.println(attendance[i][0] + ": " + attendance[i][1]);
+        }
+    }
+}
+
+**Output:**  
+
+Attendance Record:  
+Pratik: Present  
+Divakar: Absent  
+Manish: Present  
+
+**Explanation:**  
+- A 2D array stores students' names and their attendance status.  
+- Loops print the name and status.  
+
+---
+
+### **8. Array Length:**  
+The `length` property gives the size of the array.  
+
+int[] numbers = {1, 2, 3, 4, 5};
+System.out.println("Array length: " + numbers.length);  // Output: 5
+
+---
+
+### **9. Common Mistakes with Arrays:**  
+1. **ArrayIndexOutOfBoundsException:**  
+   - Occurs when accessing an index beyond the array size.  
+
+   int[] arr = {1, 2, 3};
+   System.out.println(arr[3]);  // Error
+
+2. **NullPointerException:**  
+   - Occurs when an array is declared but not initialized.  
+
+   int[] arr;
+   System.out.println(arr.length);  // Error
+
+---
+
+### **10. Real-World Scenario: Average Marks Calculator**  
+
+class AverageCalculator {
+    public static void main(String[] args) {
+        int[] scores = {70, 80, 90, 85, 95};
+        int sum = 0;
+
+        for (int score : scores) {
+            sum += score;
+        }
+
+        double average = (double) sum / scores.length;
+        System.out.println("Average Score: " + average);
+    }
+}
+
+**Output:**  
+
+Average Score: 84.0  
+
+**Explanation:**  
+- Calculates the average of scores using an array and a loop.  
+- Uses **enhanced for loop** for simplicity.  
+
+---
+
+### **11. Key Takeaways:**  
+- Arrays are useful when managing a large number of similar items.  
+- Always initialize arrays before accessing them.  
+- Use loops to iterate over arrays efficiently.  
+- Arrays are fixed in size; once defined, the size cannot be changed.  
+=========
+
+
+### **Real-World Example for Interview: Employee Salary Management**  
+
+Imagine you are working as a developer in a company, and your task is to store and calculate the salaries of multiple employees efficiently. You decide to use an array to manage the data.  
+
+---
+
+#### **Problem Statement:**  
+Create a Java program to:  
+1. Store the salaries of 5 employees.  
+2. Calculate the average salary.  
+3. Display all salaries along with the average.  
+
+---
+
+#### **Code Example:**  
+
+import java.util.Scanner;
+
+class EmployeeSalary {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double[] salaries = new double[5];  // Array to store salaries
+        double sum = 0;
+
+        // Input employee salaries
+        System.out.println("Enter salaries of 5 employees:");
+        for (int i = 0; i < salaries.length; i++) {
+            System.out.print("Employee " + (i + 1) + " salary: ");
+            salaries[i] = sc.nextDouble();
+            sum += salaries[i];  // Add salary to sum
+        }
+
+        // Calculate average salary
+        double average = sum / salaries.length;
+
+        // Display salaries and average
+        System.out.println("\nEmployee Salaries:");
+        for (int i = 0; i < salaries.length; i++) {
+            System.out.println("Employee " + (i + 1) + ": $" + salaries[i]);
+        }
+        System.out.println("\nAverage Salary: $" + average);
+
+
+    }
+}
+
+---
+
+#### **Sample Output:**  
+
+Enter salaries of 5 employees:  
+Employee 1 salary: 50000  
+Employee 2 salary: 60000  
+Employee 3 salary: 55000  
+Employee 4 salary: 65000  
+Employee 5 salary: 48000  
+
+Employee Salaries:  
+Employee 1: $50000.0  
+Employee 2: $60000.0  
+Employee 3: $55000.0  
+Employee 4: $65000.0  
+Employee 5: $48000.0  
+
+Average Salary: $55600.0  
+
+
+---
+
+### **Explanation:**  
+1. **Input Salaries:**  
+   - Uses a `Scanner` to take salary inputs from the user.  
+   - Stores each salary in the `salaries` array.  
+2. **Sum Calculation:**  
+   - Uses a loop to calculate the sum of salaries.  
+3. **Average Calculation:**  
+   - Divides the total sum by the number of employees.  
+4. **Displaying Results:**  
+   - Prints each employee's salary and the calculated average.  
+
+---
+
+### **Interview Tip:**  
+This example is useful for demonstrating your understanding of:  
+- Array initialization and iteration.  
+- Using loops for data aggregation.  
+- Calculating averages.  
+- User input handling with `Scanner`.  
+- Printing formatted output.  
+
+============
+
+###**Student Grade Management **
+
+#### **Code Example:**  
+
+import java.util.Scanner;
+
+class StudentGrades {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[] marks = new int[5];  // Array to store student marks
+        int sum = 0;
+        int highest = Integer.MIN_VALUE;
+        int lowest = Integer.MAX_VALUE;
+
+        // Input marks for 5 students
+        System.out.println("Enter marks of 5 students:");
+        for (int i = 0; i < marks.length; i++) {
+            System.out.print("Student " + (i + 1) + " marks: ");
+            marks[i] = sc.nextInt();
+            sum += marks[i];
+
+            // Finding highest and lowest marks
+            if (marks[i] > highest) highest = marks[i];
+            if (marks[i] < lowest) lowest = marks[i];
+        }
+
+        // Calculating average
+        double average = (double) sum / marks.length;
+
+        // Displaying results
+        System.out.println("\nStudent Marks:");
+        for (int i = 0; i < marks.length; i++) {
+            System.out.println("Student " + (i + 1) + ": " + marks[i]);
+        }
+
+        System.out.println("\nHighest Marks: " + highest);
+        System.out.println("Lowest Marks: " + lowest);
+        System.out.println("Average Marks: " + average);
+		 sc.close();
+    }
+}
+
+---
+
+### **Why No `sc.close()`?**  
+1. **Potential Issues:**  
+   - Closing the `Scanner` object created with `System.in` can lead to problems if you need to read input again later in the program.  
+   - It can throw an `IllegalStateException` if you try to use the closed scanner.  
+
+2. **Alternative Approach:**  
+   - In many simple applications, especially when the program terminates right after input, it’s okay to skip closing the scanner.  
+   - The `System.in` stream will be closed automatically when the program ends.  
+
+---

@@ -1,0 +1,144 @@
+
+## **Lecture 25: DataTable in ADO.NET**
+
+---
+
+### **Introduction**
+
+- The `DataTable` is an in-memory **single table** of data used in **disconnected architecture** of ADO.NET.
+- It’s part of the `System.Data` namespace.
+- You can create it manually or fill it using a `DataAdapter`.
+
+---
+
+###**Features of DataTable**
+
+| Feature                 | Description                             |
+|-------------------------|-----------------------------------------|
+| In-Memory Table         | Works without keeping DB connection open |
+| Disconnected            | Useful for offline manipulation         |
+| Data Manipulation       | Add, Update, Delete rows easily         |
+| Filtering/Sorting       | Using `Select()` or `DefaultView`       |
+| Used with UI Components | Perfect for DataGridView, Reports etc.  |
+
+---
+
+### **Example 1: Create and Use DataTable Without Database**
+
+csharp
+using System;
+using System.Data;
+
+class Example
+{
+    static void Main()
+    {
+        DataTable table = new DataTable("Employees");
+
+        // Add columns
+        table.Columns.Add("ID", typeof(int));
+        table.Columns.Add("Name", typeof(string));
+        table.Columns.Add("Department", typeof(string));
+
+        // Add rows
+        table.Rows.Add(1, "Amit", "IT");
+        table.Rows.Add(2, "Neha", "HR");
+
+        // Display rows
+        foreach (DataRow row in table.Rows)
+        {
+            Console.WriteLine($"{row["ID"]} - {row["Name"]} - {row["Department"]}");
+        }
+    }
+}
+
+
+---
+
+###  **Example 2: Fill DataTable Using SqlDataAdapter (with Database)**
+
+csharp
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+class Example
+{
+    static void Main()
+    {
+        string conStr = "Data Source=.;Initial Catalog=StudentDB;Integrated Security=True";
+        SqlConnection con = new SqlConnection(conStr);
+        SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Students", con);
+
+        DataTable dt = new DataTable();
+        adapter.Fill(dt);
+
+        foreach (DataRow row in dt.Rows)
+        {
+            Console.WriteLine($"{row["Id"]} - {row["Name"]} - {row["Course"]}");
+        }
+    }
+}
+
+
+---
+
+###  **DataTable Properties**
+
+| Property       | Description                        |
+|----------------|------------------------------------|
+| `Rows`         | Access all rows (`DataRowCollection`) |
+| `Columns`      | Access columns (`DataColumnCollection`) |
+| `TableName`    | Name of the table in memory         |
+| `DefaultView`  | Filter or sort view of the table    |
+
+---
+
+### **Operations on DataTable**
+
+#### Add a New Row
+csharp
+DataRow newRow = table.NewRow();
+newRow["ID"] = 3;
+newRow["Name"] = "Ravi";
+newRow["Department"] = "Finance";
+table.Rows.Add(newRow);
+
+
+#### Update a Row
+csharp
+table.Rows[0]["Name"] = "Updated Name";
+
+
+#### Delete a Row
+csharp
+table.Rows[1].Delete();
+
+#### Filter Rows
+csharp
+
+DataRow[] results = table.Select("Department = 'IT'");
+foreach (DataRow row in results)
+{
+    Console.WriteLine(row["Name"]);
+}
+
+
+---
+
+### **Real-World Use Cases**
+
+- Binding to a **DataGridView** in Windows Forms
+- Preparing **offline data reports**
+- Doing **data manipulation** before saving back to DB
+
+---
+
+### **Summary**
+
+| Property       | Description                      |
+|----------------|----------------------------------|
+| Disconnected   | Does not require live DB connection |
+| Easy Editing   | Add/Update/Delete in memory      |
+| Filtering      | `Select()` or `DefaultView.RowFilter` |
+| UI Binding     | Perfect for `DataGridView`, `GridView` |

@@ -1,0 +1,148 @@
+### **Lecture 14: Exception Handling in C#**
+
+---
+
+#### **1. Introduction to Exception Handling:**
+- **Definition:** An exception is an unexpected error that occurs during program execution, disrupting the normal flow.
+- **Objective:** Handle exceptions gracefully to maintain application stability.
+
+---
+
+#### **2. Why Use Exception Handling?**
+- Prevents abrupt termination of programs.
+- Provides a way to handle runtime errors.
+- Improves user experience by displaying meaningful error messages.
+
+---
+
+#### **3. Real-World Analogy:**
+- Imagine a website form where a user enters text instead of a number in an age field. Exception handling helps display a message like "Invalid input" rather than crashing the page.
+
+---
+
+#### **4. Syntax of Exception Handling:**
+
+try
+{
+    // Code that may throw an exception
+}
+catch (ExceptionType ex)
+{
+    // Code to handle the exception
+}
+finally
+{
+    // Code that executes regardless of an exception
+}
+
+---
+
+#### **5. Example: Division by Zero**
+
+try
+{
+    int a = 10;
+    int b = 0;
+    int result = a / b;
+    Console.WriteLine(result);
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine("Error: " + ex.Message);
+}
+finally
+{
+    Console.WriteLine("Operation completed.");
+}
+
+**Output:**
+
+Error: Attempted to divide by zero.
+Operation completed.
+
+---
+
+#### **6. Types of Exceptions:**
+1. **SystemException:** Base class for runtime errors.
+   - Example: `DivideByZeroException`, `NullReferenceException`.
+2. **ApplicationException:** Used for user-defined exceptions.
+
+---
+
+#### **7. Multiple Catch Blocks:**
+
+try
+{
+    int[] arr = new int[3];
+    Console.WriteLine(arr[5]);
+}
+catch (IndexOutOfRangeException ex)
+{
+    Console.WriteLine("Index out of range.");
+}
+catch (Exception ex)
+{
+    Console.WriteLine("General exception: " + ex.Message);
+}
+
+---
+
+#### **8. Finally Block:**
+- Executes whether an exception occurs or not.
+- Ideal for closing resources (e.g., files, database connections).
+
+**Example:**
+
+try
+{
+    Console.WriteLine("Inside try block");
+}
+finally
+{
+    Console.WriteLine("Finally block always executes.");
+}
+
+---
+
+#### **9. Throwing Exceptions:**
+- You can explicitly throw exceptions using the `throw` keyword.
+
+throw new InvalidOperationException("Custom error message");
+
+---
+
+#### **10. Custom Exceptions:**
+
+class InvalidAgeException : Exception
+{
+    public InvalidAgeException(string message) : base(message) { }
+}
+
+try
+{
+    int age = -5;
+    if (age < 0)
+        throw new InvalidAgeException("Age cannot be negative.");
+}
+catch (InvalidAgeException ex)
+{
+    Console.WriteLine(ex.Message);
+}
+
+---
+
+#### **11. Best Practices:**
+- Always catch the most specific exception first.
+- Avoid empty catch blocks.
+- Use `finally` to release resources.
+- Create custom exceptions only when necessary.
+
+---
+
+#### **12. Practical Exercise:**
+1. Create a program that takes two numbers as input and divides them.
+2. Handle exceptions for divide by zero and invalid input.
+3. Display a message indicating the result or error.
+
+---
+

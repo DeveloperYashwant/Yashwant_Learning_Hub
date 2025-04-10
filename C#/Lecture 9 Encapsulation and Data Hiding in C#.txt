@@ -1,0 +1,215 @@
+### **Lecture 9: Encapsulation and Data Hiding in C#**
+
+---
+
+#### **1. Introduction to Encapsulation**
+- **Definition:** Encapsulation is the concept of wrapping data (variables) and methods (functions) into a single unit (class).
+- **Objective:** To protect data from unintended access and modification.
+- **Real-World Analogy:**
+  - Think of a **capsule**: It contains medicine inside a protective shell. Similarly, in OOP, encapsulation hides the data and exposes only necessary parts.
+
+---
+
+#### **2. Why Use Encapsulation?**
+- Data protection from accidental modification.
+- Code maintainability and modularity.
+- Increases security by restricting access to internal data.
+
+---
+
+#### **3. Implementing Encapsulation in C#**
+- Use **private** access modifiers to restrict data access.
+- Provide **public methods** (getters and setters) to access and update private fields.
+- **Properties** are the preferred way to implement encapsulation in C#.
+
+##### **Syntax:**
+
+class Person
+{
+    private string name;  // Private field
+
+    // Property to get and set the name
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+}
+
+---
+
+#### **4. Real-World Example: Encapsulation**
+
+- **Scenario: Bank Account**
+  - A **BankAccount** class should not allow direct access to balance.
+  - Use methods to **deposit** and **withdraw** funds.
+
+
+class BankAccount
+{
+    private double balance;
+
+    public double Balance
+    {
+        get { return balance; }
+    }
+
+    public void Deposit(double amount)
+    {
+        if (amount > 0)
+        {
+            balance += amount;
+            Console.WriteLine($"Deposited: {amount}, New Balance: {balance}");
+        }
+        else
+        {
+            Console.WriteLine("Deposit amount must be positive.");
+        }
+    }
+
+    public void Withdraw(double amount)
+    {
+        if (amount > 0 && amount <= balance)
+        {
+            balance -= amount;
+            Console.WriteLine($"Withdrawn: {amount}, Remaining Balance: {balance}");
+        }
+        else
+        {
+            Console.WriteLine("Invalid withdrawal amount.");
+        }
+    }
+}
+
+**Usage:**
+
+BankAccount account = new BankAccount();
+account.Deposit(500);     // Deposited: 500, New Balance: 500
+account.Withdraw(100);    // Withdrawn: 100, Remaining Balance: 400
+Console.WriteLine(account.Balance);  // 400
+
+---
+
+#### **5. Access Modifiers in C#**
+
+| Modifier    | Access Level                                      |
+|------------|---------------------------------------------------|
+| public      | Accessible from any other class.                  |
+| private     | Accessible only within the same class.            |
+| protected   | Accessible within the same class or derived classes. |
+| internal    | Accessible within the same assembly.              |
+| protected internal | Accessible within the same assembly or derived classes. |
+
+---
+
+#### **6. Getters and Setters (Properties)**
+- Properties are a more **elegant** way to access private fields.
+- The **get** accessor returns the property value.
+- The **set** accessor assigns a new value.
+
+**Example:**
+
+class Student
+{
+    private int age;
+
+    public int Age
+    {
+        get { return age; }
+        set
+        {
+            if (value >= 0)
+                age = value;
+            else
+                Console.WriteLine("Age cannot be negative.");
+        }
+    }
+}
+
+**Usage:**
+
+Student student = new Student();
+student.Age = 20;
+Console.WriteLine(student.Age);  // Output: 20
+student.Age = -5;  // Output: Age cannot be negative.
+
+---
+
+#### **7. Auto-Implemented Properties**
+- Simplified way to create properties without using a private field explicitly.
+
+class Product
+{
+    public string Name { get; set; }
+    public double Price { get; set; }
+}
+
+**Usage:**
+
+Product p = new Product { Name = "Laptop", Price = 800.50 };
+Console.WriteLine($"{p.Name} costs {p.Price}");
+
+---
+
+#### **8. Read-Only Properties**
+- Prevent modification after initialization.
+
+class Book
+{
+    public string Title { get; }
+    public Book(string title)
+    {
+        Title = title;
+    }
+}
+
+**Usage:**
+
+Book myBook = new Book("C# Basics");
+Console.WriteLine(myBook.Title);  // Output: C# Basics
+
+---
+
+#### **9. Practical Example: Employee Encapsulation**
+
+class Employee
+{
+    private int id;
+    private string name;
+
+    public int ID
+    {
+        get { return id; }
+        set
+        {
+            if (value > 0) id = value;
+            else Console.WriteLine("Invalid ID");
+        }
+    }
+
+    public string Name
+    {
+        get { return name; }
+        set
+        {
+            if (!string.IsNullOrEmpty(value)) name = value;
+            else Console.WriteLine("Name cannot be empty");
+        }
+    }
+}
+
+**Usage:**
+
+Employee emp = new Employee();
+emp.ID = 101;
+emp.Name = "John";
+Console.WriteLine($"ID: {emp.ID}, Name: {emp.Name}");
+
+
+---
+
+#### **10. Summary and Best Practices**
+- Use encapsulation to **protect data** from unintended modification.
+- Implement **properties** for controlled data access.
+- Always validate data within **setters**.
+- Use **private fields** and **public properties** for better encapsulation.

@@ -1,0 +1,146 @@
+### **Lecture 2: Java - Setting Up the Environment and Writing Your First Program**  
+
+---
+
+#### **1. Setting Up the Java Development Environment:**  
+
+##### **1.1. Downloading and Installing JDK:**  
+- Go to the official Oracle website or adoptopenjdk.net to download the latest version.  
+- Choose the appropriate version for your operating system (Windows, Mac, Linux).  
+- Install the JDK by following the instructions.  
+
+##### **1.2. Setting Up the Environment Variable (Windows):**  
+- Right-click on **This PC** or **My Computer** -> **Properties** -> **Advanced system settings**.  
+- Go to **Environment Variables** -> **System Variables** -> **New**.  
+- Variable name: `JAVA_HOME`  
+- Variable value: Path to the JDK folder (e.g., `C:\Program Files\Java\jdk-17`).  
+- Update the `Path` variable: Append `;%JAVA_HOME%\bin` at the end.  
+- Verify the installation by running the following commands in the command prompt:  
+
+  java -version
+  javac -version
+
+---
+
+#### **2. Choosing an IDE for Java Development:**  
+- Popular IDEs for Java:  
+  - **Eclipse:** Suitable for beginners, with many plugins.  
+  - **IntelliJ IDEA:** Powerful and user-friendly for professional development.  
+  - **NetBeans:** Great for Java and web applications.  
+- **Setting up a project:**  
+  - Open your chosen IDE.  
+  - Create a new Java project.  
+  - Choose a project name and set the JDK path.  
+
+---
+
+#### **3. Writing Your First Java Program:**  
+
+##### **3.1. Program Structure:**  
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+
+##### **3.2. Explanation:**  
+- **Class Declaration:**  
+  - `public class HelloWorld`: Defines a class named `HelloWorld`.  
+- **Main Method:**  
+  - `public static void main(String[] args)`: Entry point of the program.  
+  - `public`: Accessible from anywhere.  
+  - `static`: No need to create an instance of the class.  
+  - `void`: Does not return any value.  
+  - `String[] args`: Command-line arguments.  
+- **Printing to Console:**  
+  - `System.out.println("Hello, World!");`: Prints text and moves to the next line.  
+
+---
+
+#### **4. Compiling and Running Your Java Program:**  
+
+##### **4.1. Compiling using Command Prompt:**  
+1. Open Command Prompt.  
+2. Navigate to the directory where the file is saved.  
+3. Compile the program:  
+
+   javac HelloWorld.java
+
+4. Run the program:  
+
+   java HelloWorld
+
+5. Output:  
+
+   Hello, World!
+
+##### **4.2. Compiling using IDE:**  
+- Right-click on the file -> **Run** or **Run As -> Java Application**.  
+- The output appears in the console window of the IDE.  
+
+---
+
+#### **5. Java Program Structure and Rules:**  
+1. **File Name:** The file name should match the public class name (e.g., `HelloWorld.java`).  
+2. **Class Declaration:** Only one public class per file.  
+3. **Main Method:** Every standalone application must contain a `main()` method.  
+4. **Case Sensitivity:** Java is case-sensitive (e.g., `Main` and `main` are different).  
+5. **Comments:**  
+   - Single-line: `// This is a comment.`  
+   - Multi-line:  
+
+     /* This is a
+        multi-line comment. */
+
+   - Documentation:  
+
+     /** This is a documentation comment */
+
+---
+
+#### **6. Common Errors and Troubleshooting:**  
+- **Syntax Errors:**  
+  - Missing semicolon (`;`).  
+  - Mismatched curly braces (`{}`).  
+- **Compilation Errors:**  
+  - "Class not found": Check file name and class name.  
+  - "Main method not found": Ensure the correct method signature.  
+- **Runtime Errors:**  
+  - `NullPointerException`: Attempt to use an object that hasn’t been initialized.  
+- **Logical Errors:**  
+  - Incorrect logic or formula leading to unexpected results.  
+
+---
+
+#### **7. Modifying Your First Program:**  
+##### **Example:** Printing Multiple Lines  
+
+public class MultiLine {
+    public static void main(String[] args) {
+        System.out.println("Welcome to Java!");
+        System.out.println("Learning Java is fun!");
+        System.out.println("Let's start coding!");
+    }
+}
+
+**Output:**  
+
+Welcome to Java!  
+Learning Java is fun!  
+Let's start coding!  
+
+---
+
+#### **8. Practice Tasks:**  
+1. Write a program to print your name and favorite hobby.  
+2. Modify the "Hello, World!" program to print a motivational quote.  
+3. Create a program that prints the current year.  
+
+---
+
+#### **9. Recap:**  
+- Set up your development environment with JDK and an IDE.  
+- Understand the basic structure of a Java program.  
+- Write, compile, and run a simple program.  
+- Learn to troubleshoot basic syntax and compilation errors.  

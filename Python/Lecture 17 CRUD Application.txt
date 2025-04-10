@@ -1,0 +1,135 @@
+Lecture 17 CRUD Application
+
+##  What is a CRUD Application?
+
+**CRUD** stands for:
+
+- **C** → Create  
+- **R** → Read  
+- **U** → Update  
+- **D** → Delete  
+
+These are the **4 basic operations** you can perform on any data — like student records, books in a library, or items in a shopping cart.
+
+---
+
+## Real-World Example: **Student Record System**
+
+Imagine you’re a **college admin** managing student data. You have a form or app where you:
+
+1. **Add new students**  
+2. **View the list of students**  
+3. **Update a student’s details**  
+4. **Delete a student** who left the college
+
+That’s a **CRUD Application** in action! Let’s see how it works step-by-step.
+
+---
+
+##  Python + MySQL CRUD Example: Student Records
+
+
+### 1. **CREATE** – Add New Student
+
+You want to **add a student** named "Amit", age 21.
+
+sql = "INSERT INTO students (name, age) VALUES (%s, %s)"
+val = ("Amit", 21)
+mycursor.execute(sql, val)
+mydb.commit()
+
+Real-life: Filling a registration form for a new student and saving it.
+
+---
+
+### 2. **READ** – View Students
+
+You want to **see all student records**.
+
+mycursor.execute("SELECT * FROM students")
+records = mycursor.fetchall()
+
+for row in records:
+    print(row)
+
+Real-life: Viewing a list of enrolled students from a file or database.
+
+---
+
+### 3. **UPDATE** – Change Student Info
+
+You need to **change Amit’s age** from 21 to 22.
+
+sql = "UPDATE students SET age = %s WHERE name = %s"
+val = (22, "Amit")
+mycursor.execute(sql, val)
+mydb.commit()
+
+Real-life: Updating a student’s details when they provide new info.
+
+---
+
+###  4. **DELETE** – Remove a Student
+
+Amit has left the college, so you want to **delete his record**.
+
+
+sql = "DELETE FROM students WHERE name = %s"
+val = ("Amit",)
+mycursor.execute(sql, val)
+mydb.commit()
+
+ Real-life: Removing a student's file from the cabinet when they graduate or drop out.
+
+---
+
+## Full CRUD Example in Python (All Together)
+
+import mysql.connector
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="password",
+    database="school"
+)
+mycursor = mydb.cursor()
+
+# CREATE
+mycursor.execute("CREATE TABLE IF NOT EXISTS students (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), age INT)")
+
+# INSERT (CREATE)
+sql = "INSERT INTO students (name, age) VALUES (%s, %s)"
+val = ("Amit", 21)
+mycursor.execute(sql, val)
+mydb.commit()
+
+# READ
+mycursor.execute("SELECT * FROM students")
+for student in mycursor.fetchall():
+    print(student)
+
+# UPDATE
+sql = "UPDATE students SET age = %s WHERE name = %s"
+val = (22, "Amit")
+mycursor.execute(sql, val)
+mydb.commit()
+
+# DELETE
+sql = "DELETE FROM students WHERE name = %s"
+val = ("Amit",)
+mycursor.execute(sql, val)
+mydb.commit()
+
+mydb.close()
+
+---
+
+##Summary Table
+
+| Operation | SQL Command     | Real World Example                        |
+|----------|------------------|--------------------------------------------|
+| Create   | INSERT           | Add a new student                         |
+| Read     | SELECT           | View all students                         |
+| Update   | UPDATE           | Change student age                        |
+| Delete   | DELETE           | Remove student from record                |

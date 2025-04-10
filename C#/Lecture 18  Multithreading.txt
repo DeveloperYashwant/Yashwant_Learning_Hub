@@ -1,0 +1,149 @@
+
+## **Lecture 18: Multithreading in C#**
+
+### **What is Multithreading?**
+
+**Multithreading** is the ability of a CPU (or a single process) to manage multiple **threads** of execution **concurrently**.
+
+In **C#**, multithreading allows you to perform multiple operations at the same time, improving **performance** and **responsiveness**, especially in applications like:
+- Games
+- UI apps (so they don’t freeze)
+- Servers handling multiple clients
+
+---
+
+###**What is a Thread?**
+
+A **thread** is a small unit of a process. Each thread runs independently and can execute code **simultaneously** with others.
+
+---
+
+###**Namespace Required**
+
+csharp
+using System.Threading;
+
+
+---
+
+###  **Creating a Thread in C#**
+
+csharp
+Thread t = new Thread(MyMethod);
+t.Start();
+
+---
+
+### **Simple Example**
+
+csharp
+using System;
+using System.Threading;
+
+class Program
+{
+    static void PrintNumbers()
+    {
+        for (int i = 1; i <= 5; i++)
+        {
+            Console.WriteLine("Number: " + i);
+            Thread.Sleep(500); // Pause for 500 ms
+        }
+    }
+
+    static void Main()
+    {
+        Thread thread = new Thread(PrintNumbers);
+        thread.Start();
+
+        for (int i = 1; i <= 5; i++)
+        {
+            Console.WriteLine("Main Thread: " + i);
+            Thread.Sleep(400); // Main thread running independently
+        }
+    }
+}
+
+
+---
+
+###**Output (Interleaved Output Example):**
+
+Main Thread: 1
+Number: 1
+Main Thread: 2
+Number: 2
+...
+
+
+---
+
+### **Important Thread Methods**
+
+| Method | Description |
+|--------|-------------|
+| `Start()` | Starts thread execution |
+| `Sleep(ms)` | Pauses thread for given milliseconds |
+| `Abort()` | Terminates thread (not recommended anymore) |
+| `Join()` | Waits for thread to finish |
+| `IsAlive` | Checks if thread is still running |
+
+---
+
+### **Multithreading Example with Multiple Threads**
+
+csharp
+class MultiThreadExample
+{
+    static void Task1()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Console.WriteLine("Task 1");
+            Thread.Sleep(300);
+        }
+    }
+
+    static void Task2()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Console.WriteLine("Task 2");
+            Thread.Sleep(300);
+        }
+    }
+
+    static void Main()
+    {
+        Thread t1 = new Thread(Task1);
+        Thread t2 = new Thread(Task2);
+
+        t1.Start();
+        t2.Start();
+    }
+}
+
+
+---
+
+### **Why Use Threads Carefully?**
+
+- **Race Conditions** – when multiple threads access the same data.
+- **Deadlocks** – when threads wait on each other forever.
+- **Difficult to debug** – thread issues are often hard to reproduce.
+
+---
+
+### **Thread Safety Tip**
+
+To make code thread-safe, use **locking**:
+
+csharp
+lock (someObject)
+{
+    // critical section
+}
+
+
+---
+

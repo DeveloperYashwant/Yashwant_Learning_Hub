@@ -1,0 +1,98 @@
+### **Lecture 13: Local Storage and Session Storage in JavaScript**  
+
+#### **Topics Covered:**  
+1. **Introduction to Web Storage**  
+   - What is Web Storage?  
+   - Difference between Cookies, Local Storage, and Session Storage  
+   - Benefits of Local Storage and Session Storage over Cookies  
+
+2. **Local Storage in JavaScript**  
+   - Storing Data (`localStorage.setItem()`)  
+   - Retrieving Data (`localStorage.getItem()`)  
+   - Removing Data (`localStorage.removeItem()`)  
+   - Clearing All Data (`localStorage.clear()`)  
+
+3. **Session Storage in JavaScript**  
+   - How Session Storage Works  
+   - Storing, Retrieving, and Removing Data in Session Storage  
+
+4. **Practical Examples and Exercises**  
+   - **Remembering User Preferences (Theme, Language, etc.)**  
+   - **Shopping Cart Storage Example**  
+   - **Storing Form Data Temporarily with Session Storage**  
+
+---
+
+### **Example: Dark Mode Theme Toggle Using Local Storage**  
+This example allows users to switch between light and dark modes, and the preference is saved using `localStorage`.
+
+#### **Step 1: HTML Structure**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Toggle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Dark Mode Toggle Example</h2>
+    <button onclick="toggleTheme()">Toggle Dark Mode</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+---
+
+#### **Step 2: JavaScript (script.js)**
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Check if theme is stored in localStorage
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+});
+
+function toggleTheme() {
+    document.body.classList.toggle("dark-mode");
+
+    // Store theme preference in localStorage
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+}
+
+---
+
+### **How It Works**
+1. **On page load, JavaScript checks localStorage** for the stored theme preference.  
+2. If `"dark"` mode was stored, it **applies the dark mode class.**  
+3. Clicking the **"Toggle Dark Mode" button** switches between light and dark modes.  
+4. The **theme preference is saved in `localStorage`**, so it remains even after refreshing the page.  
+
+---
+
+### **Next Steps **  
+Would you like an advanced example?  
+**Shopping Cart Storage (Using Local & Session Storage)**  
+**Auto-Saving Form Data Using Session Storage**  

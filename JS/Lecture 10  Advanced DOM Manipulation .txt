@@ -1,0 +1,161 @@
+### **Lecture 10: Advanced DOM Manipulation in JavaScript**  
+
+#### **Topics Covered:**  
+1. **Traversing the DOM**  
+   - Parent, Child, and Sibling Nodes  
+   - `parentNode`, `childNodes`, `firstChild`, `lastChild`, `nextSibling`, `previousSibling`  
+
+2. **Modifying and Inserting Elements Dynamically**  
+   - `insertBefore()`  
+   - `replaceChild()`  
+   - `cloneNode()`  
+
+3. **Handling Forms and User Input**  
+   - Accessing form fields using JavaScript  
+   - Validating user input before submission  
+
+4. **Working with CSS Classes and Styles**  
+   - Adding and removing classes dynamically (`classList.add()`, `classList.remove()`)  
+   - Toggling styles dynamically (`classList.toggle()`)  
+
+5. **Using Event Delegation for Performance Optimization**  
+   - Understanding event bubbling and capturing  
+   - Using `event.target` to manage multiple elements efficiently  
+
+6. **Practical Examples and Exercises**  
+   - Dynamic Table Creation and Manipulation  
+   - Interactive Form Validation  
+   - Theme Switcher (Light/Dark Mode)  
+==============
+
+### **Advanced DOM Manipulation Example: **  
+
+This example demonstrates:  
+**Traversing the DOM** (accessing parent, child, and sibling elements)  
+**Inserting and modifying elements dynamically**  
+**Handling forms and user input validation**  
+**Using event delegation for better performance**  
+
+---
+
+### **Step 1: HTML Structure**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Table Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 60%; margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background: #f4f4f4; }
+        .delete-btn { background: red; color: white; border: none; padding: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Table Manager</h2>
+
+    <!-- Input Fields for Adding New Row -->
+    <input type="text" id="nameInput" placeholder="Enter Name">
+    <input type="number" id="ageInput" placeholder="Enter Age">
+    <button onclick="addRow()">Add Row</button>
+
+    <!-- Table to Display Data -->
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+---
+
+### **Step 2: JavaScript (script.js)**
+
+// Function to add a new row to the table
+function addRow() {
+    let nameInput = document.getElementById("nameInput").value.trim();
+    let ageInput = document.getElementById("ageInput").value.trim();
+
+    if (nameInput === "" || ageInput === "") {
+        alert("Please enter both Name and Age!");
+        return;
+    }
+
+    let table = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+
+    // Create a new row
+    let newRow = document.createElement("tr");
+
+    // Create and insert Name column
+    let nameCol = document.createElement("td");
+    nameCol.textContent = nameInput;
+    newRow.appendChild(nameCol);
+
+    // Create and insert Age column
+    let ageCol = document.createElement("td");
+    ageCol.textContent = ageInput;
+    newRow.appendChild(ageCol);
+
+    // Create Delete button
+    let deleteCol = document.createElement("td");
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.classList.add("delete-btn");
+
+    // Add event listener to delete button
+    deleteBtn.addEventListener("click", function () {
+        this.parentElement.parentElement.remove(); // Remove row when clicked
+    });
+
+    deleteCol.appendChild(deleteBtn);
+    newRow.appendChild(deleteCol);
+
+    // Append new row to table
+    table.appendChild(newRow);
+
+    // Clear input fields
+    document.getElementById("nameInput").value = "";
+    document.getElementById("ageInput").value = "";
+}
+
+---
+
+### **Explanation of JavaScript Code**
+1. **Accessing Elements**  
+   - `document.getElementById("nameInput").value`: Gets user input.  
+   - `document.getElementById("dataTable").getElementsByTagName("tbody")[0]`: Gets the table body.  
+
+2. **Creating and Appending Elements**  
+   - `document.createElement("tr")`: Creates a new table row.  
+   - `document.createElement("td")`: Creates a new table cell.  
+   - `table.appendChild(newRow)`: Adds the row to the table.  
+
+3. **Event Handling with Event Delegation**  
+   - `deleteBtn.addEventListener("click", function() {...})`: Deletes the row when clicked.  
+   - `this.parentElement.parentElement.remove()`: Finds and removes the row dynamically.  
+
+---
+
+### **How It Works**
+1. **User enters name and age** in the input fields.  
+2. **Clicking "Add Row"** inserts a new row into the table.  
+3. **Each row has a "Delete" button** to remove the row dynamically.  
+
+---
+
+### **Try It Out! **  
+**Practical use of DOM Manipulation**  
+**User input validation**  
+**Dynamic event handling**  

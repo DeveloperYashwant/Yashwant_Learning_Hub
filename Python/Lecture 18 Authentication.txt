@@ -1,0 +1,232 @@
+Lecture 18: Authentication
+
+##  What is Authentication?
+
+**Authentication** means **verifying someone’s identity** — like checking if a person is **who they say they are**.
+
+## In Programming Terms:
+
+In a Python app, authentication is like:
+
+- Asking a **username and password**
+- Checking if they match the **stored info**
+- Giving access if correct; denying if wrong
+
+---
+
+## Python Authentication Example
+
+simple **console-based login system**.
+
+### Step 1: Store some credentials
+
+users = {
+    "yashwant": "1234",
+    "admin": "admin123",
+    "student": "pass123"
+}
+
+
+---
+
+###  Step 2: Ask user to login
+
+username = input("Enter your username: ")
+password = input("Enter your password: ")
+
+if username in users and users[username] == password:
+    print("Login successful! Welcome", username)
+else:
+    print("Login failed! Invalid credentials.")
+
+
+---
+
+## Output Examples
+
+**Correct Login:**
+
+Enter your username: yashwant
+Enter your password: 1234
+ Login successful! Welcome yashwant
+
+**Incorrect Login:**
+
+Enter your username: yashwant
+Enter your password: wrongpass
+ Login failed! Invalid credentials.
+
+
+---
+
+##  Real-World Use Cases of Authentication
+
+| Where?                  | What Happens?                                 |
+|-------------------------|------------------------------------------------|
+| Mobile App              | You enter your email & password               |
+| ATM Machine             | You enter your card and PIN                   |
+| Email Login             | Username + Password → Inbox                   |
+| Online Exams Portal     | Student logs in to attend the exam            |
+| Admin Panel (like college admin) | Restricted access only to authorized users |
+
+---
+
+## Bonus: Adding Signup (Registration)
+
+You can even extend it to allow **new users to register**.
+
+
+def register():
+    new_user = input("Choose a username: ")
+    new_pass = input("Choose a password: ")
+    users[new_user] = new_pass
+    print("Registered successfully!")
+
+register()
+
+
+---
+
+## Summary
+
+| Feature      | Description                                           |
+|--------------|-------------------------------------------------------|
+| Authentication | Checking if a user is real (username & password)    |
+| Real-world    | College ID check, ATM login, App login               |
+| Python code   | Uses input and dictionary to check login credentials |
+==========================
+
+
+
+## Online Exam Portal
+
+###  Objectives of the Authentication System:
+
+1. Allow **new students to register** (Signup)
+2. Allow existing students to **log in** (Login)
+3. **Store credentials securely**
+4. **Verify** credentials during login
+
+**Python + MySQL** to handle this.
+
+---
+
+## Step-by-Step Implementation
+
+---
+
+###  Step 1: Create a MySQL Database and Table
+
+CREATE DATABASE exam_portal;
+
+USE exam_portal;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
+
+
+---
+
+###  Step 2: Python Code
+
+import mysql.connector
+
+# Connect to database
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="password",  # Use your MySQL password
+    database="exam_portal"
+)
+
+mycursor = mydb.cursor()
+
+
+---
+
+### Step 3: Register (Sign Up)
+
+
+def register():
+    username = input("Choose a username: ")
+    password = input("Choose a password: ")
+
+    try:
+        mycursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+        mydb.commit()
+        print("Registration successful!")
+    except mysql.connector.IntegrityError:
+        print("Username already exists. Try a different one.")
+
+
+---
+
+###  Step 4: Login (Authentication)
+
+
+def login():
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+
+    mycursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", (username, password))
+    result = mycursor.fetchone()
+
+    if result:
+        print(f" Welcome {username}, you can now access the Exam Portal.")
+    else:
+        print(" Invalid username or password.")
+
+
+---
+
+### Step 5: Main Menu to Choose Login or Register
+
+
+while True:
+    print("\n--- Online Exam Portal ---")
+    print("1. Register")
+    print("2. Login")
+    print("3. Exit")
+
+    choice = input("Enter your choice (1/2/3): ")
+
+    if choice == "1":
+        register()
+    elif choice == "2":
+        login()
+    elif choice == "3":
+        print("Exiting... Goodbye!")
+        break
+    else:
+        print("Invalid choice. Please try again.")
+
+
+---
+
+## How Authentication Works Here:
+
+| Step | What Happens                                                                 |
+|------|------------------------------------------------------------------------------|
+| Register | Student chooses a username & password → Stored in MySQL securely         |
+| Login    | System checks if username & password match what’s in the database       |
+| Access   | If match is found → Access granted; else → Access denied                |
+
+---
+
+##  Why This is Important in Real Apps
+
+- Prevents **unauthorized access**  
+- Keeps **student data secure**  
+- Ensures only **genuine users** attend the exam  
+- Can be extended to include **admin vs student roles**
+
+---
+
+### Future Enhancements (Optional):
+
+- Encrypt password using `hashlib` (for security)
+- Add Forgot Password option
+- Use GUI (Tkinter) or Web (Flask) interface
