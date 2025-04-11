@@ -1,3 +1,200 @@
+
+##  **Lecture 10: CRUD Operation in React with Vite (Step-by-Step)**
+
+
+###  **Step 1: Setup Project using Vite**
+
+npm create vite@latest crud-app --template react
+cd crud-app
+npm install
+npm run dev
+
+Install **Bootstrap** or simple CSS for design (optional):
+
+npm install bootstrap
+
+Then add this in `main.jsx`:
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+---
+
+### **Step 2: App Structure (Create 3 Files)**
+
+src/
+│
+├── App.jsx
+├── components/
+│   ├── UserForm.jsx     // For Add/Edit User
+│   ├── UserList.jsx     // For Display/Delete Users
+
+
+---
+
+###  **Step 3: App.jsx – Main Logic**
+
+import React, { useState } from 'react';
+import UserForm from './components/UserForm';
+import UserList from './components/UserList';
+
+function App() {
+  const [users, setUsers] = useState([]);
+  const [editingUser, setEditingUser] = useState(null);
+
+  const addUser = (user) => {
+    setUsers([...users, { ...user, id: Date.now() }]);
+  };
+
+  const deleteUser = (id) => {
+    setUsers(users.filter(user => user.id !== id));
+  };
+
+  const editUser = (user) => {
+    setEditingUser(user);
+  };
+
+  const updateUser = (updatedUser) => {
+    setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
+    setEditingUser(null);
+  };
+
+  return (
+    <div className="container mt-5">
+      <h2 className="mb-4">React Vite CRUD</h2>
+      <UserForm onAdd={addUser} editingUser={editingUser} onUpdate={updateUser} />
+      <UserList users={users} onDelete={deleteUser} onEdit={editUser} />
+    </div>
+  );
+}
+
+export default App;
+
+
+---
+
+###  **Step 4: UserForm.jsx – Add & Edit Form**
+
+import React, { useState, useEffect } from 'react';
+
+function UserForm({ onAdd, editingUser, onUpdate }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    if (editingUser) {
+      setName(editingUser.name);
+      setEmail(editingUser.email);
+    } else {
+      setName('');
+      setEmail('');
+    }
+  }, [editingUser]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const user = { name, email };
+
+    if (editingUser) {
+      onUpdate({ ...user, id: editingUser.id });
+    } else {
+      onAdd(user);
+    }
+
+    setName('');
+    setEmail('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="mb-3">
+      <input
+        className="form-control mb-2"
+        type="text"
+        placeholder="Enter Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+      <input
+        className="form-control mb-2"
+        type="email"
+        placeholder="Enter Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <button className="btn btn-primary" type="submit">
+        {editingUser ? 'Update User' : 'Add User'}
+      </button>
+    </form>
+  );
+}
+
+export default UserForm;
+
+
+---
+
+### **Step 5: UserList.jsx – Show, Edit, Delete**
+
+import React from 'react';
+
+function UserList({ users, onDelete, onEdit }) {
+  return (
+    <table className="table table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.length > 0 ? (
+          users.map((user, index) => (
+            <tr key={user.id}>
+              <td>{index + 1}</td>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>
+                <button className="btn btn-sm btn-warning me-2" onClick={() => onEdit(user)}>Edit</button>
+                <button className="btn btn-sm btn-danger" onClick={() => onDelete(user.id)}>Delete</button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr><td colSpan="4" className="text-center">No users found</td></tr>
+        )}
+      </tbody>
+    </table>
+  );
+}
+
+export default UserList;
+
+
+---
+
+##  **Summary of CRUD Features**
+
+| Feature | Function |
+|--------|----------|
+| **Create** | `onAdd()` adds new user |
+| **Read**   | Users are shown in a table |
+| **Update** | `onEdit()` + `onUpdate()` modifies user |
+| **Delete** | `onDelete()` removes user |
+
+---
+
+## Bonus Ideas for Practice:
+
+- Add **form validation** before submit.
+- Store data in **localStorage**.
+- Add **toast messages** on add/update/delete.
+- Connect to **backend API** instead of local state.
+====================
+
 CRUD (Create, Read, Update, Delete) operation in React.js (Vite)** with **fake REST API** using **JSON Server**.  
 
 ---
@@ -20,8 +217,8 @@ npm run dev
 json
 {
   "users": [
-    { "id": 1, "name": "John Doe", "email": "john@example.com" },
-    { "id": 2, "name": "Jane Doe", "email": "jane@example.com" }
+    { "id": 1, "name": "Rohit", "email": "dipesh@gmail.com" },
+    { "id": 2, "name": "Dipesh", "email": "dipesh@gmail.com" }
   ]
 }
 
@@ -173,3 +370,139 @@ export default App;
 **Delete User** (DELETE request)  
 
 ---
+====================
+
+
+##  Full CRUD in React + Vite + JSON Server + Axios (Lecture 10 - Advanced)
+
+---
+
+##**What is Axios?**
+**Axios** is a promise-based HTTP client used to make requests from a browser (or Node.js) to a server. It is a popular alternative to the native `fetch()` method in JavaScript.
+
+
+
+### What We’ll Do:
+
+1. Set up JSON Server (mock backend)
+2. Install Axios
+3. Connect Axios to JSON Server (GET, POST, PUT, DELETE)
+4. Same components (`UserForm`, `UserList`) but now connected to a real backend
+
+---
+
+### **Step 1: Setup JSON Server**
+
+
+npm install -g json-server
+
+Create a `db.json` file in the root (outside `src`) with dummy data:
+
+json
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Rohit ",
+      "email": "rohit@gmail.com"
+    }
+  ]
+}
+
+Start the JSON server:
+
+json-server --watch db.json --port 5000
+
+
+**Now your API is running at**: `http://localhost:5000/users`
+
+---
+
+###  **Step 2: Install Axios**
+
+npm install axios
+
+---
+
+###  **Step 3: Update App.jsx (UseEffect + Axios)**
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import UserForm from './components/UserForm';
+import UserList from './components/UserList';
+
+const API_URL = "http://localhost:5000/users";
+
+function App() {
+  const [users, setUsers] = useState([]);
+  const [editingUser, setEditingUser] = useState(null);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    const response = await axios.get(API_URL);
+    setUsers(response.data);
+  };
+
+  const addUser = async (user) => {
+    await axios.post(API_URL, user);
+    fetchUsers();
+  };
+
+  const deleteUser = async (id) => {
+    await axios.delete(`${API_URL}/${id}`);
+    fetchUsers();
+  };
+
+  const updateUser = async (updatedUser) => {
+    await axios.put(`${API_URL}/${updatedUser.id}`, updatedUser);
+    setEditingUser(null);
+    fetchUsers();
+  };
+
+  const editUser = (user) => {
+    setEditingUser(user);
+  };
+
+  return (
+    <div className="container mt-5">
+      <h2>React CRUD with JSON Server</h2>
+      <UserForm onAdd={addUser} editingUser={editingUser} onUpdate={updateUser} />
+      <UserList users={users} onDelete={deleteUser} onEdit={editUser} />
+    </div>
+  );
+}
+
+export default App;
+
+
+---
+
+### **Step 4: No changes in `UserForm.jsx` or `UserList.jsx`**
+
+You can keep `UserForm.jsx` and `UserList.jsx` exactly the same as before. Axios handles the backend now instead of local state only.
+
+---
+
+### Final Folder Structure
+
+crud-app/
+├── db.json                <-- JSON Server file
+├── src/
+│   ├── App.jsx
+│   ├── components/
+│   │   ├── UserForm.jsx
+│   │   ├── UserList.jsx
+├── ...
+
+
+###  Sample API Operations Used
+
+| Operation | Axios Call |
+|----------|------------|
+| Read All | `axios.get(API_URL)` |
+| Create   | `axios.post(API_URL, user)` |
+| Update   | `axios.put(API_URL/id, updatedUser)` |
+| Delete   | `axios.delete(API_URL/id)` |

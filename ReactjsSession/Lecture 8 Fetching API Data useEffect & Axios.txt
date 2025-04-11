@@ -1,0 +1,138 @@
+
+##  **Lecture 8: Fetching API Data in React (useEffect & Axios)**
+
+
+###  **Step 1: Introduction to API & Data Fetching**
+
+- **API (Application Programming Interface)**: A way to get data from a server (like JSON data).
+- We use APIs in React to display dynamic data like posts, users, etc.
+
+
+###  **Step 2: Install Axios**
+
+- Axios is a promise-based HTTP client to make API requests.
+
+npm install axios
+
+
+---
+
+### **Step 3: Create a Component for Data Fetching**
+
+Create a file called `UserList.js` (or any name you like):
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+
+---
+
+### **Step 4: useState for Managing Data**
+
+Create a state to store the data fetched from the API.
+
+const [users, setUsers] = useState([]);
+
+
+---
+
+###  **Step 5: useEffect for Fetching on Component Mount**
+
+React’s `useEffect` runs when the component mounts (loads on screen). Perfect for fetching data once.
+
+useEffect(() => {
+  axios.get('https://jsonplaceholder.typicode.com/users')
+    .then(response => {
+      setUsers(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+}, []);
+
+
+**Explanation:**
+- `axios.get()` fetches data from the API.
+- `setUsers()` updates our state.
+- `[]` means run only once when the component mounts.
+
+---
+
+### **Step 6: Display the Data**
+
+Use JSX to loop through the data and display it:
+
+return (
+  <div>
+    <h2>User List</h2>
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name} - {user.email}</li>
+      ))}
+    </ul>
+  </div>
+);
+
+
+---
+
+### **Step 7: Final Code Together**
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+function UserList() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://jsonplaceholder.typicode.com/users')
+      .then(response => {
+        setUsers(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+  return (
+    <div>
+      <h2>User List</h2>
+      <ul>
+        {users.map(user => (
+          <li key={user.id}>{user.name} - {user.email}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default UserList;
+
+
+---
+
+### **Step 8: Use the Component in App.js**
+
+import React from 'react';
+import UserList from './UserList';
+
+function App() {
+  return (
+    <div className="App">
+      <UserList />
+    </div>
+  );
+}
+
+export default App;
+
+
+---
+
+## Summary:
+| Concept | Purpose |
+|--------|---------|
+| `useEffect` | Run code when component loads |
+| `useState` | Store API data |
+| `axios` | Make API request |
+| `map()` | Loop through array and render list items |
