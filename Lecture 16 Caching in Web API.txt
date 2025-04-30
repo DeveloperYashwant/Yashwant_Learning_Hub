@@ -1,0 +1,235 @@
+### **Lecture 16: Caching in Web API**
+
+### **Introduction to Caching in Web API**
+
+Caching is a technique used to temporarily store copies of files or data in order to reduce access time, save bandwidth, and improve performance. In the context of **Web APIs**, caching allows the API to deliver frequently requested data more quickly by storing the data in memory or a fast-access storage medium.
+
+Web APIs often handle large amounts of data and repeated requests. Caching can significantly improve response times and reduce server load.
+
+In this lecture, we will discuss the types of caching in Web APIs, how to implement caching in ASP.NET Web API, and common caching strategies.
+
+---
+
+###  **Why Caching is Important in Web API?**
+
+1. **Faster Responses**: Cached data is returned quickly without the need to query the database every time, reducing response time.
+2. **Reduced Server Load**: By caching frequently accessed data, the server doesn't need to process requests repeatedly for the same data.
+3. **Reduced Database Load**: Caching reduces the number of requests to the database, preventing overloading of the database with repetitive queries.
+4. **Improved User Experience**: Faster data retrieval leads to an overall better experience for the user.
+
+---
+
+###  **Types of Caching**
+
+There are several types of caching strategies, each serving different purposes:
+
+#### 1. **In-Memory Caching**
+   - Data is cached directly in the server's memory. This is the most common and fastest form of caching.
+   - In-memory caching can be implemented using libraries like **MemoryCache** in ASP.NET.
+
+#### 2. **Distributed Caching**
+   - For applications running across multiple servers, distributed caching is used to ensure that cached data is available across all servers.
+   - Popular tools for distributed caching include **Redis** and **SQL Server-based caching**.
+
+#### 3. **Response Caching**
+   - This involves caching the entire response of a request for a set duration.
+   - Useful for APIs where the data doesn’t change often, such as a news feed or static information.
+
+#### 4. **Output Caching**
+   - Similar to response caching, but with more granular control over what parts of the response are cached.
+   - Often used when you want to cache a page or specific elements of a page.
+
+---
+
+###  **How to Implement Caching in ASP.NET Web API**
+
+Let’s go through a basic example of caching in an **ASP.NET Web API**.
+
+#### **Step 1: Install Required NuGet Packages**
+
+To implement caching in Web API, you'll need to install **Microsoft.Extensions.Caching.Memory** for in-memory caching.
+
+bash
+Install-Package Microsoft.Extensions.Caching.Memory
+
+#### **Step 2: Configure Caching in Startup.cs**
+
+In **Startup.cs**, add the **MemoryCache** service to the dependency injection container:
+
+csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+    
+    // Add memory caching services
+    services.AddMemoryCache();
+}
+
+#### **Step 3: Use MemoryCache in Controller**
+
+In your **API Controller**, you can now inject the **IMemoryCache** service and use it to cache data.
+
+csharp
+
+public class ProductsController : ControllerBase
+{
+    private readonly IMemoryCache _memoryCache;
+
+    public ProductsController(IMemoryCache memoryCache)
+    {
+        _memoryCache = memoryCache;
+    }
+
+    [HttpGet]
+    public IActionResult GetProducts()
+    {
+        var cacheKey = "productList";
+        if (!_memoryCache.TryGetValue(cacheKey, out List<Product> products))
+        {
+            // Simulate expensive database query
+            products = GetProductsFromDatabase();
+
+            // Store the data in memory cache with an absolute expiration time of 5 minutes
+            _memoryCache.Set(cacheKey, products, TimeSpan.FromMinutes(5));
+        }
+
+        return Ok(products);
+    }
+
+    private List<Product> GetProductsFromDatabase()
+    {
+        // Simulate database call
+        return new List<Product>
+        {
+            new Product { Id = 1, Name = "Product 1" },
+            new Product { Id = 2, Name = "Product 2" },
+            new Product { Id = 3, Name = "Product 3" }
+        };
+    }
+}
+```
+
+- **TryGetValue** checks if the data is in the cache.
+- If the data is not in the cache, it’s retrieved (simulating a database call in this example) and stored in memory using `_memoryCache.Set`.
+- The data is cached for 5 minutes. After this period, it will be removed from memory, and the next request will re-fetch the data.
+
+---
+
+### **Response Caching**
+
+Another common method is **response caching**, where the entire HTTP response is cached. ASP.NET Core provides middleware to handle this.
+
+#### **Step 1: Enable Response Caching in Startup.cs**
+
+Add **response caching middleware** in the `Configure` method in **Startup.cs**:
+
+csharp
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    app.UseResponseCaching();
+
+    app.UseRouting();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+}
+
+#### **Step 2: Apply Response Caching Attribute**
+
+You can apply the **[ResponseCache]** attribute to specific controller actions:
+
+csharp
+[ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, NoStore = false)]
+[HttpGet]
+public IActionResult GetProduct(int id)
+{
+    var product = GetProductById(id);
+    return Ok(product);
+}
+
+- **Duration**: Defines how long the response is cached (in seconds).
+- **Location**: Specifies where the cache is stored (e.g., client, server, or anywhere).
+- **NoStore**: If true, prevents the response from being cached.
+
+---
+
+###  **Distributed Caching with Redis**
+
+For larger applications that need to share cached data across multiple servers, you can use **distributed caching** with Redis.
+
+#### **Step 1: Install Redis NuGet Package**
+
+bash
+Install-Package Microsoft.Extensions.Caching.StackExchangeRedis
+
+#### **Step 2: Configure Redis in Startup.cs**
+
+csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = "localhost:6379"; // Redis server address
+        options.InstanceName = "SampleApp_";
+    });
+}
+
+#### **Step 3: Use Redis Caching in Controller**
+
+csharp
+public class ProductsController : ControllerBase
+{
+    private readonly IDistributedCache _cache;
+
+    public ProductsController(IDistributedCache cache)
+    {
+        _cache = cache;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetProducts()
+    {
+        var cacheKey = "productList";
+        var cachedData = await _cache.GetStringAsync(cacheKey);
+
+        if (cachedData == null)
+        {
+            var products = GetProductsFromDatabase();
+
+            // Serialize data and store in Redis cache
+            var serializedData = JsonConvert.SerializeObject(products);
+            await _cache.SetStringAsync(cacheKey, serializedData, new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            });
+
+            return Ok(products);
+        }
+
+        // Deserialize cached data
+        var cachedProducts = JsonConvert.DeserializeObject<List<Product>>(cachedData);
+        return Ok(cachedProducts);
+    }
+}
+
+- Redis is used here to store the cached data, and the data is serialized before being stored in the cache.
+- This ensures that your cache is shared across all instances of your application.
+
+---
+
+###  **Real-World Example: Caching for Frequently Accessed Data**
+
+In a **E-commerce API**, product details can be cached because they don’t change frequently. When a user requests product data, if the data is cached, the API will serve it quickly without querying the database.
+
+---
+
+###  **Summary:**
+
+- **Caching** improves performance by storing frequently accessed data, reducing server load, and improving response times.
+- **In-memory caching** stores data in the application server's memory.
+- **Distributed caching** allows data to be shared between multiple servers using solutions like Redis.
+- **Response Caching** is an easy way to cache entire HTTP responses for a defined period.
+
+**Lecture 17: Web API Versioning** next?

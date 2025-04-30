@@ -1,0 +1,36 @@
+### **Lecture 1: Introduction to ASP.NET**
+
+**What is ASP.NET?**  
+ASP.NET (Active Server Pages .NET) is a **web development framework** by Microsoft used to **build dynamic websites, web applications, and web services** using **.NET languages like C# or VB.NET**.
+
+---
+
+### **Key Features of ASP.NET:**
+
+1.  **Server-side technology** – Code runs on the server, not in the browser.
+2.  **Fast and secure** – Built on the .NET platform, it offers high performance and security.
+3.  **Supports MVC and Web Forms** – You can use **MVC (Model-View-Controller)** for structured coding or **Web Forms** for drag-and-drop UI design.
+4.  **Language independent** – You can write code in C#, VB.NET, etc.
+5.  **Built-in tools** – Error handling, session management, caching, authentication, etc.
+
+---
+
+### **Why use ASP.NET?**
+-  To create interactive, database-connected websites.
+-  Reduces coding effort with reusable components.
+-  Easy integration with Microsoft tools like SQL Server and Visual Studio.
+
+---
+
+### **Simple Example:**
+
+csharp
+<%@ Page Language="C#" %>
+<html>
+<body>
+  <h2>Welcome to ASP.NET!</h2>
+  <%
+     Response.Write("Today is: " + DateTime.Now.ToString());
+  %>
+</body>
+</html>

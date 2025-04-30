@@ -1,0 +1,80 @@
+
+###  **Lecture 8: Routing in ASP.NET MVC**
+
+
+###  **What is Routing?**
+
+Routing is the process of **mapping browser requests (URLs)** to the **correct controller and action method** in your MVC app.
+
+Instead of accessing files directly (like `.aspx`), ASP.NET MVC uses **routes** to decide **which code to run**.
+
+###  **How Routing Works**
+
+When a user types this URL in the browser:
+
+http://localhost:1234/Home/Index
+
+
+It means:
+- `Home` = Controller name (`HomeController`)
+- `Index` = Action method inside `HomeController`
+
+---
+
+###  **Default Route Configuration**
+
+Go to this file:
+
+App_Start → RouteConfig.cs
+
+csharp
+
+routes.MapRoute(
+    name: "Default",
+    url: "{controller}/{action}/{id}",
+    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+);
+
+ This means:
+- If no controller/action is provided in the URL, it uses `HomeController` and `Index()` action by default.
+
+### **Example 1: Custom URL**
+
+csharp
+routes.MapRoute(
+    name: "HelloRoute",
+    url: "say-hello",
+    defaults: new { controller = "Home", action = "Hello" }
+);
+
+Now, if user opens:  
+
+http://localhost:1234/say-hello
+
+ It will call `HomeController` → `Hello()` action.
+
+---
+
+###  **Custom Route with Parameter**
+
+csharp
+routes.MapRoute(
+    name: "GreetRoute",
+    url: "greet/{name}",
+    defaults: new { controller = "Home", action = "Greet", name = UrlParameter.Optional }
+);
+
+Now:  
+
+http://localhost:1234/greet/Yashwant
+
+Calls `Greet("Yashwant")` in `HomeController`.
+
+---
+
+### **Benefits of Routing**
+
+- Clean, user-friendly URLs  
+- SEO-friendly (search engine optimized)  
+- No need to expose .aspx pages  
+- Easy to handle dynamic parameters

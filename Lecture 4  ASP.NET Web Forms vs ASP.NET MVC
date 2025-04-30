@@ -1,0 +1,58 @@
+### **Lecture 4: ASP.NET Web Forms vs ASP.NET MVC**
+
+### **What is ASP.NET Web Forms?**
+
+ASP.NET Web Forms is a **drag-and-drop, event-driven** framework for building web applications with minimal code.
+
+- Uses `.aspx` pages.
+- Works like Windows Forms (easy UI design).
+- Good for beginners and RAD (Rapid Application Development).
+
+---
+
+### **What is ASP.NET MVC?**
+
+ASP.NET MVC (Model-View-Controller) is a **structured framework** based on separation of concerns:
+- **Model** = Data  
+- **View** = UI  
+- **Controller** = Logic
+
+- Gives more **control over HTML, CSS, JavaScript**
+- Better for **large, testable, maintainable projects**
+
+---
+
+### **Key Differences:**
+
+| Feature                 | Web Forms                          | MVC                                  |
+|-------------------------|------------------------------------|---------------------------------------|
+| Architecture            | Event-driven                      | MVC pattern                          |
+| URL Structure           | Complex, includes `.aspx`         | Clean and SEO-friendly URLs          |
+| HTML Control            | Less control                      | Full control over HTML               |
+| ViewState               | Enabled (uses ViewState)          | No ViewState                         |
+| Testing                 | Difficult                         | Easy (supports unit testing)         |
+| Learning Curve          | Easy for beginners                | Slightly harder (but powerful)       |
+| Development Approach    | Rapid UI design                   | Clean separation of logic and UI     |
+
+---
+
+### **When to Use What?**
+
+- **Web Forms**: Small, quick applications or internal tools.
+- **MVC**: Scalable, testable enterprise-level applications.
+
+---
+
+### **Simple Code Sample (Web Forms):**
+
+html
+<asp:Button ID="btnClick" runat="server" Text="Click Me" OnClick="btnClick_Click" />
+
+### **Simple Code Sample (MVC - Controller):**
+
+csharp
+public ActionResult Index()
+{
+    ViewBag.Message = "Hello from MVC!";
+    return View();
+}

@@ -1,0 +1,202 @@
+###  **Lecture 12: Introduction to Authentication and Authorization in ASP.NET MVC**
+
+###  **What is Authentication and Authorization?**
+
+- **Authentication**: The process of verifying the identity of a user (e.g., login using a username and password).
+- **Authorization**: The process of determining if the authenticated user has permission to access a specific resource or action (e.g., checking if a user has admin rights).
+
+In ASP.NET MVC, we can implement both authentication and authorization to secure our web applications.
+
+---
+
+###  **Setting Up Authentication in ASP.NET MVC**
+
+ASP.NET MVC provides built-in authentication and authorization mechanisms through the **ASP.NET Identity** system. This allows us to manage users, roles, and access control.
+
+
+#### **Step 1: Install ASP.NET Identity**
+
+To use ASP.NET Identity, you need to install the necessary packages via **NuGet**.
+
+1. Open **Package Manager Console** and run:
+
+powershell
+Install-Package Microsoft.AspNet.Identity.EntityFramework
+
+2. This package includes classes like `UserManager`, `RoleManager`, and `SignInManager` to manage authentication.
+
+---
+
+#### **Step 2: Create Identity Models**
+
+In this step, we define models for **User** and **Role**.
+
+1. **ApplicationUser** (User model):
+
+csharp
+public class ApplicationUser : IdentityUser
+{
+    public string FullName { get; set; }  // Custom property
+}
+
+2. **ApplicationDbContext** (Database Context):
+
+csharp
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+{
+    public ApplicationDbContext() : base("DefaultConnection") { }
+
+    public static ApplicationDbContext Create()
+    {
+        return new ApplicationDbContext();
+    }
+}
+
+- **`IdentityDbContext<ApplicationUser>`** is a predefined class for managing user authentication.
+- The `ApplicationUser` class extends `IdentityUser` and adds any custom properties.
+
+---
+
+#### **Step 3: Configure Authentication in `Startup.cs`**
+
+In the `Startup.cs` file, you need to configure authentication services.
+
+1. Open `Startup.cs` and add the following configuration:
+
+csharp
+public void ConfigureAuth(IAppBuilder app)
+{
+    app.CreatePerOwinContext(ApplicationDbContext.Create);  // Creates an ApplicationDbContext for Owin
+    app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);  // Creates UserManager for Owin
+    app.UseCookieAuthentication(new CookieAuthenticationOptions
+    {
+        AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+        LoginPath = new PathString("/Account/Login")  // Redirect to login page if not authenticated
+    });
+}
+
+
+- **`UseCookieAuthentication`** sets up cookie-based authentication. After a successful login, the user will be authenticated using cookies.
+
+---
+
+### **Setting Up Authorization in ASP.NET MVC**
+
+Authorization determines what authenticated users can do in your application.
+
+---
+
+#### **Step 1: Add Roles for Authorization**
+
+You can add different roles (e.g., `Admin`, `User`, `Manager`) to control access to specific parts of the application.
+
+1. **Create Roles** in the **Seed Method** of `ApplicationDbContext`:
+
+csharp
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+{
+    public ApplicationDbContext() : base("DefaultConnection") { }
+
+    public static ApplicationDbContext Create()
+    {
+        return new ApplicationDbContext();
+    }
+
+    public void SeedRoles()
+    {
+        var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(this));
+        if (!roleManager.RoleExists("Admin"))
+        {
+            roleManager.Create(new IdentityRole("Admin"));
+        }
+
+        if (!roleManager.RoleExists("User"))
+        {
+            roleManager.Create(new IdentityRole("User"));
+        }
+    }
+}
+
+- **`RoleManager`** is used to create roles like `Admin` and `User` during the application’s first run.
+
+---
+
+#### **Step 2: Assign Roles to Users**
+
+After registering a user, you can assign them a role (e.g., "Admin").
+
+1. **Assigning Role to a User**:
+
+csharp
+public async Task<ActionResult> Register(RegisterViewModel model)
+{
+    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+    var result = await UserManager.CreateAsync(user, model.Password);
+
+    if (result.Succeeded)
+    {
+        // Assign the user to the "Admin" role after successful registration
+        await UserManager.AddToRoleAsync(user.Id, "Admin");
+        return RedirectToAction("Index", "Home");
+    }
+
+    AddErrors(result);
+    return View(model);
+}
+
+- After a user successfully registers, they are added to the `Admin` role.
+
+---
+
+#### **Step 3: Protecting Routes with Role-Based Authorization**
+
+In order to control which users can access specific resources, you can apply authorization rules.
+
+1. **Use Role-Based Authorization in Controllers:**
+
+csharp
+[Authorize(Roles = "Admin")]
+public ActionResult AdminDashboard()
+{
+    return View();
+}
+
+
+- Only users with the `Admin` role can access the `AdminDashboard` action.
+
+2. **Authorize on Views**:
+
+You can also check if a user belongs to a certain role directly in views using the `@User.IsInRole` helper.
+
+```html
+@if (User.IsInRole("Admin"))
+{
+    <button>Admin Button</button>
+}
+```
+
+- This allows you to conditionally render elements based on the user’s role.
+
+---
+
+### **Real-World Example:**
+
+Consider an **e-commerce** platform where different roles are used:
+- **Admin**: Can manage products, users, and orders.
+- **Customer**: Can browse products and place orders.
+- **Guest**: Can view products but cannot place orders.
+
+#### **Real-World Implementation**:
+
+1. **Admin Dashboard**: Only accessible to users in the `Admin` role.
+2. **Customer Orders**: The `Customer` role is allowed to place orders but not modify products.
+
+By implementing authentication and authorization in this way, you ensure that only authorized users can access sensitive sections of the application, enhancing both security and usability.
+
+---
+
+###  **Summary:**
+- **Authentication**: Verifies who the user is.
+- **Authorization**: Determines what the authenticated user can do.
+- Use **ASP.NET Identity** for managing users and roles.
+- Roles like `Admin`, `Customer`, etc., can be used to authorize actions in the application.

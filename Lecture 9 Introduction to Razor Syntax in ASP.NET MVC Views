@@ -1,0 +1,225 @@
+### **Lecture 9: Introduction to Razor Syntax in ASP.NET MVC Views**
+
+### **What is Razor Syntax?**
+
+Razor is a **view engine** used in ASP.NET MVC for writing dynamic HTML content with C# code.
+
+- It allows you to embed C# code within HTML using a clean and simple syntax.
+- Razor code is written using **`@`** symbol.
+
+---
+
+### **Basic Razor Syntax**
+
+#### **1. Output Data in Views**
+
+To display data, use the **`@`** symbol:
+
+html
+
+<h2>@ViewBag.Message</h2>
+
+This will output the value of `Message` from the controller.
+
+---
+
+#### **2. Use Variables and Expressions**
+
+You can write C# code inside your Razor views, like calculations or logic:
+
+html
+<p>The sum is: @(5 + 3)</p>
+
+This will display `The sum is: 8`.
+
+---
+
+#### **3. Display Data from the Model**
+
+Suppose you have a `Product` model:
+
+csharp
+public class Product
+{
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+}
+
+You can display a model's properties:
+
+html
+<h2>@Model.Name</h2>
+<p>Price: $@Model.Price</p>
+
+
+---
+
+###  **Control Structures in Razor**
+
+You can use **if statements** and **loops** directly in Razor views.
+
+#### **1. If Statement**
+
+html
+@if (Model.Price > 50)
+{
+    <p>This is a premium product!</p>
+}
+else
+{
+    <p>This product is affordable.</p>
+}
+
+---
+
+#### **2. Loop (foreach)**
+
+If you're displaying a list of products:
+
+html
+@foreach (var product in Model.Products)
+{
+    <div>
+        <h3>@product.Name</h3>
+        <p>Price: $@product.Price</p>
+    </div>
+}
+
+
+---
+
+### **Razor Code Blocks**
+
+Use `@{}` to define a block of C# code:
+
+html
+@{
+    var greeting = "Hello, World!";
+}
+<p>@greeting</p>
+
+
+---
+
+### **Key Points:**
+
+- Razor code begins with **`@`**.
+- It simplifies embedding **C# code** within **HTML**.
+- It helps in building dynamic content in Views.
+- Use Razor for **loops**, **conditionals**, and **expressions**.
+=============
+
+
+### **Example 1: Simple Razor View with Data Binding**
+
+Let’s create a **Product List** using Razor syntax to display the details from a list of products.
+
+---
+
+#### **Step 1: Create a Model**
+
+Here is a basic `Product` model:
+
+csharp
+public class Product
+{
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+}
+
+---
+
+#### **Step 2: Create a Controller**
+
+In `HomeController.cs`, we’ll pass a list of products to the View:
+
+csharp
+public class HomeController : Controller
+{
+    public ActionResult ProductList()
+    {
+        var products = new List<Product>
+        {
+            new Product { Name = "Laptop", Price = 799.99M },
+            new Product { Name = "Smartphone", Price = 599.99M },
+            new Product { Name = "Headphones", Price = 99.99M }
+        };
+
+        return View(products);  // Passing products list to the view
+    }
+}
+
+---
+
+#### **Step 3: Create a View**
+
+Now, let’s create the **ProductList** view to display the products. The file should be placed under **Views/Home/ProductList.cshtml**.
+
+html
+@model List<Product>  <!-- Specifies the data type we’re passing from the controller -->
+
+<h2>Product List</h2>
+
+@foreach (var product in Model)  <!-- Loop through the products list -->
+{
+    <div>
+        <h3>@product.Name</h3>
+        <p>Price: $@product.Price</p>
+    </div>
+}
+
+---
+
+### **Explanation of Razor Syntax in Example:**
+
+- **`@model`**: This defines the type of data we are expecting to pass from the controller. In this case, we expect a list of `Product` objects.
+- **`@foreach`**: This is a Razor loop that iterates over the `Model` (which is the list of products) and displays each product’s `Name` and `Price`.
+- **`@product.Name`** and **`@product.Price`**: These are dynamic expressions in Razor that output the properties of the `product` object.
+
+---
+
+### **Step 4: Run the Application**
+
+After running the application, visiting the `/Home/ProductList` URL will display the following:
+
+Product List
+Laptop
+Price: $799.99
+
+Smartphone
+Price: $599.99
+
+Headphones
+Price: $99.99
+
+---
+
+### **Example 2: Razor Syntax for Conditionals**
+
+If you want to display a message based on a product's price, you can use **`@if`**:
+
+html
+@foreach (var product in Model)
+{
+    <div>
+        <h3>@product.Name</h3>
+        <p>Price: $@product.Price</p>
+
+        @if (product.Price > 500)
+        {
+            <p><strong>This is a premium product!</strong></p>
+        }
+        else
+        {
+            <p>This product is affordable.</p>
+        }
+    </div>
+}
+
+---
+
+### **Conclusion**
+
+- Razor syntax is used to mix **C# code** with **HTML** in an elegant and readable way.
+- You can easily bind data from the controller to the view using **`@Model`** and **`@`** expressions for logic like loops and conditionals.
+- Razor makes it easy to create dynamic and interactive content.

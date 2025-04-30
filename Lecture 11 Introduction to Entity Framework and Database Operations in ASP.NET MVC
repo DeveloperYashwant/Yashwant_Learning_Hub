@@ -1,0 +1,235 @@
+### **Lecture 11: Introduction to Entity Framework and Database Operations in ASP.NET MVC**
+
+---
+
+###  **What is Entity Framework (EF)?**
+
+Entity Framework (EF) is an **Object-Relational Mapping (ORM)** framework that simplifies database interactions in .NET applications.
+
+- EF allows developers to work with databases using **.NET objects** rather than SQL queries.
+- It eliminates the need for writing complex SQL queries by generating them based on LINQ (Language Integrated Query) and your models.
+
+---
+
+###  **Setting Up Entity Framework in ASP.NET MVC**
+
+To use Entity Framework in an ASP.NET MVC application, follow these steps:
+
+---
+
+#### **Step 1: Install Entity Framework**
+
+Use **NuGet** to install **Entity Framework** into your project.
+
+- Open **Package Manager Console** and run:
+
+```powershell
+Install-Package EntityFramework
+```
+
+---
+
+#### **Step 2: Create a Database Context**
+
+The **DbContext** class represents the session between your application and the database.
+
+1. Create a new class called **ApplicationDbContext** that inherits from `DbContext`.
+
+```csharp
+using System.Data.Entity;
+
+public class ApplicationDbContext : DbContext
+{
+    public DbSet<Product> Products { get; set; }  // Represents Products table in DB
+}
+```
+
+In the above code:
+- `DbSet<Product>` represents a collection of products in the database.
+
+---
+
+#### **Step 3: Create the Model**
+
+Let's say you have a **Product** model. This model will map to a table in the database.
+
+csharp
+public class Product
+{
+    public int ProductId { get; set; }  // Primary Key
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+}
+
+EF automatically creates a `Products` table based on the `Product` model.
+
+---
+
+#### **Step 4: Update the Controller for CRUD Operations**
+
+In this example, we will perform basic **CRUD (Create, Read, Update, Delete)** operations on the **Product** model using **Entity Framework**.
+
+1. Create a **ProductController** to handle operations:
+
+csharp
+public class ProductController : Controller
+{
+    private ApplicationDbContext db = new ApplicationDbContext();  // DbContext instance
+
+    // Create: GET action to show form
+    public ActionResult Create()
+    {
+        return View();
+    }
+
+    // Create: POST action to save data to DB
+    [HttpPost]
+    public ActionResult Create(Product product)
+    {
+        if (ModelState.IsValid)
+        {
+            db.Products.Add(product);  // Add new product to the Products table
+            db.SaveChanges();  // Save changes to the database
+            return RedirectToAction("Index");  // Redirect to Product list page
+        }
+        return View(product);
+    }
+
+    // Index: GET action to display list of products
+    public ActionResult Index()
+    {
+        var products = db.Products.ToList();  // Retrieve all products from the DB
+        return View(products);
+    }
+
+    // Edit: GET action to display edit form
+    public ActionResult Edit(int id)
+    {
+        var product = db.Products.Find(id);  // Find product by ID
+        if (product == null)
+        {
+            return HttpNotFound();
+        }
+        return View(product);
+    }
+
+    // Edit: POST action to update product details
+    [HttpPost]
+    public ActionResult Edit(Product product)
+    {
+        if (ModelState.IsValid)
+        {
+            db.Entry(product).State = EntityState.Modified;  // Mark the entity as modified
+            db.SaveChanges();  // Save changes to the DB
+            return RedirectToAction("Index");  // Redirect to product list
+        }
+        return View(product);
+    }
+
+    // Delete: GET action to confirm deletion
+    public ActionResult Delete(int id)
+    {
+        var product = db.Products.Find(id);  // Find product by ID
+        if (product == null)
+        {
+            return HttpNotFound();
+        }
+        return View(product);
+    }
+
+    // Delete: POST action to delete product from DB
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+        var product = db.Products.Find(id);  // Find product by ID
+        db.Products.Remove(product);  // Remove product from the DB
+        db.SaveChanges();  // Save changes
+        return RedirectToAction("Index");  // Redirect to product list
+    }
+}
+
+- **`Create`**: Adds a new product to the database.
+- **`Index`**: Displays a list of all products.
+- **`Edit`**: Allows editing the details of a product.
+- **`Delete`**: Deletes a product from the database.
+
+---
+
+#### **Step 5: Create Views for CRUD Operations**
+
+Create views to interact with the user.
+
+1. **Create** View (Product/Create.cshtml):
+
+html
+@model Product
+
+<h2>Add New Product</h2>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <label for="Name">Product Name</label>
+        @Html.TextBoxFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <div>
+        <label for="Price">Price</label>
+        @Html.TextBoxFor(m => m.Price)
+        @Html.ValidationMessageFor(m => m.Price)
+    </div>
+
+    <button type="submit">Add Product</button>
+}
+
+@Html.ValidationSummary(true)
+
+2. **Index** View (Product/Index.cshtml):
+
+html
+@model IEnumerable<Product>
+
+<h2>Product List</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Price</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = product.ProductId })
+                @Html.ActionLink("Delete", "Delete", new { id = product.ProductId })
+            </td>
+        </tr>
+    }
+</table>
+
+
+---
+
+###  **Key Concepts of Entity Framework:**
+
+1. **DbContext**: Represents the session between the application and the database.
+2. **DbSet**: Represents a collection of entities (like the `Products` table).
+3. **CRUD Operations**: Use Entity Framework to create, read, update, and delete data.
+4. **Model Binding**: Automatically binds form data to the model object.
+5. **LINQ Queries**: Use LINQ to query data from the database (`db.Products.ToList()`).
+
+---
+
+### **Real-World Use Case:**
+
+In an **e-commerce application**, the Entity Framework can be used to interact with the **products database**. The users can:
+- **Create** new products.
+- **View** the list of products.
+- **Edit** product details.
+- **Delete** unwanted products.
+
