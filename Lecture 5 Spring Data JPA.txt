@@ -1,0 +1,328 @@
+### Lecture 5: **Spring Data JPA **
+
+---
+
+#### **1. Introduction to Spring Data JPA**
+
+Spring Data JPA is a part of the larger Spring Data project, and it aims to simplify the data access layer by reducing boilerplate code. It uses JPA (Java Persistence API) to work with relational databases, allowing you to easily integrate data access in your Spring Boot application.
+
+
+
+#### **2. Key Concepts**
+
+- **JPA**: Java Persistence API provides a way to manage relational data in Java applications.
+- **Entity**: A class that represents a table in the database.
+- **Repository**: An interface that provides CRUD operations on the entity.
+- **JpaRepository**: Spring Data JPA provides `JpaRepository` as an interface that extends `PagingAndSortingRepository` and `CrudRepository` to provide generic CRUD operations.
+
+---
+
+#### **3. Real-World Example: E-Commerce Application**
+
+Let’s consider an **E-commerce application** where we need to manage **Products** and **Orders**. We will model the data and implement the functionality for:
+
+- CRUD operations on `Product` entities.
+- Managing orders placed by customers.
+
+---
+
+#### **4. Setting Up the Project**
+
+**Dependencies for Maven:**
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+```
+
+**Dependencies for Gradle:**
+```gradle
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
+}
+```
+
+---
+
+#### **5. Database Configuration (`application.properties`)**
+
+```properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+```
+
+- We use **H2** as an in-memory database for the demo.
+- **`ddl-auto=update`** automatically updates the database schema based on the entity model.
+
+---
+
+#### **6. Defining Entities**
+
+##### **Product Entity**
+
+```java
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+@Entity
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String name;
+    private Double price;
+    private String description;
+
+    // Getters and Setters
+}
+```
+
+- The **Product** class represents an entity in the database, mapped to the `product` table.
+- We have fields for product `id`, `name`, `price`, and `description`.
+
+##### **Order Entity**
+
+```java
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private Integer quantity;
+    private Double totalPrice;
+
+    @ManyToOne
+    private Product product;  // Product ordered by the customer
+
+    // Getters and Setters
+}
+```
+
+- The **Order** class represents an order placed by a customer.
+- We use **`@ManyToOne`** to indicate that many orders can be associated with one product.
+- `quantity` represents the number of items ordered, and `totalPrice` is the total value of the order.
+
+---
+
+#### **7. Creating the Repository Layer**
+
+Spring Data JPA provides an easy way to interact with the database using **Repositories**.
+
+##### **ProductRepository**
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    // Custom query methods can be added here
+}
+```
+
+- `JpaRepository<Product, Long>` provides CRUD operations and other useful methods.
+- No need to write boilerplate code to interact with the database.
+
+##### **OrderRepository**
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
+    // Custom query methods for orders can be added here
+}
+```
+
+- Similar to `ProductRepository`, this interface will allow CRUD operations for `Order`.
+
+---
+
+#### **8. Creating the Service Layer**
+
+The service layer contains the business logic.
+
+##### **ProductService**
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    // Get all products
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    // Create a new product
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    // Update a product
+    public Product updateProduct(Long id, Product product) {
+        product.setId(id);
+        return productRepository.save(product);
+    }
+
+    // Delete a product
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
+}
+```
+
+##### **OrderService**
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    // Place an order
+    public Order placeOrder(Long productId, Integer quantity) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        Double totalPrice = product.getPrice() * quantity;
+
+        Order order = new Order();
+        order.setProduct(product);
+        order.setQuantity(quantity);
+        order.setTotalPrice(totalPrice);
+
+        return orderRepository.save(order);
+    }
+}
+```
+
+---
+
+#### **9. Creating the Controller Layer**
+
+The controller layer maps the HTTP requests to the service methods.
+
+##### **ProductController**
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(product);
+    }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        return productService.updateProduct(id, product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+    }
+}
+```
+
+##### **OrderController**
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/orders")
+public class OrderController {
+
+    @Autowired
+    private OrderService orderService;
+
+    @PostMapping
+    public Order placeOrder(@RequestParam Long productId, @RequestParam Integer quantity) {
+        return orderService.placeOrder(productId, quantity);
+    }
+}
+
+- **ProductController**: Exposes REST endpoints for managing products (CRUD operations).
+- **OrderController**: Exposes REST endpoints for placing orders.
+
+---
+
+#### **10. Testing the Application**
+
+You can test the API using **Postman** or **cURL**:
+
+1. **GET** `/api/products`: Retrieve all products.
+2. **POST** `/api/products`: Create a new product (e.g., pass JSON data with product details).
+3. **PUT** `/api/products/{id}`: Update an existing product.
+4. **DELETE** `/api/products/{id}`: Delete a product.
+5. **POST** `/api/orders`: Place an order (provide `productId` and `quantity` as parameters).
+
+---
+
+#### **11. Conclusion**
+
+In this lecture, we built a **real-world e-commerce application** using **Spring Data JPA**. The steps included:
+
+- Setting up entities for **Products** and **Orders**.
+- Creating repositories using `JpaRepository`.
+- Implementing business logic in the service layer.
+- Exposing RESTful endpoints for **CRUD operations** and placing orders.
+- Testing the API.
