@@ -1,0 +1,338 @@
+1,  Create new app
+           npx create-react-app employee
+2,  Create routing
+           npm install react-router-dom
+3,  Install bootstrap
+          npm install bootstrap
+4,  Install Json-Server
+           npm install -g json-server
+
+==========
+
+npm i -g json-server@0.17.4    //to install json-server
+
+json-server db.json --port 8000		//to run api file/json file
+
+REST Principles provides : POST(insert),GET(Fetch),DELETE(),PUT(Update) api
+
+npm uninstall -g json-server
+============================
+
+App.js
+
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import EmpList from './EmpList';
+import EmpCreate from './EmpCreate';
+import EmpEdit from './EmpEdit';
+
+function App() {
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<EmpList/>}></Route>
+          <Route path='emp/create' element={<EmpCreate/>}></Route>
+          <Route path='/emp/edit/:empid' element={<EmpEdit/>}></Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;
+============
+EmpList.js
+
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+function EmpList()
+{
+    const [empdata, empdatachange] = useState(null);
+    const navigate = useNavigate();
+   
+    const LoadEdit = (id) => {
+        navigate("/emp/edit/" + id);
+    }
+
+    const Removefunction = (id) => {
+        if (window.confirm('Do you want to remove?')) {
+            fetch("http://localhost:4000/emp/" + id, {
+                method: "DELETE"
+            }).then((res) => {
+                alert('Removed successfully.')
+                window.location.reload(); //page refresh
+            }).catch((err) => {
+                console.log(err.message)
+            })
+        }
+    }
+
+
+    useEffect(() => {
+        fetch("http://localhost:4000/emp").then((res) => {
+            return res.json();
+        }).then((resp) => {
+            empdatachange(resp);
+        }).catch((err) => {
+            console.log(err.message);
+        })
+    })
+    return(
+        <div className="container">
+            <div className="card">
+                <div className="card-title">
+                    <h2>Employee List</h2>
+                </div>
+                <div className="card-body">
+                    <div className="divbtn">
+                        <Link to="emp/create" className="btn btn-success">Add New (+)</Link>
+                    </div>
+                    <table className="table table-bordered">
+                        <thead className="bg-dark text-white">
+                            <tr>
+                                <td>ID</td>
+                                <td>Name</td>
+                                <td>Email</td>
+                                <td>Salary</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {empdata &&
+                                empdata.map(item => (
+                                    <tr>
+                                        <td>{item.id}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.email}</td>
+                                        <td>{item.salary}</td>
+                                        <td>
+                                            <a onClick={() => { Removefunction(item.id) }} className="btn btn-sm btn-danger">Delete</a>
+                                            ||<a onClick={() => { LoadEdit(item.id) }} className="btn btn-sm btn-success">Edit</a>
+                                        </td>
+
+                                       
+                                    </tr>
+                                ))
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default EmpList
+
+===============
+
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+
+const EmpEdit = () => {
+    const { empid } = useParams(); //fetching id from routes
+
+    //const [empdata, empdatachange] = useState({});
+
+    useEffect(() => {
+        fetch("http://localhost:4000/emp/" + empid).then((res) => {
+            return res.json();
+        }).then((resp) => {
+            idchange(resp.id);
+            namechange(resp.name);
+            emailchange(resp.email);
+            salarychange(resp.salary);
+            
+        }).catch((err) => {
+            console.log(err.message);
+        })
+    }, []);
+
+    const[id,idchange]=useState("");
+    const[name,namechange]=useState("");
+    const[email,emailchange]=useState("");
+    const[salary,salarychange]=useState("");
+    
+
+    const navigate=useNavigate();
+
+    const handlesubmit=(e)=>{
+      e.preventDefault();
+      const empdata={id,name,email,salary};
+      
+
+      fetch("http://localhost:4000/emp/"+empid,{
+        method:"PUT",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify(empdata)
+      }).then((res)=>{
+        alert('Saved successfully.')
+        navigate('/');
+      }).catch((err)=>{
+        console.log(err.message)
+      })
+
+    }
+    return ( 
+        <div>
+
+        <div className="row">
+            <div className="offset-lg-3 col-lg-6">
+                <form className="container" onSubmit={handlesubmit}>
+
+                    <div className="card" style={{"textAlign":"left"}}>
+                        <div className="card-title">
+                            <h2>Employee Edit</h2>
+                        </div>
+                        <div className="card-body">
+
+                            <div className="row">
+
+                                <div className="col-lg-12">
+                                    <div className="form-group">
+                                        <label>ID</label>
+                                        <input value={id} disabled="disabled" className="form-control"></input>
+                                    </div>
+                                </div>
+
+                                <div className="col-lg-12">
+                                    <div className="form-group">
+                                        <label>Name</label>
+                                        <input value={name}  onChange={e=>namechange(e.target.value)} className="form-control"></input>
+                                    
+                                    </div>
+                                </div>
+
+                                <div className="col-lg-12">
+                                    <div className="form-group">
+                                        <label>Email</label>
+                                        <input value={email} onChange={e=>emailchange(e.target.value)} className="form-control"></input>
+                                    </div>
+                                </div>
+
+                                <div className="col-lg-12">
+                                    <div className="form-group">
+                                        <label>Salary</label>
+                                        <input value={salary} onChange={e=>salarychange(e.target.value)} className="form-control"></input>
+                                    </div>
+                                </div>
+
+                                <div className="col-lg-12">
+                                    <div className="form-group">
+                                       <button className="btn btn-success" type="submit">Save</button>
+                                       <Link to="/" className="btn btn-danger">Back</Link>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+     );
+}
+ 
+export default EmpEdit;
+==============
+
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+const EmpCreate = () => {
+
+    //const[id,idchange]=useState("");
+    const[name,namechange]=useState("");
+    const[email,emailchange]=useState("");
+    const[salary,salarychange]=useState("");
+    
+    const navigate=useNavigate();
+
+    const handlesubmit=(e)=>{
+      e.preventDefault();
+      const empdata={name,email,salary};
+      
+
+      fetch("http://localhost:4000/emp",{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify(empdata)
+        
+    }).then((res)=>{
+        alert('Saved successfully.')
+        navigate('/');
+      }).catch((err)=>{
+        console.log(err.message)
+      })
+
+    }
+
+    return (
+        <div>
+
+            <div className="row">
+                <div className="offset-lg-3 col-lg-6">
+                    <form className="container" onSubmit={handlesubmit}>
+
+                        <div className="card" style={{"textAlign":"left"}}>
+                            <div className="card-title">
+                                <h2>Employee Create</h2>
+                            </div>
+                            <div className="card-body">
+
+                                <div className="row">
+
+
+                                    <div className="col-lg-12">
+                                        <div className="form-group">
+                                            <label>Name</label>
+                                            <input value={name} onChange={e=>namechange(e.target.value)} className="form-control"></input>
+                                        </div>
+                                    </div>
+
+                                    <div className="col-lg-12">
+                                        <div className="form-group">
+                                            <label>Email</label>
+                                            <input value={email} onChange={e=>emailchange(e.target.value)} className="form-control"></input>
+                                        </div>
+                                    </div>
+
+                                    <div className="col-lg-12">
+                                        <div className="form-group">
+                                            <label>Salary</label>
+                                            <input value={salary} onChange={e=>salarychange(e.target.value)} className="form-control"></input>
+                                        </div>
+                                    </div>
+
+                                    <div className="col-lg-12">
+                                        <div className="form-group">
+                                           <button className="btn btn-success" type="submit">Save</button>
+                                           <Link to="/" className="btn btn-danger">Back</Link>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default EmpCreate;

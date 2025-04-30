@@ -1,0 +1,156 @@
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importing Bootstrap CSS
+import { EmployeeData } from './EmployeeData'; // Your employee data
+import { Modal, Button } from 'react-bootstrap'; // Import Bootstrap modal
+
+function App() {
+
+  const [data, setData] = useState([]);
+  const [isEditing, setIsEditing] = useState(false); // To control the visibility of the modal
+  const [currentEmployee, setCurrentEmployee] = useState(null); // To hold the selected employee for editing
+
+  useEffect(() => {
+    // Setting EmployeeData in state when the component mounts
+    setData(EmployeeData);
+  }, []);
+
+  // Handles the "Edit" button click
+  const handleEdit = (id) => {
+    const employee = data.find(emp => emp.id === id);
+    setCurrentEmployee(employee);  // Set the selected employee for editing
+    setIsEditing(true);            // Show the modal
+  };
+
+  // Handles the "Delete" button click
+  const handleDelete = (id) => {
+    if (id > 0) {
+      if (window.confirm("Are sure you want to delete this record?")) {
+        const updatedData = data.filter(employee => employee.id !== id);
+        setData(updatedData);
+      }
+    }
+  };
+
+  // Handles changes in the form inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCurrentEmployee({ ...currentEmployee, [name]: value });  // Update form fields
+  };
+
+  // Handles the update after form submission
+  const handleUpdate = () => {
+    const updatedData = data.map(emp =>
+      emp.id === currentEmployee.id ? currentEmployee : emp
+    );
+    setData(updatedData);
+    setIsEditing(false);  // Hide the modal after saving
+    setCurrentEmployee(null);  // Clear the selected employee
+  };
+
+  // Handles modal close action
+  const handleClose = () => {
+    setIsEditing(false);
+    setCurrentEmployee(null);  // Clear the selected employee
+  };
+
+  return (
+    <div className='App'>
+
+      {/* Employee Table */}
+      <div className="container mt-4">
+        <h1 className="text-center mb-4">Employee List</h1>
+        <table className="table table-striped table-bordered table-hover">
+          <thead className="table-info">
+            <tr>
+              <th>EmpId</th>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Department</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((employee, index) => (
+              <tr key={index}>
+                <td>{employee.id}</td>
+                <td>{employee.name}</td>
+                <td>{employee.position}</td>
+                <td>{employee.department}</td>
+                <td>
+                  <button className="btn btn-primary me-2" onClick={() => handleEdit(employee.id)}>Edit</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(employee.id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Edit Modal */}
+      {isEditing && (
+        <Modal show={isEditing} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Employee</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form>
+              <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={currentEmployee.name}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Position</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="position"
+                  value={currentEmployee.position}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Department</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="department"
+                  value={currentEmployee.department}
+                  onChange={handleChange}
+                />
+              </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="success" onClick={handleUpdate}>
+              Update
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+// API Integration  
+
+export const EmployeeData = [
+    { name: "Krish Kheloji", position: "Software Engineer", department: "Development" },
+    { name: "Yash Ghole", position: "Project Manager", department: "Management" },
+    { name: "Ram Kheloji", position: "UX Designer", department: "Design" },
+    { name: "Manish", position: "UX Designer", department: "Design" },
+    { name: "Haresh", position: "UX Designer", department: "Design" },
+    { name: "Hari Kheloji", position: "IPS", department: "Police" },
+    { name: "S", position: "IPS", department: "Police" },
+    
+  ];

@@ -1,0 +1,225 @@
+### React Class Component Lifecycle Methods with Examples
+
+
+### 1. *Mounting Phase*
+In the mounting phase, the component is created and inserted into the DOM.
+
+#### Example:
+jsx
+import React, { Component } from 'react';
+
+class MyComponent extends Component {
+  constructor(props) {
+    super(props);
+    // Initializing state
+    this.state = { count: 0 };
+    console.log("Constructor: Component is being created.");
+  }
+
+  // Runs before render and updates state based on props
+  static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps: Syncing props with state.");
+    return null; // Usually, you return an updated state object here if needed
+  }
+
+  // Renders the JSX
+  render() {
+    console.log("Render: Component is rendering.");
+    return (
+      <div>
+        <h1>Count: {this.state.count}</h1>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          Increment
+        </button>
+      </div>
+    );
+  }
+
+  // Called after the component is inserted into the DOM
+  componentDidMount() {
+    console.log("componentDidMount: Component has mounted to the DOM.");
+    // API calls or subscriptions can be set up here
+  }
+}
+
+export default MyComponent;
+
+
+#### Lifecycle Flow for Mounting Phase:
+1. *constructor()* → Initializes state and binds methods.
+2. *getDerivedStateFromProps()* → Syncs props with state.
+3. *render()* → Renders JSX to the DOM.
+4. *componentDidMount()* → Executes code that requires the DOM, like API calls.
+
+---
+
+### 2. *Updating Phase*
+This phase happens whenever the component’s state or props change.
+
+#### Example:
+jsx
+import React, { Component } from 'react';
+
+class MyComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  // Sync props with state
+  static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps: Syncing props with state.");
+    return null;
+  }
+
+  // Determine if component should update
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("shouldComponentUpdate: Should the component re-render?");
+    // Return true to allow update or false to block it
+    return true;
+  }
+
+  // Render JSX
+  render() {
+    console.log("Render: Re-rendering component.");
+    return (
+      <div>
+        <h1>Count: {this.state.count}</h1>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          Increment
+        </button>
+      </div>
+    );
+  }
+
+  // Capture data (like scroll position) before update
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log("getSnapshotBeforeUpdate: Capturing snapshot before update.");
+    return null; // This value will be passed to componentDidUpdate
+  }
+
+  // Called after the component updates
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("componentDidUpdate: Component has re-rendered.");
+    // Here you can access DOM or make API requests
+  }
+}
+
+export default MyComponent;
+
+
+#### Lifecycle Flow for Updating Phase:
+1. *getDerivedStateFromProps()* → Sync props with state.
+2. *shouldComponentUpdate()* → Determine if the component should update.
+3. *render()* → Re-render component based on new state/props.
+4. *getSnapshotBeforeUpdate()* → Capture any data before updating the DOM.
+5. *componentDidUpdate()* → Perform side effects after the update, like API calls.
+
+---
+
+### 3. *Unmounting Phase*
+The unmounting phase happens when the component is removed from the DOM.
+
+#### Example:
+jsx
+import React, { Component } from 'react';
+
+class MyComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  componentDidMount() {
+    console.log("Component mounted to the DOM.");
+  }
+
+  // Clean up resources or subscriptions before unmounting
+  componentWillUnmount() {
+    console.log("componentWillUnmount: Component is being removed.");
+    // Clear timers, cancel network requests, or unsubscribe from event listeners
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Count: {this.state.count}</h1>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          Increment
+        </button>
+      </div>
+    );
+  }
+}
+
+export default MyComponent;
+
+
+#### Lifecycle Flow for Unmounting Phase:
+1. *componentWillUnmount()* → Clean up tasks before removing the component from the DOM, like clearing timers, canceling API calls, or removing event listeners.
+
+---
+
+### Complete Lifecycle Flow Example:
+
+Here’s how all the lifecycle methods work together in a typical component:
+
+jsx
+import React, { Component } from 'react';
+
+class MyComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+    console.log("Constructor");
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps");
+    return null;
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("shouldComponentUpdate");
+    return true; // Allow re-render
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log("getSnapshotBeforeUpdate");
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("componentDidUpdate");
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+  }
+
+  render() {
+    console.log("Render");
+    return (
+      <div>
+        <h1>Count: {this.state.count}</h1>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          Increment
+        </button>
+      </div>
+    );
+  }
+}
+
+export default MyComponent;
+
+
+---
+
+### Key Points to Remember:
+- *Mounting:* Runs constructor(), getDerivedStateFromProps(), render(), and componentDidMount().
+- *Updating:* Runs getDerivedStateFromProps(), shouldComponentUpdate(), render(), getSnapshotBeforeUpdate(), and componentDidUpdate().
+- *Unmounting:* Runs componentWillUnmount() before the component is removed from the DOM.

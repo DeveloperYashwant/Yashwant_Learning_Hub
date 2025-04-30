@@ -1,0 +1,175 @@
+//event binding
+import React From react;
+ function App(){
+  const = name = "Hello, World";
+ function output(){
+ alert("Hello, Node.js")
+}
+return(
+ <div>
+{name}
+<input type="button" value="button" Onclick={output}/>
+<button type="button" onclick={()=>alert('Button Click in Express.js')}><button>
+<div>
+)
+}
+===================================================================
+//state update with value in the functional component
+
+import {usestate} from "react";
+fucntion Profile(){
+ const[salary, SetnewSalary] = useState(0);
+ function IncreaseSalary(){
+     setnewSalary(salary + 15,000)
+ }
+ return (
+  <div>
+   <p>Dipesh Sukhdare salary is {salary}<p>
+   <input type="button" value="increase salary" Onclick={IncreaseSalary}
+<button Onclick={()=> SetnewSalary + 25,000)}> Salary Change <button>
+   <div>
+)
+}
+
+==========================================================================
+import {useState} from 'react';
+function App() {
+
+  //let name="Yash";
+  const [name,setName]=useState(0)
+  function test()
+  {
+    // name="John";
+    // alert(name);
+    setName(name+1);
+  }
+  //const numbers = [1, 2, 3, 4];
+  return (
+    // <ul>
+    //   {numbers.map(number => <li key={number}>{number}</li>)}
+    // </ul>
+    <div>
+      {name}
+      <input type="button" value="Click" onClick={test}></input>
+    
+    </div>
+  );
+}
+export default App;
+
+//updating value increment using state
+
+import React , {usestate} from "react";
+
+function App(){
+  const [furitlist ,setfurit ] = usestate ( banana , apple , orange , mango , jackfurit, grapes);
+
+function furit(){
+const incrementFurit = numbers.map(furitlist =>furitList + 1);
+setFurit(incrementFurit);
+}
+
+return(
+ <div>
+ <ul>
+  {numbers.map ((number, index) =>{
+ <li key={index}>{number}<li>
+})}
+<ul>
+
+<input type="button" value="Increment fruitlist" onclick ={furit} />
+
+<div>
+)
+}
+============================================================================
+
+//Props with functinal components
+import React from "react";
+
+function  Profile(props){
+     return ( 
+        <div>
+            <h1> {props.id} {props.name} { props.age}</h1>
+        </div>
+     )
+}
+function details(){
+
+    const user = { name : "dipesh", age : 22 , id : 1};
+    return <Profile  name= {user.name} age = {user.age} id= {user.id} />
+}
+export default details;
+
+//props using with components
+function Student(props) {
+  return (
+    <div>
+      <p>Student Details:</p>
+      <p>ID: {props.id}</p>
+      <p>Name: {props.name}</p>
+      <p>Salary: {props.salary}</p>
+      <p>SSC %: {props.education.ssc}</p>
+      <p>HSC %: {props.education.hsc}</p>
+      <p>City: {props.city}</p>
+      <p>Age: {props.age}</p>
+    </div>
+  );
+}
+
+export default Student;
+
+=========================================================================
+//state with class components
+import React, {Component} from "react";
+class App extends component {
+  constructor(){
+  super();
+  this.state = {
+   name : ["Dipesh"]
+};
+
+appendText() {
+ this.setState({name : this.state.name + "!"});
+}  
+render(){
+ return(
+ <div>
+   {this.state.name}
+  <input type= "button" value="Add Exclamation" Onclick ={()=> this.appendText()}/>
+ <div>
+)
+}
+}
+export default app;
+
+===============================================================================
+
+//UserInputs in state Components
+
+import {usestate} from "react";
+
+function UserInput() {
+  const [text1 , setText1] = useState("");
+  const [text2 , setText2] = useState("");
+  
+function handleText1_change(event1){
+ setText1(event.target.value);
+}
+function handleText2_change(event2){
+ setText2(event.target.value);
+}
+
+ return(
+ <div> 
+ <input type= "text" onchange ={handleText1_change} placeholder ="Enter First Text"/> <br>
+ <button type= "text" Onchange ={handleText2_change} placeholder = "Enter Second Text"/> <br>button>
+
+<p>Concatenated Text: {text1 + "" + Text2 } <p>
+{parseInt(text1) + parse(text2) }
+<div>
+)
+}
+export default userinputs
+
+=======================================================================================

@@ -1,0 +1,415 @@
+Reactjs interview Questions
+================================================
+Basics Questions
+================================================
+
+1. What is React?
+React is a JavaScript library for building user interfaces. It allows developers to create reusable components for efficient and dynamic UI updates. 
+especially for single-page applications (SPAs). It is maintained by Meta (Facebook) and a community of developers. 
+React allows developers to create reusable UI components, making code more organized and easier to maintain.
+-------------------------------------------------------------------------------------------------------------------
+Key Features of React
+Component-Based Architecture - Each component can have its own logic and render a specific part of the UI.
+Virtual DOM - Instead of updating the entire DOM, React updates only the parts that change by comparing the Virtual DOM with the real DOM.
+JSX (JavaScript XML) - React uses JSX, a syntax extension that looks like HTML but is written inside JavaScript.
+Unidirectional Data Flow - React follows a one-way data binding approach where data flows from parent components to child components.
+State Management - React provides a state object to store and manage data within components.
+Hooks - React offers Hooks, such as useState and useEffect, which allow functional components to manage state and side effects.
+
+==============================================================================================================================================
+2. What is JSX?
+JSX stands for JavaScript XML. It is a syntax extension for JavaScript, a syntax extension that looks like HTML but is written inside JavaScript.
+Example: import React from 'react';
+function Greeting() {
+  const name = "John";
+  return <h1>Hello, {name}!</h1>;
+}
+export default Greeting;
+
+===========================================================================================================================
+3. What is a Component in React?
+A component is a building block of a React application. It can be a functional or class-based.
+--------------------------------------------------------------------------------------------------
+Types of Components
+1. Functional Components
+A functional component is a plain JavaScript function that returns JSX to define the UI. It is the simpler and more modern way to create components.
+Example:
+function Greeting() {
+  return <h1>Hello, World!</h1>;
+}
+export default Greeting;
+
+2. Class Components
+A class component is a JavaScript class that extends React.Component. It uses a render() method to return JSX.
+Example:
+import React, { Component } from 'react';
+class Greeting extends Component {
+  render() {
+    return <h1>Hello, World!</h1>;
+  }
+}
+--------------------------------------------------------------------------------
+3. Difference Between Functional and Class Components in React
+Functional Component	        |  Class Component
+Function-based	                |  Class-based
+State Management in             |  State Management in Use this.state
+Use useState and other Hooks	  
+Lifecycle Methods in            | Use built-in lifecycle methods 
+Use useEffect and other Hooks	
+Simple Component	        | More complex Component
+Performance faster              | Performance slower due to this binding
+due to no this binding	
+Does not use this keyword	| Uses this keyword frequently
+
+================================================================================================================
+4. What is State in React?
+State is an object that holds dynamic data for a component and allows it to re-render on updates.
+Example:
+function Counter() {
+  const [count, setCount] = React.useState(0);
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+================================================================================================================
+5. What are Props in React?
+Props (short for properties) are read-only inputs passed from a parent component to a child component. 
+They are used to send data and functions to child components, enabling communication between components.
+Example: function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+<Greeting name="John" />;
+
+Passing Functions as Props: //Parent Component
+function App() {
+  const sayHello = (name) => alert(`Hello, ${name}!`);
+  return <Button onClick={() => sayHello("Alice")} />;
+}
+function Button({ onClick }) 
+{  //Child Component
+  return <button onClick={onClick}>Click Me</button>;
+}
+-----------------------------------------------------------------------
+1. Difference Between Props and State in React
+Props	                    |         State
+Immutable (read-only)	    |  Mutable (can change over time)
+Passed from parent to child |	Managed within the component
+Used for communication	    |  Used for component-specific data
+Cannot be modified 
+by the component            | Can be updated with setState or Hooks
+
+=========================================================================================================
+
+6. What is the Virtual DOM?
+The Virtual DOM is a lightweight copy of the actual DOM. React uses it to UI Component changes and update the real DOM efficiently.
+----------------------------------------------------------------------------------------------------------------
+1. What is Rendering in React?
+Rendering in React is the process of displaying the UI elements based on the component’s state and props. When state or props change,
+React re-renders the component to reflect the updated UI.
+2. How It Works:
+Initial Rendering: React processes JSX and renders the UI to the DOM.
+Re-rendering: Changes in state or props trigger a re-render of the component.
+Virtual DOM: React updates the virtual DOM first and then applies the necessary changes to the actual DOM for efficiency.
+
+=====================================================================================================
+
+7. What are React Hooks?
+React Hooks are special functions that allow you to use state and other React features in functional components. 
+--------------------------------------------------------------------------------------------
+1. What is UseState in React?
+useState is a React Hook that allows functional components to manage state. 
+It lets you add state to a functional component,which was previously only available in class components.
+Example: 
+import React, { useState } from 'react';
+function Counter() {
+  const [count, setCount] = useState(0);  
+return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+export default Counter;
+-------------------------------------------------------------------------
+2. What is UseEffect in React?
+useEffect is a React Hook that allows you to perform side effects in functional components, 
+such as data fetching, subscriptions, or manually updating the DOM.
+Syntax:
+useEffect(() => {
+ }, [dependencies]); // Optional dependency array
+-----------------------------------------------------
+Example:
+import React, { useState, useEffect } from 'react';
+function ChangeTitle() {
+  const [name, setName] = useState('John');
+useEffect(() => {
+    document.title = `Hello, ${name}!`; 
+}, [name]); 
+return (
+    <div>
+      <h1>Change the document title</h1>
+      <p>The current name is: {name}</p>
+      <button onClick={() => setName('Alice')}>Change Name</button>
+    </div>
+  );
+}
+export default ChangeTitle;
+
+================================================================================================
+8. Explain the React Lifecycle Method.
+React provides several lifecycle methods that allow you to run code at specific points in a component's life. 
+These methods are called during different phases of a component's life, including mounting, updating, and unmounting.
+--------------------------------------------------------------------------------------------
+Phases of the Lifecycle:
+1. Mounting: When a component is being created and inserted into the DOM.
+constructor(): Initializes state and binds methods.
+componentDidMount(): Runs after the component is mounted.
+
+2. Updating: When a component is being re-rendered due to state or props changes.
+shouldComponentUpdate(nextProps, nextState): Determines if the component should re-render.
+componentDidUpdate(prevProps, prevState): Runs after the component has updated.
+
+3. Unmounting: When a component is being removed from the DOM.
+componentWillUnmount(): Cleanup before the component is removed.
+
+===========================================================================================
+9. What is State Management in React?
+State Management in React refers to the way we handle and manage the state of our application the data or variables
+that change over time and influence how a component behaves or renders.
+Key Concepts: State represents the internal data of a component that can change over time.
+State Management involves controlling how this state is stored, updated, and passed through components.
+--------------------------------------------------------------------------------------------------------
+1. Types of State in React:
+Local Component State: Each component can have its own state, which is managed using the useState Hook in functional components or this.state in class components.
+Global State: Global state is shared across multiple components, which might need to access or update the same data.
+For managing global state, React provides tools like the Context API or external libraries like Redux and Recoil.
+
+=============================================================================================
+10. What is Name Export and Default in React?
+Named export allows you to export multiple values from a file. When importing, you need to use the exact name of the export.
+// Name Export
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;
+
+// File: Import
+import { add, subtract } from './math';
+console.log(add(2, 3)); // 5
+console.log(subtract(5, 3)); // 2
+--------------------------------------------------------------------------------
+Default export allows you to export a single value, function, or class as the default export of a module. You can import it with any name.
+//Name Export Default 
+const add = (a, b) => a + b;
+export default add;
+
+// File: Import
+import sum from './math';
+console.log(sum(2, 3)); // 5
+
+=========================================================================
+Intermediate Level Questions 
+=========================================================================
+1. What is the Context API?
+The Context API is used to pass data through the component tree without having to pass props manually at every level. It is useful for managing global state.
+Example:   const ThemeContext = React.createContext('light');
+function ThemedComponent() {
+  const theme = React.useContext(ThemeContext);
+  return <div>The current theme is {theme}</div>;
+}
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <ThemedComponent />
+    </ThemeContext.Provider>
+  );
+}
+
+========================================================================================
+2. what is Redux and how is it used with React?
+Redux is a state management library used in JavaScript applications, particularly in React. 
+It provides a centralized store to hold the application's state, and it follows a unidirectional data flow. 
+Key Concepts:
+Store: Holds the application state.
+Action: Describes what happened.
+Reducer: Specifies how the state changes in response to actions.
+
+========================================================================================
+3. What is useMemo and useCallback?
+useMemo: Memoizes expensive calculations to avoid recalculating on every render.
+const expensiveCalculation = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+
+useCallback: Returns a memoized callback function, preventing re-creation on every render.
+const handleClick = useCallback(() => { console.log('Clicked!'); }, []);
+
+==========================================================================================
+6. What are Higher-Order Components (HOCs)?
+A Higher-Order Component (HOC) is a function that takes a component as an argument and returns a new component with additional functionality. 
+It’s a pattern used in React to reuse component logic.
+---------------------------------------------------------------------------------
+1. Why Use HOCs?
+Code Reusability: Share common logic across multiple components.
+Enhancing Components: Add additional functionality without modifying the original component.
+Separation of Concerns: Encapsulate reusable logic in one place and keep components focused on their specific tasks.
+-----------------------------------------------------------------------------------------
+2. How It Works:
+HOC (withLoading): Checks if isLoading is true and shows a loading spinner if it is.
+Wrapped Component (DataComponent): Displays the actual data once loading is complete.
+Enhanced Component (EnhancedComponent): Combines the withLoading logic with DataComponent.
+Example:
+const withExtraFunctionality = (WrappedComponent) => { //syntax
+  return (props) => {
+      return <WrappedComponent {...props} />;
+  };
+};
+---------------------------------------------------------------
+function withLoading(Component) {
+  return function WithLoading(props) {
+    if (props.isLoading) {
+      return <div>Loading...</div>;
+    }
+    return <Component {...props} />;
+  };
+}
+const MyComponentWithLoading = withLoading(MyComponent);
+
+===========================================================================================
+7. What is React Router?
+React Router is a standard library for routing in React, enabling navigation between different components or pages in the application.
+Example: import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+function App() {
+  return (
+    <Router>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+      </nav>
+      <Route path="/" exact component={Home} />
+      <Route path="/about" component={About} />
+    </Router>
+  );
+}
+
+=============================================================================================
+8. What is Props Drilling in React and how do you avoid it?
+Props Drilling is the process of passing data through multiple layers of components, even when intermediate components don’t need the data. 
+This can be avoided by using Context API or state management libraries like Redux.
+ 
+Why is Props Drilling a Problem?
+Redundant: Intermediate components must pass props they don’t use.
+Hard to Maintain: As the app grows, managing props becomes complex.
+Scalability Issues: Passing props through many layers becomes cumbersome.
+
+===========================================================================================
+9. Difference Between a Normal Variable and a useState Variable in React 
+Normal Variable	                    |      useState Variable
+Declared with var, let, or const.   |	  Declared using the useState hook.
+Changes do not trigger re-rendering.|     Changes automatically trigger a re-render.
+Purpose	Used for temporary          |     Used for component state that affects the UI.
+data or computations.	            | 
+Value resets on every re-render.    |	  Retains value across renders until updated.
+Suitable for static or              |     Suitable for managing dynamic UI-related data.
+non-UI-related data.	            | 
+
+============================================================================================
+10. What are Promises in React?
+A Promise is a JavaScript object that represents the eventual completion (or failure) of an asynchronous operation. 
+In React, Promises are commonly used when dealing with asynchronous operations such as fetching data from an API, performing background tasks, or waiting for user actions.
+A Promise can be in one of three states:
+Pending: The operation is still ongoing.
+Fulfilled: The operation completed successfully.
+Rejected: The operation failed.
+-------------------------------------------------------------
+Example:
+const fetchData = new Promise((resolve, reject) => {
+  let success = true;  // Simulating a condition
+  if (success) {
+    resolve("Data fetched successfully!");
+  } else {
+    reject("Error fetching data");
+  }
+});
+fetchData
+.then(result => console.log(result))  // If successful
+.catch(error => console.error(error));  // If failed
+
+=========================================================================
+Advanced Level Questions 
+=========================================================================
+1. What is Server-Side Rendering (SSR) in React?
+Server-Side Rendering (SSR) is a technique where the server generates the HTML for a React component and sends it to the browser instead of relying on the client-side JavaScript to render the application. This improves performance and SEO. React itself doesn't provide built-in SSR, but frameworks like Next.js make it easy to implement.
+Example: 
+import React from 'react';
+const Home = ({ message }) => {
+  return (
+    <div>
+      <h1>Welcome to Server-Side Rendering!</h1>
+      <p>{message}</p>
+    </div>
+  );
+};
+export async function getServerSideProps() {
+  return {
+    props: {
+      message: 'This content is rendered on the server!',
+    },
+  };
+}
+export default Home;
+
+2. Differences Between SSR, CSR, and SSG
+Server-Side Rendering (SSR)  |  Client-Side Rendering (CSR)     |  Static Site Generation (SSG)
+Content is rendered on the   |  Content is rendered in the      |  HTML is pre-rendered at build 
+server and sent as HTML to   |  browser using JavaScript.       |  time and served as static files. 
+the browser.                 |                                  | 
+                             |  After the page is loaded        |  At build time (before deployment). 
+At request time              |  in the browser.                 |
+(server processes            |                                  |    
+the request)                 |                                  |  
+                             |                                  |  
+Faster initial load but      |  Slower initial load but faster  |  Extremely fast due to 
+depends on server processing |  subsequent interactions.        |  pre-rendered content.  
+                             |                                  |   
+Excellent, as search engines | Poor unless additional techniques|  Excellent, as search engines  
+receive fully-rendered HTML  | like prerendering are used.      |  receive fully-rendered HTML.
+                             |                                  |
+High, as the server          | Low, as rendering happens        |  Minimal, as static files are served. 
+processes every request      | on the client side.              |
+
+
+==============================================================================
+2. How does React handle Reconciliation?
+Reconciliation is the process of updating the DOM efficiently. React compares the Virtual DOM with the previous one 
+and updates only the changed elements using a diffing algorithm.       
+
+=================================================================================
+3. What is a Custom Hook in React?
+A Custom Hook in React is a reusable function that allows you to encapsulate and share logic between multiple components. 
+It lets you combine stateful logic, side effects, and other functionality using React Hooks like useState, useEffect, etc clean and reusable manner.
+Example: 
+function useCounter() {
+  const [count, setCount] = React.useState(0);
+  const increment = () => setCount(count + 1);
+  return { count, increment };
+}
+function Counter() {
+  const { count, increment } = useCounter();
+  return <button onClick={increment}>Count: {count}</button>;
+}
+
+==============================================================================================
+4. What are Error Boundaries?
+Error Boundaries catch JavaScript errors in their child components' tree and display a fallback UI instead of crashing the app. 
+They are implemented using class components.
+
+==========================================================================================
+5. What is React Fiber?
+React Fiber is the new reconciliation algorithm in React (introduced in React 16) for rendering. 
+It allows splitting rendering into chunks for better performance, improving rendering for large apps.
+
+
+
+
