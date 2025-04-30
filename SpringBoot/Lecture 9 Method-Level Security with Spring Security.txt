@@ -1,0 +1,188 @@
+### Lecture 9: **Method-Level Security with Spring Security**
+
+---
+
+#### **1. Introduction to Method-Level Security**
+
+Method-level security in Spring allows you to secure specific methods in your application based on roles or permissions. This level of security is typically used when you want fine-grained control over access to individual business methods rather than securing entire endpoints.
+
+Spring provides several annotations that allow you to apply security directly to methods:
+
+- **`@PreAuthorize`**: Determines whether a method can be executed based on the evaluation of an expression.
+- **`@Secured`**: Restricts access to methods based on roles.
+- **`@RolesAllowed`**: A standard Java annotation used to specify which roles can access a method.
+
+---
+
+#### **2. Enabling Method Security**
+
+To use method-level security in Spring, we need to enable it in the `SecurityConfig` class. You can do this by adding the `@EnableGlobalMethodSecurity` annotation.
+
+##### **SecurityConfig Class (Modified)**
+
+```java
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    // Other configurations remain unchanged
+}
+```
+
+- **`@EnableGlobalMethodSecurity(prePostEnabled = true)`**: Enables `@PreAuthorize` and `@PostAuthorize` annotations.
+- **`@EnableGlobalMethodSecurity(securedEnabled = true)`**: Enables `@Secured` annotation.
+
+---
+
+#### **3. Using `@PreAuthorize` Annotation**
+
+The `@PreAuthorize` annotation allows for more flexible and dynamic authorization. You can use SpEL (Spring Expression Language) to specify security constraints based on the current user's roles or other conditions.
+
+##### **Example Usage of `@PreAuthorize`**
+
+```java
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void deleteUser(Long userId) {
+        // Method logic to delete a user
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    public void viewProfile(Long userId) {
+        // Method logic to view a user's profile
+    }
+}
+```
+
+- **`@PreAuthorize("hasRole('ROLE_ADMIN')")`**: The `deleteUser` method can only be accessed by users with the `ROLE_ADMIN`.
+- **`@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")`**: The `viewProfile` method can be accessed by both `ROLE_USER` and `ROLE_ADMIN`.
+
+---
+
+#### **4. Using `@Secured` Annotation**
+
+The `@Secured` annotation allows you to specify the roles that are allowed to execute a method.
+
+##### **Example Usage of `@Secured`**
+
+```java
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Secured("ROLE_ADMIN")
+    public void deleteUser(Long userId) {
+        // Method logic to delete a user
+    }
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    public void viewProfile(Long userId) {
+        // Method logic to view a user's profile
+    }
+}
+```
+
+- **`@Secured("ROLE_ADMIN")`**: The `deleteUser` method is restricted to `ROLE_ADMIN`.
+- **`@Secured({"ROLE_USER", "ROLE_ADMIN"})`**: The `viewProfile` method is accessible to both `ROLE_USER` and `ROLE_ADMIN`.
+
+---
+
+#### **5. Using `@RolesAllowed` Annotation**
+
+`@RolesAllowed` is a standard Java annotation (from JSR-250) that restricts access based on roles. It can be used in the same way as `@Secured`.
+
+##### **Example Usage of `@RolesAllowed`**
+
+```java
+import javax.annotation.security.RolesAllowed;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @RolesAllowed("ADMIN")
+    public void deleteUser(Long userId) {
+        // Method logic to delete a user
+    }
+
+    @RolesAllowed({"USER", "ADMIN"})
+    public void viewProfile(Long userId) {
+        // Method logic to view a user's profile
+    }
+}
+```
+
+- **`@RolesAllowed("ADMIN")`**: The `deleteUser` method is restricted to `ADMIN`.
+- **`@RolesAllowed({"USER", "ADMIN"})`**: The `viewProfile` method is accessible by both `USER` and `ADMIN`.
+
+---
+
+#### **6. Conditional Method-Level Security with `@PreAuthorize`**
+
+`@PreAuthorize` can also be used with more advanced expressions using Spring Expression Language (SpEL). You can make authorization decisions based on the authentication details, such as the username or attributes of the current authenticated user.
+
+##### **Advanced Example with `@PreAuthorize`**
+
+```java
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AccountService {
+
+    @PreAuthorize("#userId == authentication.name")
+    public void updateAccount(Long userId) {
+        // Method logic to update an account
+    }
+}
+```
+
+- **`@PreAuthorize("#userId == authentication.name")`**: This method can only be executed if the `userId` passed to the method matches the authenticated user's username.
+
+---
+
+#### **7. Using `@PostAuthorize` Annotation**
+
+`@PostAuthorize` allows you to make security decisions after a method has been executed. It is often used to check the result of a method execution.
+
+##### **Example Usage of `@PostAuthorize`**
+
+```java
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @PostAuthorize("returnObject.username == authentication.name")
+    public User getUserProfile(Long userId) {
+        // Method logic to fetch user profile
+        return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+    }
+}
+
+
+- **`@PostAuthorize("returnObject.username == authentication.name")`**: After the `getUserProfile` method is executed, it checks whether the returned `User` object has a `username` that matches the authenticated user's username.
+
+---
+
+#### **8. Conclusion**
+
+In this lecture, we have learned how to implement method-level security in Spring Security using annotations like:
+
+- **`@PreAuthorize`**: Allows more dynamic and fine-grained security decisions using Spring Expression Language (SpEL).
+- **`@Secured`**: Restricts method access based on roles.
+- **`@RolesAllowed`**: A standard Java annotation for restricting method access based on roles.
+- **`@PostAuthorize`**: Allows making security decisions based on the method's return value.

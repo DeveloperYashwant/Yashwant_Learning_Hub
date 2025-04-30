@@ -1,0 +1,309 @@
+### Lecture 9: **Microservices with Spring Boot**
+
+---
+
+#### **1. Introduction to Microservices**
+
+**Microservices** is an architectural style that structures an application as a collection of small, loosely coupled services. These services are independently deployable and communicate over a network, typically using HTTP or messaging queues.
+
+Key characteristics of microservices include:
+
+- **Independent Deployment**: Each microservice can be developed, deployed, and scaled independently.
+- **Domain-driven Design**: Microservices are usually designed around business domains (e.g., user service, order service).
+- **Decentralized Data Management**: Each service has its own database and does not directly share data with other services.
+- **Failure Isolation**: Failure in one service does not impact the whole system.
+- **Scalability**: Microservices can be scaled independently depending on the load.
+
+In this lecture, we will learn how to create microservices using **Spring Boot**, focusing on service creation, communication between services, and best practices.
+
+---
+
+#### **2. Setting Up Microservices with Spring Boot**
+
+Spring Boot is a great choice for building microservices because of its simplicity and built-in support for many common microservices patterns, such as RESTful APIs, service discovery, and fault tolerance.
+
+##### **2.1 Building a Simple Microservice with Spring Boot**
+
+1. **Create a Spring Boot Project**: You can use **Spring Initializr** to generate a Spring Boot project. You need to select:
+   - **Spring Web**: For creating RESTful web services.
+   - **Spring Boot DevTools**: For easier development with automatic restarts.
+   - **Spring Data JPA**: For database interaction.
+   
+2. **Create a Service Class**: Create a simple service that will expose a REST API.
+
+**Example of a `ProductService` Microservice:**
+
+```java
+package com.example.productservice;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ProductController {
+
+    @GetMapping("/products")
+    public String getProducts() {
+        return "List of products";
+    }
+}
+```
+
+- The `@RestController` annotation creates a REST API, and the `@GetMapping` defines an endpoint that returns a list of products.
+
+3. **Run the Application**: Run the Spring Boot application. By default, it will be hosted at `http://localhost:8080`.
+
+---
+
+#### **3. Service Communication in Microservices**
+
+In a microservices architecture, services need to communicate with each other. There are several ways to achieve this communication:
+
+##### **3.1 RESTful Communication (Synchronous)**
+
+One of the most common ways microservices communicate is through RESTful APIs. Spring Boot provides support for creating REST APIs using `@RestController` and `@RequestMapping`.
+
+**Example of RESTful communication between `ProductService` and `OrderService`:**
+
+```java
+package com.example.orderservice;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@RestController
+public class OrderController {
+
+    private final RestTemplate restTemplate;
+
+    public OrderController(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    @GetMapping("/orders")
+    public String getOrderDetails() {
+        String productDetails = restTemplate.getForObject("http://localhost:8081/products", String.class);
+        return "Order details with product: " + productDetails;
+    }
+}
+```
+
+- The `RestTemplate` is used to make HTTP requests to another microservice (`ProductService`).
+- The `getForObject()` method sends an HTTP GET request to the `ProductService`'s `/products` endpoint and retrieves the response.
+
+##### **3.2 Asynchronous Communication with Message Queues**
+
+For services that need to communicate asynchronously (for example, for sending notifications or handling large-scale data processing), microservices can communicate via **message queues** like **RabbitMQ** or **Kafka**.
+
+**Example with RabbitMQ (Asynchronous Communication):**
+
+- First, you need to include RabbitMQ dependencies in your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-amqp</artifactId>
+</dependency>
+```
+
+- Then, configure a simple message producer and consumer:
+
+**Producer:**
+
+```java
+package com.example.productservice;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ProductController {
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @PostMapping("/sendMessage")
+    public String sendMessage() {
+        rabbitTemplate.convertAndSend("productQueue", "New product message");
+        return "Message sent to RabbitMQ";
+    }
+}
+```
+
+**Consumer:**
+
+```java
+package com.example.productservice;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ProductConsumer {
+
+    @RabbitListener(queues = "productQueue")
+    public void receiveMessage(String message) {
+        System.out.println("Received: " + message);
+    }
+}
+```
+
+This setup allows for **asynchronous message passing** between services, helping decouple microservices.
+
+---
+
+#### **4. Service Discovery with Eureka**
+
+In a microservices architecture, service discovery is crucial. Instead of hardcoding the URLs of services, microservices should be able to discover each other dynamically.
+
+**Spring Cloud Netflix Eureka** is a service discovery tool that helps microservices register themselves and find each other.
+
+##### **4.1 Setting Up Eureka Server**
+
+1. **Create a Spring Boot Project** with the following dependencies:
+   - `Spring Cloud Starter Netflix Eureka Server`
+
+2. **Enable Eureka Server** in the `@SpringBootApplication` class:
+
+```java
+package com.example.eurekaserver;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaServerApplication.class, args);
+    }
+}
+```
+
+3. **Configure Eureka Server in `application.properties`**:
+
+```properties
+server.port=8761
+spring.application.name=eureka-server
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+```
+
+- The Eureka server will run on port `8761`, and the services will register with this server.
+
+##### **4.2 Setting Up Eureka Client**
+
+1. **Add Eureka Client dependencies** to the microservice:
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+2. **Enable Eureka Client** in the `@SpringBootApplication` class of the microservice:
+
+```java
+package com.example.productservice;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+@SpringBootApplication
+@EnableEurekaClient
+public class ProductServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ProductServiceApplication.class, args);
+    }
+}
+```
+
+3. **Configure Eureka Client in `application.properties`**:
+
+```properties
+spring.application.name=product-service
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+```
+
+The `product-service` will now register with the Eureka server, and other services can discover it using the service name `product-service`.
+
+---
+
+#### **5. Circuit Breaker with Hystrix**
+
+In a microservices environment, there is always the possibility that one service might fail, affecting the other services. To prevent cascading failures, you can use **Hystrix** to implement a circuit breaker pattern.
+
+##### **5.1 Set Up Hystrix**
+
+1. **Add Hystrix Dependencies** in your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+</dependency>
+```
+
+2. **Enable Hystrix** in the main class of the service:
+
+```java
+package com.example.productservice;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+@SpringBootApplication
+@EnableEurekaClient
+@EnableCircuitBreaker
+public class ProductServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ProductServiceApplication.class, args);
+    }
+}
+```
+
+3. **Use Hystrix in a Service Method**:
+
+```java
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+@RestController
+public class ProductController {
+
+    @HystrixCommand(fallbackMethod = "fallbackProducts")
+    @GetMapping("/products")
+    public String getProducts() {
+        // Simulate an error or failure in the downstream service
+        if (Math.random() > 0.5) {
+            throw new RuntimeException("Service Unavailable");
+        }
+        return "List of products";
+    }
+
+    public String fallbackProducts() {
+        return "Fallback: Product service is currently unavailable.";
+    }
+}
+```
+
+- The `@HystrixCommand` annotation wraps the method and provides a fallback method in case of failure.
+
+---
+
+#### **6. Conclusion**
+
+In this lecture, we covered:
+
+- The concept of **Microservices** and their benefits.
+- How to create a simple microservice using **Spring Boot**.
+- Communication between microservices using **REST** and **Message Queues**.
+- **Service Discovery** with **Eureka**.
+- How to implement a **Circuit Breaker** with **Hystrix**.
