@@ -1,0 +1,171 @@
+### **Lecture 7: SQL SELECT Statement with WHERE, ORDER BY, and LIKE**
+
+## **1. SQL SELECT with WHERE Clause**
+
+The **WHERE** clause is used to filter records.  
+It tells the database **which rows** you want based on a condition.
+
+### **Syntax:**
+
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+
+### **Example:**
+
+SELECT * FROM Students
+WHERE Age > 20;
+
+This shows all students whose age is greater than 20.
+
+---
+
+## **2. SQL Operators You Can Use with WHERE**
+
+| Operator | Meaning |
+|:---------|:--------|
+| =        | Equal to |
+| <> or != | Not equal to |
+| >        | Greater than |
+| <        | Less than |
+| >=       | Greater than or equal to |
+| <=       | Less than or equal to |
+| BETWEEN  | Between two values |
+| IN       | Match any value in a list |
+| LIKE     | Pattern matching |
+| IS NULL  | Check for NULL values |
+| AND, OR, NOT | Combine conditions |
+
+---
+
+## **3. SQL SELECT with ORDER BY Clause**
+
+The **ORDER BY** clause is used to **sort** the result set.
+
+- **ASC**: Ascending order (default).
+- **DESC**: Descending order.
+
+### **Syntax:**
+
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1 [ASC|DESC];
+
+### **Example:**
+
+SELECT * FROM Students
+ORDER BY Age ASC;
+
+ This will display all students sorted by their age from **youngest to oldest**.
+
+SELECT * FROM Students
+ORDER BY Name DESC;
+
+ This will display all students sorted by **Name from Z to A**.
+
+---
+
+## **4. SQL SELECT with LIKE Clause (Pattern Matching)**
+
+The **LIKE** operator is used to search for a specific **pattern** in a column.
+
+### **Wildcards with LIKE:**
+| Symbol | Meaning |
+|:-------|:--------|
+| %      | Represents zero, one, or multiple characters |
+| _      | Represents a single character |
+
+---
+
+### **Examples:**
+
+- Names starting with 'J':
+
+SELECT * FROM Students
+WHERE Name LIKE 'J%';
+
+ Finds students whose names start with "J" like John, James.
+
+- Names ending with 'n':
+
+SELECT * FROM Students
+WHERE Name LIKE '%n';
+
+ Finds students whose names end with "n" like John, Brian.
+
+- Names having 'an' anywhere:
+
+SELECT * FROM Students
+WHERE Name LIKE '%an%';
+
+Matches names like "Daniel", "Sandra".
+
+- Names with exactly 4 letters:
+
+SELECT * FROM Students
+WHERE Name LIKE '____';
+
+4 underscores mean exactly 4 characters.
+
+---
+
+## **5. Combining WHERE, ORDER BY, and LIKE**
+
+You can **combine** these clauses to make more powerful queries!
+
+### **Example:**
+Find all students whose name starts with 'A' and order them by age:
+
+SELECT * FROM Students
+WHERE Name LIKE 'A%'
+ORDER BY Age;
+
+---
+
+## **6. Real-Life Example Scenario**
+
+Suppose you have a `Products` table:
+
+| ProductID | ProductName  | Price |
+|-----------|--------------|-------|
+| 1         | Apple iPhone  | 900   |
+| 2         | Samsung Galaxy | 850  |
+| 3         | Apple Watch    | 500  |
+| 4         | Dell Laptop    | 1200 |
+
+### Example Queries:
+- Find products priced greater than 800:
+
+SELECT * FROM Products
+WHERE Price > 800;
+
+- Find all products starting with "Apple":
+
+SELECT * FROM Products
+WHERE ProductName LIKE 'Apple%';
+
+- Find all products ordered by price descending:
+
+SELECT * FROM Products
+ORDER BY Price DESC;
+
+---
+
+## **7. Summary**
+
+- **WHERE** filters the rows based on condition.
+- **ORDER BY** sorts the rows.
+- **LIKE** searches patterns inside the column.
+- Use wildcards like **%** and **_** for flexible pattern matching.
+
+---
+
+## **8. Practice for Students**
+
+ **Try These:**
+
+1. Select all students whose name starts with 'S'.
+2. Select all students aged between 18 and 22.
+3. Select all students ordered by name in descending order.
+4. Select students whose name contains 'an' anywhere.
+5. Find all products priced less than 1000 and order them by price.

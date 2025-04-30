@@ -1,0 +1,61 @@
+
+### **Lecture 2: ASP.NET Architecture **
+
+
+### **What is ASP.NET Architecture?**
+
+ASP.NET architecture is the **structure or design flow** that shows **how ASP.NET handles a web request from the browser to the server and back**.
+
+---
+
+### **Main Components of ASP.NET Architecture:**
+
+1.  **Client (Browser)**  
+   - Sends a request (e.g., user clicks a link or submits a form).
+
+2.  **Web Server (IIS - Internet Information Services)**  
+   - Receives the request.
+   - Passes it to the **ASP.NET engine**.
+
+3.  **ASP.NET Runtime**  
+   - Checks the type of request (e.g., Web Form, MVC).
+   - Calls appropriate handler.
+
+4.  **Application Code (C# / VB.NET)**  
+   - Executes server-side logic.
+   - Talks to database if needed.
+
+5.  **Database (SQL Server, etc.)**  
+   - Stores data.
+   - Responds to queries.
+
+6. **Response sent back to Client**  
+   - Server sends the final HTML to the browser.
+
+---
+
+### **ASP.NET Request Flow (Short View):**
+
+**Browser → IIS → ASP.NET Engine → Code → Database → Response → Browser**
+
+---
+
+### **Simple Visual View (Textual):**
+
+[Browser] 
+   ↓ 
+[IIS (Web Server)] 
+   ↓ 
+[ASP.NET Engine] 
+   ↓ 
+[Server Code + Database] 
+   ↓ 
+[HTML Response]
+   ↓ 
+[Back to Browser]
+
+---
+
+### **Why Learn Architecture?**
+- Helps you understand **how your code runs**.
+- Makes it easier to **debug, manage, and build efficient apps**.

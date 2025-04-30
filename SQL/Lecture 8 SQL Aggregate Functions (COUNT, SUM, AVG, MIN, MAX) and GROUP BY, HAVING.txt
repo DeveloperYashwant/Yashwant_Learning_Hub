@@ -1,0 +1,198 @@
+### **Lecture 8: SQL Aggregate Functions (COUNT, SUM, AVG, MIN, MAX) and GROUP BY, HAVING**
+
+
+## **1. What Are Aggregate Functions?**
+
+Aggregate Functions **perform a calculation** on a set of rows and return a **single value**.
+
+Here are the most common ones:
+
+| Function | Description |
+|:---------|:------------|
+| COUNT()  | Counts the number of rows |
+| SUM()    | Adds up the values |
+| AVG()    | Calculates the average (mean) value |
+| MIN()    | Finds the minimum value |
+| MAX()    | Finds the maximum value |
+
+---
+
+## **2. Syntax of Aggregate Functions**
+
+sql
+SELECT AGGREGATE_FUNCTION(column_name)
+FROM table_name
+WHERE condition;
+
+---
+
+## **3. Examples of Aggregate Functions**
+
+Imagine a `Students` table:
+
+| ID | Name  | Age | Marks |
+|----|-------|-----|-------|
+| 1  | John  | 22  | 85    |
+| 2  | Alice | 20  | 92    |
+| 3  | Bob   | 21  | 78    |
+| 4  | Sam   | 23  | 88    |
+
+---
+
+### **COUNT() Example**
+Count the number of students:
+sql
+SELECT COUNT(*) FROM Students;
+
+Output: 4
+
+---
+
+### **SUM() Example**
+Find the total of all marks:
+sql
+SELECT SUM(Marks) FROM Students;
+
+ Output: 85 + 92 + 78 + 88 = **343**
+
+---
+
+### **AVG() Example**
+Find the average marks:
+sql
+SELECT AVG(Marks) FROM Students;
+
+ Output: 343 / 4 = **85.75**
+
+---
+
+### **MIN() Example**
+Find the minimum marks:
+sql
+
+SELECT MIN(Marks) FROM Students;
+
+Output: **78**
+
+---
+
+### **MAX() Example**
+Find the maximum marks:
+sql
+
+SELECT MAX(Marks) FROM Students;
+
+Output: **92**
+
+---
+
+## **4. GROUP BY Clause**
+
+**GROUP BY** groups rows that have the **same values** in specified columns into **summary rows**.
+
+Example: "How many students are there in each age group?"
+
+### **Syntax:**
+sql
+SELECT column_name, AGGREGATE_FUNCTION(column_name)
+FROM table_name
+GROUP BY column_name;
+
+---
+
+### **GROUP BY Example:**
+sql
+SELECT Age, COUNT(*) 
+FROM Students
+GROUP BY Age;
+
+ This will tell you how many students are of each age.
+
+---
+
+## **5. HAVING Clause**
+
+**HAVING** is like **WHERE**, but it is used **with GROUP BY** to filter groups.
+
+### **Syntax:**
+sql
+
+SELECT column_name, AGGREGATE_FUNCTION(column_name)
+FROM table_name
+GROUP BY column_name
+HAVING condition;
+
+---
+
+### **HAVING Example:**
+Find ages where more than 1 student is present:
+sql
+
+SELECT Age, COUNT(*)
+FROM Students
+GROUP BY Age
+HAVING COUNT(*) > 1;
+
+ Only shows age groups that have **more than 1 student**.
+
+---
+
+## **6. Real-Life Example**
+
+Imagine a `Sales` table:
+
+| SaleID | ProductName | Amount |
+|--------|-------------|--------|
+| 1      | Phone       | 500    |
+| 2      | Laptop      | 1200   |
+| 3      | Phone       | 600    |
+| 4      | Watch       | 250    |
+| 5      | Laptop      | 1000   |
+
+---
+
+- Total sales:
+```sql
+SELECT SUM(Amount) FROM Sales;
+```
+
+- Total sales per product:
+```sql
+SELECT ProductName, SUM(Amount)
+FROM Sales
+GROUP BY ProductName;
+```
+
+- Products with sales more than 1000:
+```sql
+SELECT ProductName, SUM(Amount)
+FROM Sales
+GROUP BY ProductName
+HAVING SUM(Amount) > 1000;
+```
+
+---
+
+## **7. Summary**
+
+- **COUNT()** counts rows.
+- **SUM()** adds values.
+- **AVG()** calculates average.
+- **MIN()** finds minimum value.
+- **MAX()** finds maximum value.
+- **GROUP BY** groups rows by a column.
+- **HAVING** filters groups after grouping.
+
+---
+
+## **8. Practice for Students**
+
+ **Try These:**
+
+1. Find the total number of students.
+2. Find the total marks scored by all students.
+3. Find the average age of students.
+4. Group students by age and find how many students are there in each age.
+5. Find age groups having more than 1 student.
+
+---

@@ -1,0 +1,55 @@
+### **Lecture 3: ASP.NET Page Life Cycle**
+
+
+### **What is Page Life Cycle?**
+
+
+### **Main Stages in Page Life Cycle:**
+
+1.  **Page Request**  
+   - Browser requests a page. ASP.NET checks if it needs to be compiled.
+
+2.  **Start**  
+   - Page properties like `Request` and `Response` objects are set.
+
+3.  **Initialization**  
+   - All controls on the page are initialized (IDs are set).
+
+4.  **Load**  
+   - Page loads data (e.g., from a database).
+
+5.  **Postback Event Handling**  
+   - Events like Button Click are handled here.
+
+6. **Rendering**  
+   - Page is converted to HTML and sent to the browser.
+
+7.  **Unload**  
+   - Page cleanup, memory is released.
+
+---
+
+### **Simple Diagram (Text View):**
+
+Page Request → Start → Initialization → Load 
+→ Postback Events → Rendering → Unload
+
+---
+
+### **Why is it Important?**
+
+- Helps you know **where to write your code** (e.g., in Page_Load or Button_Click).
+- Helps in **debugging and optimizing** your web app.
+
+---
+
+### **Example:**
+
+csharp
+protected void Page_Load(object sender, EventArgs e)
+{
+    if (!IsPostBack)
+    {
+        Label1.Text = "Welcome to ASP.NET!";
+    }
+}

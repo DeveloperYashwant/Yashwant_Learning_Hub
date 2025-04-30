@@ -1,0 +1,229 @@
+### **Lecture 3: Normalization & Joins in SQL**
+
+
+### **1. Normalization in Databases**
+
+**Normalization** is the process of organizing data in a database to reduce redundancy and dependency. The goal is to divide large tables into smaller, manageable tables and ensure that data is stored logically. This also improves the integrity and efficiency of the database.
+
+#### **Normal Forms:**
+
+
+- **First Normal Form (1NF):**
+  - The table must have a **primary key**.
+  - Each column must contain **atomic values** (no multiple values in a single column).
+  - Each column must contain values of a **single type**.
+  
+  **Example:**
+  Let's say we have a table storing student data:
+
+  | StudentID | Name     | Courses                     |
+  |-----------|----------|-----------------------------|
+  | 1         | John Doe | Math, Science               |
+  | 2         | Jane Doe | English, History, Science   |
+
+  This table is not in 1NF because the "Courses" column contains multiple values for a single student. To normalize it to 1NF, we separate the courses into individual rows:
+
+  | StudentID | Name     | Course     |
+  |-----------|----------|------------|
+  | 1         | John Doe | Math       |
+  | 1         | John Doe | Science    |
+  | 2         | Jane Doe | English    |
+  | 2         | Jane Doe | History    |
+  | 2         | Jane Doe | Science    |
+
+- **Second Normal Form (2NF):**
+  - The table must be in 1NF.
+  - All **non-key attributes** must depend on the **entire primary key** (no partial dependency).
+
+  **Example:**
+  Consider a table with student enrollments and their courses:
+
+  | StudentID | CourseID | Instructor | InstructorPhone |
+  |-----------|----------|------------|-----------------|
+  | 1         | 101      | Mr. A      | 555-1234        |
+  | 1         | 102      | Ms. B      | 555-5678        |
+  | 2         | 101      | Mr. A      | 555-1234        |
+
+  Here, **Instructor** and **InstructorPhone** depend on **CourseID**, not on **StudentID**. To normalize it to 2NF, we separate the instructor information into a new table:
+
+  **Table 1: Enrollments**
+
+  | StudentID | CourseID |
+  |-----------|----------|
+  | 1         | 101      |
+  | 1         | 102      |
+  | 2         | 101      |
+
+  **Table 2: Courses**
+
+  | CourseID | Instructor | InstructorPhone |
+  |----------|------------|-----------------|
+  | 101      | Mr. A      | 555-1234        |
+  | 102      | Ms. B      | 555-5678        |
+
+- **Third Normal Form (3NF):**
+  - The table must be in 2NF.
+  - There must be **no transitive dependency** (non-key attributes must not depend on other non-key attributes).
+
+  **Example:**
+  Consider a table with student information and their department details:
+
+  | StudentID | Name    | Department   | DepartmentHead |
+  |-----------|---------|--------------|----------------|
+  | 1         | John    | Computer Sci | Dr. Smith      |
+  | 2         | Jane    | Math         | Dr. Johnson    |
+
+  Here, **DepartmentHead** depends on **Department**, not on **StudentID**. To convert this to 3NF, we split it into two tables:
+
+  **Table 1: Students**
+
+  | StudentID | Name    | Department   |
+  |-----------|---------|--------------|
+  | 1         | John    | Computer Sci |
+  | 2         | Jane    | Math         |
+
+  **Table 2: Departments**
+
+  | Department   | DepartmentHead |
+  |--------------|----------------|
+  | Computer Sci | Dr. Smith      |
+  | Math         | Dr. Johnson    |
+
+---
+
+### **2. SQL Joins**
+
+**Joins** are used to combine rows from two or more tables based on a related column between them. In relational databases, joins help to retrieve data from multiple tables.
+
+#### **Types of Joins:**
+
+1. **INNER JOIN**:
+   - Returns only the rows where there is a match in both tables.
+   
+   **Example:**
+   Let's consider two tables:
+   
+   **Table 1: Students**
+   
+   | StudentID | Name    |
+   |-----------|---------|
+   | 1         | John    |
+   | 2         | Jane    |
+   
+   **Table 2: Enrollments**
+   
+   | StudentID | Course    |
+   |-----------|-----------|
+   | 1         | Math      |
+   | 1         | Science   |
+   | 3         | History   |
+   
+   The query to get the students who have enrolled in a course:
+
+   sql
+   
+   SELECT Students.Name, Enrollments.Course
+   FROM Students
+   INNER JOIN Enrollments
+   ON Students.StudentID = Enrollments.StudentID;
+   
+   **Result:**
+
+   | Name | Course  |
+   |------|---------|
+   | John | Math    |
+   | John | Science |
+   
+   - **Note**: Jane is excluded because there is no matching record in the **Enrollments** table for her.
+
+2. **LEFT JOIN (or LEFT OUTER JOIN)**:
+   - Returns all rows from the left table and the matching rows from the right table. If there is no match, NULL values are returned for columns from the right table.
+   
+   **Example:**
+
+   sql
+   
+   SELECT Students.Name, Enrollments.Course
+   FROM Students
+   LEFT JOIN Enrollments
+   ON Students.StudentID = Enrollments.StudentID;
+   
+   **Result:**
+
+   | Name | Course  |
+   |------|---------|
+   | John | Math    |
+   | John | Science |
+   | Jane | NULL    |
+   
+   - **Note**: Jane is included even though she has no course enrollment.
+
+3. **RIGHT JOIN (or RIGHT OUTER JOIN)**:
+   - Similar to LEFT JOIN, but it returns all rows from the right table and the matching rows from the left table.
+   
+4. **FULL OUTER JOIN**:
+   - Returns all rows when there is a match in one of the tables. If there is no match, the result will contain NULL values for missing matches from either table.
+
+---
+
+### **3. Example: Combining Normalization and Joins**
+
+Let’s combine the concepts of normalization and joins.
+
+#### **Tables After Normalization:**
+
+- **Students Table:**
+
+  | StudentID | Name   |
+  |-----------|--------|
+  | 1         | John   |
+  | 2         | Jane   |
+
+- **Courses Table:**
+
+  | CourseID | Course    |
+  |----------|-----------|
+  | 101      | Math      |
+  | 102      | Science   |
+
+- **Enrollments Table:**
+
+  | StudentID | CourseID |
+  |-----------|----------|
+  | 1         | 101      |
+  | 1         | 102      |
+  | 2         | 101      |
+
+#### **SQL Query with JOINs:**
+
+sql
+
+SELECT Students.Name, Courses.Course
+FROM Students
+INNER JOIN Enrollments
+ON Students.StudentID = Enrollments.StudentID
+INNER JOIN Courses
+ON Enrollments.CourseID = Courses.CourseID;
+
+**Result:**
+
+| Name  | Course  |
+|-------|---------|
+| John  | Math    |
+| John  | Science |
+| Jane  | Math    |
+
+---
+
+### **4. Summary**
+
+- **Normalization** helps to organize data efficiently and reduces redundancy. The common normal forms are 1NF, 2NF, and 3NF.
+- **SQL Joins** are essential for combining data from multiple tables. We covered INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL OUTER JOIN.
+  
+---
+
+**Q&A Section for Students:**
+
+1. What is the main goal of **Normalization**?
+2. How does an **INNER JOIN** differ from a **LEFT JOIN**?
+3. Why is **Third Normal Form (3NF)** important for database design?

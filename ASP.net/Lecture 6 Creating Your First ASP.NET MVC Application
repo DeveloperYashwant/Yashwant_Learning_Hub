@@ -1,0 +1,93 @@
+###  **Lecture 6: Creating Your First ASP.NET MVC Application**
+
+
+### **Goal:**  
+Build a basic ASP.NET MVC app that displays a welcome message using the **MVC (Model-View-Controller)** pattern.
+
+---
+
+### **Steps to Create:**
+
+####  **1. Open Visual Studio**
+- Click **Create a new project**
+- Choose **ASP.NET Web Application (.NET Framework)**
+- Name it (e.g., `MyFirstMVCApp`)
+- Click **Create**
+
+#### **2. Choose Template**
+- Select **MVC**
+- Click **Create**
+
+---
+
+### **3. Project Structure Overview**
+
+| Folder/File      | Purpose                               |
+|------------------|----------------------------------------|
+| `Controllers/`   | Contains logic (C# controller files)   |
+| `Views/`         | Contains HTML (UI templates)           |
+| `Models/`        | Contains data classes                  |
+| `RouteConfig.cs` | Controls URL routing                   |
+
+---
+
+### **4. Add a Controller**
+
+Go to `Controllers` folder → Right-click → **Add → Controller → MVC 5 Controller – Empty**
+
+Name it `HomeController`
+
+####  Code in `HomeController.cs`:
+
+csharp
+public class HomeController : Controller
+{
+    public ActionResult Index()
+    {
+        ViewBag.Message = "Welcome to your first ASP.NET MVC App!";
+        return View();
+    }
+}
+
+---
+
+### **5. Add a View**
+
+Right-click inside the `Index()` method → **Add View** → Keep name `Index` → Click **Add**
+
+####  Code in `Views/Home/Index.cshtml`:
+
+html
+
+<h2>@ViewBag.Message</h2>
+
+---
+
+### **6. Set Default Route (if needed)**
+
+Go to `App_Start/RouteConfig.cs`
+
+Make sure the route is:
+
+csharp
+defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+
+
+---
+
+### **7. Run the Application**
+
+- Press `F5` or click **Start**
+- Browser opens and displays:  
+   **Welcome to your first ASP.NET MVC App!**
+
+---
+
+### **You Have Created Your First MVC Application!**
+
+---
+
+### **What You Learned:**
+- How MVC separates code (Model, View, Controller)
+- How to create a controller and a view
+- How to pass data using `ViewBag`

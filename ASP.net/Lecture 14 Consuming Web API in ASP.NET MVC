@@ -1,0 +1,197 @@
+###  **Lecture 14: Consuming Web API in ASP.NET MVC**
+
+
+###  **Introduction to Consuming Web API in ASP.NET MVC**
+
+Once you've created your own Web API, the next step is often to **consume** it from another application. In this case, we will explore how to consume a Web API from an **ASP.NET MVC** application.
+
+Consuming a Web API means making HTTP requests to access its resources. This can be done by using classes like `HttpClient` or libraries like `RestSharp` in ASP.NET MVC. We will focus on using the `HttpClient` class.
+
+---
+
+###  **Setting Up a Simple Web API Consumer in ASP.NET MVC**
+
+To consume a Web API in ASP.NET MVC, follow these steps:
+
+#### **Step 1: Install HttpClient**
+
+The **HttpClient** class is part of the .NET Framework, but if you're working with older versions, you might need to install the **System.Net.Http** package via NuGet:
+
+1. Open **Package Manager Console**.
+2. Run the following command to install the **HttpClient**:
+
+powershell
+Install-Package System.Net.Http
+
+---
+
+#### **Step 2: Create a Service to Consume the Web API**
+
+Create a service class that will handle the HTTP requests. For example, let’s say you want to consume the `ProductController` Web API we created earlier.
+
+1. Create a new folder named `Services` in your **ASP.NET MVC** project.
+2. Add a new class called `ProductService.cs` inside the `Services` folder.
+
+Here is an example of how to consume a Web API using `HttpClient`:
+
+csharp
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+
+public class ProductService
+{
+    private static readonly HttpClient client = new HttpClient();
+
+    public async Task<List<Product>> GetAllProductsAsync()
+    {
+        // The URL of the Web API
+        string apiUrl = "https://localhost:5001/api/product";  // Example URL
+
+        // Send GET request to the Web API
+        var response = await client.GetStringAsync(apiUrl);
+
+        // Deserialize the JSON response into a list of Product objects
+        var products = JsonConvert.DeserializeObject<List<Product>>(response);
+        
+        return products;
+    }
+
+    public async Task<Product> GetProductByIdAsync(int id)
+    {
+        string apiUrl = $"https://localhost:5001/api/product/{id}";
+
+        var response = await client.GetStringAsync(apiUrl);
+
+        var product = JsonConvert.DeserializeObject<Product>(response);
+        
+        return product;
+    }
+
+    public async Task<bool> CreateProductAsync(Product product)
+    {
+        string apiUrl = "https://localhost:5001/api/product";
+        var json = JsonConvert.SerializeObject(product);
+
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync(apiUrl, content);
+
+        return response.IsSuccessStatusCode;
+    }
+}
+
+In this example:
+- **`GetAllProductsAsync()`** makes a **GET** request to fetch all products from the Web API.
+- **`GetProductByIdAsync(int id)`** fetches a single product by its `id`.
+- **`CreateProductAsync(Product product)`** makes a **POST** request to create a new product by sending data as JSON.
+
+---
+
+#### **Step 3: Using the Service in the MVC Controller**
+
+Now, let’s modify the **MVC controller** to call this service and display the product data on the view.
+
+1. Open your **HomeController.cs** or create a new controller named `ProductController.cs`.
+2. Inject the `ProductService` class into the controller.
+
+
+csharp
+using System.Threading.Tasks;
+using System.Web.Mvc;
+
+public class ProductController : Controller
+{
+    private readonly ProductService _productService;
+
+    public ProductController()
+    {
+        _productService = new ProductService();  // Initialize ProductService
+    }
+
+    // GET: Product/Index
+    public async Task<ActionResult> Index()
+    {
+        var products = await _productService.GetAllProductsAsync();
+        return View(products);  // Pass the list of products to the view
+    }
+
+    // GET: Product/Details/5
+    public async Task<ActionResult> Details(int id)
+    {
+        var product = await _productService.GetProductByIdAsync(id);
+        if (product == null)
+        {
+            return HttpNotFound();
+        }
+        return View(product);  // Pass the single product to the view
+    }
+}
+
+In this code:
+- The **`ProductController`** uses the `ProductService` to get data from the Web API.
+- The **`Index()`** method fetches all products and displays them in the view.
+- The **`Details(int id)`** method fetches a single product by its `id`.
+
+---
+
+#### **Step 4: Create Views to Display Data**
+
+Let’s create some **Razor Views** to display the data on the front-end.
+
+1. **Create the `Index.cshtml` view** to display all products.
+
+html
+@model List<Product>
+
+<h2>All Products</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>
+                    <a href="@Url.Action("Details", "Product", new { id = product.Id })">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+2. **Create the `Details.cshtml` view** to display a single product.
+
+html
+@model Product
+
+<h2>Product Details</h2>
+
+<div>
+    <h3>@Model.Name</h3>
+    <p>Price: @Model.Price</p>
+    <p>Details: Some description of the product</p>
+</div>
+
+---
+
+###  **Real-World Example: E-Commerce Web Application**
+
+Imagine you're working on an **e-commerce web application**. You could use ASP.NET MVC to build the front-end, and your **ProductController** could consume the Web API to display products. For example, when a user visits the **Products page**, it triggers the `Index()` action to get all products from the Web API and display them.
+
+---
+
+### **Summary:**
+- You can consume a Web API in ASP.NET MVC using the **`HttpClient`** class to make HTTP requests.
+- A service class can help manage communication with the Web API, handling operations like **GET**, **POST**, **PUT**, and **DELETE**.
+- MVC controllers interact with this service to fetch data and pass it to the views for display.
+- Using Web API to consume data allows for the separation of concerns, enabling a more modular and maintainable application architecture.

@@ -1,0 +1,170 @@
+###  **Lecture 13: Working with Web API in ASP.NET MVC**
+
+###  **Introduction to Web API in ASP.NET MVC**
+
+A **Web API** (Application Programming Interface) is a set of rules that allow different software applications to communicate with each other over HTTP. ASP.NET Web API is a framework that makes it easy to build RESTful services using HTTP. REST stands for Representational State Transfer, and it allows different applications (web or mobile) to interact with your application via HTTP requests (GET, POST, PUT, DELETE).
+
+ASP.NET MVC Web API is commonly used for building RESTful APIs that provide data and services to clients like web browsers, mobile apps, or other services.
+
+---
+
+### **Setting Up Web API in ASP.NET MVC**
+
+To use Web API in ASP.NET MVC, we need to add a few configurations and controllers. Let's walk through the steps:
+
+#### **Step 1: Install Web API NuGet Packages**
+
+1. Open **Package Manager Console** and run the following command to install **Web API**:
+
+powershell
+Install-Package Microsoft.AspNet.WebApi
+
+2. This package will add all the necessary assemblies to your project for working with Web API.
+---
+#### **Step 2: Configure Web API in `WebApiConfig.cs`**
+
+The **WebApiConfig** file is where you define the routes for your Web API endpoints. By default, this file is located in the **App_Start** folder.
+
+1. Open **WebApiConfig.cs** and add the following code to register Web API routes:
+
+csharp
+public static void Register(HttpConfiguration config)
+{
+    // Web API routes
+    config.MapHttpAttributeRoutes();  // Enables attribute routing
+
+    config.Routes.MapHttpRoute(
+        name: "DefaultApi",
+        routeTemplate: "api/{controller}/{id}",
+        defaults: new { id = RouteParameter.Optional }
+    );
+}
+
+- **`config.MapHttpAttributeRoutes()`**: Enables attribute routing, which means you can define API routes directly on controller methods.
+- **`config.Routes.MapHttpRoute()`**: Defines a default route for the API, where `{controller}` will be mapped to your controller, and `{id}` is an optional parameter.
+
+---
+
+#### **Step 3: Add Web API Controller**
+
+In an ASP.NET MVC application, Web API controllers are separate from MVC controllers. You will create a Web API controller by inheriting from `ApiController`.
+
+1. Right-click on **Controllers** folder and add a new controller by selecting **Web API Controller**.
+
+2. Here's an example of a basic Web API controller:
+
+csharp
+public class ProductController : ApiController
+{
+    private static List<Product> products = new List<Product>
+    {
+        new Product { Id = 1, Name = "Laptop", Price = 800 },
+        new Product { Id = 2, Name = "Smartphone", Price = 600 }
+    };
+
+    // GET api/product
+    public IEnumerable<Product> Get()
+    {
+        return products;
+    }
+
+    // GET api/product/5
+    public IHttpActionResult Get(int id)
+    {
+        var product = products.FirstOrDefault(p => p.Id == id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        return Ok(product);
+    }
+
+    // POST api/product
+    public IHttpActionResult Post(Product product)
+    {
+        if (product == null)
+        {
+            return BadRequest("Invalid data.");
+        }
+        products.Add(product);
+        return CreatedAtRoute("DefaultApi", new { id = product.Id }, product);
+    }
+
+    // PUT api/product/5
+    public IHttpActionResult Put(int id, Product product)
+    {
+        var existingProduct = products.FirstOrDefault(p => p.Id == id);
+        if (existingProduct == null)
+        {
+            return NotFound();
+        }
+        existingProduct.Name = product.Name;
+        existingProduct.Price = product.Price;
+        return Ok(existingProduct);
+    }
+
+    // DELETE api/product/5
+    public IHttpActionResult Delete(int id)
+    {
+        var product = products.FirstOrDefault(p => p.Id == id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        products.Remove(product);
+        return Ok();
+    }
+}
+
+
+- **GET**: Retrieves all products or a single product based on the `id`.
+- **POST**: Creates a new product and adds it to the list.
+- **PUT**: Updates an existing product by `id`.
+- **DELETE**: Deletes a product by `id`.
+
+---
+
+#### **Step 4: Test the Web API**
+
+Once the Web API controller is set up, you can test the API endpoints using tools like **Postman** or **Swagger**. You can make HTTP requests to your Web API and verify that the responses are correct.
+
+1. Start your application in **Debug mode**.
+2. Open **Postman** (or any other HTTP testing tool) and make requests to:
+
+   - **GET** request to `/api/product`: Fetch all products.
+   - **GET** request to `/api/product/{id}`: Fetch a single product by `id`.
+   - **POST** request to `/api/product`: Create a new product.
+   - **PUT** request to `/api/product/{id}`: Update an existing product.
+   - **DELETE** request to `/api/product/{id}`: Delete a product.
+
+---
+
+###  **Real-World Example: E-Commerce API**
+
+Consider an **e-commerce website** where users can view, add, update, or delete products via an API. Here's how Web API can be used:
+
+1. **Product Listing**:
+   - Customers can use a **GET** request to view a list of products.
+   - Example: `GET /api/product` will return all products available in the store.
+
+2. **Add Product**:
+   - Admin users can use a **POST** request to add a new product to the inventory.
+   - Example: `POST /api/product` with product details (name, price, etc.) in the request body.
+
+3. **Update Product**:
+   - Admin users can use a **PUT** request to modify product details, such as price or description.
+   - Example: `PUT /api/product/{id}`.
+
+4. **Delete Product**:
+   - Admin users can use a **DELETE** request to remove a product from the inventory.
+   - Example: `DELETE /api/product/{id}`.
+
+By creating these endpoints, you allow the front-end (web or mobile) to interact with your database and perform CRUD operations on products.
+
+---
+
+### **Summary:**
+- **Web API** in ASP.NET MVC allows you to expose data and services to other applications.
+- You can create a Web API controller by inheriting from `ApiController`.
+- You can perform CRUD operations (Create, Read, Update, Delete) through HTTP methods (GET, POST, PUT, DELETE).
+- Web API is essential for building RESTful services that allow interaction between different systems and devices (e.g., web and mobile apps).

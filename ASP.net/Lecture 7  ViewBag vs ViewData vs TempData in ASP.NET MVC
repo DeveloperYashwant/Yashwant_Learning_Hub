@@ -1,0 +1,99 @@
+###  **Lecture 7: ViewBag vs ViewData vs TempData in ASP.NET MVC**
+
+
+### **What are They?**  
+They are **data-passing techniques** used to send values from **Controller to View** (and sometimes across Actions).
+
+---
+
+###  **1. ViewBag**
+
+- Dynamic property (`ViewBag.Name = "Yashwant"`)
+- Sends data **from Controller to View**
+- Works only during the **current request**
+- Type: **dynamic**
+
+####  **Example:**
+
+**Controller:**
+
+csharp
+public ActionResult Index()
+{
+    ViewBag.Message = "Hello using ViewBag";
+    return View();
+}
+
+**View (Index.cshtml):**
+
+html
+
+<h2>@ViewBag.Message</h2>
+
+---
+
+###  **2. ViewData**
+
+- Works like a dictionary (`ViewData["Name"] = "Yashwant"`)
+- Also sends data **from Controller to View**
+- Also **valid only for the current request**
+- Type: **dictionary (key-value)**
+
+####  **Example:**
+
+**Controller:**
+
+csharp
+
+public ActionResult Index()
+{
+    ViewData["Message"] = "Hello using ViewData";
+    return View();
+}
+
+**View:**
+
+html
+<h2>@ViewData["Message"]</h2>
+
+---
+
+###  **3. TempData**
+
+- Used to send data **from one request to another**
+- Helps in **redirection**
+- Stored temporarily (in Session)
+
+####  **Example:**
+
+**Controller:**
+
+csharp
+public ActionResult Index()
+{
+    TempData["Message"] = "Hello using TempData";
+    return RedirectToAction("Second");
+}
+
+public ActionResult Second()
+{
+    string msg = TempData["Message"] as string;
+    ViewBag.Msg = msg;
+    return View();
+}
+
+**View (Second.cshtml):**
+
+html
+
+<h2>@ViewBag.Msg</h2>
+
+---
+
+###  **Summary Table:**
+
+| Feature      | ViewBag         | ViewData         | TempData             |
+|--------------|------------------|------------------|-----------------------|
+| Type         | dynamic          | Dictionary       | Dictionary (Session) |
+| Request Scope| Current Request  | Current Request  | Next Request (Redirect) |
+| Use          | Controller → View| Controller → View| Controller → Controller/View |

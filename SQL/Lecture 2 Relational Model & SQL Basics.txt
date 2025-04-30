@@ -1,0 +1,175 @@
+### **Lecture 2: Relational Model & SQL Basics**
+
+
+**1. Relational Model Overview**
+
+The **Relational Model** is the most widely used database model. It organizes data into tables, also known as relations. Each table consists of rows and columns. Here's an overview of the components of a relational model:
+
+#### **Tables (Relations):**
+- A **table** is a collection of related data stored in rows and columns.
+- Each table represents an entity (e.g., "Students," "Courses," "Employees").
+
+#### **Rows (Tuples):**
+- Each **row** in a table represents a record or a single data entry.
+- Each row must have a unique identifier, typically the **primary key**.
+
+#### **Columns (Attributes):**
+- Each **column** in a table represents a specific attribute or field of the entity.
+- Each column has a specific data type, such as integer, varchar (text), date, etc.
+
+#### **Example Table (Students):**
+| StudentID | FirstName | LastName | Age | Email               |
+|-----------|-----------|----------|-----|-------------------- |
+| 1         | John      | Doe      | 20  | john.doe@email.com  |
+| 2         | Jane      | Smith    | 22  | jane.smith@email.com|
+| 3         | Alex      | Lee      | 21  | alex.lee@email.com  |
+
+- **StudentID** is the primary key.
+- **FirstName, LastName, Age, Email** are the attributes (columns).
+
+---
+
+**2. Basic SQL Concepts**
+
+SQL is the language used to communicate with a DBMS. The basic SQL commands are divided into different categories:
+
+### **Data Definition Language (DDL)**:
+DDL commands are used to define or modify the structure of the database.
+
+- **CREATE TABLE**: Used to create a new table.
+- **ALTER TABLE**: Used to modify an existing table (e.g., adding/removing columns).
+- **DROP TABLE**: Used to delete a table.
+
+**Example:**
+sql
+CREATE TABLE Students (
+  StudentID INT PRIMARY KEY,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50),
+  Age INT,
+  Email VARCHAR(100)
+);
+
+### **Data Manipulation Language (DML)**:
+DML commands are used to manage the data within tables.
+
+- **INSERT INTO**: Used to add new records.
+- **SELECT**: Used to retrieve data from one or more tables.
+- **UPDATE**: Used to modify existing records.
+- **DELETE**: Used to remove records.
+
+**Example:**
+sql
+-- Insert new student data
+INSERT INTO Students (StudentID, FirstName, LastName, Age, Email)
+VALUES (4, 'Sara', 'White', 23, 'sara.white@email.com');
+
+-- Select all students
+SELECT * FROM Students;
+
+-- Update a student's data
+UPDATE Students
+SET Age = 24
+WHERE StudentID = 3;
+
+-- Delete a student
+DELETE FROM Students
+WHERE StudentID = 2;
+
+### **Data Query Language (DQL)**:
+DQL commands are used to query the data.
+
+- **SELECT**: Used to retrieve data from one or more tables.
+
+**Example:**
+sql
+
+SELECT FirstName, LastName, Age FROM Students;
+
+This will return the first name, last name, and age of all students.
+
+### **Data Control Language (DCL)**:
+DCL commands are used to control access to data within the database.
+
+- **GRANT**: Provides user access privileges.
+- **REVOKE**: Removes user access privileges.
+
+---
+
+**3. SQL Clauses**
+
+SQL commands often use **clauses** to further define the query. Some important clauses are:
+
+- **WHERE**: Filters records based on a specified condition.
+- **ORDER BY**: Sorts the result set.
+- **GROUP BY**: Groups rows that share a property.
+- **HAVING**: Filters groups of rows based on a condition.
+- **LIMIT**: Limits the number of rows returned.
+
+**Example:**
+sql
+
+-- Get all students aged 21 and above
+SELECT * FROM Students
+WHERE Age >= 21;
+
+-- Get students sorted by age in ascending order
+SELECT * FROM Students
+ORDER BY Age ASC;
+
+-- Get the average age of students
+SELECT AVG(Age) FROM Students;
+
+---
+
+**4. Relationships in Relational Databases**
+
+In relational databases, **relationships** between tables are established using **foreign keys**.
+
+- **One-to-One Relationship**: A single record in one table is related to a single record in another table.
+- **One-to-Many Relationship**: A single record in one table is related to multiple records in another table.
+- **Many-to-Many Relationship**: Multiple records in one table are related to multiple records in another table.
+
+#### **Example of One-to-Many:**
+Consider the following two tables:
+- **Students**: Contains student details.
+- **Enrollments**: Contains course enrollment details.
+
+sql
+-- Students table
+CREATE TABLE Students (
+  StudentID INT PRIMARY KEY,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50)
+);
+
+-- Enrollments table
+CREATE TABLE Enrollments (
+  EnrollmentID INT PRIMARY KEY,
+  StudentID INT,
+  Course VARCHAR(50),
+  FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
+);
+
+In this case, a student can be enrolled in multiple courses (one-to-many relationship).
+
+---
+
+**5. Summary**
+
+- The **relational model** organizes data into tables, where each table contains rows (records) and columns (attributes).
+- **SQL** is the language used to interact with relational databases. It includes:
+  - **DDL** for defining tables and schemas.
+  - **DML** for managing data (insert, update, delete).
+  - **DQL** for querying data.
+  - **DCL** for controlling access to the database.
+- **Keys** help establish uniqueness and relationships between tables, with the **primary key** ensuring uniqueness and the **foreign key** establishing relationships.
+
+---
+
+**Q&A Section for Students:**
+
+1. What is the difference between **DDL** and **DML** in SQL?
+2. How does a **foreign key** help in creating relationships between tables?
+3. What is the purpose of the **WHERE** clause in an SQL query?
+

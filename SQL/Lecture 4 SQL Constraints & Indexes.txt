@@ -1,0 +1,175 @@
+### **Lecture 4: SQL Constraints & Indexes**
+
+### **1. SQL Constraints**
+
+SQL **constraints** are used to specify rules for data in a table. They ensure that the data entered into the table follows specific rules and maintain the integrity of the database. There are several types of constraints in SQL:
+
+#### **Types of Constraints:**
+
+1. **PRIMARY KEY:**
+   - A **PRIMARY KEY** is a combination of one or more columns in a table that uniquely identifies each row in that table. A table can only have one primary key, and it cannot contain NULL values.
+   
+   **Example:**
+
+   CREATE TABLE Students (
+       StudentID INT PRIMARY KEY,
+       Name VARCHAR(100)
+   );
+
+   Here, `StudentID` is the **PRIMARY KEY**, ensuring that each student has a unique ID.
+
+2. **FOREIGN KEY:**
+   - A **FOREIGN KEY** is a column or a combination of columns in one table that refers to the **PRIMARY KEY** in another table. It is used to establish a relationship between two tables.
+   
+   **Example:**
+
+   CREATE TABLE Enrollments (
+       StudentID INT,
+       CourseID INT,
+       FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+       FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+   );
+
+   Here, the `StudentID` in the **Enrollments** table is a **FOREIGN KEY** that references the `StudentID` in the **Students** table.
+
+3. **UNIQUE:**
+   - The **UNIQUE** constraint ensures that all values in a column are unique. Unlike the **PRIMARY KEY**, the **UNIQUE** constraint allows **NULL** values.
+   
+   **Example:**
+
+   CREATE TABLE Students (
+       StudentID INT PRIMARY KEY,
+       Email VARCHAR(100) UNIQUE
+   );
+
+   Here, the `Email` column is unique, meaning no two students can have the same email address.
+
+4. **NOT NULL:**
+   - The **NOT NULL** constraint ensures that a column cannot have a NULL value. This is important when a column is required to have a value.
+   
+   **Example:**
+
+   CREATE TABLE Students (
+       StudentID INT PRIMARY KEY,
+       Name VARCHAR(100) NOT NULL
+   );
+
+   Here, the `Name` column is **NOT NULL**, meaning every student must have a name.
+
+5. **CHECK:**
+   - The **CHECK** constraint ensures that all values in a column satisfy a specific condition.
+   
+   **Example:**
+
+   CREATE TABLE Students (
+       StudentID INT PRIMARY KEY,
+       Age INT CHECK (Age >= 18)
+   );
+
+   In this case, the **CHECK** constraint ensures that the `Age` of every student must be at least 18.
+
+6. **DEFAULT:**
+   - The **DEFAULT** constraint provides a default value for a column when no value is specified during the insert operation.
+   
+   **Example:**
+
+   CREATE TABLE Students (
+       StudentID INT PRIMARY KEY,
+       Name VARCHAR(100),
+       EnrollmentDate DATE DEFAULT CURRENT_DATE
+   );
+   
+   Here, if no `EnrollmentDate` is provided, the current date will be used as the default value.
+
+---
+
+### **2. SQL Indexes**
+
+An **index** in SQL is a database object that improves the speed of data retrieval operations on a table. Indexes are created on columns to enhance the performance of queries, especially for large datasets. However, indexes can slow down data modification operations like `INSERT`, `UPDATE`, and `DELETE` because the index must be updated when the data in the indexed column changes.
+
+#### **Types of Indexes:**
+
+1. **Unique Index:**
+   - A **Unique Index** ensures that the values in the indexed column are unique. It is automatically created when a **PRIMARY KEY** or **UNIQUE** constraint is defined on a column.
+   
+   **Example:**
+   
+   CREATE UNIQUE INDEX idx_student_email ON Students (Email);
+   
+2. **Non-Unique Index:**
+   - A **Non-Unique Index** allows duplicate values in the indexed column. It is used to speed up the retrieval of rows based on columns that don’t need to be unique.
+   
+   **Example:**
+   
+   CREATE INDEX idx_student_name ON Students (Name);
+   
+3. **Composite Index:**
+   - A **Composite Index** is an index that is created on multiple columns. It helps in queries that filter or sort based on more than one column.
+   
+   **Example:**
+   
+   CREATE INDEX idx_student_course ON Enrollments (StudentID, CourseID);
+   
+4. **Full-text Index:**
+   - A **Full-text Index** is used for searching large text data efficiently. It is useful when you need to perform complex text searching operations.
+   
+   **Example:**
+   
+   CREATE FULLTEXT INDEX idx_student_name ON Students (Name);
+   
+5. **Clustered Index:**
+   - A **Clustered Index** determines the physical order of the rows in a table. There can only be one clustered index per table. By default, the **PRIMARY KEY** is a clustered index.
+
+   **Example:**
+   
+   CREATE CLUSTERED INDEX idx_student_id ON Students (StudentID);
+   
+
+---
+
+### **3. Example: Constraints & Indexes in Action**
+
+#### **Step 1: Create the Students Table with Constraints**
+
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Age INT CHECK (Age >= 18),
+    Email VARCHAR(100) UNIQUE,
+    EnrollmentDate DATE DEFAULT CURRENT_DATE
+);
+
+#### **Step 2: Insert Data with Constraints**
+
+-- This will work because the Name is provided, and the Age is 18
+INSERT INTO Students (StudentID, Name, Age, Email)
+VALUES (1, 'John Doe', 18, 'johndoe@example.com');
+
+-- This will fail because the Age is less than 18
+INSERT INTO Students (StudentID, Name, Age, Email)
+VALUES (2, 'Jane Smith', 17, 'janesmith@example.com');
+```
+
+#### **Step 3: Create Index for Faster Search on Name**
+
+CREATE INDEX idx_student_name ON Students (Name);
+
+#### **Step 4: Query to Demonstrate the Use of Index**
+
+-- This query will be faster because an index on Name exists
+SELECT * FROM Students WHERE Name = 'John Doe';
+
+---
+
+### **4. Summary**
+
+- **SQL Constraints** ensure data integrity by applying rules like **PRIMARY KEY**, **FOREIGN KEY**, **UNIQUE**, **NOT NULL**, **CHECK**, and **DEFAULT** to the data in tables.
+- **SQL Indexes** are used to improve query performance. They can be **unique** or **non-unique**, and they can be created on single or multiple columns. Common types of indexes include **Composite**, **Clustered**, and **Full-text** indexes.
+
+---
+
+### **Q&A Section for Students:**
+
+1. What is the difference between a **PRIMARY KEY** and a **UNIQUE** constraint in SQL?
+2. How does the **CHECK** constraint help ensure data integrity?
+3. Why should you be cautious about using **indexes** in SQL?

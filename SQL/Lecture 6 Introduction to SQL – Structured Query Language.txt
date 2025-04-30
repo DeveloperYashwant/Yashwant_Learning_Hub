@@ -1,0 +1,170 @@
+### **Lecture 6: Introduction to SQL – Structured Query Language**
+
+
+### **1. What is SQL?**
+
+- **SQL** stands for **Structured Query Language**.
+- It is used for **storing**, **manipulating**, and **retrieving** data in a relational database.
+- SQL lets you **create tables**, **insert data**, **query data**, **update records**, and **delete records**.
+
+---
+
+### **2. Features of SQL:**
+- **Easy to Learn**: SQL uses English-like commands.
+- **Powerful**: You can handle a large amount of data easily.
+- **Standard Language**: Used across many databases like MySQL, Oracle, SQL Server, PostgreSQL, etc.
+- **Supports Security**: Through permissions and access controls.
+
+---
+
+### **3. SQL Commands Categories**
+
+SQL commands are divided into five main types:
+
+| Type | Description | Examples |
+|:-----|:------------|:---------|
+| **DDL (Data Definition Language)** | Defines database schema | CREATE, ALTER, DROP |
+| **DML (Data Manipulation Language)** | Manages data within schema | INSERT, UPDATE, DELETE |
+| **DQL (Data Query Language)** | Queries data from the database | SELECT |
+| **DCL (Data Control Language)** | Controls access to data | GRANT, REVOKE |
+| **TCL (Transaction Control Language)** | Manages transactions | COMMIT, ROLLBACK, SAVEPOINT |
+
+---
+
+### **4. Basic SQL Commands with Examples**
+
+#### a) **CREATE TABLE (DDL)**  
+Creates a new table.
+
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT,
+    Course VARCHAR(100)
+);
+ This creates a table named **Students** with four columns.
+
+---
+
+#### b) **INSERT INTO (DML)**  
+Adds a new record into a table.
+
+INSERT INTO Students (StudentID, Name, Age, Course)
+VALUES (1, 'John Doe', 20, 'Computer Science');
+
+ This inserts a student's record into the **Students** table.
+
+---
+
+#### c) **SELECT (DQL)**  
+Fetches data from a table.
+
+SELECT * FROM Students;
+`*` means all columns. This will display all records from the **Students** table.
+
+**Another example (select specific columns):**
+
+SELECT Name, Course FROM Students;
+
+Only displays the student's **Name** and **Course**.
+
+---
+
+#### d) **UPDATE (DML)**  
+Modifies existing records.
+
+UPDATE Students
+SET Age = 21
+WHERE StudentID = 1;
+
+ Changes the Age of the student with `StudentID = 1` to 21.
+
+---
+
+#### e) **DELETE (DML)**  
+Deletes records from a table.
+
+DELETE FROM Students
+WHERE StudentID = 1;
+
+ Deletes the student record with `StudentID = 1`.
+
+---
+
+#### f) **ALTER TABLE (DDL)**  
+Adds, deletes, or modifies columns in a table.
+
+- **Add a new column:**
+
+ALTER TABLE Students
+ADD Email VARCHAR(100);
+
+- **Modify a column:**
+
+ALTER TABLE Students
+MODIFY Age VARCHAR(10);
+
+- **Drop a column:**
+
+ALTER TABLE Students
+DROP COLUMN Email;
+
+---
+
+#### g) **DROP TABLE (DDL)**  
+Deletes the whole table structure and data.
+
+
+DROP TABLE Students;
+
+ Be careful! This removes the table **and** all its data permanently.
+
+---
+
+### **5. Important Points for Students**
+
+- SQL is **not** case-sensitive (`SELECT` and `select` are the same), but it's a good practice to write keywords in **UPPERCASE**.
+- **Semicolon (;)** is used to end an SQL statement (especially when writing multiple queries).
+- **WHERE** clause is important for filtering records.
+- Be careful when using **UPDATE** or **DELETE** without a **WHERE** clause — it will affect **all rows**!
+
+---
+
+### **6. Example of Complete Flow**
+
+
+-- Step 1: Create Table
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT,
+    Course VARCHAR(100)
+);
+
+-- Step 2: Insert Records
+INSERT INTO Students (StudentID, Name, Age, Course)
+VALUES (1, 'John Doe', 20, 'Computer Science');
+
+-- Step 3: View Records
+SELECT * FROM Students;
+
+-- Step 4: Update Record
+UPDATE Students
+SET Age = 21
+WHERE StudentID = 1;
+
+-- Step 5: Delete Record
+DELETE FROM Students
+WHERE StudentID = 1;
+
+---
+
+### **7. Student Activity (Practice Questions)**
+
+1. Create a table called **Courses** with columns: `CourseID`, `CourseName`, `Duration`.
+2. Insert three records into the **Courses** table.
+3. Write a query to fetch only the `CourseName` from the **Courses** table.
+4. Update the `Duration` of one course to a new value.
+5. Delete a course record based on `CourseID`.
+
+---

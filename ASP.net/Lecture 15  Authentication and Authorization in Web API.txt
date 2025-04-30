@@ -1,0 +1,192 @@
+###  **Lecture 15: Authentication and Authorization in Web API**
+
+
+###  **Introduction to Authentication and Authorization in Web API**
+
+Authentication and authorization are critical concepts when building web applications that involve **user access** and **security**.
+
+- **Authentication** verifies the identity of a user. It ensures that the user is who they claim to be (e.g., via username and password).
+- **Authorization** determines what resources and actions the authenticated user is allowed to access.
+
+
+###  **Types of Authentication in Web API**
+
+There are several ways to authenticate users in Web APIs:
+
+#### 1. **Basic Authentication**
+   - A simple authentication method where the client sends a **username and password** with every request.
+   - Generally not secure on its own as it sends credentials in plain text (should be used with HTTPS).
+
+#### 2. **Token-based Authentication (JWT)**
+   - **JWT (JSON Web Tokens)** is a more secure and modern approach.
+   - The server generates a token when the user logs in, which is then used for subsequent requests.
+   - The token typically contains user data and an expiration time, and it’s signed to ensure its integrity.
+
+#### 3. **OAuth 2.0**
+   - A popular authorization framework used by services like **Google**, **Facebook**, and **GitHub**.
+   - OAuth allows third-party applications to access the user’s resources without exposing their credentials.
+   
+We'll focus on **JWT-based Authentication** in this lecture because it’s widely used and integrates well with Web APIs.
+
+---
+
+### **JWT Authentication in Web API**
+
+Here’s how to implement **JWT Authentication** in an ASP.NET Web API application:
+
+#### **Step 1: Install NuGet Packages**
+
+Before we start, you need to install a few packages:
+
+1. Open the **NuGet Package Manager** and search for **`Microsoft.AspNetCore.Authentication.JwtBearer`**.
+2. Install the package to your Web API project.
+
+#### **Step 2: Configure JWT in Startup.cs**
+
+In **Startup.cs**, add the JWT Bearer Authentication configuration:
+
+csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+
+    // JWT Authentication Configuration
+    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                };
+            });
+}
+
+- **Issuer** and **Audience**: These represent the source of the JWT and the intended recipient of the token.
+- **IssuerSigningKey**: This is a secret key used to sign the JWT to verify its authenticity.
+
+Add these configurations to your `appsettings.json`:
+
+json
+{
+  "Jwt": {
+    "Key": "YourSecretKeyHere",
+    "Issuer": "YourIssuer",
+    "Audience": "YourAudience"
+  }
+}
+
+#### **Step 3: Create the Token Service**
+
+We will create a **TokenService** that generates JWT tokens.
+
+csharp
+public class TokenService
+{
+    private readonly string _secretKey = "YourSecretKeyHere"; // Same as in appsettings.json
+    private readonly string _issuer = "YourIssuer";
+    private readonly string _audience = "YourAudience";
+
+    public string GenerateToken(string username)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.Name, username),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        var token = new JwtSecurityToken(
+            issuer: _issuer,
+            audience: _audience,
+            claims: claims,
+            expires: DateTime.Now.AddMinutes(30), // Expiration time
+            signingCredentials: credentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+}
+
+- This class generates a token containing the username and a unique **JTI (JWT ID)**.
+- It sets an expiration time for the token and signs it using a secret key.
+
+#### **Step 4: Secure Your API Endpoints**
+
+Now that we’ve set up JWT Authentication, we can secure specific API endpoints by requiring authentication.
+
+In your **Controller**, add the `[Authorize]` attribute to the actions you want to protect:
+
+csharp
+[Authorize]
+[HttpGet]
+public IActionResult GetSecureData()
+{
+    var user = User.Identity.Name; // Get the authenticated user’s name
+    return Ok(new { Data = "This is secure data", User = user });
+}
+
+
+By adding the `[Authorize]` attribute, this endpoint can only be accessed by clients with a valid JWT token.
+
+---
+
+### **Step 5: Authenticate and Get JWT Token**
+
+To **authenticate** and obtain a JWT token, you need to create a **Login API**. This will authenticate the user and return the JWT token if the credentials are valid.
+
+csharp
+[HttpPost("login")]
+public IActionResult Login([FromBody] LoginModel model)
+{
+    if (model.Username == "admin" && model.Password == "password") // Simplified check
+    {
+        var token = _tokenService.GenerateToken(model.Username);
+        return Ok(new { Token = token });
+    }
+
+    return Unauthorized();
+}
+
+
+This **Login API** will:
+- Check if the **username** and **password** are correct.
+- Generate a JWT token and return it to the client.
+
+---
+
+###  **Step 6: Using the JWT Token in API Requests**
+
+When the client logs in and receives a token, they need to include this token in the **Authorization header** of subsequent requests:
+
+bash
+Authorization: Bearer <YourTokenHere>
+
+
+Here’s how to make a request with JWT token in **Postman**:
+- Set the **Authorization** tab to **Bearer Token**.
+- Paste the JWT token you received after login.
+
+---
+
+###  **Real-World Example: User Login and Dashboard Access**
+
+Consider a **Web API** for an online application. Users can log in using their credentials, and upon successful login, they receive a **JWT token**.
+
+- The **Login API** authenticates the user and provides the token.
+- The **Dashboard API** can be accessed only with a valid token, ensuring that only authenticated users can view sensitive data, like their profile or dashboard information.
+
+---
+
+### **Summary:**
+- **Authentication** ensures the user is who they say they are, and **Authorization** determines what they are allowed to do.
+- **JWT (JSON Web Tokens)** is a widely used method for token-based authentication.
+- **Bearer tokens** are used in HTTP headers to access protected Web API resources.
+- You can easily secure your Web API by configuring **JWT Bearer Authentication** in ASP.NET and using the **[Authorize]** attribute to protect sensitive endpoints.
