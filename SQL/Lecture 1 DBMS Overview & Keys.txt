@@ -1,0 +1,104 @@
+### **Lecture 1: DBMS Overview & Keys**
+
+**1. Introduction to DBMS (Database Management System)**
+
+A **Database Management System (DBMS)** is a software system that allows users to define, create, maintain, and control access to a database. A database is a collection of data that is organized in a way that allows for easy storage, retrieval, and manipulation.
+
+#### **Key Functions of a DBMS:**
+- **Data Storage Management:** It provides a mechanism to store and retrieve data efficiently.
+- **Data Manipulation:** It allows users to insert, update, delete, and retrieve data.
+- **Data Security:** It ensures that data is protected from unauthorized access.
+- **Concurrency Control:** It ensures that multiple users can access the database at the same time without interfering with each other.
+- **Backup and Recovery:** It supports the creation of backups and helps in data recovery in case of failure.
+  
+### **2. Types of DBMS**
+There are four main types of DBMS:
+
+- **Hierarchical DBMS:** Data is stored in a tree-like structure.
+- **Network DBMS:** Data is stored in a graph structure, allowing more complex relationships.
+- **Relational DBMS (RDBMS):** Data is stored in tables and relationships between data are defined using keys.
+- **Object-Oriented DBMS:** Data is represented in objects as in object-oriented programming.
+
+### **3. Database Models**
+- **Relational Model:** The most common model where data is stored in tables (relations). The relational model uses SQL (Structured Query Language) to interact with the data.
+- **Other Models:** Hierarchical, Network, and Object-Oriented are other types of database models.
+
+---
+
+**4. Keys in DBMS**
+
+In DBMS, **keys** are used to identify and establish relationships between records (rows) in tables. Keys help ensure the integrity and uniqueness of data.
+
+#### **Types of Keys:**
+
+1. **Primary Key:**
+   - The primary key is a unique identifier for each record in a table.
+   - It cannot contain `NULL` values, and each value must be unique.
+   - A table can only have **one primary key**.
+   - **Example:** In a student table, the student ID can be the primary key.
+
+2. **Foreign Key:**
+   - A foreign key is a field (or collection of fields) in one table that uniquely identifies a row of another table.
+   - It is used to establish a relationship between two tables.
+   - The foreign key is usually a primary key in the referenced table.
+   - **Example:** In an enrollment table, a student ID may be a foreign key that links to the primary key in the student table.
+
+3. **Unique Key:**
+   - A unique key ensures that all values in the column are different.
+   - A table can have multiple unique keys.
+   - Unlike the primary key, the unique key can accept `NULL` values.
+   - **Example:** An email address column in a users table could have a unique key constraint to ensure no two users share the same email.
+
+4. **Candidate Key:**
+   - A candidate key is a set of one or more columns that can uniquely identify a record in a table.
+   - There can be multiple candidate keys in a table, but one of them is chosen as the **primary key**.
+   - **Example:** In a student table, both the student ID and the email address could serve as candidate keys.
+
+5. **Composite Key:**
+   - A composite key is a combination of two or more columns in a table that uniquely identify a record.
+   - It is used when a single column is not enough to uniquely identify records.
+   - **Example:** In a table that tracks student course registrations, a combination of student ID and course ID can be used as a composite key.
+
+6. **Alternate Key:**
+   - An alternate key is any candidate key that is not chosen as the primary key.
+   - **Example:** If a student ID is chosen as the primary key, the email address could be considered an alternate key.
+
+7. **Super Key:**
+   - A super key is a set of one or more columns that can uniquely identify a record in a table.
+   - Every primary key is a super key, but not all super keys are primary keys.
+   - **Example:** A super key could be a combination of student ID and student name, even though student name alone isn’t enough to uniquely identify a student.
+
+8. **Null Key:**
+   - A null key is when the value of the key field is `NULL`.
+   - **Example:** A phone number in a user table could be a null key if some records have no phone number.
+
+---
+
+**5. Importance of Keys:**
+
+- **Data Integrity:** Keys ensure that each record is unique and help maintain referential integrity, meaning data across different tables is consistent and accurate.
+- **Relationships:** Foreign keys allow the establishment of relationships between tables, which is critical in a relational database.
+- **Efficient Queries:** Keys help speed up data retrieval by providing quick access paths.
+
+---
+
+**6. Summary:**
+- A **DBMS** manages the creation, retrieval, and updating of data in databases.
+- **Keys** play a vital role in maintaining data integrity and relationships between tables.
+  - **Primary Key**: Uniquely identifies records.
+  - **Foreign Key**: Links records between tables.
+  - **Unique Key**: Ensures values are unique but can accept `NULL`.
+  - **Candidate Key**: Potential primary keys.
+  - **Composite Key**: A combination of multiple columns.
+  - **Alternate Key**: A candidate key not selected as the primary key.
+  - **Super Key**: A set of columns that can uniquely identify a record.
+
+This is a basic overview of the DBMS and keys. Understanding these concepts will help you manage and manipulate data effectively in relational databases.
+
+
+**Q&A Section for Students:**
+
+1. What is a primary key, and why is it important?
+2. How does a foreign key differ from a primary key?
+3. Can a table have more than one unique key? Give an example.
+

@@ -1,0 +1,131 @@
+##  **Lecture 19: Synchronization in C#**
+
+### **What is Synchronization?**
+
+**Synchronization** in C# is the process of **controlling access** to shared resources in a **multithreaded environment**.
+
+When multiple threads try to access and modify **shared data**, we need to synchronize them to prevent:
+- **Race conditions**
+- **Inconsistent results**
+- **Crashes or deadlocks**
+
+### **Why is it Needed?**
+
+### **Race Condition Example (Without Synchronization)**
+
+csharp
+using System;
+using System.Threading;
+
+class Program
+{
+    static int counter = 0;
+
+    static void Increment()
+    {
+        for (int i = 0; i < 1000; i++)
+            counter++;
+    }
+
+    static void Main()
+    {
+        Thread t1 = new Thread(Increment);
+        Thread t2 = new Thread(Increment);
+
+        t1.Start();
+        t2.Start();
+
+        t1.Join();
+        t2.Join();
+
+        Console.WriteLine("Final Counter Value: " + counter);  // Might not be 2000
+    }
+}
+
+**Output is not always 2000** because threads are modifying `counter` **at the same time**.
+
+---
+
+### **How to Solve It? → Using Synchronization**
+
+---
+
+###**Using `lock` keyword**
+
+csharp
+class Program
+{
+    static int counter = 0;
+    static object obj = new object(); // used for locking
+
+    static void Increment()
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            lock (obj)
+            {
+                counter++;
+            }
+        }
+    }
+
+    static void Main()
+    {
+        Thread t1 = new Thread(Increment);
+        Thread t2 = new Thread(Increment);
+
+        t1.Start();
+        t2.Start();
+
+        t1.Join();
+        t2.Join();
+
+        Console.WriteLine("Final Counter Value: " + counter); // Now always 2000
+    }
+}
+
+
+---
+
+### **Synchronization Tools in C#**
+
+| Tool | Use |
+|------|-----|
+| `lock` | Simple and most used. Locks a critical section. |
+| `Monitor.Enter/Exit()` | More control than `lock`, but more complex. |
+| `Mutex` | Used for **cross-process** synchronization. |
+| `Semaphore` | Limits the number of threads accessing a resource. |
+| `ReaderWriterLock` | Allows multiple readers or one writer. |
+
+---
+
+### **Mutex Example (Basic)**
+
+csharp
+Mutex mutex = new Mutex();
+
+void Print()
+{
+    mutex.WaitOne(); // lock
+    // critical section
+    Console.WriteLine("Thread " + Thread.CurrentThread.ManagedThreadId);
+    mutex.ReleaseMutex(); // unlock
+}
+
+
+---
+
+###  **Tips for Using Synchronization**
+
+- Don’t **overuse locking** — it may slow down your app.
+- Avoid **deadlocks** — where two threads wait on each other.
+- Always lock the **smallest block of code** needed.
+
+---
+
+### Summary:
+
+- Synchronization prevents **race conditions**.
+- Use `lock` to protect **critical sections**.
+- Be careful of **deadlocks** and **performance** issues.
+- Advanced: Use `Mutex`, `Semaphore`, or `Monitor` for special use cases.

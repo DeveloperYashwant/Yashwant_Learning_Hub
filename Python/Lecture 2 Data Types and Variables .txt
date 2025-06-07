@@ -1,0 +1,140 @@
+### **Lecture 2: Data Types and Variables in Python**  
+
+
+#### **1. Recap of Previous Lecture:**  
+- Python is a versatile, beginner-friendly programming language.  
+- We covered its features, applications, and a simple "Hello, World!" program.  
+
+
+#### **2. What are Data Types?**  
+- Data types define the kind of data a variable can hold.  
+- Python has several built-in data types that help store different kinds of information.  
+
+---
+
+#### **3. Python Data Types:**  
+1. **Numeric Types:**  
+   - **int:** Whole numbers (e.g., `5`, `-10`).  
+   - **float:** Numbers with decimal points (e.g., `3.14`, `-0.5`).  
+   - **complex:** Complex numbers (e.g., `3+4j`).  
+   
+   **Example:**  
+   
+   age = 25       # int
+   price = 19.99  # float
+   z = 2 + 3j     # complex
+   print(type(age), type(price), type(z))
+   
+
+2. **String Type:**  
+   - Represents text enclosed in single, double, or triple quotes.  
+   **Example:**  
+   name = "Jash"
+   greeting = 'Hello'
+   paragraph = """This is a
+   multiline string."""
+   print(type(name), type(greeting), type(paragraph))
+
+3. **Boolean Type:**  
+   - Holds either `True` or `False`.  
+   **Example:**  
+
+   is_student = True
+   print(type(is_student))
+
+4. **Sequence Types:**  
+   - **List:** Ordered, mutable, and allows duplicates.  
+   
+     fruits = ["apple", "banana", "cherry"]
+     print(type(fruits))
+  
+  - **Tuple:** Ordered, immutable, and allows duplicates.  
+
+     coordinates = (10, 20)
+     print(type(coordinates))
+
+   - **Range:** Generates a sequence of numbers.  
+    
+	numbers = range(5)
+     print(type(numbers))
+    
+
+5. **Mapping Type:**  
+   - **Dictionary:** Holds key-value pairs.  
+ 
+     student = {"name": "John", "age": 21}
+     print(type(student))
+
+6. **Set Types:**  
+   - **Set:** Unordered and contains unique elements.  
+     
+     unique_numbers = {1, 2, 3, 4}
+     print(type(unique_numbers))
+     
+   - **Frozen Set:** Immutable version of a set.  
+   
+     frozen = frozenset([1, 2, 3])
+     print(type(frozen))
+     
+7. **None Type:**  
+   - Represents the absence of a value.  
+   **Example:**  
+   
+   result = None
+   print(type(result))
+   
+---
+
+#### **4. Variables in Python:**  
+- Variables are used to store data.  
+- No need for explicit declaration.  
+- Assign a value using the `=` operator.  
+- Variable names should be meaningful and follow naming conventions.  
+
+**Example:**  
+x = 5
+name = "devraj"
+is_active = True
+
+---
+
+#### **5. Variable Naming Rules:**  
+- Can contain letters, digits, and underscores.  
+- Must start with a letter or underscore.  
+- Case-sensitive (`age` and `Age` are different).  
+- Should not be a Python keyword (`for`, `while`, etc.).  
+
+**Valid Names:**  
+- `name`, `age_25`, `_height`  
+**Invalid Names:**  
+- `2name`, `@ge`, `while`  
+
+---
+
+#### **6. Dynamic Typing in Python:**  
+- Variables can change type during execution.  
+**Example:**  
+
+x = 5
+print(type(x))  # int
+x = "Hello"
+print(type(x))  # str
+
+---
+
+#### **7. Hands-On Activity:**  
+- Write a program to store your name, age, and favorite hobby.  
+- Print the types of these variables.  
+
+name = "John"
+age = 20
+hobby = "Reading"
+print(type(name), type(age), type(hobby))
+
+---
+
+#### **8. Summary:**  
+- Data types specify the kind of data stored.  
+- Python has numeric, string, boolean, sequence, mapping, set, and None types.  
+- Variables are containers to store data and do not need explicit type declaration.  
+- Python supports dynamic typing.  

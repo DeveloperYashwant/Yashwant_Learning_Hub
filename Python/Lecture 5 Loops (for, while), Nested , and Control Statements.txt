@@ -1,0 +1,248 @@
+### **Lecture 5: Loops in Python (for, while), Nested Loops, and Control Statements**  
+
+---
+
+#### **Introduction:**  
+Loops in Python allow you to repeat a block of code multiple times. They are essential when you need to perform repetitive tasks or iterate over a collection of items.  
+
+---
+
+### **1. for Loop:**  
+The `for` loop is used to iterate over a sequence (like a list, tuple, or string) or a range of numbers.  
+
+**Syntax:**  
+
+for variable in sequence:
+    statement(s)
+
+---
+
+### **2. while Loop:**  
+The `while` loop continues to execute as long as a given condition is `True`.  
+
+**Syntax:**  
+
+while condition:
+    statement(s)
+
+#### **Real-World Example:**  
+**ATM Pin Verification:**  
+
+pin = 1234
+attempt = 0
+
+while attempt < 3:
+    entered_pin = int(input("Enter your PIN: "))
+    if entered_pin == pin:
+        print("Access Granted")
+        break
+    else:
+        print("Incorrect PIN. Try again.")
+        attempt += 1
+
+if attempt == 3:
+    print("Card Blocked")
+
+**Output (if the correct pin is entered on the second try):**  
+
+Enter your PIN: 1111  
+Incorrect PIN. Try again.  
+Enter your PIN: 1234  
+Access Granted  
+
+---
+
+### **3. Nested Loops:**  
+A loop inside another loop is called a nested loop.  
+
+**Syntax:**  
+
+for i in range(n):
+    for j in range(m):
+        statement(s)
+
+#### **Real-World Example:**  
+**Printing a Multiplication Table:**  
+
+for i in range(1, 4):  # Rows
+    for j in range(1, 4):  # Columns
+        print(f"{i} x {j} = {i * j}", end="\t")
+    print()
+
+**Output:**  
+
+1 x 1 = 1    1 x 2 = 2    1 x 3 = 3  
+2 x 1 = 2    2 x 2 = 4    2 x 3 = 6  
+3 x 1 = 3    3 x 2 = 6    3 x 3 = 9  
+
+---
+
+### **4. Control Statements:**  
+Control statements change the flow of the loop.  
+- **break:** Stops the loop.  
+- **continue:** Skips the current iteration.  
+- **pass:** Does nothing, just a placeholder.  
+
+---
+
+#### **4.1. break Statement:**  
+Stops the loop immediately.  
+
+**Real-World Example:**  
+**Finding the first even number in a list:**  
+
+numbers = [1, 3, 7, 8, 10]
+
+for num in numbers:
+    if num % 2 == 0:
+        print(f"First even number: {num}")
+        break
+
+**Output:**  
+
+First even number: 8  
+
+
+---
+
+#### **4. continue Statement:**  
+Skips the current iteration and moves to the next.  
+
+**Real-World Example:**  
+**Printing all odd numbers from a list:**  
+
+numbers = [1, 2, 3, 4, 5]
+
+for num in numbers:
+    if num % 2 == 0:
+        continue
+    print(f"Odd Number: {num}")
+
+**Output:**  
+
+Odd Number: 1  
+Odd Number: 3  
+Odd Number: 5  
+
+
+---
+
+#### **4. pass Statement:**  
+Does nothing, just a placeholder when the code is not yet implemented.  
+
+**Example:**  
+
+for i in range(5):
+    if i == 2:
+        pass  # Code to be added later
+    print(f"Number: {i}")
+
+#### **6. Displaying a Right-Angle Triangle of Stars:**  
+
+rows = 5
+for i in range(1, rows + 1):
+    for j in range(i):
+        print("*", end=" ")
+    print()
+
+**Output:**  
+
+*  
+* *  
+* * *  
+* * * *  
+* * * * *  
+
+---
+
+### **7. Shopping Cart Total:**  
+Calculating the total cost of items in the cart.  
+
+cart = [("Apple", 30), ("Banana", 10), ("Milk", 50)]
+total = 0
+
+for item, price in cart:
+    total += price
+
+print(f"Total Cost: ₹{total}")
+
+**Output:**  
+
+Total Cost: ₹90  
+  
+
+---
+
+### **Common Mistakes to Avoid:**  
+1. **Infinite Loops:**  
+   - Always make sure the loop has a stopping condition.  
+   
+   while True:  # Avoid this unless you use break
+       print("Infinite Loop")
+   
+2. **Improper Use of break and continue:**  
+   - Use `break` to exit the loop, and `continue` to skip the current iteration.  
+3. **Incorrect Indentation:**  
+   - Loops and conditional statements should be properly indented.  
+
+=========================
+#### **1. Student Attendance Management:**  
+Check the attendance of students in a class.  
+
+students = ["Aarav", "Priya", "Rahul", "Sneha"]
+present = ["Priya", "Sneha"]
+
+for student in students:
+    if student in present:
+        print(f"{student} is Present")
+    else:
+        print(f"{student} is Absent")
+
+**Output:**  
+Aarav is Absent  
+Priya is Present  
+Rahul is Absent  
+Sneha is Present  
+
+---
+
+#### **2. ATM Pin Verification (with Indian Context):**  
+
+pin = 4321
+attempt = 0
+
+while attempt < 3:
+    entered_pin = int(input("Enter your ATM PIN: "))
+    if entered_pin == pin:
+        print("Access Granted")
+        break
+    else:
+        print("Incorrect PIN. Try again.")
+        attempt += 1
+
+if attempt == 3:
+    print("Your card is blocked. Please contact customer care.")
+
+**Output (if the correct pin is entered on the second try):**  
+
+Enter your ATM PIN: 1111  
+Incorrect PIN. Try again.  
+Enter your ATM PIN: 4321  
+Access Granted  
+
+---
+
+#### **3. Shopping Cart Total:**  
+Calculating the total cost of items in a grocery cart.  
+
+cart = [("Rice", 50), ("Dal", 70), ("Oil", 150)]
+total = 0
+
+for item, price in cart:
+    total += price
+
+print(f"Total Bill Amount: ₹{total}")
+
+**Output:**  
+
+Total Bill Amount: ₹270  

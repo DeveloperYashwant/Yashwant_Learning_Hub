@@ -1,0 +1,121 @@
+### **Lecture 11: Classes, Objects, and Constructors in Python**
+
+#### **What are Classes and Objects?**
+- **Class:** A blueprint for creating objects. It defines attributes and methods.
+- **Object:** An instance of a class. It has the properties and behaviors defined by the class.
+- **Constructor:** A special method used to initialize the object's attributes.
+
+---
+
+### **Syntax: Creating a Class and an Object**
+
+class Student:
+    def __init__(self, name, age):  # Constructor
+        self.name = name
+        self.age = age
+
+# Creating an object of the class
+student1 = Student("Alice", 20)
+print("Name:", student1.name)
+print("Age:", student1.age)
+
+**Output:**
+
+Name: Alice  
+Age: 20
+
+---
+
+### **Real-World Example: Student Management System**
+
+Imagine a system that manages student records. Each student has:
+1. Name
+2. Roll Number
+3. Marks in 3 subjects
+
+#### **Step 1: Defining the Class**
+
+class Student:
+    def __init__(self, name, roll_no, marks):  # Constructor
+        self.name = name
+        self.roll_no = roll_no
+        self.marks = marks
+
+    def display(self):
+        print(f"Name: {self.name}, Roll No: {self.roll_no}")
+        print(f"Marks: {self.marks}")
+
+---
+
+#### **Step 2: Creating Objects**
+
+# Creating two student objects
+student1 = Student("John", 101, [85, 92, 78])
+student2 = Student("Emma", 102, [88, 79, 95])
+
+# Displaying student details
+student1.display()
+student2.display()
+
+**Output:**
+
+Name: John, Roll No: 101
+Marks: [85, 92, 78]
+Name: Emma, Roll No: 102
+Marks: [88, 79, 95]
+
+---
+
+### **Step 3: Adding Methods for Calculations**
+
+
+class Student:
+    def __init__(self, name, roll_no, marks):
+        self.name = name
+        self.roll_no = roll_no
+        self.marks = marks
+
+    def display(self):
+        print(f"Name: {self.name}, Roll No: {self.roll_no}")
+        print(f"Marks: {self.marks}")
+
+    def calculate_average(self):
+        avg = sum(self.marks) / len(self.marks)
+        print(f"Average Marks of {self.name}: {round(avg, 2)}")
+
+---
+
+#### **Step 4: Creating and Using the Student Objects**
+
+student1 = Student("John", 101, [85, 92, 78])
+student2 = Student("Emma", 102, [88, 79, 95])
+
+# Displaying student details and calculating average marks
+student1.display()
+student1.calculate_average()
+
+student2.display()
+student2.calculate_average()
+
+**Output:**
+
+Name: John, Roll No: 101  
+Marks: [85, 92, 78]  
+Average Marks of John: 85.0  
+Name: Emma, Roll No: 102  
+Marks: [88, 79, 95]  
+Average Marks of Emma: 87.33
+
+---
+
+### **Advantages of Using Classes and Constructors:**
+1. **Data Organization:** Group related data and methods.
+2. **Reusability:** Use the class blueprint to create multiple objects.
+3. **Encapsulation:** Protect data and only expose necessary methods.
+
+---
+
+### **Student Practice:**
+1. Create a class `Employee` with attributes name, age, and salary. Add methods to display employee details and calculate annual salary.
+2. Write a class `Car` with attributes model, year, and price. Add a method to increase the price by a given percentage.
+3. Implement a class `BankAccount` with attributes account number and balance. Add methods to deposit, withdraw, and display the balance.

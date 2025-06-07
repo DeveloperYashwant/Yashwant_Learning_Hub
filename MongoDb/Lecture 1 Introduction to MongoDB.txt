@@ -1,0 +1,106 @@
+## **Lecture 1: Introduction to MongoDB**
+
+---
+
+### **1. What is MongoDB?**
+
+- **MongoDB** is a **NoSQL** database.
+- Stores data in **JSON-like documents** (called BSON).
+- It is **document-oriented**, flexible, and **schema-less**.
+- Designed for **scalability**, **high performance**, and **ease of use**.
+
+---
+
+### **2. Why Use MongoDB?**
+
+| Traditional (SQL) | MongoDB (NoSQL) |
+|-------------------|------------------|
+| Tables, Rows       | Collections, Documents |
+| Fixed Schema        | Dynamic Schema          |
+| Joins & Relations   | Embedded Documents      |
+| Normalization       | Denormalization         |
+
+Best for real-time apps, IoT, product catalogs, blogs, etc.
+
+---
+
+### **3. Key Features of MongoDB**
+
+- Stores data as **documents** (`{ name: "Yash", age: 25 }`)
+- **Collections** hold multiple documents (like tables)
+- **Dynamic Schema** – add fields anytime
+- **Indexing** for faster search
+- **Horizontal Scaling** – supports large data across servers
+
+---
+
+### **4. MongoDB Components**
+
+- **Database** – holds collections
+- **Collection** – group of documents (like a table)
+- **Document** – JSON-like object (`key-value` pairs)
+
+ Example:
+
+{
+  "name": "Yashwant",
+  "age": 26,
+  "role": "Trainer"
+}
+
+---
+
+### **5. MongoDB vs SQL**
+
+| Feature              | SQL               | MongoDB              |
+|----------------------|-------------------|-----------------------|
+| Data Format          | Rows and Columns  | Documents (BSON)      |
+| Schema               | Fixed             | Dynamic               |
+| Joins                | Supported         | Limited (embedding)   |
+| Transactions         | Fully supported   | Supported (v4.0+)     |
+| Performance          | Good              | High for large data   |
+
+---
+
+###  **6. Installing MongoDB**
+
+- **Option 1:** Download MongoDB Community Server from [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community)
+- **Option 2:** Use **MongoDB Atlas** for cloud database (Free tier)
+
+---
+
+### **7. Basic MongoDB Commands**
+
+| Command                  | Description                         |
+|--------------------------|-------------------------------------|
+| `show dbs`               | List all databases                  |
+| `use mydb`               | Create/select database              |
+| `db.createCollection()`  | Create new collection               |
+| `db.collection.insert()` | Insert document                     |
+| `db.collection.find()`   | Show all documents in a collection  |
+
+---
+
+### **8. Use Case Example**
+
+**E-commerce Product Data:**
+
+{
+  "product": "Laptop",
+  "price": 45000,
+  "brand": "Dell",
+  "specs": {
+    "ram": "16GB",
+    "storage": "1TB SSD"
+  }
+}
+
+---
+
+###  **9. Practice Questions**
+
+1. What is MongoDB and how is it different from SQL?
+2. Explain the terms: Document, Collection, Database.
+3. Create a sample MongoDB document for a student record.
+4. How does dynamic schema work in MongoDB?
+5. List advantages of using MongoDB for modern applications.

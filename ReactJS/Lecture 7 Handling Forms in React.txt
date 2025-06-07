@@ -1,0 +1,126 @@
+
+##  **Lecture 7: Handling Forms in React**
+
+### Topics Covered:
+
+* Creating controlled components
+* Using `useState` to manage form inputs
+* Handling input changes
+* Form submission
+* Basic validation
+
+---
+
+### Goal:
+
+Create a student form that captures name, email, and course, and displays the submitted data.
+
+---
+
+### `App.js` – Student Form Example
+
+jsx
+import { useState } from 'react';
+
+function App() {
+  // useState to manage form data
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    course: ''
+  });
+
+  const [submittedData, setSubmittedData] = useState(null); // Stores submitted result
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target; // Destructure name and value
+    setFormData({ ...formData, [name]: value }); // Update respective field in state
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent page reload
+    setSubmittedData(formData); // Save data to show on screen
+    setFormData({ name: '', email: '', course: '' }); // Clear form after submit
+  };
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h2>Student Registration Form</h2>
+
+      {/* Form structure */}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
+          <input 
+            type="text" 
+            name="name" 
+            value={formData.name} 
+            onChange={handleChange} 
+            required 
+          />
+        </div>
+        <br />
+        <div>
+          <label>Email:</label>
+          <input 
+            type="email" 
+            name="email" 
+            value={formData.email} 
+            onChange={handleChange} 
+            required 
+          />
+        </div>
+        <br />
+        <div>
+          <label>Course:</label>
+          <select name="course" value={formData.course} onChange={handleChange} required>
+            <option value="">--Select--</option>
+            <option value="ReactJS">ReactJS</option>
+            <option value="Java">Java</option>
+            <option value="Python">Python</option>
+          </select>
+        </div>
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+
+      {/* Display submitted data */}
+      {submittedData && (
+        <div style={{ marginTop: '20px' }}>
+          <h3>Submitted Data</h3>
+          <p><strong>Name:</strong> {submittedData.name}</p>
+          <p><strong>Email:</strong> {submittedData.email}</p>
+          <p><strong>Course:</strong> {submittedData.course}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+---
+
+### Explanation with Comments:
+
+| Code                          | Meaning                                        |
+| ----------------------------- | ---------------------------------------------- |
+| `useState({ name: '', ... })` | Holds form input values                        |
+| `onChange={handleChange}`     | Updates state as user types                    |
+| `[name]: value`               | Dynamic key update (e.g., name/email/course)   |
+| `onSubmit={handleSubmit}`     | Custom logic on form submit                    |
+| `e.preventDefault()`          | Stops page reload on submit                    |
+| `setSubmittedData(formData)`  | Store user input for display                   |
+| `value={formData.name}`       | Controlled form input (syncs input with state) |
+
+---
+
+###  Output Summary:
+
+* Form inputs are synced with state.
+* Upon submission, data is displayed below the form.
+* Basic HTML5 validation using `required`.
+

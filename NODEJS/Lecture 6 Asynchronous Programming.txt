@@ -1,0 +1,210 @@
+# **Lecture 6: Asynchronous Programming in Node.js**
+
+---
+
+###  What is Asynchronous Programming?
+
+* In Node.js, many operations take time — like reading files, accessing databases, or making network requests.
+* Instead of **waiting (blocking)** for these operations to finish, Node.js **starts them and moves on** to other tasks.
+* When the operation finishes, a **callback** or other mechanism tells Node.js to handle the result.
+* This makes apps **fast and efficient** by not blocking the main thread.
+
+---
+
+### Synchronous vs Asynchronous
+
+| Synchronous                          | Asynchronous                         |
+| ------------------------------------ | ------------------------------------ |
+| Tasks run one after another          | Tasks start and run in background    |
+| Each task waits for the previous one | Other tasks run while waiting        |
+| Can cause delays/blocking            | Non-blocking, better for scalability |
+
+---
+
+### Real-World Example: Cooking Dinner
+
+* **Synchronous:** You cook each dish one by one, waiting for one to finish before starting the next.
+* **Asynchronous:** You start cooking the soup, while it simmers, you prepare the salad simultaneously.
+
+---
+
+### Example 1: Synchronous file read (blocking)
+
+
+const fs = require('fs');
+
+// Create and write to the file
+fs.writeFileSync('example.txt', 'Hello, this is a test file.');
+
+console.log('File created successfully.');
+----------------------------------
+const fs = require('fs');
+
+console.log('Start reading file...');
+const data = fs.readFileSync('example.txt', 'utf8'); // blocks here until file read finishes
+console.log('File contents:', data);
+console.log('Done reading file.');
+
+**Output:**
+
+Start reading file...
+File contents: [file data here]
+Done reading file.
+
+---
+
+### Example 2: Asynchronous file read (non-blocking)
+
+js
+const fs = require('fs');
+
+// Step 1: Create the file
+fs.writeFile('example.txt', 'This is a sample file content.', (err) => {
+  if (err) {
+    console.error('Error writing file:', err);
+    return;
+  }
+  console.log('File created successfully.');
+
+  // Step 2: Now read the file
+  console.log('Start reading file...');
+  fs.readFile('example.txt', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading file:', err);
+      return;
+    }
+    console.log('File contents:', data);
+  });
+  console.log('Done reading file.');
+});
+
+**Output:**
+
+
+Start reading file...
+Done reading file.
+File contents: [file data here]
+
+
+---
+
+### Why use async in Node.js?
+
+* Improves performance for I/O heavy tasks.
+* Avoids freezing your app during long operations.
+* Lets you handle multiple tasks efficiently.
+
+---
+
+### Callback functions
+
+* Functions passed as arguments to async functions.
+* Called when an async task finishes.
+
+---
+
+### Summary
+
+* Node.js heavily relies on asynchronous programming.
+* Use async methods (like `fs.readFile`) for better performance.
+* Learn callbacks, promises, and async/await for modern async code.
+================================
+
+
+## Real-World Example: "Order Processing" — Async vs Sync
+
+
+Simulate placing an order → confirming it → sending a message → saving to file.
+
+
+
+##  Example 1: Synchronous (Blocking Everything)
+
+js
+// sync-order.js
+const fs = require('fs');
+
+function placeOrderSync(orderId) {
+  console.log(`Placing order ${orderId}...`);
+
+  // Step 1: Confirm order
+  console.log("Confirming order...");
+
+  // Step 2: Send SMS
+  console.log("Sending confirmation SMS...");
+
+  // Step 3: Write to log (synchronously)
+  fs.writeFileSync('order-log.txt', `Order ${orderId} placed successfully.\n`);
+
+  console.log("Order complete.\n");
+}
+
+// Call the function
+placeOrderSync(101);
+console.log("User can’t do anything else until above finishes.");
+
+ **Output**:
+
+Placing order 101...
+Confirming order...
+Sending confirmation SMS...
+Order complete.
+
+User can’t do anything else until above finishes.
+
+
+---
+
+##  Example 2: Asynchronous (Non-blocking, like real-world apps)
+
+js
+// async-order.js
+const fs = require('fs');
+
+function placeOrderAsync(orderId) {
+  console.log(`Placing order ${orderId}...`);
+
+  // Step 1: Confirm order (simulate delay)
+  setTimeout(() => {
+    console.log("Order confirmed.");
+
+    // Step 2: Send SMS (simulate delay)
+    setTimeout(() => {
+      console.log("SMS sent to customer.");
+
+      // Step 3: Write to file asynchronously
+      fs.writeFile('order-log.txt', `Order ${orderId} placed successfully.\n`, (err) => {
+        if (err) return console.error("Error writing log:", err);
+        console.log("Order logged in file.");
+      });
+
+    }, 1000); // 1 sec delay to simulate SMS
+
+  }, 1000); // 1 sec delay to simulate confirmation
+}
+
+// Call the function
+placeOrderAsync(202);
+console.log("Meanwhile, user can continue browsing products.\n");
+
+ **Output:**
+
+Placing order 202...
+Meanwhile, user can continue browsing products.
+
+Order confirmed.
+SMS sent to customer.
+Order logged in file.
+
+
+---
+
+###  Real-Life Comparison:
+
+| Operation        | Real App Example               |
+| ---------------- | ------------------------------ |
+| `setTimeout()`   | Simulates server/API delay     |
+| `fs.writeFile()` | Writing data to file or DB     |
+| Callback nesting | Typical async flow (old style) |
+
+---

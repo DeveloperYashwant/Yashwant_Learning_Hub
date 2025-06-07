@@ -1,0 +1,98 @@
+
+
+## **
+**
+
+---
+
+###  **Why Use Indexes?**
+
+Indexes in MongoDB **speed up search operations** by allowing the database to **quickly locate data** without scanning every document.
+
+---
+
+## **1. Default Index on `_id`**
+
+Every collection automatically gets an index on the `_id` field:
+
+{ "_id": 1 }
+
+---
+
+### **2. Creating a Single Field Index**
+
+Create an index on the `name` field:
+
+db.students.createIndex({ name: 1 });
+
+- `1` = Ascending order  
+- `-1` = Descending order
+
+ Descending index:
+db.students.createIndex({ age: -1 });
+
+
+---
+
+###**3. Using Indexes in Queries**
+
+MongoDB will **use the index** if your query matches the indexed field:
+
+
+db.students.find({ name: "Yashwant" }); // Uses name index
+
+
+---
+
+### **4. Compound Index (Multiple Fields)**
+
+Index on `course` and `age`:
+
+db.students.createIndex({ course: 1, age: -1 });
+
+Be careful with the order of fields — MongoDB uses it strictly.
+
+---
+
+### **5. Checking Indexes**
+
+View all indexes on a collection:
+
+db.students.getIndexes();
+
+
+---
+
+### **6. Deleting Indexes**
+
+ Drop a specific index:
+
+db.students.dropIndex("name_1");
+
+Drop **all** indexes (except `_id`):
+
+db.students.dropIndexes();
+
+---
+
+### **7. Best Practices**
+
+- Index **fields used in queries** often (`find`, `sort`, `match`)
+- Avoid indexing too many fields (it slows down `insert`/`update`)
+- Use **compound indexes** for multi-field queries
+- Use **`explain()`** to check if your query uses an index
+
+
+db.students.find({ name: "Amit" }).explain("executionStats");
+
+---
+
+### **Practice Questions**
+
+1. Create an ascending index on the `course` field.
+2. Create a compound index on `age` and `marks`.
+3. List all indexes on the `students` collection.
+4. Drop an index on the `name` field.
+5. Use `explain()` to check index usage in a query.
+
+---

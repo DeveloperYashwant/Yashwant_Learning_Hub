@@ -1,0 +1,142 @@
+
+
+##**Tkinter**
+
+
+###  **STEP 1: What is Tkinter?**
+
+* **Tkinter** is a built-in Python library to create windows, buttons, forms, etc.
+* You don’t need to install it separately — it comes with Python.
+
+---
+
+###  **STEP 2: Create Your First Tkinter Window**
+
+python
+import tkinter as tk
+
+root = tk.Tk()
+root.title("My First Window")
+root.geometry("300x200")
+root.mainloop()
+
+Output: A simple blank window with title and size.
+
+---
+
+### **STEP 3: Add a Label (Display Text)**
+
+python
+label = tk.Label(root, text="Hello, Tkinter!", font=("Arial", 16))
+label.pack()
+
+`pack()` places the label in the window automatically.
+
+---
+
+###  **STEP 4: Add a Button (Click Action)**
+
+python
+def say_hello():
+    label.config(text="You clicked the button!")
+
+button = tk.Button(root, text="Click Me", command=say_hello)
+button.pack()
+
+
+ When the button is clicked, the label text changes.
+
+---
+
+###  **STEP 5: Add an Entry (Text Input Field)**
+
+python
+entry = tk.Entry(root)
+entry.pack()
+
+def greet():
+    name = entry.get()
+    label.config(text="Hello, " + name)
+
+greet_button = tk.Button(root, text="Greet", command=greet)
+greet_button.pack()
+
+
+---
+
+###  **STEP 6: Layout with Grid**
+
+Instead of `pack()`, you can use `.grid()` for better layout control:
+
+python
+tk.Label(root, text="Username").grid(row=0, column=0)
+tk.Entry(root).grid(row=0, column=1)
+
+tk.Label(root, text="Password").grid(row=1, column=0)
+tk.Entry(root, show="*").grid(row=1, column=1)
+
+
+---
+
+###  **STEP 7: Radio Buttons and Checkboxes**
+
+python
+gender = tk.StringVar()
+
+tk.Radiobutton(root, text="Male", variable=gender, value="Male").pack()
+tk.Radiobutton(root, text="Female", variable=gender, value="Female").pack()
+
+agree = tk.IntVar()
+tk.Checkbutton(root, text="I Agree", variable=agree).pack()
+
+
+---
+
+###  **STEP 8: MessageBox (Pop-up Alert)**
+
+python
+from tkinter import messagebox
+
+def show_msg():
+    messagebox.showinfo("Info", "This is a message box")
+
+btn = tk.Button(root, text="Show Message", command=show_msg)
+btn.pack()
+
+
+---
+
+###  **STEP 9: Create a Simple Form Project**
+
+Example: Student Form
+
+* Name input
+* Course selection
+* Submit button
+* Display result in Label or Messagebox
+
+---
+
+###  **STEP 10: Practice and Mini Projects**
+
+**Ideas:**
+
+* Calculator
+* To-Do List
+* Login Form
+* Simple Quiz App
+
+---
+
+##  Suggested Practice Flow
+
+| Day   | Topic                                |
+| ----- | ------------------------------------ |
+| Day 1 | Install Python, Hello Window         |
+| Day 2 | Labels, Buttons                      |
+| Day 3 | Entry Box, Events                    |
+| Day 4 | Layout (pack, grid), Frames          |
+| Day 5 | Radio, Checkbox                      |
+| Day 6 | MessageBox, Basic Form               |
+| Day 7 | Mini Project (Login or Student Form) |
+

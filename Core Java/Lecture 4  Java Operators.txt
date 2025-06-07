@@ -1,0 +1,313 @@
+
+### **Lecture 4: Java Operators**
+
+#### **1. Introduction to Operators:**
+- Operators are special symbols in Java that perform specific operations on one, two, or three operands and return a result.
+- Operators are used to manipulate data and variables.
+
+---
+
+#### **2. Types of Operators:**
+Java provides a rich set of operators that can be categorized as follows:  
+
+1. **Arithmetic Operators:** Used for basic mathematical operations.  
+   - `+` (Addition)  
+   - `-` (Subtraction)  
+   - `*` (Multiplication)  
+   - `/` (Division)  
+   - `%` (Modulus)  
+
+   **Example:**
+
+   int a = 10, b = 5;
+   System.out.println("Addition: " + (a + b)); // Output: 15
+   System.out.println("Division: " + (a / b)); // Output: 2
+
+---
+
+2. **Relational Operators:** Used to compare two values.  
+   - `==` (Equal to)  
+   - `!=` (Not equal to)  
+   - `>` (Greater than)  
+   - `<` (Less than)  
+   - `>=` (Greater than or equal to)  
+   - `<=` (Less than or equal to)  
+
+   **Example:**
+
+   int x = 10, y = 20;
+   System.out.println(x == y); // false
+   System.out.println(x < y);  // true
+
+---
+
+3. **Logical Operators:** Used to combine multiple boolean expressions.  
+   - `&&` (Logical AND)  
+   - `||` (Logical OR)  
+   - `!` (Logical NOT)  
+
+   **Example:**
+   
+   boolean a = true, b = false;
+   System.out.println(a && b); // false
+   System.out.println(a || b); // true
+   System.out.println(!a);     // false
+   
+---
+
+4. **Bitwise Operators:** Used to perform bit-level operations.  
+   - `&` (AND)  
+   - `|` (OR)  
+   - `^` (XOR)  
+   - `~` (NOT)  
+   - `<<` (Left shift)  
+   - `>>` (Right shift)  
+   
+   **Example:**
+   
+   int a = 5, b = 3;
+   System.out.println(a & b); // 1 (0101 & 0011)
+   System.out.println(a | b); // 7 (0101 | 0011)
+   
+
+---
+
+5. **Assignment Operators:** Used to assign values to variables.  
+   - `=` (Simple assignment)  
+   - `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=  
+
+   **Example:**
+   
+   int num = 10;
+   num += 5; // num = num + 5
+   System.out.println(num); // 15
+   
+---
+
+6. **Unary Operators:** Operate on a single operand.  
+   - `+` (Unary plus)  
+   - `-` (Unary minus)  
+   - `++` (Increment)  
+   - `--` (Decrement)  
+   - `!` (Logical NOT)  
+
+   **Example:**
+   
+   int x = 10;
+   System.out.println(++x); // 11 (Pre-increment)
+   System.out.println(x--); // 11 (Post-decrement)
+   System.out.println(x);   // 10
+   
+---
+
+7. **Ternary Operator:** Used for conditional expressions.  
+   - Syntax: `variable = (condition) ? expression1 : expression2;`  
+
+   **Example:**
+   
+   int a = 5, b = 10;
+   int max = (a > b) ? a : b;
+   System.out.println("Max: " + max); // Max: 10
+   
+---
+
+8. **Instanceof Operator:** Used to check if an object is an instance of a specific class.  
+   **Example:**
+   
+   String name = "Yashwant";
+   System.out.println(name instanceof String); // true
+   
+---
+
+#### **3. Operator Precedence:**
+- Operators with higher precedence are evaluated before operators with lower precedence.
+- Use parentheses to override precedence for clarity.  
+   **Example:**
+   
+   int result = 10 + 5 * 2;  // result = 20
+   int result2 = (10 + 5) * 2; // result2 = 30
+   
+
+---
+
+
+Java operators Practical.
+
+---
+
+### **1. Arithmetic Operators: Billing System**  
+**Scenario:** Calculating the final price after applying a discount.  
+**Example:**  
+
+public class BillingSystem {
+    public static void main(String[] args) {
+        double price = 500.0;
+        double discount = 20.0;  // 20% discount
+
+        double discountAmount = price * (discount / 100);  // Calculating discount
+        double finalPrice = price - discountAmount;         // Applying discount
+
+        System.out.println("Original Price: $" + price);
+        System.out.println("Discount Amount: $" + discountAmount);
+        System.out.println("Final Price after Discount: $" + finalPrice);
+    }
+}
+
+**Output:**  
+
+Original Price: $500.0  
+Discount Amount: $100.0  
+Final Price after Discount: $400.0  
+
+---
+
+### **2. Relational and Logical Operators: Authentication System**  
+**Scenario:** Checking if a user is authorized.  
+**Example:**  
+
+public class AuthenticationSystem {
+    public static void main(String[] args) {
+        String username = "admin";
+        String password = "1234";
+
+        if (username.equals("admin") && password.equals("1234")) {
+            System.out.println("Access Granted!");
+        } else {
+            System.out.println("Access Denied!");
+        }
+    }
+}
+
+**Output:**  
+
+Access Granted!
+
+---
+
+### **3. Bitwise Operators: Access Control System**  
+**Scenario:** Managing user permissions using bitwise flags.  
+- `READ` = 1, `WRITE` = 2, `EXECUTE` = 4  
+- Combined Permissions:  
+  - Read & Write = 3 (`1 | 2`)  
+  - Read, Write & Execute = 7 (`1 | 2 | 4`)  
+**Example:**  
+
+public class AccessControl {
+    public static void main(String[] args) {
+        int READ = 1;       // 001
+        int WRITE = 2;      // 010
+        int EXECUTE = 4;    // 100
+
+        int userPermissions = READ | WRITE;  // Combining permissions
+
+        // Checking if the user has both READ and WRITE permissions
+        if ((userPermissions & (READ | WRITE)) == (READ | WRITE)) {
+            System.out.println("User has read and write access.");
+        }
+
+        // Checking for EXECUTE permission
+        if ((userPermissions & EXECUTE) == EXECUTE) {
+            System.out.println("User has execute access.");
+        } else {
+            System.out.println("Execute access denied.");
+        }
+    }
+}
+
+**Output:**  
+
+User has read and write access.  
+Execute access denied.  
+
+---
+
+### **4. Assignment Operators: Salary Calculation**  
+**Scenario:** Giving a 10% increment to an employee's salary.  
+**Example:**  
+
+public class SalaryUpdate {
+    public static void main(String[] args) {
+        double salary = 50000.0;
+        double increment = 0.10;
+
+        salary += salary * increment;  // Incrementing salary by 10%
+        System.out.println("Updated Salary: $" + salary);
+    }
+}
+
+**Output:**  
+
+Updated Salary: $55000.0
+
+---
+
+### **5. Ternary Operator: Grading System**  
+**Scenario:** Assigning pass or fail based on marks.  
+**Example:**  
+
+public class GradingSystem {
+    public static void main(String[] args) {
+        int marks = 75;
+        String result = (marks >= 40) ? "Pass" : "Fail";
+        System.out.println("Student Result: " + result);
+    }
+}
+
+**Output:**  
+
+Student Result: Pass
+
+---
+
+### **6. instanceof Operator: Object Type Check**  
+**Scenario:** Verifying if an object is of a specific class type before performing operations.  
+**Example:**  
+
+public class InstanceCheck {
+    public static void main(String[] args) {
+        String name = "Yashwant";
+        
+        if (name instanceof String) {
+            System.out.println("The variable 'name' is of type String.");
+        }
+    }
+}
+
+**Output:**  
+
+The variable 'name' is of type String.
+
+---
+
+### **7. Unary Operators: Inventory Management**  
+**Scenario:** Incrementing and decrementing the item count in a warehouse.  
+**Example:**  
+
+public class InventoryManagement {
+    public static void main(String[] args) {
+        int items = 100;
+        
+        // Receiving new items
+        items++;
+        System.out.println("Items after receiving: " + items);  // 101
+        
+        // Shipping an item
+        items--;
+        System.out.println("Items after shipping: " + items);   // 100
+    }
+}
+
+**Output:**  
+
+Items after receiving: 101  
+Items after shipping: 100 
+
+
+
+============
+
+#### . Practical Exercise:**  
+**Q1:** Write a Java program to find the largest of three numbers using the ternary operator.  
+**Q2:** Demonstrate the use of bitwise operators by performing AND, OR, and  on two numbers.  
+**Q3:** Create a simple calculator that performs addition, subtraction, multiplication, and division based on user input.
+ 

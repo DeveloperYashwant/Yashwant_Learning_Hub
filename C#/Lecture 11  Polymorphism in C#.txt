@@ -1,0 +1,239 @@
+### **Lecture 11: Polymorphism in C#**
+
+---
+
+#### **1. Introduction to Polymorphism**
+- **Definition:** Polymorphism means "many forms." In C#, it allows methods to perform differently based on the object that calls them.
+- **Objective:** To allow methods to behave differently when used with different derived classes.
+
+---
+
+#### **2. Why Use Polymorphism?**
+- Promotes flexibility and maintainability.
+- Enables method overriding.
+- Simplifies code by allowing a single method to work with different types of objects.
+
+---
+
+#### **3. Real-World Analogy:**
+- **Remote Control:** The same remote can operate multiple devices (TV, DVD player, sound system), but the action performed (like volume up) may differ based on the device.
+
+---
+
+#### **4. Types of Polymorphism in C#:**
+1. **Compile-Time Polymorphism (Static Binding):**
+   - Achieved through method overloading and operator overloading.
+2. **Run-Time Polymorphism (Dynamic Binding):**
+   - Achieved through method overriding.
+
+---
+
+#### **5. Compile-Time Polymorphism: Method Overloading**
+
+- Multiple methods with the **same name but different parameters**.
+
+**Example:**
+
+class Calculator
+{
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    public double Add(double a, double b)
+    {
+        return a + b;
+    }
+
+    public int Add(int a, int b, int c)
+    {
+        return a + b + c;
+    }
+}
+
+Calculator calc = new Calculator();
+Console.WriteLine(calc.Add(3, 4));        // Output: 7
+Console.WriteLine(calc.Add(3.5, 4.2));    // Output: 7.7
+Console.WriteLine(calc.Add(1, 2, 3));     // Output: 6
+
+---
+
+#### **6. Run-Time Polymorphism: Method Overriding**
+
+- Uses **virtual** and **override** keywords.
+- Base class method is overridden in the derived class.
+
+**Example:**
+
+class Animal
+{
+    public virtual void Speak()
+    {
+        Console.WriteLine("Some generic sound");
+    }
+}
+
+class Dog : Animal
+{
+    public override void Speak()
+    {
+        Console.WriteLine("Bark");
+    }
+}
+
+class Cat : Animal
+{
+    public override void Speak()
+    {
+        Console.WriteLine("Meow");
+    }
+}
+
+Animal myDog = new Dog();
+Animal myCat = new Cat();
+myDog.Speak();   // Output: Bark
+myCat.Speak();   // Output: Meow
+
+---
+
+#### **7. Real-World Example: Payment System**
+
+**Base Class:**
+
+class Payment
+{
+    public virtual void ProcessPayment()
+    {
+        Console.WriteLine("Processing generic payment");
+    }
+}
+
+**Derived Classes:**
+
+class CreditCardPayment : Payment
+{
+    public override void ProcessPayment()
+    {
+        Console.WriteLine("Processing credit card payment");
+    }
+}
+
+class PayPalPayment : Payment
+{
+    public override void ProcessPayment()
+    {
+        Console.WriteLine("Processing PayPal payment");
+    }
+}
+
+**Usage:**
+
+Payment payment;
+
+payment = new CreditCardPayment();
+payment.ProcessPayment();  // Output: Processing credit card payment
+
+payment = new PayPalPayment();
+payment.ProcessPayment();  // Output: Processing PayPal payment
+
+---
+
+#### **8. Advantages of Polymorphism:**
+- Reduces complexity by allowing methods to be used generically.
+- Improves code readability and reusability.
+- Facilitates maintenance and scalability.
+
+---
+
+#### **9. Practical Example: Employee Bonus Calculation**
+
+**Base Class:**
+
+class Employee
+{
+    public virtual void CalculateBonus()
+    {
+        Console.WriteLine("Calculating generic employee bonus");
+    }
+}
+
+**Derived Classes:**
+
+class Manager : Employee
+{
+    public override void CalculateBonus()
+    {
+        Console.WriteLine("Calculating manager bonus");
+    }
+}
+
+class Developer : Employee
+{
+    public override void CalculateBonus()
+    {
+        Console.WriteLine("Calculating developer bonus");
+    }
+}
+
+**Usage:**
+
+Employee emp;
+
+emp = new Manager();
+emp.CalculateBonus();  // Output: Calculating manager bonus
+
+emp = new Developer();
+emp.CalculateBonus();  // Output: Calculating developer bonus
+
+---
+
+#### **10. Polymorphism with Interfaces:**
+
+**Interface Definition:**
+
+interface IShape
+{
+    void Draw();
+}
+
+class Circle : IShape
+{
+    public void Draw()
+    {
+        Console.WriteLine("Drawing a circle");
+    }
+}
+
+class Rectangle : IShape
+{
+    public void Draw()
+    {
+        Console.WriteLine("Drawing a rectangle");
+    }
+}
+
+**Usage:**
+
+IShape shape;
+
+shape = new Circle();
+shape.Draw();     // Output: Drawing a circle
+
+shape = new Rectangle();
+shape.Draw();     // Output: Drawing a rectangle
+
+---
+
+#### **11. Key Points to Remember:**
+- **Method Overloading:** Compile-time polymorphism (different methods, same name).
+- **Method Overriding:** Run-time polymorphism (same method, derived class).
+- **Virtual and Override:** Keywords used for method overriding.
+- **Interface Implementation:** Another way to achieve polymorphism.
+
+---
+
+#### **12. Best Practices for Polymorphism:**
+- Use polymorphism when objects need to be treated in a unified way.
+- Avoid unnecessary overriding.
+- Clearly distinguish between compile-time and run-time polymorphism.

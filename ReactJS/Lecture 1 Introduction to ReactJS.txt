@@ -1,0 +1,103 @@
+
+## **Lecture 1: Introduction to ReactJS**
+
+###  Topics Covered:
+
+1. What is React?
+2. Why use React?
+3. Features of React
+4. Installing React (using **Vite** or **Create React App**)
+5. Creating your first React App
+
+---
+
+###  **What is React?**
+
+React is an open-source **JavaScript library** used to build **user interfaces** (UIs), especially for **single-page applications (SPAs)**.
+
+* Developed and maintained by **Facebook (Meta)**.
+* It allows developers to build web apps that **update efficiently** and **render dynamically** as data changes.
+
+---
+
+###  **Why use React?**
+
+React is popular because of:
+
+*  **Component-Based Architecture**
+  You divide the UI into **reusable pieces** (components), making development modular and easier to maintain.
+
+*  **Virtual DOM**
+  React uses a virtual representation of the DOM for **efficient updates**, leading to better performance.
+
+*  **Reusable Components**
+  Once you build a component (e.g., a button), you can reuse it anywhere in your app.
+
+*  **Strong Community Support**
+  Tons of resources, libraries, and third-party tools are available, plus it's used by big companies like Facebook, Instagram, Netflix, etc.
+
+---
+
+###  **How to Install React**
+
+You can install React using two popular methods:
+
+####  **Method 1: Using Vite (Fast & Recommended)**
+
+npm create vite@latest my-app --template react
+cd my-app
+npm install
+npm run dev
+
+
+* Vite is a **modern build tool** that starts the development server **quickly**.
+* Ideal for fast React setups.
+
+#### **Method 2: Using Create React App (CRA)**
+
+npx create-react-app my-app
+cd my-app
+npm start
+
+
+* CRA is an older but still commonly used setup.
+* Takes longer to start but is beginner-friendly and pre-configured.
+
+---
+
+###  **Example: Your First React App**
+
+Let’s look at a simple example using a React functional component:
+
+jsx
+// App.jsx
+function App() {
+  return (
+    <div>
+      <h1>Hello React</h1>
+      <p>This is your first React App!</p>
+    </div>
+  );
+}
+
+export default App;
+
+
+###  Explanation:
+
+* `function App()` creates a **React functional component**.
+* Inside the `return`, we use **JSX**, which lets you write HTML-like code in JavaScript.
+* `<h1>` and `<p>` are basic HTML tags rendered inside the browser.
+* `export default App;` lets other files import and use this component.
+
+---
+
+### Summary
+
+| Feature          | Description                              |
+| ---------------- | ---------------------------------------- |
+| **Library**      | JavaScript (for building UIs)            |
+| **Main Concept** | Component-based, reusable UI parts       |
+| **Setup Tools**  | Vite (faster), Create React App (easier) |
+| **First Output** | “Hello React” message using JSX          |
+

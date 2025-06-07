@@ -1,0 +1,219 @@
+### Lecture 8: **Role-Based Access Control (RBAC) with Spring Security and JWT**
+
+---
+
+#### **1. Introduction to Role-Based Access Control (RBAC)**
+
+**Role-Based Access Control (RBAC)** is an approach to restricting system access to authorized users based on their roles. It helps in implementing security policies, ensuring that users only have access to resources that they are allowed to.
+
+In RBAC, users are assigned roles, and roles are granted permissions to perform specific actions on resources. For example:
+
+- **Admin** role can access all resources.
+- **User** role can access basic resources but not admin-level actions.
+
+---
+
+#### **2. Spring Security and RBAC**
+
+Spring Security integrates easily with **RBAC** through **Authorities** and **Roles**:
+
+- **Authorities**: A collection of granted authorities or permissions, usually granted based on user roles.
+- **Roles**: In Spring Security, roles are treated as authorities but with a specific prefix `ROLE_` (e.g., `ROLE_ADMIN`).
+
+Spring Security allows you to restrict access to specific resources by matching roles to endpoints.
+
+---
+
+#### **3. Defining User Roles and Authorities**
+
+In Spring Boot, roles and authorities can be associated with the user during authentication. When you authenticate using **JWT tokens**, you can add the user's roles into the token's claims (payload). When the token is verified, you can extract the roles and grant access accordingly.
+
+---
+
+#### **4. Customizing JWT Payload for Roles**
+
+Let's modify the `JWTUtil` class to include roles in the JWT payload.
+
+##### **JWTUtil Class (Modified)**
+
+```java
+import io.jsonwebtoken.*;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.List;
+
+@Component
+public class JWTUtil {
+
+    private String secretKey = "secretkey"; // Store this securely
+
+    // Generate Token with roles
+    public String generateToken(String username, List<String> roles) {
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("roles", roles)  // Add roles as claims
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour validity
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    // Validate token
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false; // Invalid token
+        }
+    }
+
+    // Extract username
+    public String extractUsername(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    // Extract roles
+    public List<String> extractRoles(String token) {
+        return (List<String>) Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .get("roles");
+    }
+}
+```
+
+- **`generateToken`**: Now includes roles as part of the JWT claims.
+- **`extractRoles`**: Extracts roles from the JWT token.
+
+---
+
+#### **5. Securing Endpoints with Roles**
+
+Once the roles are part of the token, we can use Spring Security to secure endpoints based on the user's roles.
+
+##### **SecurityConfig Class (Modified)**
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final JWTAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(JWTAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable()
+            .authorizeRequests()
+                .antMatchers("/auth/login").permitAll()  // Public endpoint for login
+                .antMatchers("/api/admin/**").hasRole("ADMIN") // Admin-only access
+                .antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // User and Admin access
+                .anyRequest().authenticated() // Secure all other requests
+            .and()
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
+    }
+}
+```
+
+- **Roles in `SecurityConfig`**: The `/api/admin/**` endpoint is restricted to `ADMIN` role users, while the `/api/user/**` endpoint can be accessed by both `USER` and `ADMIN`.
+
+---
+
+#### **6. Assigning Roles to Users**
+
+The roles can be assigned to users based on their credentials in the database. For demonstration purposes, we will simulate a user with `USER` and `ADMIN` roles.
+
+##### **AuthController (Modified)**
+
+```java
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final AuthenticationManager authenticationManager;
+    private final JWTUtil jwtUtil;
+
+    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        // Simulating a simple role assignment for demo purposes
+        List<String> roles = getRolesForUser(username);
+
+        // Authenticate the user
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+
+        // Generate and return the JWT token
+        return jwtUtil.generateToken(username, roles);
+    }
+
+    private List<String> getRolesForUser(String username) {
+        // Simulate role assignment (In a real scenario, this should come from the DB)
+        if ("admin".equals(username)) {
+            return List.of("ROLE_ADMIN");
+        } else {
+            return List.of("ROLE_USER");
+        }
+    }
+}
+```
+
+- **`getRolesForUser`**: Based on the username, we assign the roles. The `admin` user will get the `ROLE_ADMIN`, and others will get the `ROLE_USER`.
+
+---
+
+#### **7. Testing Role-Based Access Control**
+
+To test the role-based access:
+
+1. **Login**:
+   - Send a POST request to `/auth/login` with the username (`admin` or `user`) and password.
+   - The response will contain a JWT token with roles.
+
+2. **Access Admin Resource**:
+   - Send a GET request to `/api/admin/dashboard` with the JWT token in the `Authorization` header.
+   - Only users with the `ROLE_ADMIN` will be able to access this endpoint.
+
+3. **Access User Resource**:
+   - Send a GET request to `/api/user/profile` with the JWT token in the `Authorization` header.
+   - Both `ROLE_USER` and `ROLE_ADMIN` users can access this endpoint.
+
+---
+
+#### **8. Conclusion**
+
+In this lecture, we have explored **Role-Based Access Control (RBAC)** in Spring Boot with JWT. Here's a summary of what we've learned:
+
+- How to add **roles** in the JWT payload.
+- How to secure endpoints using **Spring Security** based on roles.
+- How to simulate role assignments and generate JWT tokens for authenticated users.

@@ -1,0 +1,143 @@
+### **Lecture 10: SQL Subqueries (Query inside a Query)**
+
+
+## **1. What is a Subquery?**
+
+- A **subquery** is a **query inside another query**.
+- It helps to perform complex filtering, calculation, or selection.
+- **Inner query** runs first, and its result is used by the **outer query**.
+
+---
+
+## **2. Syntax of Subquery**
+
+```sql
+SELECT column_name
+FROM table_name
+WHERE column_name = (SELECT column_name FROM table_name WHERE condition);
+```
+
+- **Inner Query**: (SELECT ...)
+- **Outer Query**: SELECT ... WHERE ...
+
+---
+
+## **3. Where Can We Use Subqueries?**
+
+- In the **WHERE** clause
+- In the **FROM** clause
+- In the **SELECT** clause
+
+---
+
+## **4. Example Table**
+
+**Students Table**
+
+| StudentID | Name  | Marks |
+|-----------|-------|-------|
+| 1         | John  | 85    |
+| 2         | Alice | 92    |
+| 3         | Bob   | 78    |
+| 4         | Sam   | 88    |
+
+---
+
+## **5. Subquery in WHERE Clause**
+
+**Find students who scored the highest marks.**
+
+```sql
+SELECT Name, Marks
+FROM Students
+WHERE Marks = (SELECT MAX(Marks) FROM Students);
+```
+
+✅ **Explanation:**
+- The **inner query** finds the maximum marks (92).
+- The **outer query** finds the student with those marks (Alice).
+
+---
+
+## **6. Subquery in FROM Clause**
+
+**Find the average of the highest marks.**
+
+```sql
+SELECT AVG(MaxMarks)
+FROM (SELECT MAX(Marks) AS MaxMarks FROM Students) AS Temp;
+```
+
+✅ **Explanation:**
+- Inner query gets Max Marks (92).
+- Outer query takes AVG (in this case, same as 92).
+
+---
+
+## **7. Subquery in SELECT Clause**
+
+**Show each student's marks along with the highest mark.**
+
+```sql
+SELECT Name, Marks,
+(SELECT MAX(Marks) FROM Students) AS HighestMarks
+FROM Students;
+```
+
+✅ **Explanation:**
+- For each student, it shows their marks **+** the overall highest marks.
+
+---
+
+## **8. Types of Subqueries**
+
+| Type | Description |
+|:-----|:------------|
+| Single Row Subquery | Returns one value |
+| Multiple Row Subquery | Returns multiple values |
+| Multiple Column Subquery | Returns multiple columns |
+| Correlated Subquery | Subquery depends on outer query |
+
+---
+
+## **9. Example of Correlated Subquery**
+
+**Find students who scored more than the average marks.**
+
+```sql
+SELECT Name, Marks
+FROM Students AS S1
+WHERE Marks > (SELECT AVG(Marks) FROM Students WHERE StudentID = S1.StudentID);
+```
+
+- Here, **inner query depends** on each **row of outer query**.
+
+---
+
+## **10. Important Points**
+
+- **Inner query runs first**.
+- Enclose subqueries in **parentheses** ( ).
+- Subqueries can be used **with SELECT, INSERT, UPDATE, DELETE**.
+- Use aliases (Temp, T1, etc.) for **better readability**.
+
+---
+
+## **11. Real-Life Example**
+
+**Banking System Example:**
+
+- Find customers who have the highest savings balance.
+- Find employees who earn more than the average salary.
+
+**All use subqueries!** ✅
+
+---
+
+## **12. Practice for Students**
+
+🔥 **Try These:**
+
+1. Find the student with minimum marks using a subquery.
+2. List all students whose marks are greater than 80 using a subquery.
+3. Show each student’s marks and the total marks of all students using a subquery.

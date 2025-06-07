@@ -1,0 +1,135 @@
+### **Lecture 15: File Handling in C#**
+
+---
+
+#### **1. Introduction to File Handling:**
+- **Definition:** Working with files to perform read and write operations.
+- **Objective:** Manage data storage and retrieval in files.
+
+---
+
+#### **2. Why Use File Handling?**
+- Store data persistently.
+- Read and write data efficiently.
+- Manipulate text and binary files.
+
+---
+
+#### **3. Real-World Analogy:**
+- Storing employee records in a text file that can be read and updated later.
+
+---
+
+#### **4. Basic Classes for File Handling:**
+1. **File:** Provides static methods for file operations.
+2. **StreamWriter:** Writes text to a file.
+3. **StreamReader:** Reads text from a file.
+4. **FileStream:** Reads and writes bytes to a file.
+
+---
+
+#### **5. Writing to a File:**
+
+using System.IO;
+
+StreamWriter writer = new StreamWriter("example.txt");
+writer.WriteLine("Hello, File Handling!");
+writer.Close();
+Console.WriteLine("Data written successfully.");
+
+---
+
+#### **6. Reading from a File:**
+
+using System.IO;
+
+StreamReader reader = new StreamReader("example.txt");
+string content = reader.ReadToEnd();
+Console.WriteLine("File content: " + content);
+reader.Close();
+
+---
+
+#### **7. Appending Data to a File:**
+
+using (StreamWriter sw = File.AppendText("example.txt"))
+{
+    sw.WriteLine("Additional data.");
+}
+Console.WriteLine("Data appended successfully.");
+
+---
+
+#### **8. Checking File Existence:**
+
+if (File.Exists("example.txt"))
+{
+    Console.WriteLine("File exists.");
+}
+else
+{
+    Console.WriteLine("File not found.");
+}
+
+---
+
+#### **9. Deleting a File:**
+
+File.Delete("example.txt");
+Console.WriteLine("File deleted.");
+
+---
+
+#### **10. Handling File Exceptions:**
+
+try
+{
+    using (StreamReader sr = new StreamReader("nonexistent.txt"))
+    {
+        Console.WriteLine(sr.ReadToEnd());
+    }
+}
+catch (FileNotFoundException ex)
+{
+    Console.WriteLine("Error: File not found.");
+}
+catch (IOException ex)
+{
+    Console.WriteLine("I/O Error: " + ex.Message);
+}
+
+---
+
+#### **11. Practical Example: Employee Data**
+- Write employee names and salaries to a file.
+- Read and display the data.
+
+using (StreamWriter sw = new StreamWriter("employees.txt"))
+{
+    sw.WriteLine("Omkar, 50000");
+    sw.WriteLine("Physics", 60000");
+}
+
+using (StreamReader sr = new StreamReader("employees.txt"))
+{
+    string line;
+    while ((line = sr.ReadLine()) != null)
+    {
+        Console.WriteLine(line);
+    }
+}
+
+---
+
+#### **12. Best Practices:**
+- Always close file streams.
+- Use `using` statements for automatic resource management.
+- Handle file-related exceptions.
+- Check file existence before performing operations.
+
+---
+
+#### **13. Practical Exercise:**
+1. Create a program that stores student names and grades in a file.
+2. Allow the user to add new entries.
+3. Display the contents of the file.

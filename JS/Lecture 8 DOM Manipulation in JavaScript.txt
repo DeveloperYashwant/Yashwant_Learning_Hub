@@ -1,0 +1,188 @@
+### **Example: DOM Manipulation in JavaScript**  
+
+### **Step 1: HTML Structure**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation Example</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        ul { list-style: none; padding: 0; }
+        li { background: #f4f4f4; margin: 5px; padding: 10px; cursor: pointer; }
+        .highlight { background: yellow; }
+    </style>
+</head>
+<body>
+    <h2>Interactive List</h2>
+    
+    <!-- Input Field and Button to Add Items -->
+    <input type="text" id="itemInput" placeholder="Enter an item">
+    <button onclick="addItem()">Add Item</button>
+    
+    <!-- List to Display Items -->
+    <ul id="itemList"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+---
+
+### **Step 2: JavaScript (script.js)**
+
+// Function to add an item to the list
+function addItem() {
+    let inputField = document.getElementById("itemInput"); // Get input field
+    let itemText = inputField.value.trim(); // Get entered text and remove spaces
+
+    if (itemText === "") { // Check if input is empty
+        alert("Please enter an item!");
+        return;
+    }
+
+    let list = document.getElementById("itemList"); // Get the list
+    let li = document.createElement("li"); // Create a new list item
+
+    li.textContent = itemText; // Set the text inside the <li>
+
+    // Add click event to highlight item
+    li.addEventListener("click", function() {
+        this.classList.toggle("highlight"); // Toggle background color
+    });
+
+    // Double-click event to remove the item
+    li.addEventListener("dblclick", function() {
+        this.remove(); // Remove item from list
+    });
+
+    list.appendChild(li); // Add new item to the list
+    inputField.value = ""; // Clear input field
+}
+
+
+---
+
+### **Explanation of JavaScript Code**
+1. **Accessing Elements**  
+   - `document.getElementById("itemInput")`: Gets the input field.  
+   - `document.getElementById("itemList")`: Gets the list where items are added.  
+
+2. **Creating and Modifying Elements**  
+   - `document.createElement("li")`: Creates a new `<li>` element.  
+   - `li.textContent = itemText`: Sets the text inside the `<li>`.  
+
+3. **Adding Event Listeners**  
+   - `li.addEventListener("click", function() {...})`: Highlights an item when clicked.  
+   - `li.addEventListener("dblclick", function() {...})`: Removes an item when double-clicked.  
+
+4. **Appending and Removing Elements**  
+   - `list.appendChild(li)`: Adds the new `<li>` to the `<ul>`.  
+   - `this.remove()`: Deletes an item when double-clicked.  
+
+---
+
+### **How It Works**
+1. **User types an item** into the input field.  
+2. **Clicking "Add Item"** creates a new `<li>` and adds it to the list.  
+3. **Clicking an item** highlights it (changes background).  
+4. **Double-clicking an item** removes it from the list.  
+
+---
+
+### **Try This Out! **  
+Demonstrates **DOM Manipulation** concepts  
+Uses **Event Handling** dynamically  
+Creates a **real-world interactive feature**  
+
+======================
+### ** To-Do List Using DOM Manipulation**  
+
+Let's create a simple **To-Do List** where users can:  
+Add tasks  
+Remove tasks  
+Mark tasks as completed  
+
+---
+
+### **HTML Structure**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        ul { list-style: none; padding: 0; }
+        li { background: #f4f4f4; margin: 5px; padding: 10px; cursor: pointer; }
+        .completed { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+---
+
+### **JavaScript (script.js)**
+
+// Function to add a task
+function addTask() {
+    let taskInput = document.getElementById("taskInput");
+    let taskText = taskInput.value.trim();
+
+    if (taskText === "") {
+        alert("Please enter a task!");
+        return;
+    }
+
+    let taskList = document.getElementById("taskList");
+
+    // Create new list item
+    let li = document.createElement("li");
+    li.textContent = taskText;
+
+    // Mark task as completed on click
+    li.addEventListener("click", function() {
+        this.classList.toggle("completed");
+    });
+
+    // Remove task on double-click
+    li.addEventListener("dblclick", function() {
+        this.remove();
+    });
+
+    // Add new task to the list
+    taskList.appendChild(li);
+
+    // Clear input field
+    taskInput.value = "";
+}
+
+
+---
+
+### **How It Works**
+1. **User enters a task** in the input field.  
+2. **Clicking "Add Task"** creates a new `<li>` and adds it to the list.  
+3. **Clicking a task** marks it as completed (adds a line-through style).  
+4. **Double-clicking a task** removes it from the list.  
+
+---
+
+### **Try it Out! **  
+This example demonstrates real-world **DOM Manipulation** using:  
+`document.createElement()` – To create new tasks  
+`appendChild()` – To add tasks dynamically  
+`addEventListener()` – To handle click & double-click events  
+`classList.toggle()` – To mark tasks as completed  

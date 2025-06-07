@@ -1,0 +1,254 @@
+# **Lecture 4: Decision-Making in C# *
+
+---
+
+## **1. Introduction to Decision-Making in C#**
+Decision-making statements allow the program to take **different actions** based on conditions.  
+
+🔹 **Real-World Example:**  
+- If a student **scores above 50**, they **pass**; otherwise, they **fail**.  
+- If it **rains**, take an **umbrella**; otherwise, go **without** it.
+
+### **Types of Decision-Making Statements**
+| **Statement**  | **Usage**  |
+|--------------|----------------------|
+| `if`        | Executes code if the condition is true |
+| `if-else`   | Executes one block if true, another if false |
+| `else-if`   | Checks multiple conditions |
+| `switch`    | Selects a case from multiple values |
+
+---
+
+## **2. If Statement (Basic Condition Check)**
+
+🔹 **Real-World Example: Checking Age for Voting**  
+
+using System;
+
+class Program {
+    static void Main() {
+        int age = 18;
+
+        if (age >= 18) {  
+            Console.WriteLine("You are eligible to vote.");  
+        }
+    }
+}
+---
+
+## **3. If-Else Statement (Two Possibilities)**
+🔹 **Real-World Example: Pass or Fail System**  
+
+using System;
+
+class Program {
+    static void Main() {
+        int marks = 45;
+
+        if (marks >= 50) {
+            Console.WriteLine("Congratulations! You Passed.");
+        } else {
+            Console.WriteLine("Sorry, You Failed.");
+        }
+    }
+}
+
+---
+
+## **4. Else-If Ladder (Multiple Conditions)**
+🔹 **Real-World Example: Grading System**  
+
+using System;
+
+class Program {
+    static void Main() {
+        int marks = 85;
+
+        if (marks >= 90) {
+            Console.WriteLine("Grade: A+");
+        } else if (marks >= 80) {
+            Console.WriteLine("Grade: A");
+        } else if (marks >= 70) {
+            Console.WriteLine("Grade: B");
+        } else if (marks >= 60) {
+            Console.WriteLine("Grade: C");
+        } else {
+            Console.WriteLine("Grade: F");
+        }
+    }
+}
+
+---
+
+## **5. Nested If (Condition Inside Another Condition)**
+🔹 **Real-World Example: ATM Cash Withdrawal**  
+
+using System;
+
+class Program {
+    static void Main() {
+        int balance = 5000;
+        int withdrawAmount = 2000;
+
+        if (withdrawAmount <= balance) {
+            if (withdrawAmount % 500 == 0) {
+                Console.WriteLine("Transaction Successful! Collect your cash.");
+            } else {
+                Console.WriteLine("Please enter amount in multiples of 500.");
+            }
+        } else {
+            Console.WriteLine("Insufficient Balance!");
+        }
+    }
+}
+
+---
+
+## **6. Switch Case (Multiple Choices)**
+🔹 **Real-World Example: Selecting a Payment Method**  
+
+using System;
+
+class Program {
+    static void Main() {
+        int choice = 2;
+
+        switch (choice) {
+            case 1:
+                Console.WriteLine("You selected Credit Card.");
+                break;
+            case 2:
+                Console.WriteLine("You selected Debit Card.");
+                break;
+            case 3:
+                Console.WriteLine("You selected UPI.");
+                break;
+            default:
+                Console.WriteLine("Invalid Payment Method.");
+                break;
+        }
+    }
+}
+
+---
+
+# **7. Special Problems (Deep Examples)**
+
+## **7.1 Armstrong Number Check**
+An Armstrong number is a number where **sum of cubes of its digits is equal to the number itself**.  
+
+🔹 **Example:**  
+- `153 = 1³ + 5³ + 3³ = 1 + 125 + 27 = 153` (Armstrong)  
+- `123 ≠ 1³ + 2³ + 3³ = 36` (Not Armstrong)
+
+### **C# Program**
+
+using System;
+
+class Program {
+    static void Main() {
+        int num, temp, remainder, sum = 0;
+        
+        Console.Write("Enter a number: ");
+        num = Convert.ToInt32(Console.ReadLine());
+        temp = num;
+
+        while (temp > 0) {
+            remainder = temp % 10;
+            sum += remainder * remainder * remainder;
+            temp /= 10;
+        }
+
+        if (sum == num) {
+            Console.WriteLine(num + " is an Armstrong Number.");
+        } else {
+            Console.WriteLine(num + " is NOT an Armstrong Number.");
+        }
+    }
+}
+
+---
+
+## **7.2 Palindrome Number Check**
+A palindrome number **reads the same forward and backward**.
+
+🔹 **Examples:**  
+`121` → **Palindrome**  
+`123` → **Not Palindrome**  
+
+### **C# Program**
+
+using System;
+
+class Program {
+    static void Main() {
+        int num, temp, remainder, reverse = 0;
+        
+        Console.Write("Enter a number: ");
+        num = Convert.ToInt32(Console.ReadLine());
+        temp = num;
+
+        while (temp > 0) {
+            remainder = temp % 10;
+            reverse = reverse * 10 + remainder;
+            temp /= 10;
+        }
+
+        if (reverse == num) {
+            Console.WriteLine(num + " is a Palindrome.");
+        } else {
+            Console.WriteLine(num + " is NOT a Palindrome.");
+        }
+    }
+}
+
+---
+
+## **7.3 Find Maximum of Three Numbers**
+🔹 **Real-World Example: Finding the Highest Score in a Game**
+
+using System;
+
+class Program {
+    static void Main() {
+        int a = 20, b = 50, c = 40;
+
+        if (a > b && a > c) {
+            Console.WriteLine("Max: " + a);
+        } else if (b > c) {
+            Console.WriteLine("Max: " + b);
+        } else {
+            Console.WriteLine("Max: " + c);
+        }
+    }
+}
+
+---
+
+## **7.4 Find Leap Year**
+🔹 **Real-World Example: Checking If a Year Has 366 Days**
+
+using System;
+
+class Program {
+    static void Main() {
+        int year;
+        Console.Write("Enter Year: ");
+        year = Convert.ToInt32(Console.ReadLine());
+
+        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+            Console.WriteLine(year + " is a Leap Year.");
+        } else {
+            Console.WriteLine(year + " is NOT a Leap Year.");
+        }
+    }
+}
+
+---
+
+## **8. Summary**
+✅ **If-Else** → Basic true/false decisions  
+✅ **Else-If** → Multiple conditions  
+✅ **Nested If** → Conditions inside conditions  
+✅ **Switch Case** → Selecting options  
+✅ **Deep Examples:** **Armstrong, Palindrome, Leap Year, Maximum Finder**  

@@ -1,0 +1,55 @@
+
+
+## **Lecture 2: JSX (JavaScript XML)**
+
+###  Topics:
+
+* What is JSX?
+* JSX Syntax
+* Embedding JavaScript in JSX
+* JSX Rules
+
+###  Explanation:
+
+**What is JSX?**
+JSX stands for **JavaScript XML**. It lets you write **HTML inside JavaScript**.
+
+Instead of:
+
+js
+const element = React.createElement('h1', null, 'Hello JSX');
+
+You write:
+
+jsx
+const element = <h1>Hello JSX</h1>;
+
+**JSX Example:**
+
+jsx
+function App() {
+  const name = "Himanshu";
+  return (
+    <div>
+      <h1>Welcome, {name}</h1>
+      <p>React makes UI development fun!</p>
+    </div>
+  );
+}
+
+**JSX Rules:**
+
+* Must return a **single parent element**
+* Use `className` instead of `class`
+* Use `{}` to write JavaScript expressions
+* Tags must be **properly closed**
+
+Correct:
+
+jsx
+<img src="logo.png" alt="Logo" />
+
+❌ Wrong:
+
+jsx
+<img src="logo.png">

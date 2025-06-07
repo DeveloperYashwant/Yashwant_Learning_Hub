@@ -1,0 +1,200 @@
+
+## **Lecture 20: Web Service in C#**
+
+###  **What is a Web Service?**
+
+A **Web Service** is a software system designed to **communicate over a network** using standard protocols like **HTTP**. It allows different applications to **interact**, regardless of platform, language, or device.
+
+It provides **interoperability** between different software over the internet.
+
+---
+
+###  **Key Concepts**
+
+| Concept         | Description |
+|----------------|-------------|
+| **Protocol**    | HTTP |
+| **Format**      | XML or JSON |
+| **Standard**    | SOAP or REST |
+| **Transport**   | Web (Internet/Intranet) |
+
+---
+
+###  **Types of Web Services**
+
+| Type | Description |
+|------|-------------|
+| **SOAP** | XML-based protocol, strict, used in enterprise systems |
+| **REST** | Lightweight, uses HTTP methods like GET, POST, PUT, DELETE |
+
+---
+
+### **How Web Services Work**
+
+1. A client sends a request (HTTP)
+2. Web service processes the request
+3. Sends back a response (in XML or JSON)
+
+---
+
+### **Creating a Web Service in C# (.NET Framework)**
+
+You can create a **SOAP-based Web Service** using `.asmx` files.
+
+---
+
+###**Example: Simple Calculator Web Service**
+
+#### Step 1: Create a Web Service (.asmx file)
+
+csharp
+using System.Web.Services;
+
+[WebService(Namespace = "http://tempuri.org/")]
+public class Calculator : WebService
+{
+    [WebMethod]
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    [WebMethod]
+    public int Subtract(int a, int b)
+    {
+        return a - b;
+    }
+}
+
+
+####Save it as: `Calculator.asmx`
+
+---
+
+###  **How to Test the Web Service**
+
+1. Run in browser or Postman.
+2. Use the URL: `http://localhost:1234/Calculator.asmx`
+3. You’ll see the list of methods: `Add`, `Subtract`
+4. You can test by entering numbers directly in the browser.
+
+---
+
+###  **Calling the Web Service in a C# Client App**
+
+csharp
+ServiceReference1.CalculatorSoapClient client = new ServiceReference1.CalculatorSoapClient();
+int result = client.Add(10, 20);
+Console.WriteLine("Result: " + result);
+
+
+*(You’ll add the service using “Add Web Reference” or “Add Service Reference” in Visual Studio)*
+
+---
+
+### **Attributes Used in Web Service**
+
+| Attribute | Description |
+|----------|-------------|
+| `[WebService]` | Declares a class as a web service |
+| `[WebMethod]` | Declares a method available via web service |
+
+---
+
+###  **Benefits of Web Services**
+
+- Platform-independent (Java, C#)
+- Reusable
+- Lightweight (especially REST)
+- Supports distributed systems
+
+---
+
+###  **Limitations**
+
+- Can be slower than local method calls
+- SOAP is verbose
+- Needs proper security (HTTPS, authentication)
+
+---
+
+### Want to Learn RESTful Web Services too?
+
+REST uses:
+- `GET` → Read
+- `POST` → Create
+- `PUT` → Update
+- `DELETE` → Remove
+=====================
+
+
+## **Example: C# Web Service (.asmx) – Calculator**
+
+
+### Step 1: Create a Web Service File
+
+**File Name**: `CalculatorService.asmx`
+
+####`CalculatorService.asmx`
+csharp
+<%@ WebService Language="C#" CodeBehind="CalculatorService.asmx.cs" Class="MyNamespace.CalculatorService" %>
+
+###  Step 2: Create the CodeBehind File
+
+**CalculatorService.asmx.cs**
+csharp
+using System.Web.Services;
+
+namespace MyNamespace
+{
+    [WebService(Namespace = "http://tempuri.org/")]
+    public class CalculatorService : WebService
+    {
+        [WebMethod]
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        [WebMethod]
+        public int Subtract(int a, int b)
+        {
+            return a - b;
+        }
+
+        [WebMethod]
+        public int Multiply(int a, int b)
+        {
+            return a * b;
+        }
+
+        [WebMethod]
+        public int Divide(int a, int b)
+        {
+            if (b == 0) return 0;
+            return a / b;
+        }
+    }
+}
+
+### Step 3: Run and Test
+
+- Build and run your ASP.NET Web App.
+- Open this URL in your browser:  
+`http://localhost:[port]/CalculatorService.asmx`
+- You will see the list of methods: `Add`, `Subtract`, `Multiply`, `Divide`.
+- Click any method and test it directly from the browser.
+
+
+###  Optional: Call This Web Service from a Client App
+
+#### C# Console Client:
+csharp
+// Add service reference: Right-click Project → Add Service Reference → Paste .asmx URL
+
+static void Main(string[] args)
+{
+    var client = new ServiceReference1.CalculatorServiceSoapClient();
+    int result = client.Add(10, 20);
+    Console.WriteLine("Result: " + result);  // Output: 30
+}

@@ -1,0 +1,341 @@
+### Lecture 6: **Spring Security **
+
+---
+
+#### **1. Introduction to Spring Security**
+
+Spring Security is a powerful and customizable authentication and access-control framework for Java applications, primarily for securing Spring-based applications. It provides comprehensive security services for applications, including authentication, authorization, protection against attacks, and more.
+
+---
+
+#### **2. Key Concepts in Spring Security**
+
+- **Authentication**: Verifying the identity of a user (e.g., logging in with username and password).
+- **Authorization**: Granting access to resources based on roles or privileges (e.g., an admin user can access certain features).
+- **Security Filters**: These are the core components of Spring Security, responsible for handling security-related requests and actions.
+- **UserDetailsService**: Interface used to retrieve user-related data.
+- **PasswordEncoder**: Interface for encoding and verifying passwords securely.
+  
+---
+
+#### **3. Spring Security in Action - A Real-World Example:**
+
+Let’s consider a **simple web application** where users can log in, access specific pages, and only certain roles (e.g., ADMIN, USER) can access certain resources.
+
+---
+
+#### **4. Setting Up the Project**
+
+**Dependencies for Maven:**
+
+```xml
+<dependencies>
+    <!-- Spring Boot Starter Web for REST API support -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    
+    <!-- Spring Boot Starter Security for securing the application -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    
+    <!-- H2 Database for in-memory database -->
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+```
+
+**Dependencies for Gradle:**
+
+```gradle
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    runtimeOnly 'com.h2database:h2'
+}
+```
+
+---
+
+#### **5. Spring Security Basic Configuration**
+
+##### **application.properties**
+
+```properties
+# H2 Database for testing
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+# Disable security for H2 console
+spring.h2.console.settings.web-allow-others=true
+```
+
+---
+
+#### **6. Defining User Entity and Roles**
+
+In this example, let’s use a **User** entity with roles.
+
+##### **User Entity**
+
+```java
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.util.Collection;
+
+@Entity
+public class User implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String username;
+    private String password;
+    
+    @Enumerated(EnumType.STRING)
+    private Role role;  // Enum to define roles
+
+    // Getters and setters
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(role);
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}
+
+enum Role implements GrantedAuthority {
+    USER, ADMIN;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
+}
+```
+
+- **`UserDetails`**: Implements Spring Security’s `UserDetails` interface, which is used to store user data.
+- **`Role`**: An enum that represents user roles, implementing `GrantedAuthority`.
+
+---
+
+#### **7. User Repository**
+
+##### **UserRepository**
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
+}
+```
+
+- **UserRepository** allows for CRUD operations on the `User` entity and helps find users by their username.
+
+---
+
+#### **8. Configuring Spring Security**
+
+Spring Security needs configuration to define how users will be authenticated and authorized.
+
+##### **Security Configuration Class**
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated()
+            .and()
+            .formLogin().permitAll()
+            .and()
+            .logout().permitAll();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+}
+```
+
+- **HttpSecurity**: Specifies access control for different parts of the application.
+  - `/admin/**`: Only accessible by users with the `ADMIN` role.
+  - `/user/**`: Accessible by both `USER` and `ADMIN`.
+  - All other paths require authentication.
+- **PasswordEncoder**: We use `BCryptPasswordEncoder` to hash the passwords for security.
+
+---
+
+#### **9. UserDetailsService Implementation**
+
+##### **Custom UserDetailsService**
+
+```java
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
+    }
+}
+```
+
+- **`CustomUserDetailsService`**: This class implements `UserDetailsService` to load user details from the database. It retrieves user details based on the username.
+
+---
+
+#### **10. Creating the Controller Layer**
+
+##### **HomeController**
+
+```java
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/user")
+    public String userPage() {
+        return "user";
+    }
+
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "admin";
+    }
+}
+```
+
+- **HomeController**: Handles the HTTP requests for different pages (`home`, `user`, and `admin`).
+
+---
+
+#### **11. Testing the Application**
+
+**Steps for Testing:**
+
+1. **Run the application**: Start the Spring Boot application.
+2. **Access URLs**:
+   - `/` (Home page): Open the home page that does not require authentication.
+   - `/user`: Accessible by `USER` and `ADMIN` roles.
+   - `/admin`: Only accessible by users with `ADMIN` role.
+
+**Example Credentials:**
+- **Username**: `admin`, **Password**: `admin123` (role: `ADMIN`)
+- **Username**: `user`, **Password**: `user123` (role: `USER`)
+
+---
+
+#### **12. Conclusion**
+
+In this lecture, we learned how to integrate **Spring Security** into a Spring Boot application with:
+
+- **User authentication** using **in-memory** or **database**-backed credentials.
+- Role-based **authorization** using `@PreAuthorize`, `@Secured`, or URL-based authorization.
+- Hashing passwords securely using `BCryptPasswordEncoder`.
+- Implementing a **custom UserDetailsService** to load user data.

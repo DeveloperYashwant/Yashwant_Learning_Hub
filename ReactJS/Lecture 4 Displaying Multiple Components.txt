@@ -1,0 +1,97 @@
+
+
+##  **Lecture 4: Displaying Multiple Components**
+
+###  Topics:
+
+* Rendering multiple components
+* Passing props to each component
+* Looping through data (using `map`)
+* Creating reusable lists/cards
+
+---
+
+###  **Scenario Example**: Display a list of students with name and course.
+
+###  `StudentCard.js` – A Reusable Component
+
+jsx
+// StudentCard.js
+function StudentCard(props) {
+  return (
+    <div style={{ border: '1px solid gray', padding: '10px', margin: '10px' }}>
+      <h3>Name: {props.name}</h3>
+      <p>Course: {props.course}</p>
+    </div>
+  );
+}
+
+export default StudentCard;
+
+
+---
+
+###  `App.js` – Displaying Multiple `StudentCard` Components
+
+jsx
+// App.js
+import StudentCard from './StudentCard';
+
+function App() {
+  const students = [
+    { name: "Yashwant", course: "ReactJS" },
+    { name: "Neha", course: "Java" },
+    { name: "Ajay", course: "Python" }
+  ];
+
+  return (
+    <div>
+      <h1>Student List</h1>
+
+      {/* Loop through students array and render a card for each */}
+      {students.map((student, index) => (
+        <StudentCard 
+          key={index}          // Key helps React track list items
+          name={student.name}
+          course={student.course}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default App;
+
+
+---
+
+###  Explanation with Comments:
+
+* `StudentCard` is a **reusable functional component**
+* `props.name` and `props.course` are used to customize the content
+* `students.map()` loops through the data to create one component per student
+* `key={index}` is required when rendering lists for performance and consistency
+
+---
+
+### Output:
+
+Student List
+
+Name: Yashwant
+Course: ReactJS
+
+Name: Neha
+Course: Java
+
+Name: Ajay
+Course: Python
+
+---
+
+This technique is **very useful** in:
+
+* Dashboards
+* List rendering
+* Card views
+* Tables

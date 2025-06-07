@@ -1,0 +1,145 @@
+
+
+##  **Node.js – Lecture 4: Working with the File System (fs Module)**
+
+---
+
+###  **What is the `fs` Module?**
+
+* The **`fs` (File System)** module is a **built-in Node.js module**.
+* It allows you to **interact with files and directories** on your system (read, write, delete, rename, etc.).
+
+---
+
+###  **Two Ways to Use fs Methods:**
+
+1. **Asynchronous (non-blocking)** – Preferred for performance
+    Asynchronous (Non-blocking) – Multiple Tasks, No Waiting
+   
+   const data = fs.readFileSync('file.txt', 'utf8');  // Blocking
+   console.log('File read:', data);
+
+
+2. **Synchronous (blocking)** – Easier to understand but slower for large apps
+    Synchronous (Blocking) – One Waiter, One Task
+   
+   fs.readFile('file.txt', 'utf8', (err, data) => {   // Non-blocking
+  if (err) throw err;
+  console.log('File read:', data);
+});
+console.log('Reading file...');  // This runs immediately, without waiting!
+
+
+---
+
+###  **Common File System Operations**
+
+---
+
+#### 1. **Reading a File**
+
+**Asynchronous**:
+
+javascript
+const fs = require('fs');
+
+fs.readFile('example.txt', 'utf8', (err, data) => {
+  if (err) return console.error(err);
+  console.log(data);
+});
+
+**Synchronous**:
+
+javascript
+const fs = require('fs');
+
+const data = fs.readFileSync('example.txt', 'utf8');
+console.log(data);
+
+
+---
+
+####  2. **Writing to a File**
+
+ **Asynchronous**:
+
+javascript
+fs.writeFile('output.txt', 'Hello from Node.js!', (err) => {
+  if (err) return console.error(err);
+  console.log('File written successfully!');
+});
+
+ **Synchronous**:
+
+javascript
+fs.writeFileSync('output.txt', 'Hello from Node.js!');
+
+
+---
+
+####  3. **Appending to a File**
+
+javascript
+fs.appendFile('output.txt', '\nAppended text.', (err) => {
+  if (err) throw err;
+  console.log('Text appended!');
+});
+
+
+---
+
+#### 4. **Deleting a File**
+
+javascript
+fs.unlink('output.txt', (err) => {
+  if (err) throw err;
+  console.log('File deleted!');
+});
+
+
+---
+
+#### 5. **Creating and Reading Directories**
+
+javascript
+fs.mkdir('newFolder', (err) => {
+  if (err) throw err;
+  console.log('Directory created!');
+});
+
+fs.readdir('.', (err, files) => {
+  if (err) throw err;
+  console.log('Files in current folder:', files);
+});
+
+
+---
+
+###  **Error Handling**
+
+Always check for errors using:
+
+javascript
+if (err) return console.error(err);
+
+
+or use `try...catch` for synchronous code.
+
+---
+
+###  **Why is this Important?**
+
+| Benefit            | Description                                                     |
+| ------------------ | --------------------------------------------------------------- |
+| Server Development | Manage files for logging, content delivery, or saving user data |
+| Automation         | Create scripts to handle file operations                        |
+| Understanding I/O  | Helps understand how Node.js handles non-blocking tasks         |
+| Foundation         | Required for building custom file-based modules                 |
+
+---
+
+###  **Summary**
+
+* `fs` module = backbone of file-related operations in Node.js.
+* Prefer asynchronous methods for real applications.
+* Error handling is crucial for stability.

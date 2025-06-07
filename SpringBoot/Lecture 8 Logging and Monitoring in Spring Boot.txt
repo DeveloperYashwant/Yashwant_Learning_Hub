@@ -1,0 +1,266 @@
+### Lecture 8: **Logging and Monitoring in Spring Boot**
+
+---
+
+#### **1. Introduction to Logging and Monitoring**
+
+Logging and monitoring are crucial parts of any application’s lifecycle. They help in tracking application behavior, identifying issues, and ensuring that the application is running smoothly. In Spring Boot, logging and monitoring are built into the framework, allowing you to easily add custom logging and gather metrics.
+
+Logging is about capturing detailed information for debugging, auditing, and monitoring, while monitoring is about tracking the performance and health of the application in real time.
+
+---
+
+#### **2. Logging in Spring Boot**
+
+Spring Boot uses **SLF4J (Simple Logging Facade for Java)** as the default logging API, which allows you to choose from a wide variety of logging frameworks (e.g., Logback, Log4j, and Java Util Logging). By default, Spring Boot configures **Logback** as the logging framework.
+
+##### **2.1 Basic Logging with Spring Boot**
+
+In Spring Boot, you can use the `Logger` class to log messages at different levels: `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, and `FATAL`. The most commonly used levels are `INFO` and `ERROR`.
+
+**Example:**
+
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class LoggingController {
+
+    // Create a Logger instance for this class
+    private static final Logger logger = LoggerFactory.getLogger(LoggingController.class);
+
+    @GetMapping("/log")
+    public String logExample() {
+        logger.debug("This is a DEBUG log message");
+        logger.info("This is an INFO log message");
+        logger.warn("This is a WARN log message");
+        logger.error("This is an ERROR log message");
+        
+        return "Logging example";
+    }
+}
+```
+
+- The `LoggerFactory.getLogger(LoggingController.class)` creates a logger instance.
+- `logger.debug()`, `logger.info()`, `logger.warn()`, and `logger.error()` are methods to log messages at different levels.
+- By default, Spring Boot logs at the `INFO` level, so only `INFO`, `WARN`, and `ERROR` messages will be visible in the console.
+
+##### **2.2 Customizing Logging Levels**
+
+You can customize the logging levels in `application.properties` or `application.yml` files to control the verbosity of logs for specific packages or classes.
+
+**Example:**
+
+In `application.properties`:
+
+```properties
+# Set root log level
+logging.level.root=INFO
+
+# Set log level for a specific package
+logging.level.org.springframework.web=DEBUG
+
+# Set log level for a specific class
+logging.level.com.example.LoggingController=TRACE
+```
+
+In `application.yml`:
+
+```yaml
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    com.example.LoggingController: TRACE
+```
+
+- The above configuration sets the logging level for the root logger, a package (`org.springframework.web`), and a class (`LoggingController`).
+- The levels can be set to `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`, or `OFF`.
+
+##### **2.3 Logback Configuration**
+
+Spring Boot uses Logback as the default logging framework. You can further configure Logback by adding a custom `logback-spring.xml` or `logback.xml` file in the `src/main/resources` directory.
+
+**Example (`logback-spring.xml`):**
+
+```xml
+<configuration>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.example" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="Console"/>
+    </root>
+
+</configuration>
+```
+
+- The `<appender>` tag defines where the log messages should be output (e.g., to the console).
+- The `<logger>` tag specifies the log level for a specific package or class.
+- The `<root>` tag sets the default log level for the application.
+
+##### **2.4 Log Formats and Patterns**
+
+You can format the logs to include useful information like timestamp, log level, logger name, and the actual message.
+
+**Example of custom pattern in `logback-spring.xml`:**
+
+```xml
+<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5level] - %logger{36} - %msg%n</pattern>
+```
+
+This will print logs in the following format:
+
+```
+2025-04-30 14:00:00 [INFO ] - com.example.LoggingController - This is an INFO log message
+```
+
+- `%d` – Date/Time
+- `%-5level` – Log level (e.g., INFO, WARN)
+- `%logger{36}` – Logger name truncated to 36 characters
+- `%msg` – Log message
+- `%n` – Newline character
+
+---
+
+#### **3. Monitoring in Spring Boot**
+
+Spring Boot provides several ways to monitor the application’s health, metrics, and performance.
+
+##### **3.1 Spring Boot Actuator**
+
+Spring Boot **Actuator** provides built-in endpoints to monitor and manage your application. These endpoints allow you to gather metrics, health information, application properties, and more.
+
+To add Spring Boot Actuator, include the following dependency in your `pom.xml` or `build.gradle` file:
+
+**For Maven:**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+**For Gradle:**
+
+```groovy
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+}
+```
+
+##### **3.2 Enabling and Accessing Actuator Endpoints**
+
+By default, Spring Boot exposes several important Actuator endpoints, including:
+
+- `/actuator/health`: Displays the health status of the application.
+- `/actuator/metrics`: Provides detailed metrics of the application’s performance.
+- `/actuator/env`: Shows environment properties.
+- `/actuator/info`: Displays custom application information (like version, build number).
+
+You can customize which endpoints are enabled by modifying the `application.properties` or `application.yml` file.
+
+**Example (`application.properties`):**
+
+```properties
+management.endpoints.web.exposure.include=health,info,metrics
+```
+
+**Example (`application.yml`):**
+
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+```
+
+You can access the Actuator endpoints via HTTP, e.g., `http://localhost:8080/actuator/health`.
+
+##### **3.3 Health Checks**
+
+Spring Boot includes a default health check endpoint that checks various application components like database connectivity, disk space, and more.
+
+**Example:**
+
+```json
+{
+    "status": "UP",
+    "details": {
+        "db": {
+            "status": "UP"
+        },
+        "diskSpace": {
+            "status": "UP",
+            "total": 500000000,
+            "free": 200000000,
+            "threshold": 10485760
+        }
+    }
+}
+```
+
+- `"status": "UP"` indicates the application is healthy.
+- `"db": {"status": "UP"}` shows the database is available.
+- `"diskSpace": {"status": "UP"}` provides details about disk space availability.
+
+##### **3.4 Customizing Actuator Health Indicators**
+
+You can create custom health indicators to monitor custom services, like third-party APIs or application-specific checks.
+
+**Example of custom health indicator:**
+
+```java
+@Component
+public class CustomHealthIndicator extends AbstractHealthIndicator {
+
+    @Override
+    protected void doHealthCheck(Health.Builder builder) throws Exception {
+        if (someCondition()) {
+            builder.up().withDetail("CustomCheck", "Service is running properly.");
+        } else {
+            builder.down().withDetail("CustomCheck", "Service is down.");
+        }
+    }
+
+    private boolean someCondition() {
+        return true; // Replace with actual condition
+    }
+}
+```
+
+This will create a custom health check that can be accessed via `/actuator/health/custom`.
+
+---
+
+#### **4. Logging and Monitoring with External Tools**
+
+To enhance monitoring and log management, you can integrate Spring Boot with external tools like:
+
+- **ELK Stack (Elasticsearch, Logstash, Kibana)** for logging.
+- **Prometheus and Grafana** for monitoring and visualizing metrics.
+- **Zipkin or Sleuth** for distributed tracing.
+
+These tools allow you to gather logs and metrics from multiple services in a microservices environment and visualize them for better observability.
+
+---
+
+#### **5. Conclusion**
+
+In this lecture, we learned:
+
+- **Logging**: How to configure logging in Spring Boot using SLF4J, Logback, and custom configurations.
+- **Monitoring**: How to use Spring Boot Actuator to expose application health and metrics endpoints.
+- **Custom Health Indicators**: How to create custom health checks for your application.
+- **External Monitoring Tools**: How to integrate with external tools like ELK and Prometheus for enhanced observability.

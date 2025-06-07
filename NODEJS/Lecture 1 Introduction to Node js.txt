@@ -1,0 +1,80 @@
+
+## **Node.js - Lecture 1: Introduction to Node.js**
+
+###  **What is Node.js?**
+
+* **Node.js** is an open-source, cross-platform **runtime environment** that allows you to **run JavaScript outside the browser**.
+* It is built on **Google Chrome's V8 JavaScript engine**.
+* With Node.js, you can create **server-side applications** using JavaScript.
+
+### **Features and Uses of Node.js**
+
+#### **Features:**
+
+1. **Asynchronous and Event-Driven**
+
+   * Non-blocking I/O — it handles many connections at once without waiting.
+2. **Very Fast**
+
+   * Built on V8 engine — JavaScript code runs quickly.
+3. **Single Programming Language**
+
+   * Use JavaScript both on **frontend** and **backend**.
+4. **Scalable**
+
+   * Suitable for building scalable network applications.
+5. **Open Source**
+
+   * Huge library of modules via **npm (Node Package Manager)**.
+
+####  **Uses:**
+
+* Web servers and APIs
+* File system tasks (read/write files)
+* Backend
+
+###  **Installing Node.js**
+
+####  Steps:
+
+1. Go to: [https://nodejs.org](https://nodejs.org)
+2. Download the **LTS (Long Term Support)** version for your OS.
+3. Install it by following the installer steps.
+4. After installation:
+
+   * Open terminal (Command Prompt / Terminal)
+
+   * Type:
+
+     node -v
+    
+     This shows the Node.js version installed.
+
+   * Type:
+
+     npm -v
+    
+     This shows the **npm (Node Package Manager)** version installed.
+
+###  **Writing and Running Your First Program**
+
+####  Step 1: Create a file
+
+* Create a file named `hello.js`.
+
+####  Step 2: Add code
+
+javascript
+console.log("Hello, Node.js!");
+
+
+####  Step 3: Run the file
+
+Open terminal and type:
+
+node hello.js
+
+
+#### Output:
+
+Hello, Node.js!

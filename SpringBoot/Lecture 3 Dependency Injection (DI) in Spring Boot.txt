@@ -1,0 +1,240 @@
+### Lecture 3: **Dependency Injection (DI) in Spring Boot**
+
+---
+
+#### **1. What is Dependency Injection?**
+
+Dependency Injection (DI) is a design pattern that allows a class to receive its dependencies from an external source rather than creating them internally. In simple terms, DI allows Spring to manage the creation and injection of dependencies into a class, making the class more flexible, decoupled, and easier to test.
+
+In **Spring Boot**, DI is a core feature that simplifies the development of loosely coupled and maintainable code.
+
+---
+
+#### **2. Types of Dependency Injection**
+
+There are three main types of dependency injection:
+1. **Constructor Injection**
+2. **Setter Injection**
+3. **Field Injection**
+
+Each of these types allows the Spring container to inject dependencies into the class at different points (constructor, setter methods, or directly into the fields).
+
+---
+
+#### **3. Dependency Injection in Spring Boot**
+
+- **Spring's DI Container**: Spring Boot uses the **IoC (Inversion of Control) container** to manage beans and their dependencies. This container is responsible for managing the lifecycle and injecting dependencies where needed.
+- **@Autowired**: Spring provides the `@Autowired` annotation, which tells Spring to inject dependencies into the class where it is used.
+
+---
+
+#### **4. Constructor Injection**
+
+Constructor injection is the most preferred and recommended way of injecting dependencies because it ensures that the dependencies are not null and are immutable (since they are provided at object creation time).
+
+- **How Constructor Injection Works**:
+    - You define the dependency as a parameter in the constructor.
+    - Spring Boot will automatically pass the dependency to the class when it is instantiated.
+
+Example:
+java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeService {
+
+    private final EmployeeRepository employeeRepository;
+
+    // Constructor Injection
+    @Autowired
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public void printEmployeeCount() {
+        System.out.println("Employee count: " + employeeRepository.count());
+    }
+}
+
+In this example:
+- `EmployeeService` depends on `EmployeeRepository`.
+- Spring injects the `EmployeeRepository` into `EmployeeService` when creating the `EmployeeService` bean.
+
+---
+
+#### **5. Setter Injection**
+
+Setter injection allows the dependency to be injected via a setter method. While constructor injection is preferred, setter injection can be used if the dependency is optional or can be changed after the object is created.
+
+- **How Setter Injection Works**:
+    - You define a setter method for the dependency.
+    - Spring will inject the dependency when it invokes the setter method.
+
+Example:
+java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeService {
+
+    private EmployeeRepository employeeRepository;
+
+    // Setter Injection
+    @Autowired
+    public void setEmployeeRepository(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public void printEmployeeCount() {
+        System.out.println("Employee count: " + employeeRepository.count());
+    }
+}
+
+In this example:
+- Spring injects `EmployeeRepository` into the `setEmployeeRepository` method.
+
+---
+
+#### **6. Field Injection**
+
+Field injection is the most convenient form of DI as it directly injects the dependency into a field. However, it is generally considered less ideal because it makes testing harder and doesn’t make the dependencies explicit.
+
+- **How Field Injection Works**:
+    - Spring injects the dependency directly into the field.
+
+Example:
+java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeService {
+
+    // Field Injection
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    public void printEmployeeCount() {
+        System.out.println("Employee count: " + employeeRepository.count());
+    }
+}
+
+In this example:
+- Spring injects `EmployeeRepository` directly into the `employeeRepository` field.
+
+---
+
+#### **7. Benefits of Dependency Injection**
+
+1. **Loose Coupling**: Classes don't need to know how their dependencies are created or managed. This leads to more modular and maintainable code.
+2. **Flexibility**: Dependencies can be easily replaced, allowing for more flexible code.
+3. **Testability**: DI makes unit testing easier because you can inject mock dependencies into your classes during tests.
+4. **Manageability**: Spring handles the lifecycle of beans, ensuring that they are correctly instantiated and disposed of, simplifying the application's complexity.
+
+---
+
+#### **8. How Spring Boot Handles DI**
+
+- **Bean Lifecycle**: In Spring Boot, when you mark a class with `@Component`, `@Service`, `@Repository`, or `@Controller`, Spring automatically registers that class as a bean.
+- **Automatic Wiring**: The `@Autowired` annotation tells Spring to inject the dependencies. Spring automatically finds the correct bean from the context and injects it into the dependent class.
+
+---
+
+#### **9. Example: Complete DI in Spring Boot**
+
+Let's consider an example where we have `EmployeeService` depending on `EmployeeRepository`.
+
+1. **Employee Entity** (JPA Entity):
+java
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Employee {
+
+    @Id
+    private Long id;
+    private String name;
+
+    // Getters and setters
+}
+
+2. **Employee Repository** (Repository Layer):
+java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    // Custom query methods if needed
+}
+
+3. **Employee Service** (Service Layer):
+java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeService {
+
+    private final EmployeeRepository employeeRepository;
+
+    @Autowired
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public void printEmployeeCount() {
+        System.out.println("Total Employees: " + employeeRepository.count());
+    }
+}
+
+4. **Employee Controller** (Controller Layer):
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class EmployeeController {
+
+    private final EmployeeService employeeService;
+
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    @GetMapping("/employee/count")
+    public String getEmployeeCount() {
+        employeeService.printEmployeeCount();
+        return "Employee count printed in the console!";
+    }
+}
+```
+
+In this complete example:
+- **`EmployeeController`** depends on **`EmployeeService`**.
+- **`EmployeeService`** depends on **`EmployeeRepository`**.
+- Spring Boot uses DI to inject these dependencies.
+
+---
+
+#### **10. @Component, @Service, @Repository, and @Controller**
+
+- **`@Component`**: Marks a class as a Spring bean. This is a generic annotation and can be used for any type of bean.
+- **`@Service`**: A specialization of `@Component` used for service-layer beans.
+- **`@Repository`**: A specialization of `@Component` used for DAO (Data Access Object) beans, typically for interacting with databases.
+- **`@Controller`**: A specialization of `@Component` used for Spring MVC controller beans, typically for handling HTTP requests in web applications.
+
+These annotations mark classes as Spring beans, and Spring Boot will automatically register them in the Application Context for DI.
+
+---
+
+### **Conclusion**
+
+In this lecture, we have:
+- Learned about **Dependency Injection** and its role in **Spring Boot** applications.
+- Explored the **three types of DI**: **Constructor Injection**, **Setter Injection**, and **Field Injection**.
+- Seen how DI is implemented in a Spring Boot application and how Spring Boot's IoC container manages dependencies.
+- Understood the benefits of using DI, such as **loose coupling**, **testability**, and **flexibility**.

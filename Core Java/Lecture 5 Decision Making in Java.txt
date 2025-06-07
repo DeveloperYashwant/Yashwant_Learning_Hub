@@ -1,0 +1,341 @@
+**Lecture 5: Decision Making in Java**.
+
+---
+
+### **Lecture 5: Decision Making in Java**
+
+#### **1. Introduction:**
+- Decision-making statements are used to control the flow of a program based on conditions.
+- These statements help you to make decisions based on conditions like checking if a number is positive or negative.
+
+---
+
+#### **2. Types of Decision-Making Statements:**
+
+Java supports the following decision-making statements:  
+1. **if statement**  
+2. **if-else statement**  
+3. **if-else-if ladder**  
+4. **nested if statement**  
+5. **switch statement**  
+
+---
+
+### **3. if Statement**
+- The `if` statement checks a condition. If the condition is `true`, the block of code is executed.  
+- **Syntax:**
+
+  if (condition) {
+      // code to be executed if the condition is true
+  }
+
+- **Example:**
+
+  int age = 18;
+  if (age >= 18) {
+      System.out.println("You are eligible to vote.");
+  }
+
+- **Explanation:**  
+  - The condition `age >= 18` checks if the age is greater than or equal to 18.  
+  - If true, it prints **"You are eligible to vote."**  
+
+---
+
+### **4. if-else Statement**
+- The `if-else` statement provides an alternative if the `if` condition is false.  
+- **Syntax:**
+  
+  if (condition) {
+      // code if true
+  } else {
+      // code if false
+  }
+  
+  - **Example:**
+  
+  int marks = 35;
+  if (marks >= 40) {
+      System.out.println("Pass");
+  } else {
+      System.out.println("Fail");
+  }
+  
+  - **Explanation:**  
+  - If `marks` are 40 or more, it prints **"Pass"**; otherwise, it prints **"Fail"**.  
+
+---
+
+### **5. if-else-if Ladder**
+- Used when there are multiple conditions to check.  
+- **Syntax:**
+
+  if (condition1) {
+      // code if condition1 is true
+  } else if (condition2) {
+      // code if condition2 is true
+  } else if (condition3) {
+      // code if condition3 is true
+  } else {
+      // code if all conditions are false
+  }
+
+- **Example:**
+
+  int score = 85;
+  if (score >= 90) {
+      System.out.println("Grade: A");
+  } else if (score >= 80) {
+      System.out.println("Grade: B");
+  } else if (score >= 70) {
+      System.out.println("Grade: C");
+  } else {
+      System.out.println("Grade: D");
+  }
+
+- **Explanation:**  
+  - The program checks the score and prints the corresponding grade.  
+
+---
+
+### **6. Nested if Statement**
+- An `if` statement inside another `if` statement.  
+- Useful when you need to check a condition only if another condition is true.  
+- **Syntax:**
+
+  if (condition1) {
+      if (condition2) {
+          // code if both conditions are true
+      }
+  }
+
+- **Example:**
+
+  int num = 5;
+  if (num > 0) {
+      if (num % 2 == 0) {
+          System.out.println("Positive even number");
+      } else {
+          System.out.println("Positive odd number");
+      }
+  }
+
+- **Explanation:**  
+  - The outer `if` checks if the number is positive.  
+  - The inner `if` checks whether the positive number is even or odd.  
+
+---
+
+### **7. switch Statement**
+- Used to execute one of the many blocks of code based on the value of a variable or expression.  
+- **Syntax:**
+
+  switch (expression) {
+      case value1:
+          // code block
+          break;
+      case value2:
+          // code block
+          break;
+      default:
+          // code block
+  }
+- **Example:**
+
+  int day = 3;
+  switch (day) {
+      case 1:
+          System.out.println("Monday");
+          break;
+      case 2:
+          System.out.println("Tuesday");
+          break;
+      case 3:
+          System.out.println("Wednesday");
+          break;
+      default:
+          System.out.println("Invalid day");
+  }
+
+- **Explanation:**  
+  - The switch statement checks the value of `day` and prints the corresponding day of the week.  
+
+---
+
+### **8. Real-World Example: ATM Machine**
+**Scenario:** Checking the balance and allowing withdrawal.  
+
+public class ATM {
+    public static void main(String[] args) {
+        int balance = 10000;
+        int withdraw = 5000;
+
+        if (withdraw <= balance) {
+            balance -= withdraw;
+            System.out.println("Transaction Successful!");
+            System.out.println("Remaining Balance: " + balance);
+        } else {
+            System.out.println("Insufficient Balance!");
+        }
+    }
+}
+
+- **Explanation:**  
+  - The program checks if the withdrawal amount is less than or equal to the balance.  
+  - If yes, it performs the transaction; otherwise, it shows an error.  
+
+---
+
+### **9. Practical Exercise:**  
+1. **Q1:** Write a program to check whether a number is positive, negative, or zero using an `if-else-if` statement.  
+2. **Q2:** Create a simple grading system using a `switch` statement to print grades based on marks.  
+3. **Q3:** Write a Java program to check whether a year is a leap year using nested `if` statements.  
+==============
+
+
+
+### **Scenario: Online Food Ordering System**  
+Imagine an online food ordering system where a user can place an order based on the food type they select.  
+The system checks the type of food (Veg, Non-Veg, Vegan) and displays the available options accordingly.  
+
+---
+
+#### **Online Food Ordering System**  
+
+import java.util.Scanner;
+
+public class FoodOrder {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Welcome to Food Corner!");
+        System.out.println("Select Food Type:");
+        System.out.println("1. Veg");
+        System.out.println("2. Non-Veg");
+        System.out.println("3. Vegan");
+
+        int choice = sc.nextInt();
+
+        // Decision-making using switch statement
+        switch (choice) {
+            case 1:
+                System.out.println("Veg Menu:");
+                System.out.println("1. Paneer Butter Masala");
+                System.out.println("2. Veg Biryani");
+                break;
+
+            case 2:
+                System.out.println("Non-Veg Menu:");
+                System.out.println("1. Chicken Biryani");
+                System.out.println("2. Fish Curry");
+                break;
+
+            case 3:
+                System.out.println("Vegan Menu:");
+                System.out.println("1. Vegan Burger");
+                System.out.println("2. Salad Bowl");
+                break;
+
+            default:
+                System.out.println("Invalid Choice! Please select a valid food type.");
+        }
+
+        sc.close();
+    }
+}
+
+---
+
+### **Explanation:**  
+1. **Input from User:**  
+   - The user is prompted to select a food type: Veg, Non-Veg, or Vegan.  
+
+2. **Decision-Making with Switch Statement:**  
+   - Based on the user’s choice, it displays the corresponding menu.  
+   - If the user enters an invalid number, it shows an error message.  
+
+3. **Example Output:**  
+
+Welcome to Food Corner!  
+Select Food Type:  
+1. Veg  
+2. Non-Veg  
+3. Vegan  
+2  
+Non-Veg Menu:  
+1. Chicken Biryani  
+2. Fish Curry  
+
+---
+
+### **Why Use Decision-Making Statements Here?**  
+- To handle multiple choices effectively.  
+- To provide different menu options based on user input.  
+- To display an error message when the choice is invalid.  
+====================
+
+
+### **Scenario: Electricity Bill Calculation**  
+Imagine an electricity billing system where the charge per unit varies depending on the number of units consumed.  
+The system calculates the bill based on the following rules:  
+- **Up to 100 units:** ₹1.50 per unit  
+- **101 to 300 units:** ₹2.00 per unit  
+- **301 to 500 units:** ₹3.00 per unit  
+- **Above 500 units:** ₹5.00 per unit  
+
+---
+
+#### **Electricity Bill Calculation**  
+
+import java.util.Scanner;
+
+public class ElectricityBill {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the number of units consumed: ");
+        int units = sc.nextInt();
+        double bill;
+
+        // Decision-making using if-else-if ladder
+        if (units <= 100) {
+            bill = units * 1.50;
+        } else if (units <= 300) {
+            bill = 100 * 1.50 + (units - 100) * 2.00;
+        } else if (units <= 500) {
+            bill = 100 * 1.50 + 200 * 2.00 + (units - 300) * 3.00;
+        } else {
+            bill = 100 * 1.50 + 200 * 2.00 + 200 * 3.00 + (units - 500) * 5.00;
+        }
+
+        System.out.println("Electricity Bill: ₹" + bill);
+
+    }
+}
+
+---
+
+### **Explanation:**  
+1. **Input from User:**  
+   - The user enters the number of electricity units consumed.  
+
+2. **Decision-Making with if-else-if Ladder:**  
+   - The program checks the number of units and calculates the bill based on the given rate.  
+   - The conditions are checked in the order of increasing range:  
+     - **Up to 100 units**  
+     - **101 to 300 units**  
+     - **301 to 500 units**  
+     - **Above 500 units**  
+
+3. **Example Output:**  
+
+Enter the number of units consumed: 450  
+Electricity Bill: ₹1050.0  
+
+
+---
+
+### **Why Use Decision-Making Statements Here?**  
+- To calculate the bill according to the number of units consumed.  
+- To handle different pricing tiers effectively.  
+- To ensure the correct rate is applied based on the consumption.  

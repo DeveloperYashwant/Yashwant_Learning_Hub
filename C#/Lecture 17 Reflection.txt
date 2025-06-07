@@ -1,0 +1,171 @@
+
+## **Lecture 17: Reflection in C#**
+
+### **What is Reflection?**
+
+**Reflection** is the ability of a program to examine and manipulate its own **metadata** (information about assemblies, modules, and types) at runtime.
+
+It’s part of the **`System.Reflection`** namespace in C#.
+
+---
+
+###  **Common Uses of Reflection**
+1. To get information about **assemblies**.
+2. To inspect **types** (classes, interfaces, structs, etc.).
+3. To list **properties, methods, fields, constructors** of a type.
+4. To **invoke methods** or **set/get values** dynamically.
+5. Used in tools like:
+   - Object serializers
+   - Code analyzers
+   - Test frameworks (like NUnit, MSTest)
+
+---
+
+###  **Namespace Required**
+csharp
+using System.Reflection;
+
+
+---
+
+### **Basic Example: Inspecting a Class**
+
+csharp
+using System;
+using System.Reflection;
+
+class Student
+{
+    public string Name { get; set; }
+    public void Display() => Console.WriteLine("Hello from Student class");
+}
+
+class Program
+{
+    static void Main()
+    {
+        Type type = typeof(Student);
+
+        Console.WriteLine("Class Name: " + type.Name);
+
+        Console.WriteLine("\nProperties:");
+        foreach (PropertyInfo prop in type.GetProperties())
+        {
+            Console.WriteLine(prop.Name);
+        }
+
+        Console.WriteLine("\nMethods:");
+        foreach (MethodInfo method in type.GetMethods())
+        {
+            Console.WriteLine(method.Name);
+        }
+    }
+}
+
+---
+
+###**Creating Instance Dynamically & Invoking Method**
+
+
+csharp
+Type type = typeof(Student);
+object obj = Activator.CreateInstance(type);
+
+MethodInfo method = type.GetMethod("Display");
+method.Invoke(obj, null);  // Output: Hello from Student class
+
+
+---
+
+### **Important Classes in System.Reflection**
+| Class | Description |
+|-------|-------------|
+| `Type` | Represents type declarations |
+| `MethodInfo` | Holds method info |
+| `PropertyInfo` | Holds property info |
+| `FieldInfo` | Holds field info |
+| `ConstructorInfo` | Holds constructor info |
+| `Assembly` | Holds assembly-level info |
+
+---
+
+###  **Things to Keep in Mind**
+- Reflection is powerful but can be **slower** than direct access.
+- Use it when necessary, like for plug-ins, testing tools, serialization, etc.
+- Can **break encapsulation** if misused (accessing private data).
+
+---
+
+### **Real-life Examples**
+- ORM frameworks like Entity Framework
+- Serialization libraries like JSON.NET
+- Unit testing frameworks
+- Compilers and IDEs
+==============
+
+### **Example: Reflection to Inspect and Invoke a Method**
+
+csharp
+using System;
+using System.Reflection;
+
+public class Student
+{
+    public string Name { get; set; }
+
+    public void Greet()
+    {
+        Console.WriteLine($"Hello, my name is {Name}!");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Get the Type object for the Student class
+        Type type = typeof(Student);
+
+        // Display class name
+        Console.WriteLine("Class Name: " + type.Name);
+
+        // List all properties
+        Console.WriteLine("\nProperties:");
+        foreach (PropertyInfo prop in type.GetProperties())
+        {
+            Console.WriteLine(prop.Name);
+        }
+
+        // Create an instance of Student using Reflection
+        object studentObj = Activator.CreateInstance(type);
+
+        // Set the 'Name' property dynamically
+        PropertyInfo nameProp = type.GetProperty("Name");
+        nameProp.SetValue(studentObj, "Yashwant");
+
+        // Call the 'Greet' method using Reflection
+        MethodInfo greetMethod = type.GetMethod("Greet");
+        greetMethod.Invoke(studentObj, null);
+    }
+}
+
+
+---
+
+### **Output:**
+
+Class Name: Teacher
+
+Properties:
+Name
+Hello, my name is Yashwant!
+
+
+---
+
+### What’s happening in this code:
+- We are using `Type` to reflect on the `Student` class.
+- We list its **properties**.
+- We **create an object dynamically**.
+- We **set a property value** (`Name`) without directly using `studentObj.Name = "..."`.
+- We **invoke the method** `Greet()` without calling it directly.

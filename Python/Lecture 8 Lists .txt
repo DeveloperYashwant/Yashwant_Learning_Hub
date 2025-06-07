@@ -1,0 +1,229 @@
+### **Lecture 8: Real-World Example of Lists in Python**
+
+Lists are used to store multiple items in a single variable. They are ordered, changeable (mutable), and allow duplicate values.
+
+---
+
+### **Real-World Example: Student Management System**
+
+Imagine a school wants to manage a list of students enrolled in a course. They need to:
+1. Add new students.
+2. Remove a student.
+3. Display the list of enrolled students.
+4. Find a specific student.
+5. Sort the list alphabetically.
+
+---
+
+#### **Step 1: Create an Empty List**
+
+students = []  # Initial empty list
+
+---
+
+#### **Step 2: Add New Students**
+
+# Adding students to the list
+students.append("Yashwant")
+students.append("Riya")
+students.append("Aman")
+students.append("Nisha")
+
+print("Enrolled Students:", students)
+
+**Output:**
+
+Enrolled Students: ['Yashwant', 'Riya', 'Aman', 'Nisha']
+
+---
+
+#### **Step 3: Remove a Student**
+
+# Removing a student who left the course
+students.remove("Aman")
+print("Updated Students List:", students)
+
+**Output:**
+
+Updated Students List: ['Yashwant', 'Riya', 'Nisha']
+
+---
+
+#### **Step 4: Display the List of Students**
+
+print("Total Enrolled Students:")
+for student in students:
+    print(student)
+
+**Output:**
+
+Total Enrolled Students:
+Yashwant
+Riya
+Nisha
+
+---
+
+#### **Step 5: Find a Specific Student**
+
+search_name = "Riya"
+if search_name in students:
+    print(f"{search_name} is enrolled.")
+else:
+    print(f"{search_name} is not found.")
+
+**Output:**
+
+Riya is enrolled.
+
+---
+
+#### **Step 6: Sort the Students Alphabetically**
+
+students.sort()
+print("Sorted Students List:", students)
+
+**Output:**
+
+Sorted Students List: ['Nisha', 'Riya', 'Yashwant']
+
+---
+
+### **Additional List Operations in the Student Management System**
+
+1. **Insert a Student at a Specific Position:**
+
+students.insert(1, "Tina")
+print("After Insertion:", students)
+
+**Output:**
+
+After Insertion: ['Nisha', 'Tina', 'Riya', 'Yashwant']
+
+2. **Count the Number of Students:**
+
+print("Number of Students:", len(students))
+
+**Output:**
+
+Number of Students: 4
+
+3. **Clear the List (if the course is canceled):**
+
+students.clear()
+print("All students removed:", students)
+
+**Output:**
+
+All students removed: []
+
+---
+
+### **Student Practice:**
+1. Write a program to add 5 students to a list and then print the list in reverse order.
+2. Create a list of 5 subjects and print each subject using a loop.
+3. Write a function to remove duplicate student names from a list.
+============
+
+### **Example 2**
+
+#### **Scenario: Grocery Shopping List**
+
+Imagine you are preparing a list of groceries to buy from the supermarket. You need to:
+1. Add items to your list.
+2. Remove items once bought.
+3. Check if an item is already on the list.
+4. View the final list before shopping.
+
+---
+
+#### **Step 1: Create an Empty List**
+
+grocery_list = []  # Initial empty list
+
+---
+
+#### **Step 2: Add Items to the Grocery List**
+
+# Adding items to the list
+grocery_list.append("Milk")
+grocery_list.append("Eggs")
+grocery_list.append("Bread")
+grocery_list.append("Butter")
+
+print("Grocery List:", grocery_list)
+
+**Output:**
+
+Grocery List: ['Milk', 'Eggs', 'Bread', 'Butter']
+
+---
+
+#### **Step 3: Remove an Item After Buying**
+
+# Removing an item after purchasing it
+grocery_list.remove("Bread")
+print("Updated Grocery List:", grocery_list)
+
+**Output:**
+
+Updated Grocery List: ['Milk', 'Eggs', 'Butter']
+
+---
+
+#### **Step 4: Check if an Item is on the List**
+
+item_to_check = "Eggs"
+if item_to_check in grocery_list:
+    print(f"{item_to_check} is on the list.")
+else:
+    print(f"{item_to_check} is not on the list.")
+
+**Output:**
+
+Eggs is on the list.
+
+---
+
+#### **Step 5: View the Final List Before Shopping**
+
+print("Final Grocery List:")
+for item in grocery_list:
+    print(f"- {item}")
+
+**Output:**
+
+Final Grocery List:
+- Milk
+- Eggs
+- Butter
+
+---
+
+#### **Step 6: Sort the List Alphabetically**
+
+grocery_list.sort()
+print("Sorted Grocery List:", grocery_list)
+
+**Output:**
+
+Sorted Grocery List: ['Butter', 'Eggs', 'Milk']
+
+---
+
+#### **Bonus: Adding Multiple Items at Once**
+
+# Using extend() to add multiple items
+grocery_list.extend(["Fruits", "Vegetables", "Cheese"])
+print("Extended Grocery List:", grocery_list)
+
+**Output:**
+
+Extended Grocery List: ['Butter', 'Eggs', 'Milk', 'Fruits', 'Vegetables', 'Cheese']
+
+---
+
+### **Student Practice:**
+1. Write a program to add your top 5 favorite movies to a list and print them.
+2. Create a list of tasks for the day and mark them as completed by removing them one by one.
+3. Write a function to find the longest word in a given list of words.

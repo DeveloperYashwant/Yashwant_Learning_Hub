@@ -1,0 +1,197 @@
+### **Lecture 8: Events and Event Handling in JavaScript**  
+
+#### **1. Introduction to Events**  
+Events in JavaScript allow us to detect and respond to user actions like clicks, keypresses, mouse movements, and more.
+
+Example:  
+
+<button onclick="alert('Button clicked!')">Click Me</button>
+
+---
+
+### **2. Types of Events in JavaScript**  
+
+| Event Type  | Description |
+|------------|-------------|
+| `onclick` | Triggered when an element is clicked |
+| `onmouseover` | Triggered when the mouse enters an element |
+| `onmouseout` | Triggered when the mouse leaves an element |
+| `onkeydown` | Triggered when a key is pressed |
+| `onkeyup` | Triggered when a key is released |
+| `onchange` | Triggered when an input field changes |
+| `onsubmit` | Triggered when a form is submitted |
+
+Example (inline event handling):  
+
+<button onclick="showMessage()">Click Me</button>
+
+<script>
+function showMessage() {
+    alert("Hello, you clicked the button!");
+}
+</script>
+
+---
+
+### **3. Event Handling Methods**  
+
+#### **a) Inline Event Handlers**  
+Events are added directly in the HTML element.  
+
+<button onclick="greet()">Click Me</button>
+
+#### **b) Event Properties (`element.event = function`)**  
+Events are assigned dynamically using JavaScript.  
+
+<button id="myBtn">Click Me</button>
+
+<script>
+document.getElementById("myBtn").onclick = function() {
+    alert("Button Clicked!");
+};
+</script>
+
+#### **c) `addEventListener()` Method** (Recommended Approach)  
+Allows multiple event handlers for the same event.  
+
+<button id="myBtn">Click Me</button>
+
+<script>
+document.getElementById("myBtn").addEventListener("click", function() {
+    alert("Event Listener Triggered!");
+});
+</script>
+
+---
+
+### **4. Event Object (`event`)**  
+When an event occurs, an event object is automatically passed.  
+
+Example:  
+
+<button id="myBtn">Click Me</button>
+
+<script>
+document.getElementById("myBtn").addEventListener("click", function(event) {
+    console.log("Event Type: " + event.type);
+});
+</script>
+
+---
+
+### **5. Mouse Events**  
+| Event | Description |
+|-------|------------|
+| `click` | Triggered when an element is clicked |
+| `dblclick` | Triggered on double-click |
+| `mousedown` | Triggered when mouse button is pressed |
+| `mouseup` | Triggered when mouse button is released |
+| `mousemove` | Triggered when the mouse moves |
+
+Example:  
+
+<div onmouseover="changeColor(this)" onmouseout="resetColor(this)" style="width:100px;height:100px;background:red;"></div>
+
+<script>
+function changeColor(element) {
+    element.style.backgroundColor = "blue";
+}
+function resetColor(element) {
+    element.style.backgroundColor = "red";
+}
+</script>
+
+---
+
+### **6. Keyboard Events**  
+| Event | Description |
+|-------|------------|
+| `keydown` | Triggered when a key is pressed |
+| `keyup` | Triggered when a key is released |
+| `keypress` | (Deprecated) Triggered when a key is pressed |
+
+Example:  
+
+<input type="text" id="inputBox" placeholder="Type something">
+
+<script>
+document.getElementById("inputBox").addEventListener("keydown", function(event) {
+    console.log("Key Pressed: " + event.key);
+});
+</script>
+
+---
+
+### **7. Form Events**  
+| Event | Description |
+|-------|------------|
+| `submit` | Triggered when a form is submitted |
+| `change` | Triggered when input value changes |
+| `focus` | Triggered when an input field is focused |
+| `blur` | Triggered when an input field loses focus |
+
+Example:  
+
+<form id="myForm">
+    <input type="text" id="name" placeholder="Enter Name">
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById("myForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+    alert("Form Submitted!");
+});
+</script>
+
+---
+
+### **8. Event Bubbling & Capturing**  
+- **Event Bubbling:** The event starts from the target element and bubbles up to its ancestors.  
+- **Event Capturing:** The event starts from the topmost ancestor and moves down to the target element.  
+
+Example:  
+
+<div id="parent">
+    <button id="child">Click Me</button>
+</div>
+
+<script>
+document.getElementById("parent").addEventListener("click", function() {
+    alert("Parent Clicked!");
+}, true); // `true` enables capturing phase
+
+document.getElementById("child").addEventListener("click", function(event) {
+    alert("Child Clicked!");
+    event.stopPropagation(); // Prevents bubbling
+});
+</script>
+
+---
+
+### **9. Removing Event Listeners**  
+An event listener can be removed using `removeEventListener()`.  
+
+<button id="myBtn">Click Me</button>
+
+<script>
+function sayHello() {
+    alert("Hello!");
+}
+
+document.getElementById("myBtn").addEventListener("click", sayHello);
+
+// Removing event after 5 seconds
+setTimeout(function() {
+    document.getElementById("myBtn").removeEventListener("click", sayHello);
+}, 5000);
+</script>
+
+---
+
+### **10. Practical Assignments**  
+1. Create a button that changes the background color of the page when clicked.  
+2. Display a message when a user presses the "Enter" key in a text box.  
+3. Implement a hover effect where an image changes when the mouse is over it.  
+4. Create a form that prevents submission if a field is empty.  
+5. Build a counter that increments when a button is clicked.  

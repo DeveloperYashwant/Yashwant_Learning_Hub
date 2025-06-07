@@ -1,0 +1,257 @@
+
+## Express.js Full Notes Package
+
+##Topics Covered:
+1]Introduction to Express.js
+
+2]Installing Express
+
+3]Basic Express Server
+
+4]Middleware in Express
+
+5]Routing (GET, POST, PUT, DELETE)
+
+6]Handling Forms and JSON
+
+7]Serving Static Files
+
+8]Modular Routing (routes folder)
+
+9]Express + MongoDB (Mongoose)
+
+10]Error Handling
+
+11]Real-World REST API Example (Student System)---
+
+
+###  1. Introduction to Express.js
+
+Express is a Node.js framework used to simplify backend development.
+
+* Minimal & Fast
+* Powerful routing system
+* Easy integration with databases (MongoDB, MySQL)
+
+---
+
+### 2. Installing Express
+
+npm init -y
+npm install express
+
+
+---
+
+###  3. Basic Express Server
+
+js
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Welcome to Express.js!');
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+
+
+---
+
+###  4. Middleware in Express
+
+Middleware = functions executed **between request and response**.
+
+#### Example:
+
+js
+app.use(express.json()); // parse JSON body
+
+app.use((req, res, next) => {
+  console.log('Time:', Date.now());
+  next();
+});
+
+---
+
+###  5. Routing
+
+#### GET
+
+js
+app.get('/user', (req, res) => {
+  res.send('GET Request Received');
+});
+
+#### POST
+
+js
+app.post('/user', (req, res) => {
+  res.send('POST Request Received');
+});
+
+#### PUT
+
+js
+app.put('/user/:id', (req, res) => {
+  res.send(`Update user with ID ${req.params.id}`);
+});
+
+#### DELETE
+
+js
+app.delete('/user/:id', (req, res) => {
+  res.send(`Delete user with ID ${req.params.id}`);
+});
+
+
+---
+
+###  6. Handling Forms and JSON
+
+js
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+#### Sample POST
+
+js
+app.post('/form', (req, res) => {
+  res.send(`Name: ${req.body.name}`);
+});
+
+
+---
+
+###  7. Serving Static Files
+
+js
+app.use(express.static('public'));
+
+Place HTML/CSS/JS in `public/` folder.
+
+---
+
+###  8. Modular Routing
+
+#### File: `routes/students.js`
+
+js
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
+  res.send('All Students');
+});
+
+module.exports = router;
+
+#### In `app.js`:
+
+js
+const studentRoutes = require('./routes/students');
+app.use('/students', studentRoutes);
+
+
+---
+
+###  9. Express + MongoDB
+
+Install:
+
+npm install mongoose
+
+js
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/college')
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.error(err));
+
+#### Sample Schema:
+
+js
+const studentSchema = new mongoose.Schema({
+  name: String,
+  course: String
+});
+const Student = mongoose.model('Student', studentSchema);
+
+
+---
+
+### 10. Error Handling
+
+js
+app.use((req, res) => {
+  res.status(404).send("404 Not Found");
+});
+
+---
+
+### 11. Real-World Example: Student CRUD API
+
+js
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+app.use(express.json());
+
+// MongoDB Connection
+mongoose.connect('mongodb://localhost:27017/college');
+
+// Schema
+const studentSchema = new mongoose.Schema({
+  name: String,
+  course: String,
+});
+const Student = mongoose.model('Student', studentSchema);
+
+// Routes
+app.get('/students', async (req, res) => {
+  const data = await Student.find();
+  res.json(data);
+});
+
+app.post('/students', async (req, res) => {
+  const s = new Student(req.body);
+  await s.save();
+  res.status(201).send("Student Added");
+});
+
+app.put('/students/:id', async (req, res) => {
+  await Student.findByIdAndUpdate(req.params.id, req.body);
+  res.send("Student Updated");
+});
+
+app.delete('/students/:id', async (req, res) => {
+  await Student.findByIdAndDelete(req.params.id);
+  res.send("Student Deleted");
+});
+
+app.listen(3000, () => {
+  console.log('Server running...');
+});
+
+
+---
+
+##  Summary Table
+
+| Topic                  | Description                    |
+| ---------------------- | ------------------------------ |
+| `express.json()`       | Parse JSON body                |
+| `express.urlencoded()` | Parse URL-encoded form data    |
+| `app.get()`            | GET route                      |
+| `app.post()`           | POST route                     |
+| `express.static()`     | Serve static files (HTML, CSS) |
+| `mongoose`             | MongoDB ODM                    |
+
+---
+
+
+
+* React + Node.js + Express + MongoDB CRUD (Full Stack Example)?
+* Include Authentication (Login, JWT)?
+

@@ -1,0 +1,103 @@
+
+##  **Node.js - Lecture 2: Understanding Node.js Basics**
+
+---
+
+###  **Node.js as a JavaScript Runtime**
+
+* Node.js is not a programming language.
+* It is a **runtime environment** that allows you to:
+
+  * Run JavaScript on your **computer/server**, not just in the browser.
+  * Build **server-side applications** using JavaScript.
+
+**Key Point:** Without Node.js, JavaScript runs only in a browser. With Node.js, JavaScript runs anywhere!
+
+---
+
+###  **Node.js vs JavaScript in Browser**
+
+| Feature            | JavaScript in Browser     | JavaScript in Node.js              |
+| ------------------ | ------------------------- | ---------------------------------- |
+| Runs in            | Web Browser (like Chrome) | Node.js Environment                |
+| DOM Access         |  Yes (document, window)   |    No                               |
+| File System Access |  No                       |   Yes                              |
+| Use Case           | Frontend (UI, Events)     | Backend (Server, Files, Database)  |
+| Modules            | ES Modules (`import`)     | CommonJS (`require`) or ES Modules |
+
+**Example:**
+
+* Browser JS: used to show alert boxes, change webpage color.
+* Node.js JS: used to read/write files, handle HTTP requests.
+
+---
+
+###  **REPL (Read-Eval-Print Loop) Basics**
+
+**REPL** is a quick way to test Node.js code directly in the terminal.
+
+####  To start REPL:
+
+Open terminal and type:
+
+node
+
+
+You’ll get a prompt like this:
+
+####  Try:
+
+javascript
+> 5 + 3
+8
+
+> console.log("Welcome to Node.js")
+Welcome to Node.js
+
+> let a = 10
+undefined
+
+> a * 2
+20
+
+
+####  To exit REPL:
+
+.exit
+
+
+or press `Ctrl + C` two times.
+
+---
+
+###  **Running `.js` Files from Terminal**
+
+####  Step-by-step:
+
+1. Create a file called `app.js`.
+2. Write your code inside:
+
+javascript
+console.log("Running from a file!");
+
+3. Open terminal and go to the folder where the file is saved:
+
+cd path-to-your-folder
+
+4. Run the file:
+
+node app.js
+
+#### Output:
+
+Running from a file!
+
+
+---
+
+###  **Summary**
+
+* Node.js lets you run JS outside the browser.
+* It has no DOM but can do backend tasks.
+* REPL is an interactive shell for testing.
+* Use `node filename.js` to run any JS file.

@@ -1,0 +1,114 @@
+
+##  **Lecture 24: ADO.NET DataAdapter**
+
+###  **What is a DataAdapter?**
+
+The **`DataAdapter`** acts as a **bridge** between a **DataSet (in-memory data)** and the **database**. It uses **commands** (`SELECT`, `INSERT`, `UPDATE`, `DELETE`) to **retrieve and save data**.
+
+It is mainly used in **disconnected architecture**.
+
+---
+
+###  **Key Concepts**
+
+| Term | Meaning |
+|------|---------|
+| **SqlDataAdapter** | Fills data into `DataSet` from SQL Server and pushes updates back |
+| **DataSet** | In-memory cache of data (can hold multiple tables) |
+| **Disconnected Mode** | DB connection is used only during fetch/update |
+
+---
+
+### **DataAdapter Important Methods**
+
+| Method | Purpose |
+|--------|---------|
+| `Fill(DataSet)` | Retrieves data from DB into `DataSet` |
+| `Update(DataSet)` | Sends changes in `DataSet` back to DB |
+
+---
+
+###  **Basic Flow**
+
+1. Create connection (`SqlConnection`)
+2. Create adapter with SQL SELECT command
+3. Fill `DataSet` using `adapter.Fill()`
+4. Make changes in `DataSet`
+5. Use `adapter.Update()` to apply changes to DB
+
+---
+
+###  **Example: Read & Display Data**
+
+csharp
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+class Program
+{
+    static void Main()
+    {
+        string conStr = "Data Source=.;Initial Catalog=StudentDB;Integrated Security=True";
+        SqlConnection con = new SqlConnection(conStr);
+        SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Students", con);
+
+        DataSet ds = new DataSet();
+        adapter.Fill(ds, "Students");
+
+        foreach (DataRow row in ds.Tables["Students"].Rows)
+        {
+            Console.WriteLine($"{row["Id"]} - {row["Name"]} - {row["Course"]}");
+        }
+    }
+}
+
+
+---
+
+### **Example: Insert Data into DataSet & Update DB**
+
+csharp
+SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Students", con);
+SqlCommandBuilder builder = new SqlCommandBuilder(adapter); // auto-generate SQL commands
+
+DataSet ds = new DataSet();
+adapter.Fill(ds, "Students");
+
+DataRow newRow = ds.Tables["Students"].NewRow();
+newRow["Name"] = "Amit";
+newRow["Course"] = "C#";
+ds.Tables["Students"].Rows.Add(newRow);
+
+adapter.Update(ds, "Students");
+
+
+---
+
+### **SqlCommandBuilder**
+
+It helps automatically generate:
+- `INSERT`
+- `UPDATE`
+- `DELETE`
+
+You must have a primary key in the table for it to work properly.
+
+---
+
+###**Note on Performance**
+
+- Ideal for **batch operations**
+- Keeps DB connection usage low
+- Good for desktop apps, forms, or data caching
+
+---
+
+###**Summary**
+
+| Feature | Use |
+|--------|-----|
+| `SqlDataAdapter` | Connects DataSet to DB |
+| `Fill()` | Loads data |
+| `Update()` | Saves changes |
+| `SqlCommandBuilder` | Auto-generates SQL commands |

@@ -1,0 +1,156 @@
+### **Lecture 15: Web Scraping in Python**
+
+#### **What is Web Scraping?**
+- Web Scraping is the process of **extracting data from websites**.
+- It involves fetching the content of a webpage and **parsing useful information** from it.
+
+---
+
+### **Why Learn Web Scraping?**
+1. **Data Collection:** Extract data from websites for analysis.
+2. **Automation:** Automate repetitive tasks, like checking prices.
+3. **Data Mining:** Collect large amounts of data efficiently.
+
+---
+
+### **How Does Web Scraping Work?**
+1. **Send a Request:** Access the webpage using HTTP requests.
+2. **Parse the Content:** Extract useful data (HTML, text, images).
+3. **Store the Data:** Save data to a file or database.
+
+---
+
+### **Python Libraries for Web Scraping:**
+1. **requests:** To send HTTP requests.
+2. **BeautifulSoup:** To parse and extract HTML content.
+3. **pandas:** To store data in a structured format (like CSV).
+
+#### **Install Libraries:**
+
+pip install requests beautifulsoup4 pandas
+
+---
+
+### **Step 1: Send an HTTP Request**
+
+import requests
+
+url = "https://example.com"
+response = requests.get(url)
+
+print("Status Code:", response.status_code)  # 200 means success
+print("Content:", response.text[:500])       # Display first 500 characters
+
+---
+
+### **Step 2: Parse the HTML Content**
+
+from bs4 import BeautifulSoup
+
+html_content = response.text
+soup = BeautifulSoup(html_content, "html.parser")
+
+print("Page Title:", soup.title.string)
+**Output:**
+
+Page Title: Example Domain
+
+---
+
+### **Step 3: Extract Specific Data**
+Let’s scrape the **headlines** from a news website.
+
+#### **Example: Extracting Headlines from a News Page**
+
+url = "https://www.bbc.com/news"
+response = requests.get(url)
+
+soup = BeautifulSoup(response.text, "html.parser")
+
+# Extract all headlines
+headlines = soup.find_all("h3")
+
+print("News Headlines:")
+for headline in headlines[:5]:  # Print the first 5 headlines
+    print(headline.get_text())
+
+---
+
+### **Step 4: Save the Data to a CSV File**
+
+import pandas as pd
+
+headline_list = [headline.get_text() for headline in headlines[:5]]
+df = pd.DataFrame(headline_list, columns=["Headlines"])
+
+df.to_csv("headlines.csv", index=False)
+print("Headlines saved to headlines.csv!")
+
+---
+
+### **Real-World Example: Weather Scraper**
+
+#### **Step 1: Access the Weather Website**
+
+url = "https://www.weather.com"
+response = requests.get(url)
+
+if response.status_code == 200:
+    print("Website accessed successfully!")
+else:
+    print("Failed to access website.")
+
+---
+
+#### **Step 2: Extract Temperature**
+
+soup = BeautifulSoup(response.text, "html.parser")
+
+# Extract temperature using CSS class
+temp = soup.find("span", class_="CurrentConditions--tempValue--3KcTQ")
+
+if temp:
+    print("Current Temperature:", temp.get_text())
+else:
+    print("Temperature not found.")
+
+---
+
+### **Handling Errors and Exceptions**
+- Websites may change their structure or block scrapers.
+- Always handle errors gracefully.
+
+try:
+    response = requests.get("https://example.com")
+    response.raise_for_status()  # Raises HTTPError for bad responses
+except requests.RequestException as e:
+    print("Error accessing website:", e)
+
+---
+
+### **Best Practices:**
+1. **Respect Robots.txt:** Check if scraping is allowed.
+2. **Avoid Overloading the Server:** Use `time.sleep()` between requests.
+3. **Identify Yourself:** Add headers to your requests.
+
+headers = {'User-Agent': 'Mozilla/5.0'}
+response = requests.get(url, headers=headers)
+
+---
+
+### **Common Issues:**
+- **Blocked by Server:** Add headers to mimic a browser.
+- **JavaScript-Rendered Content:** Use Selenium for dynamic pages.
+- **Frequent Changes:** Website structure may change, breaking the scraper.
+
+---
+
+### **Practice Problems:**
+1. **Price Tracker:**  
+   - Scrape product prices from an e-commerce site and save them to a CSV file.  
+
+2. **Job Listings:**  
+   - Extract job titles and company names from a job portal.  
+
+3. **Stock Prices:**  
+   - Monitor stock prices and save the data for analysis.  

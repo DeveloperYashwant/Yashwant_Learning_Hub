@@ -1,0 +1,211 @@
+### Lecture 10: **OAuth2 Integration with Spring Security**
+
+---
+
+#### **1. Introduction to OAuth2**
+
+OAuth2 (Open Authorization 2) is an authorization framework that allows third-party applications to grant limited access to resources without exposing their credentials. It is widely used for secure authentication and authorization, especially in modern web applications, microservices, and API integrations.
+
+In Spring Security, OAuth2 can be integrated to provide authentication and authorization in a centralized and standardized way, typically using popular identity providers like Google, Facebook, GitHub, or a custom OAuth2 provider.
+
+---
+
+#### **2. OAuth2 Flows**
+
+OAuth2 supports multiple flows (grant types), which are suited to different types of applications. The most common OAuth2 flows are:
+
+- **Authorization Code Flow**: The most commonly used flow for web applications. The user is redirected to the identity provider for authentication, and after successful login, an authorization code is returned. This code is then exchanged for an access token.
+- **Implicit Flow**: Typically used for single-page applications (SPAs), where the access token is directly returned to the client without requiring an authorization code.
+- **Resource Owner Password Credentials Flow**: Involves directly providing the username and password to the client, which is not recommended in most cases due to security risks.
+- **Client Credentials Flow**: Used for server-to-server communication where the client is acting on its own behalf, without user involvement.
+
+---
+
+#### **3. Integrating OAuth2 in Spring Boot**
+
+To integrate OAuth2 in a Spring Boot application, we need to add dependencies and configure the OAuth2 client.
+
+##### **Adding Dependencies**
+
+In your `pom.xml` (for Maven) or `build.gradle` (for Gradle), include the necessary Spring Security OAuth2 dependencies:
+
+**Maven (pom.xml):**
+
+```xml
+<dependencies>
+    <!-- OAuth2 Client Dependency -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-client</artifactId>
+    </dependency>
+
+    <!-- Other Spring Boot dependencies -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+</dependencies>
+```
+
+**Gradle (build.gradle):**
+
+```gradle
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+}
+```
+
+---
+
+#### **4. Configuration for OAuth2 Client**
+
+In your `application.properties` or `application.yml`, configure the OAuth2 client settings for the authentication provider (e.g., Google, GitHub, etc.). Here is an example for Google authentication:
+
+**`application.yml` Example:**
+
+```yaml
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: YOUR_GOOGLE_CLIENT_ID
+            client-secret: YOUR_GOOGLE_CLIENT_SECRET
+            scope: profile, email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            client-name: Google
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+```
+
+- **`client-id`**: The client ID you get from the OAuth2 provider (e.g., Google Developer Console).
+- **`client-secret`**: The secret key corresponding to the client ID.
+- **`scope`**: The permissions the app will request from the user.
+- **`redirect-uri`**: The URI where the OAuth2 provider will send the response after successful authentication.
+- **`authorization-grant-type`**: Specifies the OAuth2 flow; here, we use `authorization_code` for the authorization code flow.
+
+---
+
+#### **5. Customizing OAuth2 Authentication Flow**
+
+Spring Security provides a mechanism to customize the OAuth2 authentication flow. For instance, you can define a custom `OAuth2UserService` to handle user information retrieval after authentication.
+
+##### **Custom OAuth2UserService Example**
+
+```java
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+
+@Service
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) {
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+
+        // Customize user details from OAuth2 response (like extracting specific user attributes)
+        String username = (String) oAuth2User.getAttributes().get("login");
+
+        // Custom logic to fetch or store user information, roles, etc.
+
+        return new DefaultOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
+                oAuth2User.getAttributes(),
+                "login"
+        );
+    }
+}
+```
+
+In this example, the `CustomOAuth2UserService` extracts the username from the OAuth2 provider's response and assigns roles to the authenticated user.
+
+---
+
+#### **6. Handling OAuth2 Login Success and Failure**
+
+Spring Security allows you to customize what happens after a user logs in via OAuth2. You can define custom success and failure handlers.
+
+##### **Custom Authentication Success Handler Example**
+
+```java
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.servlet.ServletException;
+import java.io.IOException;
+
+@Component
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException, ServletException {
+
+        // Redirect to the home page after successful login
+        String targetUrl = UriComponentsBuilder.fromUriString("/home").build().toUriString();
+        response.sendRedirect(targetUrl);
+    }
+}
+```
+
+This handler is invoked after the user successfully logs in. You can customize it to redirect to a specific page or perform additional actions.
+
+---
+
+#### **7. OAuth2 Logout Configuration**
+
+Spring Security also supports OAuth2 logout, which involves revoking access tokens when the user logs out.
+
+##### **Logout Configuration Example**
+
+```java
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .oauth2Login()
+                .loginPage("/login")
+                .and()
+            .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout=true")
+                .permitAll();
+    }
+}
+
+The `logoutSuccessUrl("/login?logout=true")` ensures that the user is redirected to the login page with a logout confirmation message after logging out.
+
+---
+
+#### **8. Conclusion**
+
+In this lecture, we have covered:
+
+- **OAuth2 Overview**: The fundamentals of OAuth2 authorization flows and how they work in Spring Security.
+- **OAuth2 Client Integration**: How to set up an OAuth2 client in Spring Boot with various providers like Google.
+- **Custom OAuth2 User Service**: How to extend and customize the OAuth2 user authentication logic.
+- **OAuth2 Login and Logout Configuration**: How to handle login success, failure, and logout in your Spring Boot application.

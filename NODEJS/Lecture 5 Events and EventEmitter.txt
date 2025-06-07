@@ -1,0 +1,410 @@
+
+
+##  **Lecture 5: Events and EventEmitter in Node.js**
+
+---
+
+###  **What is an Event?**
+
+* An **event** is an action that happens in a system (like clicking a button, receiving a request, or finishing a file download).
+* In Node.js, you can **create and handle custom events** using the built-in **`events` module**.
+
+---
+
+###  **EventEmitter Class**
+
+* `EventEmitter` is a class in Node.js used to **register, emit, and listen** for events.
+
+####  To use it:
+
+js
+const events = require('events');
+const eventEmitter = new events.EventEmitter();
+
+
+---
+
+###  **How to Create and Handle Events**
+
+####  **Step 1: Create an event handler**
+
+js
+const greetUser = () => {
+  console.log("Hello, User!");
+};
+
+
+####  **Step 2: Register the event**
+
+js
+eventEmitter.on('greet', greetUser);
+
+
+####  **Step 3: Trigger (emit) the event**
+
+js
+eventEmitter.emit('greet');
+
+
+**Output:**
+
+
+Hello, User!
+
+
+---
+
+###  **Real-World Example:**
+
+####  WhatsApp Notification Example
+
+* **User sends a message** → this is an **event**
+* **System reacts** by sending a notification → this is the **event handler**
+
+ In Node.js:
+
+js
+const events = require('events');
+const eventEmitter = new events.EventEmitter();
+
+eventEmitter.on('messageSent', () => {
+  console.log(" Notification: Message sent successfully!");
+});
+
+eventEmitter.emit('messageSent');
+
+ **Output:**
+
+
+Notification: Message sent successfully!
+
+
+---
+
+###  **Why Events Are Useful**
+
+| Feature        | Benefit                                   |
+| -------------- | ----------------------------------------- |
+| Asynchronous   | React to things when they happen          |
+| Decoupled Code | Event and logic can be written separately |
+| Real-time apps | Used in chats, notifications, servers     |
+
+---
+
+### **Real-World Analogy:**
+
+Imagine a **doorbell system**:
+
+* **You press the button** → `emit('doorbell')`
+* **Bell rings** → `on('doorbell', ringBell)`
+
+Code:
+
+js
+eventEmitter.on('doorbell', () => {
+  console.log(" Ding Dong! Someone is at the door.");
+});
+eventEmitter.emit('doorbell');
+
+
+---
+
+###  **Summary of Key Terms**
+
+| Term           | Meaning                            |
+| -------------- | ---------------------------------- |
+| `events`       | Node.js module for handling events |
+| `EventEmitter` | Class used to manage events        |
+| `.on()`        | Listen for an event                |
+| `.emit()`      | Trigger an event                   |
+
+====================
+
+
+##  WhatsApp Simulation Using `events` in Node.js
+
+
+js
+// whatsapp.js
+
+// 1. Import the events module
+const events = require('events');
+
+// 2. Create an instance of EventEmitter
+const eventEmitter = new events.EventEmitter();
+
+// 3. Define the message sending function
+function sendMessage(message) {
+  console.log(` You: ${message}`);
+  
+  // 4. Emit the messageSent event
+  eventEmitter.emit('messageSent', message);
+}
+
+// 5. Define the notification listener
+eventEmitter.on('messageSent', (message) => {
+  console.log(` Notification: Your message "${message}" has been delivered!`);
+});
+
+// 6. Define the reply listener
+eventEmitter.on('messageSent', (message) => {
+  console.log(` Friend: Got your message - "${message}"`);
+});
+
+// 7. Simulate sending a message
+sendMessage("Hey, are we meeting at 6 PM?");
+
+
+---
+
+###  Output (when you run `node whatsapp.js`):
+
+
+ You: Hey, are we meeting at 6 PM?
+ Notification: Your message "Hey, are we meeting at 6 PM?" has been delivered!
+ Friend: Got your message - "Hey, are we meeting at 6 PM?"
+
+
+---
+
+##  Real-World Concept Behind This Code
+
+| Concept         | Real WhatsApp Behavior | Node.js Equivalent       |
+| --------------- | ---------------------- | ------------------------ |
+| Sending message | You type and send      | `sendMessage()` function |
+| Event happens   | Message delivered      | `emit('messageSent')`    |
+| User notified   | Notification shown     | `on('messageSent', ...)` |
+
+---
+
+##  Run the Code
+
+1. Open any folder
+2. Create a file named `whatsapp.js`
+3. Paste the code above
+4. Run it using:
+
+node whatsapp.js
+
+=========================
+
+
+##  Key Realistic Features to Add:
+
+| Feature                    | Description                                               |
+| -------------------------- | --------------------------------------------------------- |
+|  Message Timestamps       | Already added — format for send & receive times           |
+|  Online/Offline Status    | Simulated with regular changes                            |
+|  Message Delivery Buffer  | Queue messages if friend is offline                       |
+|  Deliver Offline Messages | Deliver all undelivered messages when friend comes online |
+|  Typing Indicator         | Simulate “typing...” status before sending a reply        |
+|  Improved Console UI      | Add separators and emojis for visual clarity              |
+
+---
+
+##  Final WhatsApp Simulation — `whatsapp_advanced.js`
+
+js
+const readline = require('readline');
+const events = require('events');
+
+// Setup
+const eventEmitter = new events.EventEmitter();
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+let friendOnline = true;
+let pendingMessages = [];
+
+// Helper: Get current time
+function getTime() {
+  return new Date().toLocaleTimeString();
+}
+
+// Helper: Simulate typing and reply
+function replyToMessage(message) {
+  console.log(`👤 [${getTime()}] Friend is typing...`);
+  setTimeout(() => {
+    console.log(`👤 [${getTime()}] Friend: Got your message - "${message}"`);
+    askForNextMessage();
+  }, 2000);
+}
+
+// Emit event: messageSent
+eventEmitter.on('messageSent', (message) => {
+  console.log(`🔔 [${getTime()}] Your message "${message}" has been sent.`);
+  if (friendOnline) {
+    replyToMessage(message);
+  } else {
+    console.log(`⚠️ Friend is offline. Message will be delivered later.`);
+    pendingMessages.push(message);
+    askForNextMessage();
+  }
+});
+
+// Simulate online/offline status every 7 seconds
+function simulateStatusChange() {
+  const oldStatus = friendOnline;
+  friendOnline = Math.random() > 0.4;
+  
+  if (oldStatus !== friendOnline) {
+    console.log(`\n🟢 Friend is now ${friendOnline ? 'online' : 'offline'}\n`);
+  }
+
+  if (friendOnline && pendingMessages.length > 0) {
+    console.log(`📨 Delivering ${pendingMessages.length} pending message(s)...`);
+    while (pendingMessages.length > 0) {
+      const msg = pendingMessages.shift();
+      replyToMessage(msg);
+    }
+  }
+}
+setInterval(simulateStatusChange, 7000);
+
+// Prompt user for input
+function askForNextMessage() {
+  rl.question('📝 You: ', (message) => {
+    if (message.toLowerCase() === 'exit') {
+      console.log('👋 Chat ended.');
+      rl.close();
+      return;
+    }
+    eventEmitter.emit('messageSent', message);
+  });
+}
+
+// Start the chat
+console.log("💬 Welcome to WhatsApp Chat Simulator (type 'exit' to quit)");
+console.log("🔄 Friend's status changes every 7 seconds.\n");
+simulateStatusChange();
+askForNextMessage();
+
+
+---
+
+##  Run It:
+
+node whatsapp_advanced.js
+
+
+---
+
+## Realistic WhatsApp Behaviors Achieved:
+
+| WhatsApp Feature         | Simulated? | Notes                                 |
+| ------------------------ | ---------- | ------------------------------------- |
+| Online/offline           |  -          | Randomly changes every 7 sec          |
+| Typing indicator         |  -          | Appears before reply                  |
+| Message timestamps       |  -          | For all messages                      |
+| Deliver offline messages |  -          | Stored in a queue and delivered later |
+| Exit conversation        |  -          | Type `exit` to end chat               |
+
+==============
+
+
+# **Lecture 5: Events and EventEmitter**
+
+---
+
+###  What are Events in Node.js?
+
+Events are actions or occurrences that happen in your application, such as:
+
+- A user clicking a button
+- A file finishing downloading
+- A new message arriving
+- A timer finishing
+
+Node.js is **event-driven**, meaning it uses events to handle asynchronous operations efficiently.
+
+---
+
+###  What is EventEmitter?
+
+`EventEmitter` is a class in Node.js that helps you create, listen to, and handle custom events.
+
+You can:
+
+- **Emit** (trigger) an event
+- **Listen** for an event and run code when it occurs
+
+---
+
+### How to use EventEmitter — Steps
+
+1. Import the `events` module.
+2. Create an instance of `EventEmitter`.
+3. Register (listen) for events with `.on()`.
+4. Emit events with `.emit()`.
+
+---
+
+### Real-world Example: **Order Processing System**
+
+Imagine an online shop where when an order is placed, you want to:
+
+- Log the order
+- Send a confirmation email
+- Update inventory
+
+You can handle these with events.
+
+---
+
+
+js
+// Step 1: Import the events module
+const events = require('events');
+
+// Step 2: Create an EventEmitter instance
+const eventEmitter = new events.EventEmitter();
+
+// Step 3: Event handler to log order details
+const logOrder = (orderId) => {
+  console.log(`Order ${orderId} has been received.`);
+};
+
+// Step 4: Event handler to send confirmation email
+const sendEmail = (orderId) => {
+  console.log(`Confirmation email sent for order ${orderId}.`);
+};
+
+// Step 5: Event handler to update inventory
+const updateInventory = (orderId) => {
+  console.log(`Inventory updated for order ${orderId}.`);
+};
+
+// Step 6: Register event listeners for 'orderPlaced'
+eventEmitter.on('orderPlaced', logOrder);
+eventEmitter.on('orderPlaced', sendEmail);
+eventEmitter.on('orderPlaced', updateInventory);
+
+// Step 7: Simulate placing an order
+const placeOrder = (orderId) => {
+  console.log(`Processing order ${orderId}...`);
+  // Emit 'orderPlaced' event and pass orderId to listeners
+  eventEmitter.emit('orderPlaced', orderId);
+};
+
+// Simulate placing order with ID 12345
+placeOrder(12345);
+
+---
+
+### Output:
+
+Processing order 12345...
+Order 12345 has been received.
+Confirmation email sent for order 12345.
+Inventory updated for order 12345.
+
+---
+
+### Why is this useful?
+
+- You can **separate concerns**: different parts of your app respond to events independently.
+- Adding new listeners doesn’t require changing existing code.
+- It mimics real-world asynchronous flows (like how WhatsApp reacts to new messages).
+

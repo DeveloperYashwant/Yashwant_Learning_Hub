@@ -1,0 +1,111 @@
+
+
+## **Lecture 2: CRUD Operations in MongoDB**
+
+---
+
+###  **What is CRUD?**
+
+**CRUD** stands for:
+
+| Operation | Meaning           | MongoDB Command         |
+|-----------|-------------------|--------------------------|
+| **C**     | Create            | `insertOne()`, `insertMany()` |
+| **R**     | Read (Retrieve)   | `find()`, `findOne()`    |
+| **U**     | Update            | `updateOne()`, `updateMany()` |
+| **D**     | Delete            | `deleteOne()`, `deleteMany()` |
+
+---
+
+### **1. Create – Inserting Data**
+
+**Single Document:**
+
+db.students.insertOne({
+  name: "Yashwant",
+  age: 26,
+  course: "MongoDB"
+});
+
+**Multiple Documents:**
+
+db.students.insertMany([
+  { name: "Amit", age: 22 },
+  { name: "Priya", age: 23 }
+]);
+
+
+---
+
+###**2. Read – Retrieving Data**
+
+*Get All Documents:**
+
+db.students.find();
+
+**Formatted Output:**
+
+db.students.find().pretty();
+
+**Find Specific Fields:**
+
+db.students.find({ age: 23 });
+
+**Find One Document:**
+
+db.students.findOne({ name: "Amit" });
+
+
+---
+
+###**3. Update – Modifying Data**
+
+**Update One Document:**
+
+db.students.updateOne(
+  { name: "Yashwant" },
+  { $set: { age: 27 } }
+);
+
+**Update Many Documents:**
+
+db.students.updateMany(
+  { course: "MongoDB" },
+  { $set: { batch: "April 2025" } }
+);
+
+**Add New Field:**
+
+db.students.updateOne(
+  { name: "Priya" },
+  { $set: { city: "Mumbai" } }
+);
+
+
+---
+
+### **4. Delete – Removing Data**
+
+**Delete One Document:**
+
+db.students.deleteOne({ name: "Amit" });
+
+**Delete Many:**
+
+db.students.deleteMany({ course: "MongoDB" });
+
+---
+
+###  **Practice Questions**
+
+1. Insert 3 student records with name, age, and course fields.
+2. Display all students older than 23.
+3. Update a student's course to "Full Stack Developer".
+4. Delete a student with a specific name.
+5. Add a new field "marks" to a student document.
+
+---
+
+###  Tip: View All Collections in DB
+
+show collections

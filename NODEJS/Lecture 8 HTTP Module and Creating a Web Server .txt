@@ -1,0 +1,94 @@
+
+#  **Lecture 8: HTTP Module and Creating a Web Server in Node.js**
+
+---
+
+###  **What is the HTTP Module?**
+
+The `http` module in Node.js lets you **create a web server**. It handles **HTTP requests** and sends back **responses** (like HTML, JSON, or plain text).
+
+---
+
+### Real-Life Example
+
+Think of your web server as a **restaurant**:
+
+* A customer (browser) sends a request (like ordering food).
+* The waiter (server) receives the order and passes it to the kitchen (logic).
+* The kitchen prepares the response (HTML or data) and sends it back.
+
+---
+
+##  Step-by-Step with Comments
+
+js
+// server.js
+
+// 1. Import the 'http' module
+const http = require('http');
+
+// 2. Create the server
+const server = http.createServer((req, res) => {
+  // Log incoming request method and URL
+  console.log(`Request received: ${req.method} ${req.url}`);
+
+  // Set the response header (status code and content type)
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+
+  // Send a simple HTML response
+  res.write('<h1>Hello, welcome to my Node.js server!</h1>');
+  res.write('<p>This is your first server running using the HTTP module.</p>');
+
+  // End the response
+  res.end();
+});
+
+// 3. Listen on a specific port
+const PORT = 3000;
+server.listen(PORT, () => {
+  console.log(` Server running at http://localhost:${PORT}`);
+});
+
+
+---
+
+###  How to Run It:
+
+1. Save the file as `server.js`
+2. Open terminal and run:
+
+
+node server.js
+
+3. Open browser and go to:
+
+
+http://localhost:3000
+
+---
+
+##  Output in Browser:
+
+
+Hello, welcome to my Node.js server!
+This is your first server running using the HTTP module.
+
+
+---
+
+##  Summary
+
+| Concept             | Description                                   |
+| ------------------- | --------------------------------------------- |
+| `http.createServer` | Creates the web server                        |
+| `req`               | Incoming HTTP request (e.g., GET, POST, etc.) |
+| `res`               | HTTP response sent back to client             |
+| `res.writeHead()`   | Sets HTTP status and content-type headers     |
+| `res.end()`         | Ends the response                             |
+
+---
+
+###  Real-World Usage
+
+* Used in WhatsApp Web, Amazon backend, and any real-time site to serve content or APIs.
+* Every major server uses the same logic: receive → process → respond.

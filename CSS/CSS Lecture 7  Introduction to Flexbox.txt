@@ -1,0 +1,164 @@
+### **CSS Lecture 7: Introduction to Flexbox**  
+
+## **1. What is Flexbox?**  
+Flexbox (Flexible Box Layout) is used for arranging elements in **rows** or **columns**. It helps with **alignment**, **spacing**, and **resizing elements** dynamically.
+
+### **When to Use Flexbox?**  
+- Creating **responsive layouts**.
+- Centering items easily (**vertically and horizontally**).
+- Distributing space between items evenly.
+
+---
+
+## **2. How to Enable Flexbox?**  
+To use Flexbox, apply `display: flex;` to a **container**.  
+
+Example:  
+
+.container {
+  display: flex;
+}
+---
+
+## **3. Main Flexbox Properties**  
+
+### **A. Flex Container Properties**  
+These properties apply to the **parent (container).**
+
+| Property | Description |
+|----------|------------|
+| `display: flex;` | Enables Flexbox on a container. |
+| `flex-direction` | Defines the main axis (row/column). |
+| `justify-content` | Controls horizontal alignment. |
+| `align-items` | Controls vertical alignment. |
+| `align-content` | Controls spacing in multi-line containers. |
+| `flex-wrap` | Allows items to wrap when needed. |
+
+---
+
+## **4. Understanding `flex-direction`**  
+This property defines the **main axis** direction.
+
+| Value | Description |
+|--------|------------|
+| `row` | Default: Items go **left to right**. |
+| `row-reverse` | Items go **right to left**. |
+| `column` | Items go **top to bottom**. |
+| `column-reverse` | Items go **bottom to top**. |
+
+### **Example: Different `flex-direction` Values**
+
+.container {
+  display: flex;
+  flex-direction: row; /* Change to column, row-reverse, etc. */
+}
+
+---
+
+## **5. Controlling Alignment with `justify-content`**  
+This property **aligns items along the main axis**.
+
+| Value | Description |
+|--------|------------|
+| `flex-start` | Items start from the left (default for row). |
+| `flex-end` | Items align to the right. |
+| `center` | Items are centered. |
+| `space-between` | Equal space **between** items. |
+| `space-around` | Equal space **around** items. |
+| `space-evenly` | Equal space **everywhere**. |
+
+### **Example: Centering Items Horizontally**
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+---
+
+## **6. Aligning Items with `align-items`**  
+This property **aligns items along the cross-axis** (opposite of `flex-direction`).
+
+| Value | Description |
+|--------|------------|
+| `flex-start` | Items align at the top. |
+| `flex-end` | Items align at the bottom. |
+| `center` | Items are centered. |
+| `stretch` | Items stretch to fill the container. |
+| `baseline` | Items align based on their text baselines. |
+
+### **Example: Centering Items Vertically**
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+---
+
+## **7. Handling Overflow with `flex-wrap`**  
+By default, flex items stay in **one row**.  
+If they don't fit, use `flex-wrap` to **allow wrapping**.
+
+| Value | Description |
+|--------|------------|
+| `nowrap` | Default: No wrapping, items shrink. |
+| `wrap` | Items wrap to the next row/column. |
+| `wrap-reverse` | Items wrap **in reverse order**. |
+
+### **Example: Wrapping Items**
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+---
+
+## **8. Practical Example: Flexbox Layout**  
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Example</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            height: 200px;
+            border: 2px solid black;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background: lightblue;
+            text-align: center;
+            line-height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+    </div>
+
+</body>
+</html>
+
+---
+
+## **9. When to Use Flexbox?**  
+| Use Case | Flexbox or Not? |
+|----------|----------------|
+| Centering an element |  Yes |
+| Simple row/column layout |  Yes |
+| Grid-based layout |  Use CSS Grid |
+| Equal-width columns | Yes |
+| Complex page structure |  Use Grid |

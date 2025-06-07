@@ -1,0 +1,93 @@
+
+##  **Lecture 14: Packages in Core Java**
+
+###  What is a Package?
+
+A **package** in Java is a **collection of related classes and interfaces** grouped together. It helps to:
+
+* **Organize** your code
+* **Avoid name conflicts**
+* **Control access** with public/private classes
+
+---
+
+###  **Types of Packages:**
+
+| Type                     | Description      | Example                                       |
+| ------------------------ | ---------------- | --------------------------------------------- |
+| **Built-in Package**     | Provided by Java | `java.util`, `java.io`, `java.sql`            |
+| **User-defined Package** | Created by you   | `com.student.management`, `myproject.utility` |
+
+---
+
+###  **Common Built-in Packages:**
+
+| Package     | Purpose                                    |
+| ----------- | ------------------------------------------ |
+| `java.lang` | Basic classes (String, Math, Object)       |
+| `java.util` | Utility classes (ArrayList, Scanner, Date) |
+| `java.io`   | Input/output (File, BufferedReader)        |
+| `java.sql`  | Database                                   |
+| `java.awt`  | GUI components                             |
+
+---
+
+###  **Creating and Using User-Defined Packages**
+
+#### Step 1: Create a Package
+
+java
+// File: MyClass.java
+package mypack;
+
+public class MyClass {
+    public void display() {
+        System.out.println("This is from MyClass in mypack");
+    }
+}
+
+
+####  Step 2: Use the Package
+
+java
+// File: TestPackage.java
+import mypack.MyClass;
+
+public class TestPackage {
+    public static void main(String[] args) {
+        MyClass obj = new MyClass();
+        obj.display();
+    }
+}
+
+Save `MyClass.java` in a folder called `mypack` to match the package name.
+
+---
+
+###  **Why Use Packages?**
+
+| Reason                   | Benefit                                            |
+| ------------------------ | -------------------------------------------------- |
+| **Modularity**           | Keeps code clean and organized                     |
+| **Reusability**          | Use the same classes in different projects         |
+| **Namespace Management** | Avoid class name conflicts                         |
+| **Access Control**       | Use public/protected/private modifiers effectively |
+
+---
+
+### **Access Modifiers with Packages:**
+
+| Modifier      | Access Outside Package |
+| ------------- | ---------------------- |
+| `public`      | Yes                    |
+| `protected`   | Only via inheritance   |
+| (no modifier) | No                     |
+| `private`     | No (only within class) |
+
+---
+
+### Practice Questions:
+
+1. Create a package `school`, add a class `Student` with a method `showDetails()`, and access it from another class.
+2. What is the difference between `import java.util.*` and `import java.util.Scanner`?
+3. Name any 3 built-in packages and their uses.

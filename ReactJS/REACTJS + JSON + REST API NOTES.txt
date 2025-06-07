@@ -1,0 +1,190 @@
+
+##  REACTJS + JSON + REST API NOTES
+
+
+###  1. **Introduction to ReactJS**
+
+* **ReactJS** is a JavaScript library used to build **UI (User Interfaces)**.
+* Created by **Facebook**, it's **component-based** and **declarative**.
+
+####  Key Features:
+
+* **Components**: Reusable building blocks.
+* **JSX**: JavaScript + XML.
+* **Virtual DOM**: Fast UI updates.
+* **Unidirectional Data Flow**.
+
+---
+
+###  2. **JSON (JavaScript Object Notation)**
+
+* JSON is a **data format** used to exchange data between client and server.
+* Easy to read/write.
+
+####  Example:
+
+json
+{
+  "id": 1,
+  "name": "om",
+  "course": "ReactJS"
+}
+
+
+####  In JS/React:
+
+js
+const student = {
+  id: 1,
+  name: "Rohit",
+  course: "ReactJS"
+};
+console.log(student.name); // Output: Yash
+
+
+---
+
+###  3. **REST API (Representational State Transfer)**
+
+* A **REST API** allows communication between frontend (ReactJS) and backend (server).
+* Data is usually exchanged in **JSON** format.
+
+####  Common HTTP Methods:
+
+| Method | Purpose      |
+| ------ | ------------ |
+| GET    | Read data    |
+| POST   | Add new data |
+| PUT    | Update data  |
+| DELETE | Remove data  |
+
+---
+
+###  4. **Using REST API in ReactJS**
+
+####  Tools/Libraries:
+
+* `fetch()` – Built-in JS function
+* `axios` – Promise-based HTTP client
+
+#####  Example with `fetch` (GET Request):
+
+js
+import React, { useEffect, useState } from 'react';
+
+const StudentList = () => {
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.example.com/students")
+      .then(response => response.json())
+      .then(data => setStudents(data));
+  }, []);
+
+  return (
+    <div>
+      <h2>Student List</h2>
+      <ul>
+        {students.map(student => (
+          <li key={student.id}>{student.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+
+#####  Example with `axios`:
+
+npm install axios
+
+js
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const StudentList = () => {
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+    axios.get("https://api.example.com/students")
+      .then(response => setStudents(response.data));
+  }, []);
+
+  return (
+    <div>
+      <h2>Students</h2>
+      {students.map(student => (
+        <p key={student.id}>{student.name}</p>
+      ))}
+    </div>
+  );
+};
+
+
+---
+
+###  5. **Common REST Operations**
+
+#### POST Request (Add Data):
+
+js
+const newStudent = { name: "Amit", course: "Python" };
+
+fetch("https://api.example.com/students", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(newStudent)
+});
+
+
+####  PUT Request (Update Data):
+
+js
+const updatedStudent = { name: "Rahul", course: "JavaScript" };
+
+fetch("https://api.example.com/students/1", {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(updatedStudent)
+});
+
+
+####  DELETE Request:
+
+js
+fetch("https://api.example.com/students/1", {
+  method: "DELETE"
+});
+---
+
+###  6. **Best Practices**
+
+* Always use `useEffect()` for API calls.
+* Use `try...catch` for error handling.
+* Use `loading` states to show user feedback.
+* Use `async/await` for cleaner async code.
+
+---
+
+###  7. **Simple Project Idea**
+
+**Student Management App**
+
+* Fetch list of students (GET)
+* Add new student (POST)
+* Update student info (PUT)
+* Delete student (DELETE)
+
+---
+
+### 8. **React API Call Lifecycle Summary**
+
+| Step              | What happens                             |
+| ----------------- | ---------------------------------------- |
+| Component Mounts  | `useEffect` runs the fetch/axios request |
+| Response Received | Data stored using `useState`             |
+| Data Display      | Use `.map()` to show data in JSX         |

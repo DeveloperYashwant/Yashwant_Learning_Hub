@@ -1,0 +1,119 @@
+### **CSS Lecture 2: Selectors and Properties with a Real-World Example**  
+
+## **1. Real-World Scenario: Styling a Product Card**  
+
+Imagine we are designing a **product card** for an online shopping website like Amazon or Flipkart.
+
+### HTML Structure (Product Card)**  
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Product Card Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="product-card">
+        <img src="product.jpg" alt="Product Image" class="product-image">
+        <h2 class="product-name">Wireless Headphones</h2>
+        <p class="product-price">$59.99</p>
+        <p class="product-description">High-quality wireless headphones with noise cancellation.</p>
+        <button class="buy-now">Buy Now</button>
+    </div>
+</body>
+</html>
+
+---
+
+## **2. Real-World CSS (styles.css)**
+
+/* Universal selector to remove default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Styling the product card */
+.product-card {
+    width: 250px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+/* Styling the product image */
+.product-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Styling the product name */
+.product-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Styling the product price */
+.product-price {
+    color: green;
+    font-size: 20px;
+    margin: 5px 0;
+}
+
+/* Styling the product description */
+.product-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Styling the Buy Now button */
+.buy-now {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.buy-now:hover {
+    background-color: #cc5500;
+}
+
+---
+
+## **3. Explanation of Real-World CSS Usage**
+| **CSS Feature**        | **Used For** |
+|------------------------|-------------|
+| `box-shadow`           | Adds a subtle shadow to the product card |
+| `border-radius`        | Gives rounded corners to the card and button |
+| `margin` & `padding`   | Spaces out elements properly |
+| `text-align: center;`  | Centers the text inside the card |
+| `:hover` pseudo-class  | Changes button color when hovered |
+| `box-sizing: border-box;` | Ensures proper spacing in the layout |
+
+---
+
+## **4. How This Example Is Used in the Real World?**
+**E-commerce websites**: Used for displaying products  
+**Portfolio websites**: Used for showcasing projects or services  
+**News & Blog websites**: Used for article previews  
+
+---
+
+## **5. Practice Questions**
+1. How does the `box-shadow` property improve UI design?  
+2. What is the purpose of `border-radius` in modern UI design?  
+3. Modify the CSS to add a discount price below the main price.  
+4. How would you make this product card responsive for mobile screens?  
+5. What CSS property is used to change the button color when hovered?

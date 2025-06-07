@@ -1,0 +1,183 @@
+**Spring Boot**:
+
+---
+
+###  **Step 1: Install Prerequisites**
+
+Before you begin, make sure you have:
+
+* **Java JDK 17+** installed
+* **IDE** (IntelliJ IDEA, Eclipse, or VS Code)
+* **Maven** or **Gradle**
+* Optional: **Postman** (for testing APIs)
+
+---
+
+###  **Step 2: Create a Spring Boot Project**
+
+You have 2 main options:
+
+#### Option 1: Use Spring Initializr (Recommended)
+
+Visit: [https://start.spring.io](https://start.spring.io)
+
+Choose:
+
+* **Project:** Maven
+* **Language:** Java
+* **Spring Boot:** (e.g., 3.1.x)
+* **Group:** `com.example`
+* **Artifact:** `demo`
+* **Dependencies:**
+
+  * Spring Web
+  * Spring Boot DevTools
+  * Spring Data JPA
+  * H2 Database (or MySQL if preferred)
+
+Click **Generate**, then unzip and open in your IDE.
+
+#### Option 2: Create from IDE
+
+Most IDEs have built-in Spring Initializr wizards.
+
+---
+
+### **Step 3: Project Structure**
+
+After setup, you’ll see:
+
+src/
+├── main/
+│   ├── java/
+│   │   └── com/example/demo/
+│   │       └── DemoApplication.java
+│   └── resources/
+│       ├── application.properties
+│       ├── static/       <-- static web content
+│       └── templates/    <-- Thymeleaf or HTML templates
+
+
+---
+
+###  **Step 4: Write Your First REST Controller**
+
+In `src/main/java/com/example/demo/HelloController.java`:
+
+java
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "Hello, Spring Boot!";
+    }
+}
+---
+
+###  **Step 5: Run the Application**
+
+
+./mvnw spring-boot:run
+
+Visit: [http://localhost:8080/hello](http://localhost:8080/hello)
+
+---
+
+###  **Step 6: Add a Simple Entity, Repository, and Service**
+
+#### 1. Entity
+
+java
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+}
+
+#### 2. Repository
+
+java
+public interface StudentRepository extends JpaRepository<Student, Long> {
+}
+
+#### 3. Service (Optional Layer)
+
+java
+@Service
+public class StudentService {
+    @Autowired
+    private StudentRepository repository;
+
+    public List<Student> getAllStudents() {
+        return repository.findAll();
+    }
+}
+
+#### 4. Controller
+
+java
+@RestController
+@RequestMapping("/students")
+public class StudentController {
+    @Autowired
+    private StudentService service;
+
+    @GetMapping
+    public List<Student> getStudents() {
+        return service.getAllStudents();
+    }
+}
+
+
+---
+
+###  **Step 7: Configure application.properties**
+
+properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+
+
+Visit H2 Console: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+
+---
+
+###  **Step 8: Test the APIs with Postman or Browser**
+
+* `GET /students` – View all students
+* Add more endpoints for `POST`, `PUT`, `DELETE`
+
+---
+
+###  **Step 9: Build and Package**
+
+Use Maven:
+
+./mvnw clean install
+
+Run the generated `.jar` file:
+
+bash
+java -jar target/demo-0.0.1-SNAPSHOT.jar
+
+
+---
+
+###  **Step 10: Next Steps**
+
+* Connect to **MySQL/PostgreSQL**
+* Use **Spring Security**
+* Add **Thymeleaf templates**
+* Create full CRUD UI with **Angular/React**
+

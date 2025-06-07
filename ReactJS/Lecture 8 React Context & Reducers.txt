@@ -1,0 +1,126 @@
+
+
+##  **Lecture 8: React Context & Reducers**
+
+### Why Use Context & Reducer?
+
+* **Context** helps share data (like theme, user info, auth state) globally without **prop drilling**.
+* **Reducer** helps manage **complex state logic** with actions and updates (like in Redux but built-in).
+
+---
+
+## Example: Theme Toggle (Light / Dark Mode)
+
+---
+
+### Step 1: Create Context + Reducer Setup
+
+`ThemeContext.js`
+
+
+jsx
+import { createContext, useReducer } from 'react';
+
+// Initial theme state
+const initialState = { theme: 'light' };
+
+// Reducer function to handle theme change
+function themeReducer(state, action) {
+  switch (action.type) {
+    case 'TOGGLE_THEME':
+      return { theme: state.theme === 'light' ? 'dark' : 'light' };
+    default:
+      return state;
+  }
+}
+
+// Create context
+export const ThemeContext = createContext();
+
+// Create Provider component
+export function ThemeProvider({ children }) {
+  const [state, dispatch] = useReducer(themeReducer, initialState);
+
+  return (
+    <ThemeContext.Provider value={{ state, dispatch }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+
+---
+
+###  Step 2: Wrap App with ThemeProvider
+
+`index.js`
+
+jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { ThemeProvider } from './ThemeContext'; // Import Provider
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <ThemeProvider>
+    <App />
+  </ThemeProvider>
+);
+
+---
+
+###  Step 3: Use Context in App
+
+`App.js`
+
+jsx
+import { useContext } from 'react';
+import { ThemeContext } from './ThemeContext';
+
+function App() {
+  const { state, dispatch } = useContext(ThemeContext); // Access context values
+
+  const toggleTheme = () => {
+    dispatch({ type: 'TOGGLE_THEME' }); // Send action to reducer
+  };
+
+  return (
+    <div style={{
+      padding: '20px',
+      backgroundColor: state.theme === 'light' ? '#fff' : '#333',
+      color: state.theme === 'light' ? '#000' : '#fff',
+      minHeight: '100vh'
+    }}>
+      <h1>React Context + Reducer Example</h1>
+      <p>Current Theme: <strong>{state.theme}</strong></p>
+      <button onClick={toggleTheme}>
+        Toggle Theme
+      </button>
+    </div>
+  );
+}
+
+export default App;
+
+
+---
+
+###  Explanation with Comments:
+
+| Concept                              | Code                                        | Meaning                               |
+| ------------------------------------ | ------------------------------------------- | ------------------------------------- |
+| `useReducer()`                       | `const [state, dispatch] = useReducer(...)` | Handles state updates based on action |
+| `ThemeContext.Provider`              | Shares state across components              |                                       |
+| `dispatch({ type: 'TOGGLE_THEME' })` | Triggers the reducer to update the theme    |                                       |
+| `useContext(ThemeContext)`           | Accesses context value inside a component   |                                       |
+| `theme === 'dark' ? ...`             | Conditional rendering based on state        |                                       |
+
+---
+
+###  Output:
+
+* The app starts in **light mode**.
+* Clicking the button switches to **dark mode** and vice versa.
+* Context provides global state, reducer manages updates.
+

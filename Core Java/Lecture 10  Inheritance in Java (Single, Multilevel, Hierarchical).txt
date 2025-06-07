@@ -1,0 +1,362 @@
+### **Lecture 10: Inheritance in Java (Single, Multilevel, Hierarchical)**
+
+Inheritance in Java is a mechanism that allows one class (the **child/subclass**) to acquire the properties and behaviors (methods) of another class (the **parent/superclass**). It promotes **code reusability** and establishes a **relationship between classes**.
+
+ The Diamond Problem:
+When a class inherits from two classes that both have the same method, it leads to ambiguity.
+---
+
+#### **Why Use Inheritance?**
+1. **Code Reusability:** Reuse existing code rather than writing it from scratch.
+2. **Method Overriding:** Customize inherited methods.
+3. **Extensibility:** Easily add new features to existing classes.
+4. **Polymorphism:** Handle multiple data types through a single interface.
+
+---
+
+### **Types of Inheritance in Java:**
+1. **Single Inheritance:** One child class inherits from one parent class.
+2. **Multilevel Inheritance:** A chain of inheritance where a class is derived from another derived class.
+3. **Hierarchical Inheritance:** Multiple child classes inherit from a single parent class.
+
+
+A
+
+B (A)
+
+c (B)
+
+
+A
+
+B  (A)
+
+C  (A)
+---
+
+## **1. Single Inheritance:**
+- **Definition:** One subclass inherits from one superclass.
+- **Example:** A `Dog` class inherits from an `Animal` class.
+
+#### **Code Example:**
+
+// Parent class
+class Animal {
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+// Child class inheriting from Animal
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Barking...");
+    }
+}
+
+public class SingleInheritanceExample {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.eat();  // Inherited from Animal
+        dog.bark(); // Dog's own method
+    }
+}
+
+**Output:**
+
+Eating...
+Barking...
+
+#### **Explanation:**
+- The `Dog` class inherits the `eat()` method from the `Animal` class.
+- The `Dog` class also has its own `bark()` method.
+
+---
+
+## **2. Multilevel Inheritance:**
+- **Definition:** A chain of inheritance where one class inherits from another derived class.
+- **Example:** `Puppy` -> `Dog` -> `Animal`
+
+#### **Code Example:**
+
+// Parent class
+class Animal {
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+// Intermediate child class
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Barking...");
+    }
+}
+
+// Child class inheriting from Dog
+class Puppy extends Dog {
+    void weep() {
+        System.out.println("Weeping...");
+    }
+}
+
+public class MultilevelInheritanceExample {
+    public static void main(String[] args) {
+        Puppy puppy = new Puppy();
+        puppy.eat();  // Inherited from Animal
+        puppy.bark(); // Inherited from Dog
+        puppy.weep(); // Own method
+    }
+}
+
+**Output:**
+
+Eating...
+Barking...
+Weeping...
+
+#### **Explanation:**
+- The `Puppy` class inherits methods from both `Dog` and `Animal`.
+- This demonstrates a **multilevel hierarchy**.
+
+---
+
+## **3. Hierarchical Inheritance:**
+- **Definition:** Multiple subclasses inherit from a single superclass.
+- **Example:** `Dog` and `Cat` both inherit from `Animal`.
+
+#### **Code Example:**
+
+// Parent class
+class Animal {
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+// Child class 1
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Barking...");
+    }
+}
+
+// Child class 2
+class Cat extends Animal {
+    void meow() {
+        System.out.println("Meowing...");
+    }
+}
+
+public class HierarchicalInheritanceExample {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        Cat cat = new Cat();
+
+        dog.eat();  // Inherited from Animal
+        dog.bark(); // Dog's own method
+
+        cat.eat();  // Inherited from Animal
+        cat.meow(); // Cat's own method
+    }
+}
+
+**Output:**
+
+Eating...
+Barking...
+Eating...
+Meowing...
+
+#### **Explanation:**
+- Both `Dog` and `Cat` classes inherit the `eat()` method from the `Animal` class.
+- This demonstrates **Hierarchical Inheritance** where multiple child classes inherit from a single parent class.
+
+---
+
+## **Real-World Analogy:**
+**Single Inheritance:**  
+- A **Car** inherits basic attributes from a **Vehicle**.  
+- Example: Speed, color.  
+
+**Multilevel Inheritance:**  
+- A **Sports Car** inherits from **Car**, which in turn inherits from **Vehicle**.  
+- Example: Vehicle -> Car -> SportsCar.  
+
+**Hierarchical Inheritance:**  
+- A **Dog** and a **Cat** both inherit characteristics from **Animal**.  
+- Example: Both can eat, but they have their own unique behaviors (bark, meow).  
+
+---
+
+### **Key Points:**
+1. **Single Inheritance:**  
+   - One-to-one relationship between parent and child.  
+2. **Multilevel Inheritance:**  
+   - Forms a chain where one class inherits from another derived class.  
+3. **Hierarchical Inheritance:**  
+   - One parent class with multiple child classes.  
+4. **`extends` Keyword:**  
+   - Used to establish inheritance in Java.  
+5. **Method Overriding:**  
+   - Subclasses can modify methods inherited from the parent class.  
+
+---
+
+### **Common Interview Question:**  
+**Q:** What is the difference between Single and Multilevel Inheritance?  
+**A:**  
+- **Single Inheritance:** One child inherits from one parent.  
+- **Multilevel Inheritance:** A child inherits from a parent, and another child inherits from that child, forming a chain.  
+==============
+
+
+
+###**1. Single Inheritance:**  
+In **Single Inheritance**, one class (child) inherits from one parent class.  
+- **Real-World Example:**  
+  - A **Car** class inherits from a **Vehicle** class.  
+
+#### **Code Example:**  
+
+// Parent class
+class Vehicle {
+    void start() {
+        System.out.println("Vehicle is starting");
+    }
+}
+
+// Child class inheriting from Vehicle
+class Car extends Vehicle {
+    void drive() {
+        System.out.println("Car is driving");
+    }
+}
+
+public class SingleInheritanceExample {
+    public static void main(String[] args) {
+        Car myCar = new Car();
+        myCar.start();  // Inherited from Vehicle
+        myCar.drive();  // Own method
+    }
+}
+
+**Output:**  
+
+Vehicle is starting  
+Car is driving  
+
+
+#### **Explanation:**  
+- The **Car** class inherits the `start()` method from the **Vehicle** class.  
+- The **Car** also has its own `drive()` method.  
+- A **Car** **is a** **Vehicle**, so it inherits its characteristics.  
+
+---
+
+### **2. Multilevel Inheritance:**  
+In **Multilevel Inheritance**, a chain of classes is formed. One class inherits from another, and a third class inherits from the second.  
+- **Real-World Example:**  
+  - **Smartphone** -> **Mobile** -> **Device**  
+
+#### **Code Example:**  
+
+// Grandparent class
+class Device {
+    void powerOn() {
+        System.out.println("Device is powering on");
+    }
+}
+
+// Parent class inheriting from Device
+class Mobile extends Device {
+    void makeCall() {
+        System.out.println("Making a call");
+    }
+}
+
+// Child class inheriting from Mobile
+class Smartphone extends Mobile {
+    void useApps() {
+        System.out.println("Using apps on smartphone");
+    }
+}
+
+public class MultilevelInheritanceExample {
+    public static void main(String[] args) {
+        Smartphone myPhone = new Smartphone();
+        myPhone.powerOn();  // From Device
+        myPhone.makeCall(); // From Mobile
+        myPhone.useApps();  // Own method
+    }
+}
+
+**Output:**  
+
+Device is powering on  
+Making a call  
+Using apps on smartphone  
+
+
+#### **Explanation:**  
+- The **Smartphone** class inherits from **Mobile**, which in turn inherits from **Device**.  
+- The **Smartphone** object can use methods from both **Mobile** and **Device**.  
+- A **Smartphone** **is a** **Mobile**, which **is a** **Device**.  
+
+---
+
+### **3. Hierarchical Inheritance:**  
+In **Hierarchical Inheritance**, multiple child classes inherit from a single parent class.  
+- **Real-World Example:**  
+  - **Bird**, **Fish**, and **Mammal** classes all inherit from an **Animal** class.  
+
+#### **Code Example:**  
+
+// Parent class
+class Animal {
+    void breathe() {
+        System.out.println("Breathing...");
+    }
+}
+
+// Child class 1 inheriting from Animal
+class Bird extends Animal {
+    void fly() {
+        System.out.println("Flying in the sky");
+    }
+}
+
+// Child class 2 inheriting from Animal
+class Fish extends Animal {
+    void swim() {
+        System.out.println("Swimming in water");
+    }
+}
+
+public class HierarchicalInheritanceExample {
+    public static void main(String[] args) {
+        Bird myBird = new Bird();
+        Fish myFish = new Fish();
+
+        myBird.breathe();  // From Animal
+        myBird.fly();      // Own method
+
+        myFish.breathe();  // From Animal
+        myFish.swim();     // Own method
+    }
+}
+
+**Output:**  
+
+Breathing...  
+Flying in the sky  
+Breathing...  
+Swimming in water  
+
+#### **Explanation:**  
+- The **Bird** and **Fish** classes both inherit from the **Animal** class.  
+- The **breathe()** method is common to both **Bird** and **Fish**.  
+- A **Bird** **is an** **Animal**, and a **Fish** **is an** **Animal**.  
+
+---
+

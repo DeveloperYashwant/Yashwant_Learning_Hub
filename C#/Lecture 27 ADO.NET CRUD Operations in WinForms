@@ -1,0 +1,147 @@
+
+
+## **Lecture 27: ADO.NET CRUD Operations in WinForms**
+
+
+###  **UI Design Overview**
+
+Place the following controls on your Windows Form:
+
+| Control Type     | Name             | Text/Label        |
+|------------------|------------------|-------------------|
+| TextBox          | `txtId`          | (for Id)          |
+| TextBox          | `txtName`        | (for Name)        |
+| TextBox          | `txtCourse`      | (for Course)      |
+| Button           | `btnInsert`      | Insert            |
+| Button           | `btnUpdate`      | Update            |
+| Button           | `btnDelete`      | Delete            |
+| Button           | `btnLoad`        | Load Data         |
+| DataGridView     | `dataGridView1`  | —                 |
+
+---
+
+### **Database Table**
+
+sql
+CREATE TABLE Students (
+    Id INT PRIMARY KEY,
+    Name NVARCHAR(50),
+    Course NVARCHAR(50)
+);
+
+
+---
+
+### **C# Code Behind (ADO.NET CRUD)**
+
+csharp
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Windows.Forms;
+
+namespace AdoDotNetCRUD
+{
+    public partial class Form1 : Form
+    {
+        string conStr = "Data Source=.;Initial Catalog=StudentDB;Integrated Security=True";
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection(conStr))
+            {
+                string query = "INSERT INTO Students (Id, Name, Course) VALUES (@Id, @Name, @Course)";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Id", txtId.Text);
+                cmd.Parameters.AddWithValue("@Name", txtName.Text);
+                cmd.Parameters.AddWithValue("@Course", txtCourse.Text);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Record Inserted");
+                LoadData();
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection(conStr))
+            {
+                string query = "UPDATE Students SET Name=@Name, Course=@Course WHERE Id=@Id";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Id", txtId.Text);
+                cmd.Parameters.AddWithValue("@Name", txtName.Text);
+                cmd.Parameters.AddWithValue("@Course", txtCourse.Text);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Record Updated");
+                LoadData();
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection(conStr))
+            {
+                string query = "DELETE FROM Students WHERE Id=@Id";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Id", txtId.Text);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Record Deleted");
+                LoadData();
+            }
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            using (SqlConnection con = new SqlConnection(conStr))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Students", con);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                dataGridView1.DataSource = dt;
+            }
+        }
+    }
+}
+
+
+---
+
+### **Bonus: DataGridView Row Click to Fill TextBoxes**
+
+Add this event to auto-fill TextBoxes when a row is clicked:
+
+csharp
+private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+{
+    if (e.RowIndex >= 0)
+    {
+        DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+        txtId.Text = row.Cells["Id"].Value.ToString();
+        txtName.Text = row.Cells["Name"].Value.ToString();
+        txtCourse.Text = row.Cells["Course"].Value.ToString();
+    }
+}
+
+
+---
+
+###  **Summary**
+
+| Operation | ADO.NET Command Used   |
+|-----------|------------------------|
+| Insert    | `SqlCommand.ExecuteNonQuery()` |
+| Update    | `SqlCommand.ExecuteNonQuery()` |
+| Delete    | `SqlCommand.ExecuteNonQuery()` |
+| Select    | `SqlDataAdapter.Fill()`        |

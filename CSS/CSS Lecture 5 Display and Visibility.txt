@@ -1,0 +1,109 @@
+### **CSS Lecture 5: CSS Grid ** 
+
+## **1. What is CSS Grid?**
+CSS Grid is a layout system designed for creating complex grid-based structures. It allows precise placement of elements across **rows and columns**.
+
+**Key Benefits of CSS Grid:**  
+Create **complex layouts** easily.  
+Control **both rows & columns** together.  
+Align elements** more efficiently.  
+Reduces the need for **extra divs & floats**.  
+Works well with **responsive design**.
+
+---
+
+## **2. Real-World Example: Portfolio Layout**  
+
+### HTML Structure**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CSS Grid Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="grid-container">
+        <header class="header">Header</header>
+        <nav class="nav">Navigation</nav>
+        <main class="main">Main Content</main>
+        <aside class="sidebar">Sidebar</aside>
+        <footer class="footer">Footer</footer>
+    </div>
+</body>
+</html>
+
+
+---
+
+### CSS Styles (styles.css)**
+
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Grid container */
+.grid-container {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "nav main"
+        "nav sidebar"
+        "footer footer";
+    grid-template-columns: 1fr 3fr; /* 1 fraction for nav, 3 for content */
+    grid-template-rows: auto; /* Rows adjust to content */
+    gap: 10px; /* Space between grid items */
+    padding: 10px;
+}
+
+/* Assign grid areas */
+.header { grid-area: header; background: lightblue; padding: 20px; text-align: center; }
+.nav { grid-area: nav; background: lightcoral; padding: 20px; }
+.main { grid-area: main; background: lightgreen; padding: 20px; }
+.sidebar { grid-area: sidebar; background: lightyellow; padding: 20px; }
+.footer { grid-area: footer; background: lightgray; padding: 20px; text-align: center; }
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-areas:
+            "header"
+            "nav"
+            "main"
+            "sidebar"
+            "footer";
+        grid-template-columns: 1fr;
+    }
+}
+
+---
+
+## **3. Understanding the CSS Grid Properties**
+| **Property** | **Effect** |
+|-------------|-----------|
+| `display: grid;` | Enables grid layout |
+| `grid-template-areas` | Defines named sections in the grid |
+| `grid-template-columns` | Controls column size distribution |
+| `grid-template-rows` | Adjusts row sizes |
+| `gap` | Adds spacing between grid items |
+
+---
+
+## **4. How CSS Grid is Used in the Real World?**
+**Dashboard Layouts** – Placing widgets in structured areas.  
+**Portfolio Websites** – Creating a structured profile page.  
+**E-commerce Websites** – Arranging product listings dynamically.  
+**Landing Pages** – Designing responsive web pages.  
+
+---
+
+## **5. Practice Questions**
+1. What is the difference between `grid-template-columns` and `grid-template-rows`?  
+2. How does `grid-template-areas` help in structuring layouts?  
+3. Modify the above layout so that the sidebar **appears below the main content** instead of next to it.  
+4. What happens when you set `grid-template-columns: repeat(3, 1fr);`?  
+5. How can you create a **responsive grid system** with CSS Grid?

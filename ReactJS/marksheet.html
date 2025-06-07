@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Logic</title>
+</head>
+<body>
+  <script>
+    // Input from User
+    var name = prompt("Enter your name:");
+    var m1 = eval(prompt("Enter marks for Subject 1:"));
+    var m2 = eval(prompt("Enter marks for Subject 2:"));
+    var m3 = eval(prompt("Enter marks for Subject 3:"));
+
+    // Calculate total and percentage
+    var total = m1 + m2 + m3;
+    var percentage = (total / 300) * 100;
+
+    // Simple grade logic
+    var grade;
+    if (percentage >= 60) 
+	{
+      grade = "First Class";
+    }
+	else if (percentage >= 50)
+	{
+      grade = "Second Class";
+    } 
+	else if (percentage >= 35)
+	{
+      grade = "Pass";
+    } 
+	else
+	{
+      grade = "Fail";
+    }
+
+    // Show Grade in alert
+    alert("Grade: " + grade);
+
+    // Show total and percentage on screen
+    document.write("<h2>Marksheet for " + name + "</h2>");
+    document.write("Total Marks: " + total + " / 300<br>");
+    document.write("Percentage: " + percentage.toFixed(2) + "%<br>");
+  </script>
+</body>
+</html>

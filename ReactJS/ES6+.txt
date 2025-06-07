@@ -1,0 +1,280 @@
+
+##  1. `let` and `const`
+
+* `let`: block-scoped variable.
+* `const`: block-scoped, constant value (cannot be reassigned).
+
+js
+let a = 10;
+a = 20; // allowed
+
+const b = 30;
+// b = 40;  Error
+
+
+---
+
+##  2. Arrow Functions (`=>`)
+
+* Shorter syntax for functions.
+
+js
+const add = (a, b) => a + b;
+console.log(add(2, 3)); // 5
+
+
+---
+
+##  3. Template Literals
+
+* String interpolation using backticks.
+
+js
+let name = "Himanshu";
+let msg = `Hello, ${name}!`;
+console.log(msg); // Hello, Himanshu!
+
+
+---
+
+##  4. Default Parameters
+
+* Set default values for function parameters.
+
+js
+function greet(name = "Guest") {
+  console.log("Hello", name);
+}
+greet(); // Hello Guest
+
+---
+
+##  5. Destructuring
+
+### a. Array Destructuring
+
+js
+const [x, y] = [10, 20];
+console.log(x, y); // 10 20
+
+### b. Object Destructuring
+
+js
+const person = { name: "Himanshu", age: 22 };
+const { name, age } = person;
+console.log(name, age); // Himanshu 22
+
+
+---
+
+##  6. Spread and Rest Operators (`...`)
+
+### a. Spread (to expand arrays/objects)
+
+js
+const nums = [1, 2, 3];
+const newNums = [...nums, 4];
+console.log(newNums); // [1, 2, 3, 4]
+
+### b. Rest (to collect args)
+
+js
+function sum(...numbers) {
+  return numbers.reduce((a, b) => a + b, 0);
+}
+console.log(sum(1, 2, 3)); // 6
+
+
+---
+
+##  7. Enhanced Object Literals
+
+js
+const name = "Baban";
+const age = 30;
+const user = { name, age }; // same as { name: name, age: age }
+console.log(user);
+
+
+---
+
+##  8. For...of Loop
+
+* Loop over iterable objects (arrays, strings).
+
+js
+const colors = ["red", "green", "blue"];
+for (const color of colors) {
+  console.log(color);
+}
+
+
+---
+
+##  9. Promises
+
+* For asynchronous operations.
+
+js
+const getData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve("Data received"), 1000);
+  });
+};
+
+getData().then(data => console.log(data));
+
+
+---
+
+## 10. Classes
+
+js
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  speak() {
+    console.log(`${this.name} makes a sound.`);
+  }
+}
+
+const dog = new Animal("Dog");
+dog.speak(); // Dog makes a sound.
+
+
+---
+
+##  11. Modules (import/export)
+
+// math.js
+
+js
+export const add = (a, b) => a + b;
+
+
+//  main.js
+
+js
+import { add } from './math.js';
+console.log(add(2, 3)); // 5
+
+
+---
+
+##  12. Optional Chaining (`?.`)
+
+js
+const user = { profile: { name: "Jane" } };
+console.log(user.profile?.name); // Jane
+console.log(user.account?.email); // undefined (no error)
+
+
+---
+
+##  13. Nullish Coalescing (`??`)
+
+* Returns right value **only if left is `null` or `undefined`**.
+
+js
+const user = null;
+console.log(user ?? "Guest"); // Guest
+
+
+---
+
+##  14. Async/Await
+
+* Syntactic sugar over promises.
+
+js
+const getData = () =>
+  new Promise(resolve => setTimeout(() => resolve("Fetched"), 1000));
+
+async function fetchData() {
+  const result = await getData();
+  console.log(result);
+}
+fetchData();
+
+
+---
+
+## 15. Map & Set
+
+js
+// Map
+let map = new Map();
+map.set("name", "John");
+console.log(map.get("name")); // John
+
+// Set
+let set = new Set([1, 2, 2, 3]);
+console.log(set); // Set {1, 2, 3}
+
+
+---
+
+## 16. Object.entries(), Object.values(), Object.keys()
+
+js
+const obj = { a: 1, b: 2 };
+console.log(Object.keys(obj)); // ["a", "b"]
+console.log(Object.values(obj)); // [1, 2]
+console.log(Object.entries(obj)); // [["a", 1], ["b", 2]]
+
+
+---
+
+##  17. Array Methods (ES6+)
+
+js
+const nums = [1, 2, 3, 4];
+
+const doubled = nums.map(n => n * 2);
+const evens = nums.filter(n => n % 2 === 0);
+const total = nums.reduce((sum, n) => sum + n, 0);
+
+console.log(doubled); // [2, 4, 6, 8]
+console.log(evens);   // [2, 4]
+console.log(total);   // 10
+
+
+---
+
+##  18. Chaining with `?.` and `??`
+
+js
+const response = {
+  data: {
+    user: {
+      name: "Sam"
+    }
+  }
+};
+
+const userName = response?.data?.user?.name ?? "Anonymous";
+console.log(userName); // Sam
+
+
+---
+
+##  Summary Table
+
+| Feature              | Keyword/Symbol     | Introduced In |
+| -------------------- | ------------------ | ------------- |
+| Variable Declaration | `let`, `const`     | ES6           |
+| Functions            | `=>`               | ES6           |
+| Strings              | `` `template` ``   | ES6           |
+| Parameters           | `=`                | ES6           |
+| Destructuring        | `{}`, `[]`         | ES6           |
+| Spread/Rest          | `...`              | ES6           |
+| Object Enhancements  | `{ name }`         | ES6           |
+| Loops                | `for...of`         | ES6           |
+| Async Ops            | `Promise`          | ES6           |
+| OOP                  | `class`            | ES6           |
+| Modules              | `import`, `export` | ES6           |
+| Optional Chaining    | `?.`               | ES11 (ES2020) |
+| Nullish Coalescing   | `??`               | ES11 (ES2020) |
+| Async/Await          | `async/await`      | ES8 (ES2017)  |
+

@@ -1,0 +1,176 @@
+# **CSS Lecture 10: CSS Animations & Transitions**  
+
+## **1. CSS Transitions (Smooth Effects on State Change)**  
+A **CSS transition** allows you to change CSS properties **smoothly** over time instead of instantly.
+
+### **Basic Syntax**
+
+selector {
+  transition: property duration timing-function delay;
+}
+
+**Property**: The CSS property to animate (e.g., `background-color`, `width`).  
+**Duration**: Time for the transition (e.g., `0.5s`, `2s`).  
+**Timing-function**: Defines speed curve (`ease`, `linear`, `ease-in`, `ease-out`).  
+**Delay**: Time before animation starts (`0s`, `1s`).  
+
+---
+
+### **2. Example: Button Hover Effect**
+
+button {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  transition: background-color 0.5s ease-in-out;
+}
+
+button:hover {
+  background-color: red;
+}
+
+**Effect**: When the user hovers over the button, it smoothly changes color.
+
+---
+
+### **3. Multiple Property Transitions**
+You can animate multiple properties at once:
+
+div {
+  width: 100px;
+  height: 100px;
+  background-color: lightblue;
+  transition: width 1s ease-in-out, height 1s ease-in-out, background-color 1s;
+}
+
+div:hover {
+  width: 200px;
+  height: 200px;
+  background-color: orange;
+}
+
+**Effect**: The box smoothly expands and changes color on hover.
+
+---
+
+## **4. CSS Animations (More Control than Transitions)**
+CSS **animations** allow you to animate elements **without requiring user interaction** (e.g., rotating a loading icon, pulsing effects).
+
+### **Basic Syntax**
+
+@keyframes animation-name {
+  from { property: value; }
+  to { property: value; }
+}
+
+selector {
+  animation: animation-name duration timing-function delay iteration-count direction;
+}
+
+**animation-name**: Name of the animation.  
+**duration**: Time for one cycle (e.g., `2s`).  
+**iteration-count**: How many times the animation runs (`infinite` for looping).  
+**direction**: `normal`, `reverse`, `alternate` (plays forward then backward).  
+
+---
+
+### **5. Example: Bouncing Box**
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-50px); }
+  100% { transform: translateY(0); }
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: green;
+  animation: bounce 1s infinite;
+}
+
+ **Effect**: The box moves up and down repeatedly.
+
+---
+
+### **6. Example: Rotating Loading Spinner**
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ddd;
+  border-top: 5px solid blue;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+**Effect**: The circle spins continuously.
+
+---
+
+### **7. Example: Fade In Effect**
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade {
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+**Effect**: The element fades in over 2 seconds.
+
+---
+
+## **8. CSS Animation Best Practices**
+Use **hardware-accelerated properties** (`transform`, `opacity`) for smoother animations.  
+Avoid animating **expensive properties** (`width`, `height`, `box-shadow`).  
+Use **short animations** (under 1s) for better UX.  
+
+---
+
+### **9. Full Example: Animated Button with Hover & Click Effect**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animations</title>
+    <style>
+        button {
+            background-color: blue;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.5s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: red;
+            transform: scale(1.1);
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+<body>
+
+    <button>Click Me</button>
+
+</body>
+</html>
+
+**Hover**: Button changes color and scales up.  
+**Click**: Button shrinks slightly.  

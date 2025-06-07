@@ -1,0 +1,329 @@
+
+
+##  Overview of Deployment
+
+| Layer    | Technology     | Deployment Place     |
+| -------- | -------------- | -------------------- |
+| Frontend | React.js       | EC2 (or S3 Bucket)   |
+| Backend  | Node + Express | EC2 (AWS Free Tier)  |
+| Database | MongoDB        | MongoDB Atlas (Free) |
+
+---
+
+##  Step-by-Step Deployment (MERN Stack on AWS Free Tier)
+
+---
+
+###  STEP 1: Prepare MERN App
+
+* Structure:
+
+  
+  /client     → React frontend
+  /server     → Node + Express backend
+  
+---
+
+###  STEP 2: Create MongoDB Atlas Database (Free Tier)
+
+1. Go to [https://www.mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+2. Create a **Free Cluster**
+3. Create a **database and user**
+4. Get the **connection URI** (e.g. `mongodb+srv://<user>:<password>@cluster.mongodb.net/dbname`)
+5. Use this URI in your Express backend (`.env` file):
+
+MONGO_URI=mongodb+srv://your-user:password@cluster.mongodb.net/dbname
+
+
+---
+
+###  STEP 3: Set Up EC2 (AWS Free Tier)
+
+####  Launch EC2 instance
+
+1. Go to [https://console.aws.amazon.com/ec2](https://console.aws.amazon.com/ec2)
+2. Click **Launch Instance**
+3. Choose:
+
+   * **Amazon Linux 2023** or **Ubuntu 22.04**
+   * **Instance type**: t2.micro (Free Tier)
+4. Create a **key pair** (.pem file)
+5. Open **ports 22 (SSH), 3000 (React), 5000 (Express)** in security group
+
+####  Connect to EC2
+
+chmod 400 your-key.pem
+ssh -i your-key.pem ec2-user@your-ec2-public-ip
+
+
+---
+
+###  STEP 4: Set Up Your MERN App on EC2
+
+####  Install Node.js, npm, git
+
+sudo yum update -y       # For Amazon Linux
+sudo yum install git -y
+curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
+sudo yum install -y nodejs
+
+
+####  Clone your GitHub repo
+
+git clone https://github.com/yourusername/your-mern-app.git
+cd your-mern-app/server
+
+
+####  Install backend dependencies and start server
+
+npm install
+npm install dotenv cors
+node index.js   # or npm start
+
+ Make sure your server listens on `process.env.PORT || 5000`
+
+const cors = require("cors");
+app.use(cors());
+
+
+---
+
+###  STEP 5: Deploy Frontend (React)
+
+#### Option 1: Serve React build via Express
+
+In your **server folder**:
+
+1. Go to client and build React app:
+
+cd ../client
+npm install
+npm run build
+
+2. Copy the build folder to server:
+
+cp -r build ../server
+
+3. In `server/index.js`, add:
+
+const path = require("path");
+app.use(express.static(path.join(__dirname, "build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+
+4. Restart your server. Now React + Express run from the same port (e.g. 5000).
+
+---
+
+###  STEP 6: Use PM2 to Keep Server Running
+
+npm install -g pm2
+pm2 start index.js
+pm2 startup
+pm2 save
+
+
+---
+
+### STEP 7: Set up NGINX (Optional but Recommended for port 80)
+
+If you want your app to run on `http://your-ip` without ports:
+
+sudo amazon-linux-extras install nginx1
+sudo systemctl start nginx
+sudo systemctl enable nginx
+sudo nano /etc/nginx/nginx.conf
+
+Configure NGINX to proxy requests to your Node.js app.
+
+Example:
+
+nginx
+server {
+    listen 80;
+    server_name your-ip;
+
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+sudo systemctl restart nginx
+
+
+---
+
+##  Summary of Tools Used
+
+| Tool              | Use                             |
+| ----------------- | ------------------------------- |
+| **MongoDB Atlas** | Free cloud database             |
+| **EC2**           | Free backend & frontend hosting |
+| **PM2**           | Keeps backend running           |
+| **NGINX**         | Optional for clean routing      |
+
+---
+========================
+
+To **deploy a MERN stack app on AWS Free Tier**, you need to **host the backend and frontend properly**. Here's a focused guide on the **important steps to load backend and frontend separately on AWS**, especially when using **React.js (frontend)** and **Node.js + Express (backend)**.
+
+---
+
+##  KEY CONCEPTS
+
+| Layer    | Stack             | Where to Host (Free Tier) |
+| -------- | ----------------- | ------------------------- |
+| Frontend | React.js          | S3 static site OR EC2     |
+| Backend  | Node.js + Express | EC2 instance (t2.micro)   |
+| Database | MongoDB Atlas     | Cloud (Free Cluster)      |
+
+---
+
+##  BACKEND SETUP ON EC2 (Important Things)
+
+###  1. **Launch EC2**
+
+* Use **Ubuntu** or **Amazon Linux 2023**
+* Instance type: **t2.micro** (free tier)
+* Open ports:
+
+  * **22** – SSH
+  * **5000** – Backend API
+  * **80** – If using NGINX
+
+---
+
+###  2. **Install Required Software**
+
+bash
+sudo yum update -y
+sudo yum install git -y
+curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
+sudo yum install -y nodejs
+
+
+---
+
+###  3. **Clone and Run Backend**
+
+bash
+git clone https://github.com/yourusername/your-backend.git
+cd your-backend
+npm install
+
+In `index.js`:
+
+js
+const cors = require("cors");
+app.use(cors());
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+
+Run server:
+
+node index.js   # or npm start
+
+ Use **PM2** to keep server alive:
+
+npm install -g pm2
+pm2 start index.js
+pm2 save
+pm2 startup
+
+
+---
+
+###  4. **Set Up MongoDB Atlas**
+
+* Use connection URI in `.env`
+* Example:
+
+env
+MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/mydb
+
+Use it with `mongoose.connect()` in your backend.
+
+---
+
+##  FRONTEND SETUP (React.js)
+
+###  OPTION 1: Host on S3 (Best for static frontend)
+
+1. Build React App:
+
+cd client
+npm install
+npm run build
+
+
+2. Zip `build/` folder and upload to **S3 Bucket**
+
+   * Enable **Static Website Hosting** in bucket settings
+   * Set index and error documents as `index.html`
+
+3. Make bucket files **public** OR use **CloudFront**
+
+---
+
+###  OPTION 2: Serve React from EC2 (same or different server)
+
+If using **same EC2** as backend:
+
+1. Copy React build to backend folder:
+
+cp -r ../client/build ./build
+
+2. Serve static React from Express:
+
+js
+const path = require("path");
+app.use(express.static(path.join(__dirname, "build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+
+Now everything runs on the same server and port.
+
+---
+
+###  OPTION 3: Deploy React separately using Vercel or Netlify
+
+* Deploy React app on **Vercel** or **Netlify**
+* Set API URLs to your **EC2 backend** IP, e.g.:
+
+js
+fetch("http://your-ec2-ip:5000/api/users")
+
+
+---
+
+##  SECURITY + CONFIG TIPS
+
+| Concern       | Solution                               |
+| ------------- | -------------------------------------- |
+| CORS issues   | Use `cors` middleware in Express       |
+| EC2 IP change | Use **Elastic IP**                     |
+| HTTPS         | Use **NGINX + SSL (Let's Encrypt)**    |
+| Auto restart  | Use **PM2**                            |
+| Public access | Open ports **80/5000** in EC2 security |
+
+---
+
+##  Final Structure
+
+### Access Points:
+
+* **Frontend URL**: `http://<S3-static-url>` or `http://<ec2-ip>`
+* **Backend API**: `http://<ec2-ip>:5000/api/...`
+* **MongoDB**: Hosted in **MongoDB Atlas**
+
+---

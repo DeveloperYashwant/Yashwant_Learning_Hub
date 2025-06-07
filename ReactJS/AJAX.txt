@@ -1,0 +1,91 @@
+
+### **AJAX **
+
+---
+
+#### **Lecture 1: Introduction to AJAX**
+
+* What is AJAX?
+* Why use AJAX in web apps?
+* Real-life examples: Facebook Like, Google Search suggestions
+* How AJAX works (Without refreshing the page)
+
+---
+
+#### **Lecture 2: Basics of AJAX Request**
+
+* Components of AJAX
+* Traditional vs AJAX request
+* Introduction to `XMLHttpRequest`
+* Sending a basic GET request
+
+---
+
+#### **Lecture 3: AJAX using JavaScript**
+
+* Create XMLHttpRequest object
+* `.open()` and `.send()` methods
+* Handling server response using `.onreadystatechange`
+* Displaying data on the webpage
+
+---
+
+#### **Lecture 4: AJAX using jQuery**
+
+* `$.ajax()`, `$.get()`, and `$.post()`
+* Simple GET example:
+
+  ```js
+  $.get("data.txt", function(response){
+    $("#result").html(response);
+  });
+  ```
+* Understanding callback functions
+
+---
+
+#### **Lecture 5: AJAX with JSON Data**
+
+* Receiving JSON data from the server
+* Parsing JSON and displaying it dynamically
+* Example: Load student info from a JSON file
+
+---
+
+#### **Lecture 6: Sending Data to Server (POST Request)**
+
+* Using forms with AJAX
+* Sending data to server with `$.post()`
+* Showing success/failure message
+
+---
+
+#### **Lecture 7: Error Handling in AJAX**
+
+* `success`, `error`, and `complete` in jQuery
+* Displaying error messages to user
+* Handling "file not found" and "server error"
+
+---
+
+#### **Lecture 8: AJAX with PHP or Node.js**
+
+* Backend interaction basics
+* Calling PHP/Node.js file using AJAX
+* Displaying database or file content
+
+---
+
+#### **Lecture 9: Mini Project using AJAX**
+
+* Example: Live Search / Form Submit / Weather Info
+* Use HTML + jQuery + JSON + AJAX
+* Without page reload
+
+---
+
+#### **Lecture 10: Revision and Practice**
+
+* Recap all AJAX methods and flow
+* Practice quiz and assignments
+

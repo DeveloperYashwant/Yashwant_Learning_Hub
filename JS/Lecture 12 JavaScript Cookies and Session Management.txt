@@ -1,0 +1,124 @@
+### **Lecture 12: JavaScript Cookies and Session Management**  
+
+#### **Topics Covered:**  
+1. **Introduction to Cookies**  
+   - What are Cookies?  
+   - Purpose and Usage of Cookies in Web Development  
+   - Differences Between Cookies, Local Storage, and Session Storage  
+
+2. **Working with Cookies in JavaScript**  
+   - Creating Cookies using `document.cookie`  
+   - Retrieving Cookies  
+   - Updating and Deleting Cookies  
+   - Setting Expiry Date for Cookies  
+
+3. **Session Management in JavaScript**  
+   - Managing User Sessions using Cookies  
+   - Secure Cookie Handling  
+
+4. **Practical Examples and Exercises**  
+   - **Creating a "Remember Me" Login System**  
+   - **Tracking User Preferences (Theme, Language, etc.)**  
+   - **Cookie-Based Page Visit Counter**  
+
+---
+
+### **Example: Remember Me Login System Using Cookies**  
+This example allows users to log in with a "Remember Me" checkbox, which saves their username in cookies.
+
+#### **Step 1: HTML Structure**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remember Me - Login System</title>
+</head>
+<body>
+
+    <h2>Login</h2>
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter username">
+    
+    <br><br>
+    <input type="checkbox" id="rememberMe"> Remember Me
+    
+    <br><br>
+    <button onclick="login()">Login</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+---
+
+#### **Step 2: JavaScript (script.js)**
+javascript
+document.addEventListener("DOMContentLoaded", function() {
+    // Load stored username if "Remember Me" was checked
+    let savedUsername = getCookie("username");
+    if (savedUsername) {
+        document.getElementById("username").value = savedUsername;
+        document.getElementById("rememberMe").checked = true;
+    }
+});
+
+function login() {
+    let username = document.getElementById("username").value.trim();
+    let rememberMe = document.getElementById("rememberMe").checked;
+
+    if (username === "") {
+        alert("Please enter a username.");
+        return;
+    }
+
+    if (rememberMe) {
+        // Store username in a cookie for 7 days
+        setCookie("username", username, 7);
+    } else {
+        // Delete cookie if "Remember Me" is unchecked
+        setCookie("username", "", -1);
+    }
+
+    alert("Login successful! Your username is saved.");
+}
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+// Function to get a cookie value
+function getCookie(name) {
+    let nameEQ = name + "=";
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i].trim();
+        if (cookie.indexOf(nameEQ) === 0) {
+            return cookie.substring(nameEQ.length, cookie.length);
+        }
+    }
+    return null;
+}
+
+---
+
+### **How It Works**
+1. **User enters a username and checks "Remember Me".**  
+2. If checked, the **username is stored in cookies** for 7 days.  
+3. If unchecked, the **cookie is deleted upon login.**  
+4. When the page loads, **JavaScript checks for stored cookies** and pre-fills the username field if found.  
+
+---
+
+### **Next Steps **  
+Would you like to extend this by adding:  
+**Session Expiry Handling**  
+**Login Authentication with a Backend (Node.js + Express)?**  

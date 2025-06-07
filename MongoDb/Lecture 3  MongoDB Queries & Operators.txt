@@ -1,0 +1,103 @@
+
+
+## **Lecture 3: MongoDB Queries & Operators**
+
+---
+
+###  **1. Basic `find()` Query**
+
+To retrieve documents from a collection:
+
+db.students.find({ age: 22 });
+
+Output: All students with age 22.
+
+---
+
+### **2. Comparison Operators**
+
+| Operator | Meaning                    | Example                                  |
+|----------|----------------------------|------------------------------------------|
+| `$eq`    | Equal                      | `{ age: { $eq: 22 } }`                   |
+| `$ne`    | Not Equal                 | `{ age: { $ne: 22 } }`                   |
+| `$gt`    | Greater Than              | `{ age: { $gt: 20 } }`                   |
+| `$lt`    | Less Than                 | `{ age: { $lt: 25 } }`                   |
+| `$gte`   | Greater Than or Equal     | `{ age: { $gte: 23 } }`                  |
+| `$lte`   | Less Than or Equal        | `{ age: { $lte: 24 } }`                  |
+
+ Example:
+
+db.students.find({ age: { $gte: 23, $lte: 26 } });
+
+---
+
+### **3. Logical Operators**
+
+| Operator | Meaning               | Example                                     |
+|----------|------------------------|---------------------------------------------|
+| `$and`   | Both conditions        | `{ $and: [ { age: 23 }, { course: "Java" } ] }` |
+| `$or`    | Either condition       | `{ $or: [ { age: 23 }, { course: "Java" } ] }` |
+| `$not`   | Opposite of condition  | `{ age: { $not: { $gt: 25 } } }`           |
+| `$nor`   | Neither condition      | `{ $nor: [ { age: 22 }, { course: "Python" } ] }` |
+
+---
+
+### **4. Projection (Limit Fields)**
+
+Show only selected fields:
+
+db.students.find({}, { name: 1, age: 1 });
+
+Hide `_id` field:
+
+db.students.find({}, { name: 1, _id: 0 });
+
+
+---
+
+### **5. Sorting & Limiting Results**
+
+**Sort** by age ascending:
+
+db.students.find().sort({ age: 1 });
+
+**Sort** by age descending:
+
+db.students.find().sort({ age: -1 });
+
+**Limit Results:**
+
+db.students.find().limit(3);
+
+**Skip First 2 Results:**
+
+db.students.find().skip(2);
+
+---
+
+###  **6. Pattern Matching with `$regex`**
+
+Search for names starting with "Y":
+
+db.students.find({ name: { $regex: "^Y" } });
+
+Names ending with "a":
+
+db.students.find({ name: { $regex: "a$" } });
+
+Case-insensitive search:
+
+db.students.find({ name: { $regex: "yash", $options: "i" } });
+
+
+---
+
+### **Practice Questions**
+
+1. Find all students with age greater than 24.
+2. Retrieve students with course = "Python" or "Java".
+3. List names starting with letter "P".
+4. Show only name and course fields, without `_id`.
+5. Sort students by age descending and limit to top 2.
+
+

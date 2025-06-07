@@ -1,0 +1,126 @@
+
+##  **Lecture 6: React Router (v6)**
+
+React Router is used for **navigation** between pages/components in a single-page React app without reloading the page.
+
+---
+
+###  Topics:
+
+* Installing React Router
+* Creating routes and links
+* `<BrowserRouter>`, `<Routes>`, and `<Route>`
+* Using `useNavigate()` to navigate programmatically
+* 404 Not Found Route
+
+---
+
+###  Step 1: Install React Router
+
+In your project terminal:
+
+npm install react-router-dom
+
+---
+
+###  Step 2: File Structure Example
+
+src/
+├── App.js
+├── Home.js
+├── About.js
+└── Contact.js
+
+
+---
+
+###  `App.js` – Setting Up Routes
+
+jsx
+// App.js
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Home from './Home';
+import About from './About';
+import Contact from './Contact';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <nav style={{ margin: '10px' }}>
+        {/* Link tags for navigation */}
+        <Link to="/" style={{ margin: '10px' }}>Home</Link>
+        <Link to="/about" style={{ margin: '10px' }}>About</Link>
+        <Link to="/contact" style={{ margin: '10px' }}>Contact</Link>
+      </nav>
+
+      {/* Route definitions */}
+      <Routes>
+        <Route path="/" element={<Home />} />          {/* exact route */}
+        <Route path="/about" element={<About />} />    {/* About route */}
+        <Route path="/contact" element={<Contact />} />{/* Contact route */}
+        <Route path="*" element={<h2>404 Not Found</h2>} /> {/* Fallback route */}
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+---
+
+###  `Home.js`, `About.js`, `Contact.js`
+
+#### `Home.js`
+
+jsx
+function Home() {
+  return <h2>Welcome to the Home Page</h2>;
+}
+export default Home;
+
+#### `About.js`
+
+jsx
+function About() {
+  return <h2>About Us Page</h2>;
+}
+export default About;
+
+#### `Contact.js`
+
+jsx
+import { useNavigate } from 'react-router-dom';
+
+function Contact() {
+  const navigate = useNavigate();  // Hook to navigate programmatically
+
+  return (
+    <div>
+      <h2>Contact Page</h2>
+      <button onClick={() => navigate('/')}>Go to Home</button> {/* Navigate to Home */}
+    </div>
+  );
+}
+export default Contact;
+
+
+---
+
+### Explanation (with comments):
+
+| Concept                               | Purpose                                                     |
+| ------------------------------------- | ----------------------------------------------------------- |
+| `<BrowserRouter>`                     | Wraps the entire app to enable routing                      |
+| `<Routes>`                            | Holds all the `<Route>` definitions                         |
+| `<Route path="..." element={<... />}` | Maps paths to components                                    |
+| `<Link>`                              | Navigates between routes without reloading                  |
+| `useNavigate()`                       | Allows programmatic navigation on events like button clicks |
+| `path="*"`                            | Wildcard for undefined routes (404 handling)                |
+
+---
+
+### Output Summary:
+
+* Navigate between Home, About, and Contact without page reloads.
+* Contact page has a **button** that navigates to Home using `useNavigate`.
+

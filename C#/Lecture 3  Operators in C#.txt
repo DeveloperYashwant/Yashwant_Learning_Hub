@@ -1,0 +1,185 @@
+# **Lecture 3: Operators in C#**
+
+---
+
+## **1. What Are Operators in C#?**
+Operators are **symbols** used to perform operations on variables and values.  
+
+🔹 **Real-World Example:**  
+Imagine you are shopping online:
+- If you add 2 products, the total price is calculated (**Addition Operator `+`**).
+- If you apply a discount, the price is reduced (**Subtraction Operator `-`**).
+- If you check if an item is in stock, a **comparison operator (`==`)** is used.
+
+---
+
+## **2. Types of Operators in C#**
+Operators in C# are categorized into different types:
+
+| **Operator Type**      | **Example Operators**      | **Real-World Example** |
+|----------------------|---------------------- |----------------------|
+| **Arithmetic**       | `+ - * / %`           | Adding total bill amount, calculating tax |
+| **Relational (Comparison)** | `== != > < >= <=` | Checking age for a driving license (`age >= 18`) |
+| **Logical**          | `&& || !`             | Checking if a user can access a website (Login && Subscription) |
+| **Bitwise**          | `& |                  | Low-level memory operations |
+| **Assignment**       | `= += -= *= /= %=`    | Assigning values to variables |
+| **Unary**            | `++ --`                | Increasing or decreasing stock quantity |
+| **Ternary**          | `condition ? true : false` | Checking if a discount applies (`price > 1000 ? "Discount Applied" : "No Discount"`) |
+
+---
+
+## **3. Arithmetic Operators (Mathematical Operations)**
+Used to perform basic mathematical operations.
+
+🔹 **Real-World Example: Shopping Cart**
+
+int item1 = 500; 
+int item2 = 300;
+int totalPrice = item1 + item2;
+Console.WriteLine("Total Price: " + totalPrice);
+
+🔹 **More Examples:**
+
+int a = 10, b = 5;
+
+Console.WriteLine(a + b);  // Addition → 15
+Console.WriteLine(a - b);  // Subtraction → 5
+Console.WriteLine(a * b);  // Multiplication → 50
+Console.WriteLine(a / b);  // Division → 2
+Console.WriteLine(a % b);  // Modulus (remainder) → 0
+
+---
+
+## **4. Relational (Comparison) Operators**
+Used to compare two values and return **true** or **false**.
+
+🔹 **Real-World Example: Checking Driving Eligibility**
+
+int age = 18;
+bool canDrive = age >= 18;
+Console.WriteLine("Eligible to Drive? " + canDrive);
+
+🔹 **More Examples:**
+
+int x = 10, y = 20;
+Console.WriteLine(x == y);  // False
+Console.WriteLine(x != y);  // True
+Console.WriteLine(x > y);   // False
+Console.WriteLine(x < y);   // True
+
+---
+
+## **5. Logical Operators (AND, OR, NOT)**
+Used to combine multiple conditions.
+
+🔹 **Real-World Example: User Login System**
+
+bool isEmailCorrect = true;
+bool isPasswordCorrect = false;
+
+bool canLogin = isEmailCorrect && isPasswordCorrect;
+Console.WriteLine("Login Successful? " + canLogin);
+
+🔹 **More Examples:**
+
+bool a = true, b = false;
+
+Console.WriteLine(a && b);  // AND → False
+Console.WriteLine(a || b);  // OR → True
+Console.WriteLine(!a);      // NOT → False
+
+---
+
+## **6. Assignment Operators**
+Used to assign values to variables.
+
+🔹 **Real-World Example: Updating Wallet Balance**
+
+int wallet = 1000;
+wallet += 500;  // Adding 500 to wallet
+Console.WriteLine("New Wallet Balance: " + wallet);
+
+🔹 **More Examples:**
+
+int num = 10;
+num += 5;  // num = num + 5 → 15
+num -= 2;  // num = num - 2 → 13
+num *= 3;  // num = num * 3 → 39
+num /= 3;  // num = num / 3 → 13
+
+---
+
+## **7. Unary Operators**
+Used to increment or decrement a variable.
+
+🔹 **Real-World Example: Inventory Stock Update**
+
+int stock = 10;
+stock--;  // One item sold
+Console.WriteLine("Stock Left: " + stock);
+
+🔹 **More Examples:**
+
+int counter = 5;
+Console.WriteLine(++counter); // Pre-increment → 6
+Console.WriteLine(counter++); // Post-increment → 6 (then increases to 7)
+Console.WriteLine(--counter); // Pre-decrement → 6
+Console.WriteLine(counter--); // Post-decrement → 6 (then decreases to 5)
+
+---
+
+## **8. Ternary Operator (`condition ? true_value : false_value`)**
+Used to write **short if-else conditions**.
+
+🔹 **Real-World Example: Checking Discount Eligibility**
+
+int price = 1200;
+string discount = (price > 1000) ? "Discount Applied" : "No Discount";
+Console.WriteLine(discount);
+
+🔹 **More Examples:**
+
+int marks = 75;
+string result = (marks >= 50) ? "Pass" : "Fail";
+Console.WriteLine(result);  // Output: Pass
+
+---
+
+## **9. Practical Program Using All Operators**
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int salary = 30000;
+        int bonus = 5000;
+
+        // Arithmetic Operators
+        int totalSalary = salary + bonus;
+        Console.WriteLine("Total Salary: " + totalSalary);
+
+        // Relational Operator
+        bool isRich = totalSalary > 50000;
+        Console.WriteLine("Is Rich? " + isRich);
+
+        // Logical Operators
+        bool hasJob = true;
+        bool hasSavings = false;
+        bool isEligibleForLoan = hasJob && hasSavings;
+        Console.WriteLine("Eligible for Loan? " + isEligibleForLoan);
+
+        // Ternary Operator
+        string financialStatus = (totalSalary > 40000) ? "Good Financial Status" : "Needs Improvement";
+        Console.WriteLine(financialStatus);
+    }
+}
+
+## **10. Summary**
+✅ **Arithmetic Operators** → Perform math calculations.  
+✅ **Relational Operators** → Compare values and return `true`/`false`.  
+✅ **Logical Operators** → Check multiple conditions (`&&`, `||`, `!`).  
+✅ **Assignment Operators** → Assign and update values (`=, +=, -=`).  
+✅ **Unary Operators** → Increase/decrease values (`++, --`).  
+✅ **Ternary Operator** → Short form of `if-else`.  

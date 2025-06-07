@@ -1,0 +1,135 @@
+### **Lecture 13: Exception Handling in Python**
+
+#### **What is Exception Handling?**
+- Exception Handling is a mechanism to **handle runtime errors** in your program.
+- An **exception** is an event that disrupts the normal flow of the program.
+
+#### **Common Exceptions:**
+- `ZeroDivisionError`: Division by zero.
+- `ValueError`: Inappropriate value.
+- `TypeError`: Operation on incompatible types.
+- `FileNotFoundError`: File not found.
+- `IndexError`: Index out of range.
+
+---
+
+### **Syntax: Try, Except, Else, Finally**
+
+try:
+    # Code that might throw an exception
+except ExceptionType:
+    # Code that runs if an exception occurs
+else:
+    # Code that runs if no exception occurs
+finally:
+    # Code that runs regardless of whether an exception occurred
+
+---
+
+### **Simple Example: Handling Division by Zero**
+
+try:
+    num = int(input("Enter a number: "))
+    result = 100 / num
+    print("Result:", result)
+except ZeroDivisionError:
+    print("Error: Division by zero is not allowed!")
+
+**Output:**
+
+Enter a number: 0  
+Error: Division by zero is not allowed!
+
+
+---
+
+### **Real-World Example: Online Food Ordering System**
+
+Imagine you are creating an online food ordering system where users can:
+1. **Place an Order** (entering the item number).
+2. **Pay** (entering the payment amount).
+
+#### **Step 1: Defining the Order System**
+
+def place_order():
+    try:
+        item_number = int(input("Enter the item number to order: "))
+        if item_number < 1 or item_number > 5:
+            raise ValueError("Invalid item number!")
+        print(f"Order placed for item {item_number}.")
+    except ValueError as e:
+        print("Error:", e)
+
+---
+
+#### **Step 2: Defining the Payment System**
+
+def make_payment():
+    try:
+        amount = float(input("Enter the payment amount: "))
+        if amount <= 0:
+            raise ValueError("Payment amount must be positive!")
+        print(f"Payment of ${amount} received. Thank you!")
+    except ValueError as e:
+        print("Error:", e)
+
+---
+
+#### **Step 3: Combining the Functions**
+
+try:
+    print("Welcome to the Food Ordering System!")
+    place_order()
+    make_payment()
+except Exception as e:
+    print("An unexpected error occurred:", e)
+finally:
+    print("Thank you for using our system!")
+
+---
+
+**Sample Output:**
+
+Welcome to the Food Ordering System!  
+Enter the item number to order: 3  
+Order placed for item 3.  
+Enter the payment amount: 50  
+Payment of $50.0 received. Thank you!  
+Thank you for using our system!
+
+**If Invalid Item Number:**
+
+Enter the item number to order: 7  
+Error: Invalid item number!  
+Thank you for using our system!
+
+---
+
+### **Why Use Exception Handling?**
+1. **Improved User Experience:** Prevents abrupt program termination.
+2. **Error Reporting:** Provides clear messages about what went wrong.
+3. **Safe Program Execution:** Ensures critical tasks are completed even if errors occur.
+
+---
+
+### **Advanced Concepts: Raising Exceptions**
+- You can **raise exceptions manually** using the `raise` keyword.
+try:
+    age = int(input("Enter your age: "))
+    if age < 0:
+        raise ValueError("Age cannot be negative!")
+    print(f"Your age is {age}")
+except ValueError as e:
+    print("Error:", e)
+
+---
+
+### **Practice Problems:**
+1. **Banking System:**  
+   - Create a `withdraw()` function that raises an exception if the withdrawal amount is greater than the balance.  
+
+2. **Student Grading System:**  
+   - Raise a `ValueError` if the entered marks are not between 0 and 100.  
+
+3. **File Handling:**  
+   - Handle `FileNotFoundError` when trying to read a non-existent file.  

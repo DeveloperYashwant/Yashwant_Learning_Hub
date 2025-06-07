@@ -1,0 +1,147 @@
+
+#  **Lecture 7: Promises and Async/Await in Node.js**
+
+---
+
+### What is a Promise?
+
+A **Promise** is an object that represents the eventual **completion or failure** of an asynchronous operation.
+
+* **Pending**: Initial state.
+* **Resolved (Fulfilled)**: The operation completed successfully.
+* **Rejected**: The operation failed.
+
+// Create a promise that simulates an async operation (like fetching data)
+const myPromise = new Promise((resolve, reject) => {
+  console.log('State: Pending'); // Initial state
+
+  setTimeout(() => {
+    const success = true; // Change this to false to simulate failure
+
+    if (success) {
+      resolve('Operation completed successfully!'); // Resolved (Fulfilled)
+    } else {
+      reject('Operation failed!'); // Rejected
+    }
+  }, 2000); // Simulate async delay of 2 seconds
+});
+
+// Handling the promise
+myPromise
+  .then(result => {
+    console.log('State: Resolved (Fulfilled)');
+    console.log('Result:', result);
+  })
+  .catch(error => {
+    console.log('State: Rejected');
+    console.log('Error:', error);
+  });
+
+
+---
+
+### Real-Life Example:
+
+Ordering food:
+
+* You place an order (promise made).
+* The food is being prepared (promise is pending).
+* It is delivered (promise fulfilled), or cancelled (promise rejected).
+
+---
+
+##  Using Promises — Example with File Writing
+
+js
+// file-promise.js
+const fs = require('fs').promises; // Use promise-based version of fs
+
+// Function that returns a promise
+function saveOrder(orderId) {
+  // This function returns a promise
+  return fs.writeFile('order-log.txt', `Order ${orderId} saved\n`);
+}
+
+// Call the function and handle success or error using .then and .catch
+saveOrder(303)
+  .then(() => {
+    console.log("Order saved successfully!");
+  })
+  .catch((error) => {
+    console.error(" Error saving order:", error);
+  });
+
+console.log(" Saving order... Please wait.");
+
+
+---
+
+##  Output:
+
+ Saving order... Please wait.
+ Order saved successfully!
+
+
+---
+
+##  Now with async/await (modern and clean way)
+
+js
+// async-await-order.js
+const fs = require('fs').promises; // Promise-based fs
+
+// Async function
+async function placeOrder(orderId) {
+  try {
+    console.log(` Placing order: ${orderId}`);
+
+    // Simulate delay in confirmation
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log("️ Order confirmed.");
+
+    // Simulate delay in sending SMS
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log(" SMS sent to customer.");
+
+    // Save order to file
+    await fs.writeFile('order-log.txt', `Order ${orderId} completed\n`);
+    console.log("️ Order logged successfully.");
+  } catch (error) {
+    console.error(" Something went wrong:", error);
+  }
+}
+
+// Call the async function
+placeOrder(404);
+console.log("User can continue browsing while order processes in background...");
+
+
+---
+
+###  Output:
+
+
+ Placing order: 404
+ User can continue browsing while order processes in background...
+ Order confirmed.
+ SMS sent to customer.
+ Order logged successfully.
+
+
+---
+
+##  Summary
+
+| Concept        | Description                                          |
+| -------------- | ---------------------------------------------------- |
+| `Promise`      | Handles async result (success/failure)               |
+| `.then/.catch` | Executes code when promise resolves or fails         |
+| `async/await`  | Cleaner syntax for working with Promises             |
+| `await`        | Waits for a promise to resolve before moving forward |
+
+---
+
+### Real-World Connection:
+
+* Online orders, cloud file uploads, and chat apps (like WhatsApp) use async flows.
+* You don’t want your app to **block UI** or **hang** — async lets you keep going!

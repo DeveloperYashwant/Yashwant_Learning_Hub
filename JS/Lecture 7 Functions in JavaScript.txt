@@ -1,0 +1,134 @@
+### **Lecture 7: Functions in JavaScript**  
+
+#### **1. Introduction to Functions**  
+Functions are reusable blocks of code that perform a specific task. They help in organizing code, making it more readable and reusable.
+
+---
+
+
+### **2. Types of Functions in JavaScript**  
+
+#### **a) Function Declaration (Named Function)**
+A function is defined using the `function` keyword and a name.  
+
+function greet() {
+    console.log("Hello, welcome to JavaScript!");
+}
+greet(); // Calling the function
+
+#### **b) Function with Parameters and Return Value**  
+Functions can accept parameters and return a value.  
+
+function add(a, b) {
+    return a + b;
+}
+console.log(add(5, 10)); // Output: 15
+
+#### **c) Function Expression (Anonymous Function)**  
+A function can be stored in a variable and called using that variable.  
+
+const multiply = function(x, y) {
+    return x * y;
+};
+console.log(multiply(4, 5)); // Output: 20
+
+#### **d) Arrow Function (ES6 Feature)**  
+Arrow functions provide a shorter syntax for writing functions.  
+
+const subtract = (a, b) => a - b;
+console.log(subtract(10, 3)); // Output: 7
+
+---
+
+### **3. Function Scope (Local & Global Variables)**  
+- **Local Variable:** Declared inside a function and cannot be accessed outside.  
+- **Global Variable:** Declared outside a function and can be accessed anywhere.  
+
+
+let globalVar = "I'm global";
+
+function demoFunction() {
+    let localVar = "I'm local";
+    console.log(globalVar); // Accessible
+    console.log(localVar);  // Accessible
+}
+demoFunction();
+// console.log(localVar); // Error: localVar is not defined
+
+---
+
+### **4. Default Parameters in Functions**  
+Functions can have default values for parameters if no value is provided.  
+
+function greetUser(name = "Omkar") {
+    console.log("Hello, " + name);
+}
+greetUser();       // Output: Hello, Omkar
+greetUser("Dipesh"); // Output: Hello, Dipesh
+
+---
+
+### **5. Rest Parameters (`...`) in Functions**  
+Allows passing an indefinite number of arguments.  
+
+function sum(...numbers) {
+    let total = 0;
+    for (let num of numbers) {
+        total += num;
+    }
+    return total;
+}
+console.log(sum(1, 2, 3, 4)); // Output: 10
+
+---
+
+### **6. Callback Functions**  
+A function passed as an argument to another function.  
+
+function greet(name, callback) {
+    console.log("Hello, " + name);
+    callback();
+}
+function sayGoodbye() {
+    console.log("Goodbye!");
+}
+greet("Rohit", sayGoodbye);
+
+Hello Rohit Goodbye
+
+---
+
+### **7. Function Hoisting**  
+Function declarations are hoisted, meaning they can be used before being declared.  
+
+hoistedFunction(); // Works fine
+
+function hoistedFunction() {
+    console.log("Function is hoisted!");
+}
+
+However, function expressions are **not hoisted**.  
+
+console.log(myFunc); // Undefined
+var myFunc = function() {
+    console.log("Hello");
+};
+
+---
+
+### **8. Immediately Invoked Function Expressions (IIFE)**  
+Executed immediately after declaration.  
+
+(function() {
+    console.log("This is an IIFE function");
+})();
+
+
+---
+
+### **9. Practical Examples**  
+1. Write a function to calculate the factorial of a number.  
+2. Create an arrow function to check if a number is even or odd.  
+3. Use a callback function to perform a mathematical operation.  
+4. Implement a function to reverse a string.  
+5. Use an IIFE to print the current date and time.

@@ -1,0 +1,141 @@
+### **CSS Lecture 4: Positioning in CSS**  
+
+## **1. Types of CSS Positioning**  
+CSS provides five types of positioning:  
+1. **Static** (default)  
+2. **Relative**  
+3. **Absolute**  
+4. **Fixed**  
+5. **Sticky**  
+
+---
+
+## **2. Static Positioning (Default)**  
+By default, all elements in HTML are positioned **statically**, meaning they appear in the normal document flow.  
+
+.box {
+  position: static;
+}
+
+- Elements appear one after another as per the document flow.  
+- No effect of **top, bottom, left, or right** properties.
+
+---
+
+## **3. Relative Positioning**  
+An element is positioned **relative** to its normal position.  
+
+.box {
+  position: relative;
+  left: 20px;
+  top: 10px;
+}
+
+- Moves **20px right** and **10px down** from its original position.  
+- The space originally occupied by the element remains unchanged.  
+
+**Use case:** Creating slight offsets while keeping the original space.
+
+---
+
+## **4. Absolute Positioning**  
+An element is positioned **relative to its nearest positioned ancestor** (or the `<html>` if no positioned ancestor exists).  
+
+.container {
+  position: relative; /* This will be the reference */
+}
+
+.box {
+  position: absolute;
+  top: 50px;
+  left: 30px;
+}
+
+- Moves **50px down** and **30px right** relative to `.container`.  
+- **No space is reserved** for the element; it is removed from the document flow.  
+
+**Use case:** Creating overlays, dropdown menus, tooltips.
+
+---
+
+## **5. Fixed Positioning**  
+The element is positioned relative to the **viewport** and does not move when scrolling.  
+
+.box {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: red;
+  padding: 10px;
+}
+
+- Stays at the **top-right corner** even when the page scrolls.  
+- **No space is reserved** for the element.  
+
+**Use case:** Sticky navigation bars, back-to-top buttons.
+
+---
+
+## **6. Sticky Positioning**  
+The element switches between **relative and fixed** depending on the scroll position.  
+
+.box {
+  position: sticky;
+  top: 50px;
+  background: yellow;
+}
+
+- Acts **relative** until scrolled to `top: 50px`, then becomes **fixed**.  
+- Useful for **sticky headers or sidebars**.
+
+---
+
+## **7. Practical Example**  
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Positioning</title>
+    <style>
+        .container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: lightgray;
+        }
+
+        .box {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            width: 100px;
+            height: 100px;
+            background: blue;
+            color: white;
+            text-align: center;
+            line-height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="box">Absolute</div>
+    </div>
+
+</body>
+</html>
+
+---
+
+## **8. When to Use Different Positioning?**  
+
+| Position  | When to Use? |
+|-----------|-------------|
+| **Static**  | Default layout, no custom positioning needed. |
+| **Relative** | Slightly shifting an element without affecting others. |
+| **Absolute** | Creating popups, dropdowns, and overlays. |
+| **Fixed** | Sticky navigation bars, floating buttons. |
+| **Sticky** | Keeping headers visible while scrolling. |

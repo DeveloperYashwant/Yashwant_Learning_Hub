@@ -1,0 +1,134 @@
+## Step-by-Step Understanding of Spring Boot (Internals + Logic)
+
+
+###  **1. What is Spring Boot?**
+
+Spring Boot is a **Java-based framework** that helps you **create stand-alone, production-ready** Spring applications easily with minimal configuration.
+
+It is built on top of the Spring Framework.
+
+---
+
+###  **2. Key Features of Spring Boot**
+
+* **Auto-Configuration**: Automatically configures your application based on the libraries on the classpath.
+* **Embedded Servers**: Comes with built-in servers like **Tomcat**, so you don’t need to deploy WARs.
+* **Starter Dependencies**: Simplifies dependency management using “starters” (e.g., `spring-boot-starter-web`).
+* **Spring Boot CLI** (optional): Lets you run Groovy scripts quickly.
+
+---
+
+###  **3. Understanding Main Class (`DemoApplication.java`)**
+
+java
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+
+
+#### What happens here:
+
+* `@SpringBootApplication` = Combines 3 annotations:
+
+  * `@Configuration`: Marks class as a config class.
+  * `@EnableAutoConfiguration`: Enables auto config.
+  * `@ComponentScan`: Scans current package and sub-packages for Spring components.
+
+---
+
+### *4. What is a Controller?**
+
+It’s a **web layer** where you define routes/endpoints.
+
+java
+@RestController
+public class HelloController {
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "Hello!";
+    }
+}
+
+
+* `@RestController`: Returns JSON or plain text directly.
+* `@GetMapping`: Maps HTTP GET requests.
+
+---
+
+### **5. What is a Model or Entity?**
+
+It represents a **database table** in object form.
+
+java
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+}
+
+
+* `@Entity`: Maps to a database table.
+* `@Id`: Primary key.
+* `@GeneratedValue`: Auto-increments ID.
+
+---
+
+### **6. What is a Repository?**
+
+It’s the **data access layer**.
+
+java
+public interface StudentRepository extends JpaRepository<Student, Long> {
+}
+
+
+* Spring Data JPA creates all the logic for you (e.g., `findAll()`, `save()`, `deleteById()`).
+
+---
+
+### **7. What is a Service Layer (Optional)?**
+
+Adds a layer between controller and repository (for business logic):
+
+java
+@Service
+public class StudentService {
+    public List<Student> getStudents() {
+        return repository.findAll();
+    }
+}
+
+
+---
+
+###  **8. What is application.properties / application.yml?**
+
+Used to configure database, port, logging, etc.
+
+properties
+server.port=8081
+spring.datasource.url=...
+
+
+---
+
+###  **9. What is Dependency Injection?**
+
+Spring Boot **automatically provides objects** (like Repository/Service) wherever needed using `@Autowired`.
+
+---
+
+### **10. Lifecycle of a Spring Boot App**
+
+1. `main()` runs
+2. Spring Boot initializes context
+3. Beans are scanned and loaded
+4. Auto-configuration kicks in
+5. Web server starts (Tomcat)
+6. App listens to requests (like `/hello`)
+

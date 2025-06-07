@@ -1,0 +1,50 @@
+
+## Important Mixed HTML + CSS + Bootstrap Questions
+
+### **Level 1: Basic Understanding**
+
+1. **What is the difference between `<div>` and `<section>` in HTML? Where would you use them in a single page layout?**  
+2. **How can you link a CSS file to your HTML document? What are other ways to apply CSS?**  
+3. **What is the role of `class` and `id` attributes in styling elements with CSS or Bootstrap?**  
+4. **How is a button styled differently using CSS and Bootstrap? Give examples.**  
+5. **What’s the purpose of the `container` class in Bootstrap? What is the difference between `container` and `container-fluid`?**
+
+---
+
+### **Level 2: Intermediate Implementation**
+
+6. **How do you create a responsive navigation bar using Bootstrap?**  
+7. **How does the Bootstrap Grid system work? Explain with example using `col-md-4`, `col-lg-6`, etc.**  
+8. **How do you apply custom CSS styles over Bootstrap classes? Which one takes priority?**  
+9. **Explain how to add a form using Bootstrap. How can you make it responsive and styled?**  
+10. **How do you embed an image or video and make it responsive in Bootstrap?**
+
+---
+
+### **Level 3: Practical Web Design Logic**
+
+11. **How would you design a 'Portfolio' section using HTML, styled with CSS and enhanced with Bootstrap Cards?**  
+12. **What is the difference between inline, block, and inline-block elements in HTML and how does CSS affect their layout?**  
+13. **How do you align elements side-by-side using CSS? How does Bootstrap handle this automatically?**  
+14. **What are media queries and how can you use them to make a custom responsive layout?**  
+15. **How do you add a fixed header using Bootstrap and prevent it from overlapping content?**
+
+---
+
+### **Level 4: Real-World Website Design Scenarios**
+
+16. **Create a webpage layout with a header, three content sections, and a footer using Bootstrap Grid and responsive classes. How will it adapt to mobile?**  
+17. **How would you style a testimonial slider using Bootstrap Carousel or custom CSS?**  
+18. **Explain how to use Flexbox or Bootstrap utilities (`d-flex`, `justify-content-center`, etc.) to center content both vertically and horizontally.**  
+19. **What are pseudo-classes in CSS? Use `:hover` or `:nth-child()` in a list or menu styling example.**  
+20. **How can you override Bootstrap’s default colors and fonts with your own CSS?**
+
+---
+
+### Bonus: Challenge Questions
+
+21. **Build a single-page layout using HTML, CSS, and Bootstrap with internal anchor navigation. Describe how the scrolling works.**  
+22. **How do you make a hero section (banner) with a background image and centered text using Bootstrap?**  
+23. **What is z-index in CSS? How would you use it in a modal or dropdown layout scenario?**  
+24. **How can you add icons in a web page using Bootstrap Icons or Font Awesome?**  
+25. **What are best practices for writing clean and reusable code in HTML, CSS, and Bootstrap?**

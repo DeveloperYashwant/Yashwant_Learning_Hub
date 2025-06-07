@@ -1,0 +1,203 @@
+### **Lecture 5: Normalization and Denormalization in Databases**
+
+---
+
+### **1. Database Normalization**
+
+**Normalization** is the process of organizing the data in a database to reduce redundancy and dependency. The goal is to separate data into smaller, related tables to avoid data anomalies and ensure data integrity.
+
+There are several **normal forms** (NF), each providing different levels of normalization. The most commonly used normal forms are:
+
+#### **First Normal Form (1NF):**
+- A table is in **1NF** if:
+  - It contains only **atomic** values (i.e., each column contains indivisible values).
+  - All entries in a column must be of the same type.
+  - Each column must have a unique name.
+  - The order in which data is stored does not matter.
+
+**Example (1NF):**
+```sql
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Subjects VARCHAR(255) -- Subjects in a single column (not 1NF)
+);
+```
+
+In this case, the `Subjects` column violates 1NF because it contains multiple subjects in a single column. To convert this to **1NF**, we would split the `Subjects` column into separate rows.
+
+```sql
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Subject VARCHAR(100) -- Each row now has one subject per student
+);
+```
+
+#### **Second Normal Form (2NF):**
+- A table is in **2NF** if:
+  - It is in **1NF**.
+  - It does not have **partial dependency**. A partial dependency means that a non-key column depends on only part of a composite primary key (i.e., if a table has a **composite key**, non-key columns should depend on the whole composite key, not just part of it).
+
+**Example (2NF):**
+```sql
+CREATE TABLE Enrollments (
+    EnrollmentID INT,
+    StudentID INT,
+    CourseID INT,
+    CourseName VARCHAR(100),
+    PRIMARY KEY (EnrollmentID)
+);
+```
+
+Here, `CourseName` depends on `CourseID`, but not on `EnrollmentID`, so we have a **partial dependency**. To convert this to **2NF**, we should separate the `CourseName` into a new table.
+
+```sql
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY,
+    CourseName VARCHAR(100)
+);
+
+CREATE TABLE Enrollments (
+    EnrollmentID INT PRIMARY KEY,
+    StudentID INT,
+    CourseID INT
+);
+```
+
+#### **Third Normal Form (3NF):**
+- A table is in **3NF** if:
+  - It is in **2NF**.
+  - It does not have **transitive dependency**. A transitive dependency means that non-key columns depend on other non-key columns.
+
+**Example (3NF):**
+```sql
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Department VARCHAR(100),
+    DepartmentHead VARCHAR(100)
+);
+```
+
+Here, `DepartmentHead` depends on `Department`, which is a non-key column. To convert this to **3NF**, we separate `DepartmentHead` into a new table.
+
+```sql
+CREATE TABLE Departments (
+    Department VARCHAR(100) PRIMARY KEY,
+    DepartmentHead VARCHAR(100)
+);
+
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Department VARCHAR(100),
+    FOREIGN KEY (Department) REFERENCES Departments(Department)
+);
+```
+
+#### **Boyce-Codd Normal Form (BCNF):**
+- A table is in **BCNF** if:
+  - It is in **3NF**.
+  - For every **non-trivial functional dependency**, the left-hand side is a **superkey**.
+
+**Example (BCNF):**
+Consider a table where `CourseID` and `InstructorID` together form the primary key, but `InstructorName` depends only on `InstructorID`, not on the combination of both.
+
+```sql
+CREATE TABLE CourseAssignments (
+    CourseID INT,
+    InstructorID INT,
+    InstructorName VARCHAR(100),
+    PRIMARY KEY (CourseID, InstructorID)
+);
+```
+
+To convert this to **BCNF**, we would create separate tables for instructors and their assignments.
+
+```sql
+CREATE TABLE Instructors (
+    InstructorID INT PRIMARY KEY,
+    InstructorName VARCHAR(100)
+);
+
+CREATE TABLE CourseAssignments (
+    CourseID INT,
+    InstructorID INT,
+    PRIMARY KEY (CourseID, InstructorID),
+    FOREIGN KEY (InstructorID) REFERENCES Instructors(InstructorID)
+);
+```
+
+---
+
+### **2. Denormalization**
+
+While **Normalization** aims to reduce redundancy by splitting data into multiple tables, **Denormalization** is the process of combining tables to improve read performance. Denormalization is used when querying performance is more important than the storage overhead, and it may involve adding redundant data or using fewer tables.
+
+**When to Use Denormalization:**
+- To speed up read-heavy operations.
+- When join operations are too slow and complicated.
+- When dealing with very large datasets where query performance is critical.
+
+**Example of Denormalization:**
+Suppose you have a normalized schema like this:
+
+```sql
+-- Normalized Schema:
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT
+);
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100)
+);
+```
+
+Now, if you often need to retrieve customer details along with the order, a **denormalized** table could look like this:
+
+```sql
+CREATE TABLE DenormalizedOrders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    CustomerName VARCHAR(100)
+);
+```
+
+Here, the `CustomerName` is redundant, but it speeds up the query because we no longer need to join the `Orders` and `Customers` tables.
+
+---
+
+### **3. Summary of Normalization vs. Denormalization**
+
+- **Normalization**:
+  - Eliminates redundancy.
+  - Reduces the risk of data anomalies.
+  - Can require complex queries with many joins.
+  - Reduces storage needs.
+
+- **Denormalization**:
+  - Reduces the complexity of queries.
+  - Improves read performance (at the cost of slower writes).
+  - Increases redundancy.
+  - Increases storage needs.
+
+---
+
+### **4. Example Scenarios**
+
+1. **Normalization Scenario:**
+   You are designing a database for a library system. You want to keep track of books and authors. If a book can have multiple authors, you would normalize the database into two tables: `Books` and `Authors`. This would reduce redundancy, as you don't have to store the author's information for every book they write.
+
+2. **Denormalization Scenario:**
+   You are building a reporting system that needs to fetch aggregated data quickly. You might denormalize your tables to store pre-aggregated data (e.g., total sales per customer) to avoid performing complex joins and aggregations every time a report is generated.
+
+---
+
+### **5. Q&A Section for Students:**
+
+1. What is the difference between **2NF** and **3NF**? Provide examples.
+2. When would you consider using **denormalization** in a database design?
+3. Can you explain a real-world scenario where **normalization** is essential to ensure data integrity?

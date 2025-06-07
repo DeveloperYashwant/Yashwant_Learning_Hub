@@ -1,0 +1,124 @@
+
+##  **Lecture 29: ASP.NET Introduction**
+
+---
+
+### **What is ASP.NET?**
+
+**ASP.NET** stands for **Active Server Pages .NET**.  
+It is a **web development framework** developed by **Microsoft** for building **dynamic websites, web apps, and web services** using **.NET languages like C#**.
+
+---
+
+### **Key Features of ASP.NET**
+
+| Feature                   | Description                                                                 |
+|---------------------------|-----------------------------------------------------------------------------|
+| **Server-side Technology** | Code runs on the server before it's sent to the browser                     |
+| **Multi-language support** | Supports C#, VB.NET                                                         |
+| **Rapid Development**      | Built-in controls, components, templates, and libraries                     |
+| **State Management**       | ViewState, Session, Cookies, etc.                                           |
+| **Security**               | Built-in authentication & authorization                                     |
+| **Separation of Logic**    | Uses code-behind files for better structure                                 |
+
+---
+
+### **ASP.NET Components**
+
+| Component        | Use Case                              |
+|------------------|----------------------------------------|
+| **Web Forms**     | Drag-and-drop, event-driven, RAD style |
+| **MVC**           | Model-View-Controller architecture     |
+| **Web API**       | RESTful services (JSON/XML responses)  |
+| **Razor Pages**   | Lightweight page-based programming     |
+| **Blazor**        | C# running in browser using WebAssembly|
+
+---
+
+### ️ **How ASP.NET Works?**
+
+1. User requests a page via browser.
+2. Server processes the request using ASP.NET code.
+3. Generates HTML and sends it back to the browser.
+4. Browser displays the result.
+
+---
+
+###  **Basic ASP.NET Web Forms Structure**
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+    <form runat="server">
+        <asp:Label ID="Label1" runat="server" Text="Hello, ASP.NET!"></asp:Label>
+    </form>
+</body>
+</html>
+```
+
+---
+
+### **ASP.NET Project Folder Structure**
+
+| Folder/File       | Description                                 |
+|-------------------|---------------------------------------------|
+| `Default.aspx`     | Web page (HTML + Server controls)           |
+| `Default.aspx.cs`  | Code-behind file (C# logic)                 |
+| `Web.config`       | Configuration file (DB, security, settings) |
+| `bin`              | DLL files generated after build             |
+
+---
+
+###  **Tools Used**
+
+- **Visual Studio** – Best IDE for ASP.NET development  
+- **.NET Framework / .NET Core**  
+- **IIS (Internet Information Services)** – For hosting and testing
+
+---
+
+### **ASP.NET Life Cycle (Simple)**
+
+| Stage            | Purpose                                 |
+|------------------|------------------------------------------|
+| **Page Request**  | Client requests a page                   |
+| **Start**         | Initializes properties                   |
+| **Load**          | Loads controls with data                 |
+| **Postback**      | Handles events (like button click)       |
+| **Render**        | Converts server controls to HTML         |
+| **Unload**        | Clean up memory/resources                |
+
+---
+
+### **State Management Options**
+
+| Method       | Description                                  |
+|--------------|----------------------------------------------|
+| ViewState    | Stores data in hidden fields (within page)   |
+| Session      | Stores data per user on server               |
+| Cookies      | Stores data in browser                       |
+| QueryString  | Passes data via URL                          |
+
+---
+
+### **Real-World Applications**
+
+- Online forms (registration, login)
+- Shopping cart systems
+- Admin dashboards
+- Data reporting tools
+- Company internal portals
+
+---
+
+###  **Advantages of ASP.NET**
+
+- Fast & secure
+- Rich toolbox in Visual Studio
+- Scalable & maintainable
+- Works well with SQL Server and ADO.NET

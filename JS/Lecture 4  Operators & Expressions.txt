@@ -1,0 +1,150 @@
+# **JavaScript – Lecture 4: Operators & Expressions **  
+
+1. **Arithmetic Operators**  
+2. **Assignment Operators**  
+3. **Comparison Operators**  
+4. **Logical Operators**  
+5. **Ternary Operator**  
+6. **Bitwise Operators**  
+
+---
+
+## **1. Arithmetic Operators**  
+These perform basic mathematical operations.  
+
+| Operator | Description | Example | Output |
+|----------|------------|---------|--------|
+| `+`  | Addition       | `5 + 2` | `7` |
+| `-`  | Subtraction | `5 - 2` | `3` |
+| `*`  | Multiplication | `5 * 2` | `10` |
+| `/`  | Division | `10 / 2` | `5` |
+| `%`  | Modulus (Remainder) | `10 % 3` | `1` |
+| `++` | Increment | `let a = 5; a++` | `6` |
+| `--` | Decrement | `let a = 5; a--` | `4` |
+
+### **Example: Shopping Cart Total Calculation**  
+
+let price = 200;  
+let quantity = 3;  
+let total = price * quantity;  
+console.log("Total Cost: ₹" + total); // Output: Total Cost: ₹600
+
+---
+
+## **2. Assignment Operators**  
+Used to assign values to variables.
+
+| Operator | Example | Meaning |
+|----------|---------|---------|
+| `=`  | `x = 10` | Assigns `10` to `x` |
+| `+=` | `x += 5` | `x = x + 5` |
+| `-=` | `x -= 3` | `x = x - 3` |
+| `*=` | `x *= 2` | `x = x * 2` |
+| `/=` | `x /= 2` | `x = x / 2` |
+| `%=` | `x %= 2` | `x = x % 2` |
+
+### **Example: Employee Salary Increase**  
+
+let salary = 30000;  
+salary += 5000; // Bonus added  
+console.log("Updated Salary: ₹" + salary); // Output: Updated Salary: ₹35000
+
+---
+
+## **3. Comparison Operators**  
+Used to compare values.
+
+| Operator | Example | Output |
+|----------|---------|--------|
+| `==`  | `5 == "5"` | `true` (checks value only) |
+| `===` | `5 === "5"` | `false` (checks value & type) |
+| `!=`  | `5 != 3` | `true` |
+| `!==` | `5 !== "5"` | `true` |
+| `>`   | `10 > 5` | `true` |
+| `<`   | `10 < 5` | `false` |
+| `>=`  | `10 >= 10` | `true` |
+| `<=`  | `5 <= 10` | `true` |
+
+### **Example: Exam Pass/Fail System**  
+
+let marks = 40;  
+let passingMarks = 35;  
+console.log(marks >= passingMarks ? "Pass" : "Fail"); // Output: Pass
+
+---
+
+## **4. Logical Operators**  
+Used to combine conditions.
+
+| Operator | Description | Example | Output |
+|----------|------------|---------|--------|
+| `&&`  | AND | `true && false` | `false` |
+| `||`  | OR | `true || false` | `true` |
+| `!`   | NOT | `!true` | `false` |
+
+### **Example: Login Authentication**  
+
+let username = "admin";  
+let password = "1234";  
+
+if (username === "admin" && password === "1234") {  
+    console.log("Login Successful");  
+} else {  
+    console.log("Invalid Credentials");  
+}
+
+
+---
+
+## **5. Ternary Operator (Short if-else)**  
+
+let age = 18;  
+let canVote = (age >= 18) ? "Eligible to vote" : "Not eligible to vote";  
+console.log(canVote);
+
+---
+
+## **6. Bitwise Operators**  
+Used to perform binary operations.
+
+| Operator | Example | Binary Representation | Output |
+|----------|---------|---------------------- |--------|
+| `&`      | `5 & 1` | `0101 & 0001`         | `0001 (1)` |
+| `|`  | `5 | 1`     | `0101 | 0001` | `0101 (5)` |
+| `^`  | `5 ^ 1`     | `0101 ^ 0001` | `0100 (4)` |
+| `<<` | `5 << 1`    | `0101 << 1`   | `1010 (10)` |
+| `>>` | `5 >> 1`    | `0101 >> 1`   | `0010 (2)` |
+
+---
+
+## **7. Real-World Applications of Operators**  
+
+### **1. Discount Calculation in E-commerce**  
+
+let price = 1000;  
+let discount = 20; // 20% discount  
+let finalPrice = price - (price * discount / 100);  
+console.log("Final Price: ₹" + finalPrice);  
+
+### **2. Speed Limit Check for Vehicles**  
+
+let speed = 80;  
+let speedLimit = 60;  
+console.log(speed > speedLimit ? "Over Speeding!" : "Within Limit");
+
+### **3. Voting System**  
+
+let citizenAge = 17;  
+console.log(citizenAge >= 18 ? "Can Vote" : "Cannot Vote");
+
+---
+
+## **Summary**  
+| Concept | Description |
+|---------|------------|
+| **Arithmetic Operators** | Used for basic math operations |
+| **Assignment Operators** | Assign values to variables |
+| **Comparison Operators** | Compare values (==, ===, >, <) |
+| **Logical Operators** | Used in conditions (&&, ||, !) |
+| **Ternary Operator** | Short if-else statement |
+| **Bitwise Operators** | Works at the binary level |

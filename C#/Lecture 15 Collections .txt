@@ -1,0 +1,133 @@
+
+##**Lecture 15: Collections in C#**
+
+
+### **What is a Collection?**
+A **collection** is a class used to **store, manage, and manipulate groups of related objects**. Collections are more flexible than arrays — they can **grow or shrink in size** as needed.
+
+---
+
+### **Types of Collections in C#:**
+
+Collections are available in two main types:
+
+#### 1. **Non-Generic Collections (System.Collections)**
+- Can store **any type** of data (object-based)
+- Less type-safe, need casting
+- Examples:
+  - `ArrayList`
+  - `Hashtable`
+  - `Stack`
+  - `Queue`
+
+#### 2. **Generic Collections (System.Collections.Generic)**
+- Store **specific data types** (type-safe)
+- Better performance and safety
+- Examples:
+  - `List<T>`
+  - `Dictionary<TKey, TValue>`
+  - `Queue<T>`
+  - `Stack<T>`
+
+---
+
+### **Common Non-Generic Collections**
+
+#### `ArrayList`
+csharp
+using System.Collections;
+
+ArrayList list = new ArrayList();
+list.Add(10);
+list.Add("Hello");
+list.Add(25.5);
+
+foreach (var item in list)
+{
+    Console.WriteLine(item);
+}
+
+#### `Hashtable`
+csharp
+using System.Collections;
+
+Hashtable ht = new Hashtable();
+ht.Add(1, "One");
+ht.Add(2, "Two");
+
+Console.WriteLine(ht[1]); // Output: One
+
+
+---
+
+###  **Common Generic Collections**
+
+#### `List<T>`
+csharp
+using System.Collections.Generic;
+
+List<string> fruits = new List<string>();
+fruits.Add("Apple");
+fruits.Add("Banana");
+
+foreach (string fruit in fruits)
+{
+    Console.WriteLine(fruit);
+}
+
+
+#### `Dictionary<TKey, TValue>`
+
+csharp
+using System.Collections.Generic;
+
+Dictionary<int, string> students = new Dictionary<int, string>();
+students.Add(1, "John");
+students.Add(2, "Alice");
+
+Console.WriteLine(students[2]); // Output: Alice
+
+
+---
+
+### **Other Collections**
+
+#### `Stack<T>` (LIFO – Last In First Out)
+csharp
+Stack<int> stack = new Stack<int>();
+stack.Push(1);
+stack.Push(2);
+
+Console.WriteLine(stack.Pop()); // Output: 2
+
+
+####`Queue<T>` (FIFO – First In First Out)
+csharp
+Queue<string> queue = new Queue<string>();
+queue.Enqueue("A");
+queue.Enqueue("B");
+
+Console.WriteLine(queue.Dequeue()); // Output: A
+
+---
+
+### **Why Use Collections Instead of Arrays?**
+
+| Feature | Array | Collection |
+|--------|-------|------------|
+| Size | Fixed | Dynamic |
+| Data Type | Same type | Mixed (non-generic) or specific (generic) |
+| Flexibility | Low | High |
+
+---
+
+### **Mini Quiz (3 Questions)**
+
+1. What’s the main difference between `List<T>` and `ArrayList`?
+2. Which collection would you use to store key-value pairs?
+3. What is the output of this code?
+-- csharp
+Queue<int> q = new Queue<int>();
+q.Enqueue(10);
+q.Enqueue(20);
+Console.WriteLine(q.Dequeue());

@@ -1,0 +1,221 @@
+### **Lecture 9: Tuples in Python**
+
+#### **What is a Tuple?**
+A tuple is a collection in Python that is:
+- **Ordered**: Items have a defined order.
+- **Immutable**: Once created, elements cannot be changed.
+- **Allows Duplicates**: Similar to lists, tuples can contain duplicate elements.
+- **Defined using parentheses `()`**.
+
+---
+
+#### **Why Use Tuples?**
+- They are faster than lists due to immutability.
+- Suitable for data that shouldn't change, like geographical coordinates or fixed settings.
+
+---
+
+### **Syntax: Creating a Tuple**
+
+# Creating a tuple with multiple elements
+my_tuple = ("Apple", "Banana", "Cherry")
+print(my_tuple)
+
+# Creating a tuple with a single element (notice the comma)
+single_element_tuple = ("Hello",)
+print(single_element_tuple)
+
+# Creating an empty tuple
+empty_tuple = ()
+print(empty_tuple)
+
+---
+
+### **Real-World Example: Storing Geographical Coordinates**
+Imagine you are developing a navigation app that stores fixed coordinates of landmarks.
+
+#### **Step 1: Creating a Tuple of Coordinates**
+
+# Latitude and Longitude of a landmark
+taj_mahal = (27.1751, 78.0421)
+print("Taj Mahal Coordinates:", taj_mahal)
+
+**Output:**
+
+Taj Mahal Coordinates: (27.1751, 78.0421)
+
+---
+
+#### **Step 2: Accessing Tuple Elements**
+
+latitude = taj_mahal[0]
+longitude = taj_mahal[1]
+print(f"Latitude: {latitude}, Longitude: {longitude}")
+
+**Output:**
+
+Latitude: 27.1751, Longitude: 78.0421
+
+---
+
+#### **Step 3: Checking for an Element**
+
+if 27.1751 in taj_mahal:
+    print("Latitude is present in the coordinates.")
+else:
+    print("Latitude not found.")
+**Output:**
+
+Latitude is present in the coordinates.
+
+---
+
+#### **Step 4: Length of a Tuple**
+
+print("Number of elements in the tuple:", len(taj_mahal))
+
+**Output:**
+
+Number of elements in the tuple: 2
+
+---
+
+### **Real-World Example: Storing Days of the Week**
+Tuples are perfect for data that doesn't change, like the days of the week.
+
+days_of_week = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+print("Days of the Week:", days_of_week)
+
+
+**Output:**
+
+Days of the Week: ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
+
+---
+
+### **Why Tuples Over Lists?**
+- **Immutable**: Prevents accidental changes.
+- **Performance**: Tuples are faster than lists when processing large datasets.
+- **Fixed Data**: Ideal for constant values (like months of the year).
+
+---
+
+### **Tuple Methods:**
+1. **count()**: Returns the number of times a value appears.
+
+   colors = ("red", "blue", "red", "green")
+   print(colors.count("red"))  # Output: 2
+
+2. **index()**: Finds the first occurrence of a value.
+
+   print(colors.index("green"))  # Output: 3
+
+---
+
+### **Practice Questions:**
+1. Create a tuple of your favorite 5 movies and print the first and last movie.
+2. Write a program to store the names of planets in a tuple and print them in reverse order.
+3. Create a tuple containing a few numbers. Calculate the sum of the numbers.
+========
+
+
+#### **Scenario: Student Exam Marks**
+
+Imagine a school stores the exam marks of students as tuples because:
+1. Marks are fixed once recorded.
+2. Tuples provide fast data retrieval.
+
+---
+
+#### **Step 1: Storing Marks as Tuples**
+
+# Marks of a student in 5 subjects
+student_marks = (85, 92, 78, 88, 90)
+print("Student Marks:", student_marks)
+
+**Output:**
+
+Student Marks: (85, 92, 78, 88, 90)
+
+---
+
+#### **Step 2: Accessing Marks**
+
+# Accessing marks of the second subject
+second_subject = student_marks[1]
+print("Marks in second subject:", second_subject)
+
+**Output:**
+
+Marks in second subject: 92
+
+---
+
+#### **Step 3: Finding the Highest and Lowest Marks**
+
+highest_mark = max(student_marks)
+lowest_mark = min(student_marks)
+print(f"Highest Mark: {highest_mark}, Lowest Mark: {lowest_mark}")
+
+**Output:**
+
+Highest Mark: 92, Lowest Mark: 78
+
+---
+
+#### **Step 4: Calculating the Average Marks**
+
+average = sum(student_marks) / len(student_marks)
+print("Average Marks:", round(average, 2))
+
+**Output:**
+
+Average Marks: 86.6
+
+---
+
+#### **Step 5: Counting the Occurrence of a Specific Mark**
+
+# How many times did the student score 90?
+count_90 = student_marks.count(90)
+print("Number of times the student scored 90:", count_90)
+
+**Output:**
+
+Number of times the student scored 90: 1
+
+---
+
+#### **Step 6: Finding the Position of a Specific Mark**
+
+position = student_marks.index(88)
+print("Position of mark 88 in the tuple:", position)
+
+**Output:**
+Position of mark 88 in the tuple: 3
+
+---
+
+### **Why Use Tuples for Marks?**
+- **Immutable:** Marks once recorded should not change.
+- **Efficient:** Accessing marks is faster due to tuple immutability.
+- **Fixed Data:** Perfect for storing results where data is constant.
+
+---
+
+### **Bonus Example: Storing Student Details**
+You can combine multiple data types in a tuple.
+
+student_info = ("John", 15, "Grade 10", (85, 92, 78, 88, 90))
+print("Student Information:", student_info)
+
+**Output:**
+
+Student Information: ('John', 15, 'Grade 10', (85, 92, 78, 88, 90))
+
+---
+
+### **Student Practice:**
+1. Store the names of 5 students in a tuple and print them in reverse order.
+2. Create a tuple with the marks obtained in 3 exams and find the difference between the highest and lowest marks.
+3. Store the coordinates of three landmarks in a tuple and print each pair.

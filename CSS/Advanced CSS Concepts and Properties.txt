@@ -1,0 +1,139 @@
+## ** Advanced CSS Concepts and Properties**  
+
+### **1. Advanced Selectors** 
+
+/* Selects all <p> inside <div> */
+div p { color: blue; } 
+
+/* Selects direct child <p> inside <div> */
+div > p { color: red; } 
+
+/* Selects adjacent sibling */
+h1 + p { color: green; } 
+
+/* Selects all siblings */
+h1 ~ p { color: purple; } 
+
+/* Selects only the first <p> inside <div> */
+div p:first-child { font-weight: bold; } 
+
+/* Selects every third element */
+div:nth-child(3n) { background-color: yellow; }
+
+
+---
+
+### **2. Pseudo-Classes and Pseudo-Elements**  
+
+/* Hover effect */
+button:hover { background-color: red; } 
+
+/* Focus effect on input */
+input:focus { border-color: blue; } 
+
+/* Selects first letter of a paragraph */
+p::first-letter { font-size: 2em; color: red; } 
+
+/* Adds content before an element */
+p::before { content: ''; } 
+
+/* Adds content after an element */
+p::after { content: ''; }
+
+
+---
+
+### **3. Custom Scrollbars** 
+
+/* For WebKit browsers */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #888; border-radius: 5px; }
+
+
+---
+
+### **4. CSS Variables (Custom Properties)** 
+
+:root {
+  --main-color: #ff5733;
+  --padding-size: 10px;
+}
+
+div {
+  background-color: var(--main-color);
+  padding: var(--padding-size);
+}
+
+
+---
+
+### **5. Advanced Animations and Keyframes**  
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+button {
+  animation: bounce 2s infinite;
+}
+
+
+---
+
+### **6. Advanced Grid Layout** 
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 100px;
+  gap: 10px;
+  place-items: center;
+}
+
+
+---
+
+### **7. Advanced Flexbox Tricks** 
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item {
+  flex: 1 1 200px; /* Grow, shrink, and basis */
+}
+
+
+---
+
+### **8. Clip Path (Shape Cutting)** 
+img {
+  clip-path: circle(50%);
+}
+
+
+---
+
+### **9. Glassmorphism Effect**
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+---
+
+### **10. Dark Mode with CSS**   
+
+@media (prefers-color-scheme: dark) {
+  body { background: black; color: white; }
+}

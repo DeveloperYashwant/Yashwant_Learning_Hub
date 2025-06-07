@@ -1,0 +1,162 @@
+
+## **Lecture 7: Classes and Objects in C#**
+
+### **1. Introduction to Classes and Objects**
+- **Class**: A blueprint or template for creating objects.
+- **Object**: An instance of a class with actual values.
+
+### **2. Key C# Keywords Related to Classes and Objects**
+| Keyword  | Description |
+|----------|------------|
+| `class`  | Declares a class in C#. |
+| `new`    | Creates an instance (object) of a class. |
+| `this`   | Refers to the current instance of the class. |
+| `public` | Defines public access to members of a class. |
+| `private`| Restricts access to members within the same class. |
+| `static` | Defines members that belong to the class instead of an instance. |
+| `void`   | Used for methods that don’t return a value. |
+
+---
+
+### **3. Syntax of a Class in C#**
+
+class ClassName
+{
+    // Fields (variables)
+    private int exampleField;
+
+    // Constructor
+    public ClassName(int value)
+    {
+        exampleField = value;
+    }
+
+    // Method
+    public void ShowValue()
+    {
+        Console.WriteLine("The value is: " + exampleField);
+    }
+}
+
+---
+
+### **4. Real-World Example: Bank Account System**
+
+using System;
+
+class BankAccount
+{
+    // Fields (Encapsulation: Private Variables)
+    private string accountHolder;
+    private double balance;
+
+    // Constructor
+    public BankAccount(string holder, double initialBalance)
+    {
+        this.accountHolder = holder;
+        this.balance = initialBalance;
+    }
+
+    // Method to Deposit Money
+    public void (double amount)
+    {
+        balanceDeposit += amount;
+        Console.WriteLine($"Deposited {amount}. New balance: {balance}");
+    }
+
+    // Method to Withdraw Money
+    public void Withdraw(double amount)
+    {
+        if (amount <= balance)
+        {
+            balance -= amount;
+            Console.WriteLine($"Withdrawn {amount}. New balance: {balance}");
+        }
+        else
+        {
+            Console.WriteLine("Insufficient funds.");
+        }
+    }
+
+    // Method to Display Account Details
+    public void ShowAccountDetails()
+    {
+        Console.WriteLine($"Account Holder: {accountHolder}");
+        Console.WriteLine($"Balance: {balance}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Creating an object of BankAccount
+        BankAccount myAccount = new BankAccount("John Doe", 1000);
+
+        // Calling methods
+        myAccount.ShowAccountDetails();
+        myAccount.Deposit(500);
+        myAccount.Withdraw(200);
+    }
+}
+
+---
+
+### **5. Understanding the Code**
+1. **Encapsulation**:  
+   - `private` variables (`accountHolder`, `balance`) restrict direct access from outside the class.
+   
+2. **Constructor (`BankAccount`)**:  
+   - Initializes the `accountHolder` and `balance` when creating an object.
+
+3. **Methods (`Deposit`, `Withdraw`, `ShowAccountDetails`)**:  
+   - Define actions that objects can perform.
+
+4. **Creating an Object (`new BankAccount`)**:  
+   - Instantiates a `BankAccount` object and calls its methods.
+
+---
+
+### **6. Static vs. Instance Members**
+- **Instance members**: Belong to objects and require an instance of a class.
+- **Static members**: Belong to the class itself, shared across all instances.
+
+#### **Example of a Static Member**
+
+class MathUtility
+{
+    public static double Pi = 3.14159;
+
+    public static double Square(double number)
+    {
+        return number * number;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Pi value: " + MathUtility.Pi);
+        Console.WriteLine("Square of 5: " + MathUtility.Square(5));
+    }
+}
+
+- `MathUtility.Pi` and `MathUtility.Square(5)` can be accessed without creating an object.
+
+---
+
+### **7. Exercise**
+**Task 1:** Create a `Student` class with the following properties and methods:
+- **Properties**: `Name`, `RollNumber`, `Marks`
+- **Methods**: `DisplayStudentDetails()`, `UpdateMarks()`
+
+**Task 2:** Implement the class in `Main()` and test it with different student objects.
+
+---
+
+### **Conclusion**
+- Classes are the foundation of **Object-Oriented Programming** in C#.
+- Objects store **data** (fields) and perform **actions** (methods).
+- Use **encapsulation** (`private` fields, `public` methods) for security.
+- **Static members** belong to the class, **instance members** belong to objects.

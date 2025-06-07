@@ -1,0 +1,92 @@
+
+###  **jQuery **
+
+---
+
+#### **Lecture 1: Introduction to jQuery**
+
+* What is jQuery?
+* Why use jQuery?
+* Download vs CDN
+* Adding jQuery to an HTML page
+
+---
+
+#### **Lecture 2: jQuery Syntax and Selectors**
+
+* Basic syntax: `$(selector).action()`
+* Common selectors: `id`, `class`, `element`, `this`
+* Group, descendant, and universal selectors
+* Example:
+
+  ```js
+  $("#btn").click(function(){
+    alert("Button clicked!");
+  });
+  ```
+
+---
+
+#### **Lecture 3: Events in jQuery**
+
+* `click()`, `dblclick()`, `mouseenter()`, `mouseleave()`
+* `keydown()`, `keyup()`, `change()`, `submit()`
+* Attaching event handlers
+* Event chaining
+
+---
+
+#### **Lecture 4: jQuery Effects**
+
+* `hide()`, `show()`, `toggle()`
+* `fadeIn()`, `fadeOut()`, `fadeToggle()`
+* `slideDown()`, `slideUp()`, `slideToggle()`
+* Chaining animations
+
+---
+
+#### **Lecture 5: jQuery DOM Manipulation**
+
+* `html()`, `text()`, `val()`
+* `attr()`, `css()`, `addClass()`, `removeClass()`
+* Changing content and styles dynamically
+
+---
+
+#### **Lecture 6: jQuery Forms and Validation**
+
+* Getting form values
+* Simple validation using jQuery
+* Showing error/success messages
+* Preventing form submission if invalid
+
+---
+
+#### **Lecture 7: jQuery Traversing**
+
+* `parent()`, `children()`, `siblings()`
+* `find()`, `closest()`, `filter()`
+* Navigating through DOM elements
+
+---
+
+#### **Lecture 8: jQuery AJAX (Simple)**
+
+* What is AJAX?
+* `$.get()`, `$.post()` basics
+* Loading data without reloading page
+* Displaying JSON data
+
+---
+
+#### **Lecture 9: Mini Project using jQuery**
+
+* Example: To-Do List / Form Validator / Calculator
+* DOM manipulation + events + styling
+
+---
+
+#### **Lecture 10: Revision and Practice**
+
+* Recap all selectors, events, effects, and AJAX
+* Live exercises and real-time problem solving

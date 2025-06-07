@@ -1,0 +1,79 @@
+
+###  **JSON (JavaScript Object Notation) **
+
+---
+
+#### **Lecture 1: Introduction to JSON**
+
+* What is JSON?
+* Why is JSON used?
+* Where JSON is used (Web, APIs, Mobile apps)
+* JSON vs JavaScript object
+
+---
+
+#### **Lecture 2: JSON Syntax**
+
+* Key-value pair structure
+* Rules: double quotes, no comments
+* Data types in JSON: string, number, boolean, array, object, null
+* Example of a simple JSON:
+
+  ```json
+  {
+    "name": "John",
+    "age": 25,
+    "isStudent": true
+  }
+  ```
+
+---
+
+#### **Lecture 3: JSON Objects and Arrays**
+
+* JSON Object = `{ "key": "value" }`
+* JSON Array = `[ {}, {}, {} ]`
+* Nested objects and arrays
+* Practical Example:
+
+  ```json
+  {
+    "students": [
+      { "name": "Alice", "marks": 85 },
+      { "name": "Bob", "marks": 90 }
+    ]
+  }
+  ```
+
+---
+
+#### **Lecture 4: Converting JSON in JavaScript**
+
+* `JSON.stringify()` – Object to JSON string
+* `JSON.parse()` – JSON string to Object
+* Use in Node.js and browser
+
+---
+
+#### **Lecture 5: Reading and Writing JSON in Node.js**
+
+* Using `fs` module to read JSON file
+* Writing data to JSON file
+* Real-life example: Storing student data or contacts
+
+---
+
+#### **Lecture 6: JSON with Express.js**
+
+* Sending JSON response using Express
+* Receiving JSON data in POST request
+* Use `express.json()` middleware
+
+---
+
+#### **Lecture 7: Mini Project with JSON**
+
+* Example: Contact Book / Student Record System
+* Read data from JSON file
+* Add, update, delete data using Node.js/Express
+

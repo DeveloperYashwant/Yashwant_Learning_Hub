@@ -1,0 +1,90 @@
+
+##  **Lecture 12: Abstract Method in Core Java**
+
+### What is an Abstract Method?
+
+An **abstract method** is a method **without a body** (no implementation). It is declared using the `abstract` keyword and must be **overridden** in a subclass.
+
+
+### **Syntax:**
+
+java
+abstract class Animal {
+    abstract void sound(); // abstract method
+}
+
+ Abstract methods **end with a semicolon** and have **no method body**.
+
+---
+
+###  **Where is an Abstract Method Used?**
+
+* Abstract methods are used **inside abstract classes** or **interfaces**.
+* If a class has at least one abstract method, it must be declared **abstract**.
+
+---
+
+###  **Key Rules:**
+
+1. An abstract method **cannot have a body**.
+2. It must be **overridden** in a subclass.
+3. Abstract methods **must belong to abstract classes or interfaces**.
+4. **Objects cannot be created** from abstract classes.
+
+---
+
+###  **Example:**
+
+java
+abstract class Shape {
+    abstract void draw(); // abstract method
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+
+public class TestAbstract {
+    public static void main(String[] args) {
+        Shape s = new Circle(); // upcasting
+        s.draw();  // Output: Drawing Circle
+    }
+}
+
+
+---
+
+###  **Why Use Abstract Methods?**
+
+* To **force subclasses** to provide specific implementation.
+* To define a **common template** for a group of related classes.
+* To implement **polymorphism** and **code generalization**.
+
+---
+
+###  **Abstract Method vs Normal Method:**
+
+| Feature        | Abstract Method                  | Normal Method |
+| -------------- | -------------------------------- | ------------- |
+| Body           | No                               | Yes           |
+| Must Override? | Yes                              | No (optional) |
+| Class Type     | Only in abstract class/interface | Any class     |
+
+---
+
+###  **Quick Recap:**
+
+* Abstract methods define *what* should be done.
+* Subclasses define *how* it should be done.
+* Promotes **reusability**, **abstraction**, and **polymorphism**.
+
+---
+
+### Practice Questions:
+
+1. Create an abstract class `Vehicle` with an abstract method `startEngine()`. Implement it in `Car` and `Bike` classes.
+2. What happens if a class fails to override an abstract method?
+3. Can we declare a constructor in an abstract class? If yes, give an example.
+

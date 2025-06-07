@@ -1,0 +1,159 @@
+### **Lecture 11: SQL Constraints**
+
+Today, we are going to learn about an important topic:  
+**Constraints** — Rules that protect the data inside our database!
+
+---
+
+## **1. What are Constraints?**
+
+- **Constraints** are rules applied to table columns.
+- They **protect data** by ensuring that entries are **valid, unique, and meaningful**.
+- Example:  
+  - A student's ID must be **unique**.
+  - A student's name **cannot be empty**.
+
+---
+
+## **2. Why Use Constraints?**
+
+- **Maintain accuracy** of the data.
+- **Avoid mistakes** like duplicate entries or empty values.
+- **Protect relationships** between tables.
+
+---
+
+## **3. Types of SQL Constraints**
+
+| Constraint | Purpose |
+|:-----------|:--------|
+| NOT NULL | Ensures a column **cannot have NULL** (empty) value |
+| UNIQUE | Ensures **all values are different** |
+| PRIMARY KEY | **Unique** + **Not NULL**. Identifies a record uniquely |
+| FOREIGN KEY | Connects two tables together |
+| CHECK | Ensures values meet a **specific condition** |
+| DEFAULT | Sets a **default value** if no value is provided |
+
+---
+
+## **4. Examples of Each Constraint**
+
+### a) **NOT NULL Constraint**
+
+```sql
+CREATE TABLE Students (
+  StudentID INT,
+  Name VARCHAR(50) NOT NULL
+);
+```
+✅ **Name cannot be left empty!**
+
+---
+
+### b) **UNIQUE Constraint**
+
+```sql
+CREATE TABLE Students (
+  StudentID INT UNIQUE,
+  Name VARCHAR(50)
+);
+```
+✅ **Each StudentID must be different!**
+
+---
+
+### c) **PRIMARY KEY Constraint**
+
+```sql
+CREATE TABLE Students (
+  StudentID INT PRIMARY KEY,
+  Name VARCHAR(50)
+);
+```
+✅ **StudentID will be unique and not null**.
+
+---
+
+### d) **FOREIGN KEY Constraint**
+
+```sql
+CREATE TABLE Marks (
+  MarkID INT PRIMARY KEY,
+  StudentID INT,
+  FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
+);
+```
+✅ **StudentID in Marks table must match a StudentID in Students table!**
+
+---
+
+### e) **CHECK Constraint**
+
+```sql
+CREATE TABLE Students (
+  StudentID INT PRIMARY KEY,
+  Name VARCHAR(50),
+  Marks INT CHECK (Marks >= 0 AND Marks <= 100)
+);
+```
+✅ **Marks must be between 0 and 100!**
+
+---
+
+### f) **DEFAULT Constraint**
+
+```sql
+CREATE TABLE Students (
+  StudentID INT PRIMARY KEY,
+  Name VARCHAR(50),
+  City VARCHAR(50) DEFAULT 'Unknown'
+);
+```
+✅ **If City is not entered, it will automatically be 'Unknown'.**
+
+---
+
+## **5. How Constraints Work Together**
+
+In one table, you can use **many constraints** together!
+
+Example:
+
+```sql
+CREATE TABLE Students (
+  StudentID INT PRIMARY KEY,
+  Name VARCHAR(50) NOT NULL,
+  Marks INT CHECK (Marks >= 0),
+  City VARCHAR(50) DEFAULT 'Unknown'
+);
+```
+✅ This ensures data is **safe, correct, and meaningful**.
+
+---
+
+## **6. Important Points**
+
+- **Constraints are automatic rules.** No need to manually check values every time.
+- Constraints can be **added during table creation** or **altered later**.
+- Good database design **always uses constraints** to protect data!
+
+---
+
+## **7. Real-Life Example**
+
+In a Bank Database:
+
+- Account Number must be **unique** → `UNIQUE`
+- Balance cannot be **negative** → `CHECK`
+- Customer Name must not be **empty** → `NOT NULL`
+- Each transaction must refer to an existing account → `FOREIGN KEY`
+
+---
+
+## **8. Practice for Students**
+
+🔥 **Try These:**
+
+1. Create a table "Library" with BookID (Primary Key), BookName (Not Null), and Price (greater than 0).
+2. Create a table "Authors" with AuthorID (Primary Key) and AuthorName (Not Null, Unique).
+3. Create a table "StudentCourses" where StudentID is a Foreign Key referring to Students table.

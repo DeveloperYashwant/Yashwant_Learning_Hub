@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> <!-- Character encoding for correct text display -->
+    <meta http-equiv="refresh" content="5;url=portfolio.html"> <!-- Redirects after 5 seconds -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Enables responsive scaling on all devices -->
+  <title>My Portfolio</title>
+
+  <style>
+    /* Basic body styling */
+    body {
+      margin: 0; /* Remove default margin */
+      font-family: 'Segoe UI', sans-serif; /* Clean, modern font */
+      background: #f0f0f0; /* Light gray background */
+    }
+
+    /* Header section */
+    header {
+      background-color: #007bff; /* Bright blue background */
+      color: white; /* White text for contrast */
+      padding: 40px; /* Space inside header */
+      text-align: center; /* Center-align header text */
+    }
+
+    /* Main content container */
+    .container {
+      max-width: 900px; /* Limits width for readability */
+      margin: auto; /* Center horizontally */
+      padding: 20px; /* Space inside the container */
+    }
+
+    /* Profile section layout */
+    .profile {
+      display: flex; /* Use flex layout */
+      flex-wrap: wrap; /* Allow wrap on small screens */
+      align-items: center; /* Vertically center items */
+      justify-content: center; /* Center horizontally */
+      background: white; /* White background */
+      padding: 20px; /* Padding inside box */
+      border-radius: 10px; /* Rounded corners */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtle shadow */
+      text-align: center; /* Center text when stacked */
+    }
+
+    /* Profile image */
+    .profile img {
+      width: 150px; /* Fixed image size */
+      border-radius: 50%; /* Circle image */
+      margin-bottom: 15px; /* Space below image on small screens */
+      margin-right: 20px; /* Space between image and text on desktop */
+    }
+
+    /* Skill and project boxes */
+    .skills, .projects {
+      margin-top: 30px; /* Space from previous section */
+      background: white; /* White background */
+      padding: 20px; /* Padding inside box */
+      border-radius: 10px; /* Rounded edges */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtle shadow */
+    }
+
+    /* Remove default list styling */
+    .skills ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Individual skill item styling */
+    .skills li {
+      background: #e0e0e0; /* Light gray */
+      display: inline-block; /* Display inline */
+      margin: 5px; /* Space around */
+      padding: 8px 12px; /* Inside spacing */
+      border-radius: 5px; /* Rounded corners */
+    }
+
+    /* Each project card styling */
+    .projects .card {
+      border: 1px solid #ccc; /* Border around card */
+      padding: 10px; /* Inside padding */
+      margin-top: 10px; /* Space between cards */
+      border-radius: 5px; /* Rounded edges */
+      transition: transform 0.3s; /* Smooth scale effect */
+    }
+
+    /* Hover effect for project card */
+    .projects .card:hover {
+      transform: scale(1.02); /* Slight zoom */
+      background-color: #f9f9f9; /* Light hover background */
+    }
+
+    /* Footer at the bottom */
+    footer {
+      background-color: #333; /* Dark background */
+      color: white; /* White text */
+      padding: 15px; /* Inside padding */
+      text-align: center; /* Centered text */
+      margin-top: 40px; /* Space from content */
+    }
+
+    /* Responsive layout for mobile/tablet */
+    @media (max-width: 768px) {
+      .profile {
+        flex-direction: column; /* Stack image and text */
+      }
+
+      .profile img {
+        margin-right: 0; /* Remove side spacing */
+      }
+
+      .skills li {
+        display: block; /* Stack skills vertically */
+        margin: 8px auto; /* Centered and spaced */
+      }
+
+      header {
+        padding: 25px; /* Reduce padding on small screen */
+      }
+
+      .skills, .projects {
+        padding: 15px; /* Reduce box padding */
+      }
+
+      footer {
+        font-size: 14px; /* Smaller font in footer */
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header with name and title -->
+  <header>
+    <h1>Xyz</h1> <!-- Portfolio owner's name -->
+    <p>Web Design | Student</p> <!-- Tagline or title -->
+  </header>
+
+  <!-- Main content wrapper -->
+  <div class="container">
+    
+    <!-- Profile section with image and intro -->
+    <div class="profile">
+      <img src="https://via.placeholder.com/150" alt="Profile Pic"> <!-- Circular profile image -->
+      <div>
+        <h2>About Me</h2> <!-- Section heading -->
+        <p>I’m learning web development and love making beautiful websites using HTML and CSS.</p> <!-- Bio -->
+      </div>
+    </div>
+
+    <!-- Skills section -->
+    <div class="skills">
+      <h2>My Skills</h2> <!-- Section heading -->
+      <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>Basic JavaScript</li>
+        <li>Creativity</li>
+      </ul>
+    </div>
+
+    <!-- Projects section -->
+    <div class="projects">
+      <h2>Projects</h2> <!-- Section heading -->
+
+      <!-- First project -->
+      <div class="card">
+        <h3>My Resume Page</h3>
+        <p>Simple resume using HTML & CSS.</p>
+      </div>
+
+      <!-- Second project -->
+      <div class="card">
+        <h3>Birthday Card</h3>
+        <p>Designed a birthday greeting using CSS animation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer with contact info -->
+  <footer>
+    <p>Contact me: xyz@gmail.com</p>
+  </footer>
+
+</body>
+</html>

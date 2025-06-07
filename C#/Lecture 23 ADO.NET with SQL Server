@@ -1,0 +1,135 @@
+## **Lecture 23: ADO.NET with SQL Server**
+
+### **Objective**
+
+Learn how to connect a C# application to **SQL Server** using ADO.NET to:
+- Connect to the database
+- Perform operations (SELECT, INSERT, UPDATE, DELETE)
+
+---
+
+### **Key ADO.NET Classes for SQL Server**
+
+| Class | Purpose |
+|-------|---------|
+| `SqlConnection` | Connects to SQL Server database |
+| `SqlCommand`    | Executes SQL queries/commands |
+| `SqlDataReader` | Reads data in forward-only mode (Connected architecture) |
+| `SqlDataAdapter`| Fills `DataSet` (Disconnected architecture) |
+| `DataSet`       | In-memory representation of data |
+| `DataTable`     | Represents a table in memory |
+
+---
+
+###**1. Connection String**
+
+This is used to establish a connection with your SQL Server database.
+
+csharp
+string connectionString = "Data Source=.;Initial Catalog=StudentDB;Integrated Security=True";
+
+
+- `Data Source=.` → dot (`.`) refers to local server
+- `Initial Catalog=StudentDB` → name of your database
+- `Integrated Security=True` → uses Windows Authentication
+
+---
+
+###**2. SELECT Example (Read Data)**
+
+csharp
+using System;
+using System.Data.SqlClient;
+
+class Program
+{
+    static void Main()
+    {
+        string conStr = "Data Source=.;Initial Catalog=StudentDB;Integrated Security=True";
+        using (SqlConnection con = new SqlConnection(conStr))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Students", con);
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Console.WriteLine(reader["Id"] + " - " + reader["Name"]);
+            }
+
+            reader.Close();
+        }
+    }
+}
+
+
+---
+
+### **3. INSERT Example**
+
+csharp
+SqlCommand cmd = new SqlCommand("INSERT INTO Students (Name, Course) VALUES (@name, @course)", con);
+cmd.Parameters.AddWithValue("@name", "Ravi");
+cmd.Parameters.AddWithValue("@course", "C#");
+cmd.ExecuteNonQuery();
+
+
+---
+
+### **4. UPDATE Example**
+
+csharp
+SqlCommand cmd = new SqlCommand("UPDATE Students SET Course = @course WHERE Name = @name", con);
+cmd.Parameters.AddWithValue("@name", "Ravi");
+cmd.Parameters.AddWithValue("@course", "ASP.NET");
+cmd.ExecuteNonQuery();
+
+
+---
+
+### **5. DELETE Example**
+
+csharp
+SqlCommand cmd = new SqlCommand("DELETE FROM Students WHERE Name = @name", con);
+cmd.Parameters.AddWithValue("@name", "Ravi");
+cmd.ExecuteNonQuery();
+
+
+---
+
+### **Disconnected Architecture Example: SqlDataAdapter + DataSet**
+
+csharp
+using System.Data;
+using System.Data.SqlClient;
+
+SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=StudentDB;Integrated Security=True");
+SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Students", con);
+DataSet ds = new DataSet();
+adapter.Fill(ds, "Students");
+
+foreach (DataRow row in ds.Tables["Students"].Rows)
+{
+    Console.WriteLine(row["Name"]);
+}
+
+
+---
+
+### Best Practices
+
+- Always close or dispose of connections (`using` block is preferred)
+- Use **parameterized queries** to prevent SQL injection
+- Handle exceptions with `try-catch` blocks
+
+---
+
+### Summary
+
+| Operation | Class Used |
+|-----------|------------|
+| Connection | `SqlConnection` |
+| Query Execution | `SqlCommand` |
+| Read (Connected) | `SqlDataReader` |
+| Read/Write (Disconnected) | `SqlDataAdapter`, `DataSet` |
+| Multiple Rows In-Memory | `DataTable` |

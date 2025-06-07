@@ -1,0 +1,87 @@
+
+##  **Lecture 3: Components, Props, and State**
+
+###  Topics:
+
+* What are Components?
+* Functional vs Class Components
+* Props (Properties)
+* State (Local data)
+* Using Props and State in Components
+
+---
+
+###  **What are Components?**
+
+**Components** are reusable blocks of UI in React. You can think of them like functions that return HTML.
+
+There are 2 main types:
+
+* **Functional Components** (modern and preferred)
+* **Class Components** (older syntax)
+
+---
+
+###  **Functional Component Example (with Props and State):**
+
+jsx
+// Message.js
+function Message(props) {
+  return (
+    <h2>Hello, {props.name}!</h2>  // Using props to customize content
+  );
+}
+
+export default Message;
+
+jsx
+// App.js
+import { useState } from 'react';
+import Message from './Message'; // Importing child component
+
+function App() {
+  const [user, setUser] = useState("Yashwant"); // useState holds local component state
+
+  return (
+    <div>
+      <h1>Welcome to React App</h1>
+      <Message name={user} /> {/* Passing data using props */}
+      <button onClick={() => setUser("Developer")}>Change Name</button>
+    </div>
+  );
+}
+
+export default App;
+
+
+---
+
+###  **Explanation (with comments)**:
+
+#### `useState("Yashwant")`
+
+* A React **hook** that defines a **state variable** `user`
+* `"Yashwant"` is the default value
+* `setUser` is the function used to update the state
+
+#### `<Message name={user} />`
+
+* We pass the `user` state as a **prop** to `Message` component
+* Inside `Message`, `props.name` is used
+
+#### `<button onClick={...}>`
+
+* The button uses `onClick` to update state using `setUser("Developer")`
+* React re-renders the component when state changes
+
+---
+
+###  Key Points Recap:
+
+| Term      | Purpose                                                       |
+| --------- | ------------------------------------------------------------- |
+| Component | Reusable UI building block                                    |
+| Props     | Data passed *into* a component                                |
+| State     | Local, changeable data *inside* a component                   |
+| Hook      | Special function (e.g., `useState`) for functional components |
+

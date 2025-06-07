@@ -1,0 +1,145 @@
+# **CSS Lecture 8: CSS Grid Layout**  
+
+## **1. What is CSS Grid?**  
+CSS Grid is a **two-dimensional** layout system that allows you to position elements both **horizontally (rows)** and **vertically (columns)**.  
+
+
+ **Difference between Flexbox and Grid**:  
+| Feature | Flexbox | Grid |
+|---------|--------|------|
+| Direction | One-dimensional (row or column) | Two-dimensional (rows + columns) |
+| Alignment | Controls items along the main axis | Controls items in both directions |
+| Best for | Small components (like a navbar) | Full-page layouts |
+
+---
+
+## **2. How to Enable CSS Grid?**  
+To use CSS Grid, apply `display: grid;` to a **container**.  
+Example:  
+
+.container {
+  display: grid;
+}
+
+---
+
+## **3. Defining Rows & Columns (`grid-template-rows`, `grid-template-columns`)**  
+Grid allows us to define multiple **columns** and **rows** in a container.  
+
+### **Example: Creating a 3x2 Grid (3 Columns, 2 Rows)**
+
+.container {
+  display: grid;
+  grid-template-columns: 100px 200px 150px; /* Three columns */
+  grid-template-rows: 100px 150px; /* Two rows */
+}
+
+We can also use **fractions (`fr`)** instead of fixed values:  
+
+grid-template-columns: 1fr 2fr 1fr; /* Responsive columns */
+
+---
+
+## **4. Gap Between Grid Items (`gap`)**
+We can add space between rows and columns using `gap`.  
+
+### **Example: Adding Spacing**
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 100px 100px;
+  gap: 20px; /* Space between grid items */
+}
+
+---
+
+## **5. Positioning Items (`grid-column`, `grid-row`)**
+Grid items can **span multiple rows/columns** using `grid-column` and `grid-row`.
+
+| Property | Description |
+|----------|------------|
+| `grid-column-start` | Defines where the column starts |
+| `grid-column-end` | Defines where the column ends |
+| `grid-row-start` | Defines where the row starts |
+| `grid-row-end` | Defines where the row ends |
+
+### **Example: Spanning Columns & Rows**
+
+.item1 {
+  grid-column: 1 / 3; /* Spans across two columns */
+  grid-row: 1 / 3; /* Spans across two rows */
+}
+
+---
+
+## **6. `grid-template-areas` for Named Layouts**
+Instead of numbers, we can **name** grid areas.
+
+### **Example: Creating a Layout with Named Areas**
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "header header"
+    "sidebar content"
+    "footer footer";
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.content { grid-area: content; }
+.footer { grid-area: footer; }
+
+---
+
+## **7. Practical Example: CSS Grid Layout**
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Example</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 100px 100px;
+            gap: 10px;
+            border: 2px solid black;
+        }
+        .item {
+            background: lightblue;
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+        <div class="item">6</div>
+    </div>
+
+</body>
+</html>
+
+
+---
+
+## **8. When to Use CSS Grid?**  
+| Use Case | Grid or Not? |
+|----------|-------------|
+| Full-page layout |  Yes |
+| Centering an element |  Use Flexbox |
+| Complex web structure | Yes |
+| Simple row/column |  Use Flexbox |

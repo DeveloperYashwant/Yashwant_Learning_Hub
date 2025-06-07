@@ -1,0 +1,112 @@
+### **Lecture 14: AJAX and Fetch API in JavaScript**  
+
+#### **Topics Covered:**  
+1. **Introduction to AJAX (Asynchronous JavaScript and XML)**  
+   - What is AJAX?  
+   - Why use AJAX?  
+   - How AJAX Works (Client-Server Communication)  
+
+2. **Making AJAX Requests Using `XMLHttpRequest`**  
+   - Creating an `XMLHttpRequest` Object  
+   - Sending GET and POST Requests  
+   - Handling Responses (Success & Error Handling)  
+
+3. **Introduction to Fetch API (Modern Alternative to AJAX)**  
+   - What is Fetch API?  
+   - Performing GET Requests with `fetch()`  
+   - Performing POST Requests with `fetch()`  
+
+4. **Working with JSON Data**  
+   - Parsing JSON (`response.json()`)  
+   - Sending JSON Data in Requests  
+
+5. **Handling Errors in AJAX and Fetch API**  
+   - Using `.catch()` for Error Handling  
+   - Handling Network Failures and HTTP Errors  
+
+6. **Practical Examples and Exercises**  
+   - **Fetching and Displaying Data from an API (e.g., JSONPlaceholder)**  
+   - **Submitting Form Data to a Server Without Reloading the Page**  
+   - **Building a Simple Weather App Using Fetch API**  
+
+---
+
+### **Example: Fetching Data from an API Using Fetch API**  
+This example fetches and displays user data from the **JSONPlaceholder API**.
+
+#### **Step 1: HTML Structure**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .user-container {
+            margin-top: 20px;
+        }
+        .user {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Fetch API Example - User List</h2>
+    <button onclick="fetchUsers()">Load Users</button>
+    <div class="user-container" id="userContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+---
+
+#### **Step 2: JavaScript (script.js)**
+
+function fetchUsers() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Convert response to JSON
+        })
+        .then(users => {
+            let userContainer = document.getElementById("userContainer");
+            userContainer.innerHTML = ""; // Clear previous content
+            
+            users.forEach(user => {
+                let userDiv = document.createElement("div");
+                userDiv.classList.add("user");
+                userDiv.innerHTML = `<strong>${user.name}</strong> - ${user.email}`;
+                userContainer.appendChild(userDiv);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching users:", error);
+        });
+}
+
+
+---
+
+### **How It Works**
+1. When the **"Load Users"** button is clicked, `fetchUsers()` is called.  
+2. The `fetch()` function **sends a GET request** to `https://jsonplaceholder.typicode.com/users`.  
+3. The response is **converted into JSON** using `response.json()`.  
+4. The JavaScript dynamically **creates and displays user details** inside the `userContainer`.  
+5. If an error occurs (e.g., network failure), it is **caught and logged**.  
+
+---
+
+### **Next Steps **  
+Would you like to explore:  
+**POST Requests with Fetch (Submitting Form Data to a Server)?**  
+**Advanced Error Handling and Async/Await?**  

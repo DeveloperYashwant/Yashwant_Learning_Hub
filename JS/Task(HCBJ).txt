@@ -1,0 +1,579 @@
+HTML
+
+
+**Question:**  
+Design a simple webpage that includes the following elements:  
+1. A **header** section with a title.  
+2. A **navigation bar** with links to "Home", "About", and "Contact" pages.  
+3. A **main content** area that contains:  
+   - A **paragraph** describing the webpage.  
+   - An **unordered list** of three features.  
+   - An **image** aligned to the right.  
+4. A **footer** section with copyright information.  
+5. Use **inline CSS** to style the navigation bar background color and text color.  
+6. Make the webpage **responsive** using a simple media query that changes the text color on smaller screens.  
+
+**Expected Output:** A simple, structured webpage with styled navigation and responsive design.
+
+=>
+
+<!DOCTYPE html> <!-- Declares the document type and HTML version -->
+<html lang="en"> <!-- Opens the HTML document and sets language to English -->
+
+<head>
+  <meta charset="UTF-8"> <!-- Sets character encoding -->
+  <title>Simple Webpage</title> <!-- Sets the title shown in browser tab -->
+
+  <style>
+    /* Style for navigation bar */
+    nav {
+      background-color: #333; /* Dark background color for nav */
+      color: white; /* White text color */
+      padding: 10px; /* Space inside nav */
+      text-align: center; /* Center the nav links */
+    }
+
+    nav a {
+      color: white; /* Link text color */
+      margin: 0 15px; /* Space between links */
+      text-decoration: none; /* Remove underline */
+      font-weight: bold; /* Make text bold */
+    }
+
+    /* Responsive design: change text color and nav background on smaller screens */
+    @media screen and (max-width: 600px) {
+      body {
+        color: blue; /* Change body text to blue for small screens */
+      }
+
+      nav {
+        background-color: #555; /* Lighter nav color on small screens */
+      }
+    }
+
+    /* Style for right-aligned image */
+    img {
+      float: right; /* Move image to the right */
+      width: 200px; /* Set fixed width */
+      margin-left: 20px; /* Add space between image and text */
+    }
+
+    /* Footer styling */
+    footer {
+      background-color: #f2f2f2; /* Light gray background */
+      padding: 10px; /* Space inside footer */
+      text-align: center; /* Center text */
+      margin-top: 20px; /* Space above footer */
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header Section (Question 1) -->
+  <header>
+    <h1>Welcome to My Simple Webpage</h1> <!-- Main page title -->
+  </header>
+
+  <!-- Navigation Bar (Question 2 + 5) -->
+  <nav>
+    <a href="#">Home</a>   <!-- Link to Home page -->
+    <a href="#">About</a>  <!-- Link to About page -->
+    <a href="#">Contact</a> <!-- Link to Contact page -->
+  </nav>
+
+  <!-- Main Content Area (Question 3a, 3b, 3c) -->
+  <main>
+    <img src="https://via.placeholder.com/200" alt="Sample Image"> <!-- Right-aligned image -->
+
+    <!-- Paragraph describing the webpage -->
+    <p>This is a basic webpage designed to demonstrate simple HTML structure, styling, and responsiveness.</p>
+
+    <!-- Unordered list of three features -->
+    <ul>
+      <li>Easy to understand layout</li>
+      <li>Responsive design</li>
+      <li>Simple and clean look</li>
+    </ul>
+  </main>
+
+  <!-- Footer Section (Question 4) -->
+  <footer>
+    &copy; 2025 My Simple Webpage. All rights reserved. <!-- Copyright -->
+  </footer>
+
+</body>
+</html>
+
+
+
+===========
+CSS
+
+**Question:**  
+Create a **responsive webpage** using CSS that includes the following:  
+1. A **header** section with a background image and centered title text.  
+2. A **flexbox-based navigation bar** with links to "Home", "Services", and "Contact" pages.  
+3. A **main content** section divided into two columns:  
+   - Left column: A **list of services** using an unordered list.  
+   - Right column: A **contact form** with name, email, and message fields.  
+4. A **footer** section with social media icons arranged horizontally.  
+5. Use **media queries** to:  
+   - Switch to a **single-column layout** on screens smaller than 600px.  
+   - Change the navigation bar to a **vertical list** in smaller screens.  
+
+**Expected Output:** A webpage with a structured layout, responsive design, and an aesthetically pleasing header.
+
+
+=>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Responsive Webpage</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Header with background image */
+    header {
+      background-image: url('https://via.placeholder.com/1200x300'); /* Example background image */
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }	
+
+    header h1 {
+      font-size: 3em;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    /* Flexbox navigation bar */
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #333;
+    }
+
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    nav a:hover {
+      background-color: #575757;
+    }
+
+    /* Main content layout with Flexbox */
+    .main {
+      display: flex;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .left, .right {
+      flex: 1;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+
+    /* Contact form styling */
+    form input, form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    form button {
+      padding: 10px 15px;
+      background-color: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Footer with horizontal social icons */
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 1.5em;
+    }
+
+    /* Responsive layout: single column below 600px */
+    @media (max-width: 600px) {
+      .main {
+        flex-direction: column;
+      }
+
+      nav {
+        flex-direction: column;
+      }
+
+      nav a {
+        border-top: 1px solid #444;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header with background image and title -->
+  <header>
+    <h1>My Responsive Website</h1>
+  </header>
+
+  <!-- Flexbox navigation bar -->
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <!-- Main content with two columns -->
+  <div class="main">
+    <!-- Left column: List of services -->
+    <div class="left">
+      <h2>Our Services</h2>
+      <ul>
+        <li>Web Design</li>
+        <li>SEO Optimization</li>
+        <li>Digital Marketing</li>
+        <li>Content Creation</li>
+      </ul>
+    </div>
+
+    <!-- Right column: Contact form -->
+    <div class="right">
+      <h2>Contact Us</h2>
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer with social media icons -->
+  <footer>
+    <p>&copy; 2025 My Website. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="#" title="Facebook">&#x1F426;</a>
+      <a href="#" title="Twitter">&#x1F426;</a>
+      <a href="#" title="Instagram">&#x1F426;</a>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+==================
+
+Bootstrap
+
+**Question:**  
+Create a **responsive webpage** using Bootstrap that includes the following:  
+1. A **navbar** with the brand name and links to "Home", "About", and "Contact".  
+2. A **carousel** with three images and captions.  
+3. A **card layout** in the main content area displaying three service cards, each containing:  
+   - An **image** at the top.  
+   - A **card title** and **description**.  
+   - A **button** to learn more.  
+4. A **form** in the footer to collect a user's name, email, and message, styled using Bootstrap's form classes.  
+5. Use **Bootstrap grid system** to make the layout responsive and adjust the number of columns on smaller screens.  
+
+**Expected Output:** A clean, modern webpage using Bootstrap components and responsive design principles.
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bootstrap Responsive Webpage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 1. Navbar with brand and links -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">MyBrand</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 2. Carousel with 3 images and captions -->
+  <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://via.placeholder.com/1200x400?text=Slide+1" class="d-block w-100" alt="Slide 1">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>First Slide Title</h5>
+          <p>Short description for the first slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://via.placeholder.com/1200x400?text=Slide+2" class="d-block w-100" alt="Slide 2">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Second Slide Title</h5>
+          <p>Short description for the second slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://via.placeholder.com/1200x400?text=Slide+3" class="d-block w-100" alt="Slide 3">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Third Slide Title</h5>
+          <p>Short description for the third slide.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <!-- 3. Card Layout with 3 service cards -->
+  <section class="container my-5">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="jpg" class="card-img-top" alt="Service 1">
+          <div class="card-body">
+            <h5 class="card-title">Service One</h5>
+            <p class="card-text">This is a short description of the first service.</p>
+            <a href="#" class="btn btn-primary">Learn More</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="jpg" class="card-img-top" alt="Service 2">
+          <div class="card-body">
+            <h5 class="card-title">Service Two</h5>
+            <p class="card-text">This is a short description of the second service.</p>
+            <a href="#" class="btn btn-primary">Learn More</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img src="jpg" class="card-img-top" alt="Service 3">
+          <div class="card-body">
+            <h5 class="card-title">Service Three</h5>
+            <p class="card-text">This is a short description of the third service.</p>
+            <a href="#" class="btn btn-primary">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Footer with Bootstrap form -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container">
+      <h5 class="mb-3">Contact Us</h5>
+      <form>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Your Name" required>
+          </div>
+          <div class="col-md-6">
+            <input type="email" class="form-control" placeholder="Your Email" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-outline-light">Send</button>
+      </form>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+=====================
+JS
+
+**Question:**  
+Create a **dynamic webpage** using JavaScript that includes the following:  
+1. A **button** labeled "Click Me" that, when clicked, changes the **background color** of the webpage randomly.  
+2. An **input field** where the user can enter their name, and a **button** labeled "Greet Me" that, when clicked, displays a personalized greeting below.  
+3. A **countdown timer** that starts from 10 and decreases by 1 every second, displayed at the top of the page. When the timer reaches 0, display a message: "Time's up!"  
+4. A **toggle button** to start and stop the countdown timer.  
+5. Use **event listeners** and **DOM manipulation** to achieve the required functionality.  
+
+**Expected Output:** An interactive webpage that changes color, greets the user, and features a controllable countdown timer.
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive JavaScript Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    #timer {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .section {
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Countdown Timer Display -->
+  <div id="timer">Countdown: 10</div>
+
+  <!-- 2. Toggle Button to Start/Stop Timer -->
+  <div class="section">
+    <button id="toggleTimer">Start Timer</button>
+  </div>
+
+  <!-- 3. Change Background Color Button -->
+  <div class="section">
+    <button id="colorBtn">Click Me</button>
+  </div>
+
+  <!-- 4. Greeting Input and Button -->
+  <div class="section">
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button id="greetBtn">Greet Me</button>
+    <p id="greeting"></p>
+  </div>
+
+  <!-- JavaScript Section -->
+  <script>
+    // ------------------------------
+    // 1. Background Color Button
+    // ------------------------------
+    const colorBtn = document.getElementById('colorBtn');
+
+    // Function to generate random color
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Change background color on button click
+    colorBtn.addEventListener('click', function () {
+      document.body.style.backgroundColor = getRandomColor();
+    });
+
+    // ------------------------------
+    // 2. Greeting User
+    // ------------------------------
+    const greetBtn = document.getElementById('greetBtn');
+    const nameInput = document.getElementById('nameInput');
+    const greeting = document.getElementById('greeting');
+
+    // Greet user when button is clicked
+    greetBtn.addEventListener('click', function () {
+      const name = nameInput.value.trim();
+      if (name) {
+        greeting.textContent = `Hello, ${name}! `;
+      } else {
+        greeting.textContent = `Please enter your name!`;
+      }
+    });
+
+    // ------------------------------
+    // 3. Countdown Timer
+    // ------------------------------
+    let count = 10;
+    let timerId = null;
+    const timerDisplay = document.getElementById('timer');
+    const toggleBtn = document.getElementById('toggleTimer');
+    let isRunning = false;
+
+    // Function to update countdown
+    function startCountdown() {
+      timerId = setInterval(() => {
+        if (count > 0) {
+          count--;
+          timerDisplay.textContent = `Countdown: ${count}`;
+        } else {
+          clearInterval(timerId);
+          timerDisplay.textContent = "Time's up!";
+          isRunning = false;
+          toggleBtn.textContent = 'Start Timer';
+        }
+      }, 1000);
+    }
+
+    // Toggle start/stop button
+    toggleBtn.addEventListener('click', function () {
+      if (!isRunning) {
+        // Start the countdown
+        count = 10;
+        timerDisplay.textContent = `Countdown: ${count}`;
+        startCountdown();
+        toggleBtn.textContent = 'Stop Timer';
+        isRunning = true;
+      } else {
+        // Stop the countdown
+        clearInterval(timerId);
+        toggleBtn.textContent = 'Start Timer';
+        isRunning = false;
+      }
+    });
+  </script>
+
+</body>
+</html>

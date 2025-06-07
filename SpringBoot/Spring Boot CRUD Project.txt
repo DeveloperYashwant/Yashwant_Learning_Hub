@@ -1,0 +1,234 @@
+
+##  Final Working Spring Boot CRUD ProjectSpring Boot CRUD Project – **Student Management**
+
+### Directory Structure
+
+
+springboot-crud/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com.example.crud/
+│       │       ├── Student.java
+│       │       ├── StudentRepository.java
+│       │       ├── StudentService.java
+│       │       ├── StudentController.java
+│       │       └── CrudApplication.java
+│       └── resources/
+│           ├── application.properties
+│           └── data.sql (optional)
+├── pom.xml
+
+---
+
+## 1. `Student.java` (Entity)
+
+java
+package com.example.crud;
+
+import jakarta.persistence.*;
+
+@Entity
+public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private String email;
+
+    // Constructors
+    public Student() {}
+    public Student(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+}
+
+
+---
+
+##  2. `StudentRepository.java`
+
+java
+package com.example.crud;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentRepository extends JpaRepository<Student, Long> {
+}
+
+
+---
+
+##  3. `StudentService.java`
+
+java
+package com.example.crud;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class StudentService {
+
+    @Autowired
+    private StudentRepository repository;
+
+    public List<Student> getAll() {
+        return repository.findAll();
+    }
+
+    public Student getById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public Student create(Student student) {
+        return repository.save(student);
+    }
+
+    public Student update(Long id, Student student) {
+        Student existing = repository.findById(id).orElse(null);
+        if (existing != null) {
+            existing.setName(student.getName());
+            existing.setEmail(student.getEmail());
+            return repository.save(existing);
+        }
+        return null;
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+}
+
+
+---
+
+##  4. `StudentController.java`
+
+java
+package com.example.crud;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/students")
+@CrossOrigin(origins = "*")
+public class StudentController {
+
+    @Autowired
+    private StudentService service;
+
+    @GetMapping
+    public List<Student> getAllStudents() {
+        return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Student getStudentById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+
+    @PostMapping
+    public Student createStudent(@RequestBody Student student) {
+        return service.create(student);
+    }
+
+    @PutMapping("/{id}")
+    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
+        return service.update(id, student);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteStudent(@PathVariable Long id) {
+        service.delete(id);
+    }
+}
+
+---
+
+##  5. `CrudApplication.java` (Main Class)
+
+java
+package com.example.crud;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CrudApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(CrudApplication.class, args);
+    }
+}
+
+
+---
+
+##  6. `application.properties`
+
+properties
+# Server port
+server.port=8080
+
+# H2 Database Configuration
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+# JPA & Hibernate
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+
+# Enable H2 console
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+---
+
+##  How to Run
+
+1. Paste the code into your IDE (like IntelliJ, Eclipse, or Spring Tool Suite).
+2. Make sure `pom.xml` has dependencies for:
+
+xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+
+3. Run `CrudApplication.java`
+4. Test endpoints on **Postman** or browser:
+
+   * `GET http://localhost:8080/students`
+   * `POST http://localhost:8080/students`
+   * etc.
+

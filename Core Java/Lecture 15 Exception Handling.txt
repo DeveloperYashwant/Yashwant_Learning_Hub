@@ -1,0 +1,133 @@
+
+## **Lecture 15: Exception Handling in Java**
+
+###  What is an Exception?
+
+An **exception** is an **unexpected event** that occurs during the execution of a program, which disrupts the normal flow of the program.
+
+---
+
+###  **Common Examples of Exceptions:**
+
+* Dividing by zero → `ArithmeticException`
+* Accessing array out of bounds → `ArrayIndexOutOfBoundsException`
+* Null reference → `NullPointerException`
+* Invalid number format → `NumberFormatException`
+
+---
+
+### **Difference: Error vs Exception**
+
+| Term          | Description                         | Can Handle? |
+| ------------- | ----------------------------------- | ----------- |
+| **Error**     | Serious problems like memory issues | No        |
+| **Exception** | Recoverable problems                | Yes       |
+
+---
+
+###  **Exception Handling Keywords in Java**
+
+| Keyword   | Description                               |
+| --------- | ----------------------------------------- |
+| `try`     | Block of code to monitor for exceptions   |
+| `catch`   | Block to handle the exception             |
+| `finally` | Block that always executes (cleanup code) |
+| `throw`   | Used to explicitly throw an exception     |
+| `throws`  | Declares an exception in method signature |
+
+---
+
+### **Basic Example: try-catch**
+
+java
+public class Demo {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0;  // causes ArithmeticException
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero.");
+        }
+    }
+}
+
+
+---
+
+### **try-catch-finally Example**
+
+java
+public class Example {
+    public static void main(String[] args) {
+        try {
+            String str = null;
+            System.out.println(str.length());
+        } catch (NullPointerException e) {
+            System.out.println("Null value error!");
+        } finally {
+            System.out.println("This block always runs.");
+        }
+    }
+}
+
+
+---
+
+###  **Multiple catch blocks**
+
+java
+try {
+    int[] arr = new int[5];
+    arr[10] = 50; // error
+} catch (ArithmeticException e) {
+    System.out.println("Math error");
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("Array index error");
+} catch (Exception e) {
+    System.out.println("General error");
+}
+
+
+---
+
+###  **throw and throws Example**
+
+java
+// throw example
+public class Test {
+    public static void main(String[] args) {
+        throw new ArithmeticException("Manually thrown");
+    }
+}
+
+java
+// throws example
+class Test {
+    static void check() throws Exception {
+        throw new Exception("Error from check");
+    }
+
+    public static void main(String[] args) {
+        try {
+            check();
+        } catch (Exception e) {
+            System.out.println("Caught: " + e);
+        }
+    }
+}
+
+
+---
+
+###  **Why Use Exception Handling?**
+
+* To prevent program crashes
+* To handle runtime errors gracefully
+* To ensure cleanup code always runs (via `finally`)
+
+---
+
+### Practice Questions:
+
+1. Write a program to handle division by zero using try-catch.
+2. Use multiple catch blocks to handle different types of exceptions.
+3. Create a method that throws an exception using `throws`, and handle it in `main()`.

@@ -1,0 +1,177 @@
+### **Lecture 9: Introduction to SQL JOINS**
+
+Now that we know how to work with one table,  
+today we will learn how to **combine data from two or more tables** using **JOINS**!
+
+---
+
+## **1. What is a JOIN?**
+
+- A **JOIN** is used to **combine rows from two or more tables** based on a **related column** between them.
+- It **connects data** and shows a **complete result**.
+
+---
+
+## **2. Types of JOINS**
+
+| JOIN Type | Meaning |
+|:---------|:--------|
+| INNER JOIN | Returns only the matching rows |
+| LEFT JOIN | Returns all rows from the left table and matching rows from the right |
+| RIGHT JOIN | Returns all rows from the right table and matching rows from the left |
+
+---
+
+## **3. Syntax of JOIN**
+
+sql
+SELECT table1.column1, table2.column2, ...
+FROM table1
+JOIN table2
+ON table1.common_column = table2.common_column;
+
+---
+
+## **4. Example Tables**
+
+**Students Table**
+
+| StudentID | Name  | CityID |
+|-----------|-------|--------|
+| 1         | John  | 101    |
+| 2         | Alice | 102    |
+| 3         | Bob   | 101    |
+| 4         | Sam   | 103    |
+
+---
+
+**Cities Table**
+
+| CityID | CityName   |
+|--------|------------|
+| 101    | New York   |
+| 102    | Los Angeles|
+| 103    | Chicago    |
+| 104    | Miami      |
+
+---
+
+## **5. INNER JOIN Example**
+
+**Find Student Names with their City Names:**
+
+sql
+SELECT Students.Name, Cities.CityName
+FROM Students
+INNER JOIN Cities
+ON Students.CityID = Cities.CityID;
+```
+
+**Result:**
+
+| Name  | CityName    |
+|-------|-------------|
+| John  | New York    |
+| Alice | Los Angeles |
+| Bob   | New York    |
+| Sam   | Chicago     |
+
+Only students with a matching city are shown.
+
+---
+
+## **6. LEFT JOIN Example**
+
+**Get all Students even if they don't have a matching City:**
+
+sql
+SELECT Students.Name, Cities.CityName
+FROM Students
+LEFT JOIN Cities
+ON Students.CityID = Cities.CityID;
+```
+
+Same result here because all students have a CityID —  
+but if a student had no CityID, he/she would still appear (with NULL in CityName).
+
+---
+
+## **7. RIGHT JOIN Example**
+
+**Get all Cities even if no students belong to them:**
+
+```sql
+SELECT Students.Name, Cities.CityName
+FROM Students
+RIGHT JOIN Cities
+ON Students.CityID = Cities.CityID;
+```
+
+**Result:**
+
+| Name  | CityName    |
+|-------|-------------|
+| John  | New York    |
+| Alice | Los Angeles |
+| Bob   | New York    |
+| Sam   | Chicago     |
+| NULL  | Miami       |
+
+ Miami appears even though no student is from Miami.
+
+---
+
+## **8. FULL JOIN Example**
+
+**Get all Students and Cities (supported in some databases like PostgreSQL, or you simulate it):**
+
+sql
+SELECT Students.Name, Cities.CityName
+FROM Students
+FULL JOIN Cities
+ON Students.CityID = Cities.CityID;
+
+- Returns all records when there is a match in either Students or Cities.
+
+---
+
+## **9. Summary**
+
+| JOIN Type | Shows |
+|:----------|:------|
+| INNER JOIN | Only matching records |
+| LEFT JOIN | All from left table + matches |
+| RIGHT JOIN | All from right table + matches |
+| FULL JOIN | All records from both tables |
+
+---
+
+## **10. Real-Life Example**
+
+Imagine:
+
+- Students table has the student info.
+- Courses table has courses info.
+
+**JOIN them** to find which student is enrolled in which course.
+
+---
+
+## **11. Important Points**
+
+- Always use **ON** to define how tables are connected.
+- Common columns must match data types.
+- Use **table names** to avoid confusion.
+
+---
+
+## **12. Practice for Students**
+
+**Try These:**
+
+1. List all students with their cities (INNER JOIN).
+2. List all cities and students, even if a city has no students (RIGHT JOIN).
+3. List all students even if they don't belong to a city (LEFT JOIN).
+4. Show all students and all cities (FULL JOIN).
+
+---

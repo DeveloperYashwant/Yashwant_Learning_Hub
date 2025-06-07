@@ -1,0 +1,226 @@
+
+### **Step 1: Set Up Your Project Environment**
+
+#### 1.1 Create a New Project Folder
+Create a folder for your project. Open your terminal or command prompt and type:
+
+```bash
+mkdir auth-project
+cd auth-project
+```
+
+#### 1.2 Initialize the Project with `npm`
+Next, initialize your Node.js project:
+
+```bash
+npm init -y
+```
+
+This will create a `package.json` file where all your project details and dependencies will be saved.
+
+#### 1.3 Install Required Packages
+You will need `express` for the server, `bcryptjs` for hashing passwords, `jsonwebtoken` for creating tokens, and `dotenv` for managing environment variables.
+
+Run this command to install them:
+
+```bash
+npm install express bcryptjs jsonwebtoken dotenv
+```
+
+---
+
+### **Step 2: Set Up the Server File**
+
+#### 2.1 Create the Main Server File
+Create a new file called `server.js` inside your project folder:
+
+```bash
+touch server.js
+```
+
+Now, open this file and paste the following code:
+
+```js
+// Importing necessary libraries
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+// Configure environment variables
+dotenv.config();
+
+const app = express();
+
+// Use JSON middleware to parse incoming requests with JSON data
+app.use(express.json());
+
+// Mock "database" (we'll store users in an array for now)
+const users = [];
+
+// Session settings (using express-session for session management)
+const session = require('express-session');
+app.use(session({
+    secret: 'your-session-secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 600000 }  // Session expires in 10 minutes
+}));
+
+// Register new user (Hash passwords)
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body;
+    
+    // Check if user already exists
+    const userExists = users.find(user => user.username === username);
+    if (userExists) return res.status(400).send('User already exists.');
+
+    // Hash the password before saving to the "database"
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Save the new user (for now, we're using an array as a mock database)
+    users.push({ username, password: hashedPassword });
+
+    res.status(201).send('User registered');
+});
+
+// Login route (Check credentials and generate JWT)
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    // Find the user by username
+    const user = users.find(user => user.username === username);
+    if (!user) return res.status(400).send('User not found.');
+
+    // Compare the password with the saved (hashed) password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).send('Invalid credentials.');
+
+    // Generate a JWT token (valid for 1 hour)
+    const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({ token });
+});
+
+// Protected route (Requires a valid JWT token to access)
+app.get('/profile', authenticateToken, (req, res) => {
+    res.json({ message: `Hello, ${req.user.username}` });
+});
+
+// Middleware to authenticate JWT token
+function authenticateToken(req, res, next) {
+    const token = req.header('Authorization')?.split(' ')[1]; // Get token from header
+
+    if (!token) return res.status(401).send('Access denied');
+    
+    // Verify the token
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).send('Invalid token');
+        req.user = user;  // Attach the user info to the request
+        next();  // Continue to the next middleware or route
+    });
+}
+
+// Start the server
+app.listen(3000, () => console.log('Server is running on port 3000'));
+```
+
+### **Step 3: Create the `.env` File**
+
+#### 3.1 Set the Secret Key for JWT
+Create a `.env` file in your project folder and add the following line to it:
+
+```plaintext
+JWT_SECRET=your-secret-key
+```
+
+This key will be used to **sign the JWT token** for login authentication. You can choose any secret key for your project.
+
+---
+
+### **Step 4: Running the Server**
+
+#### 4.1 Start the Server
+In your terminal, run the following command to start your server:
+
+```bash
+node server.js
+```
+
+Your server should now be running on `http://localhost:3000`.
+
+---
+
+### **Step 5: Testing the Application**
+
+#### 5.1 Test the Register Route
+Use **Postman** (or any HTTP client) to send a `POST` request to the `/register` endpoint.
+
+**URL**: `http://localhost:3000/register`  
+**Body (JSON)**:
+```json
+{
+    "username": "john",
+    "password": "password123"
+}
+```
+
+If successful, you'll receive a response:
+```plaintext
+User registered
+```
+
+#### 5.2 Test the Login Route
+After registering a user, you can now log in with the same credentials by sending a `POST` request to `/login`.
+
+**URL**: `http://localhost:3000/login`  
+**Body (JSON)**:
+```json
+{
+    "username": "john",
+    "password": "password123"
+}
+```
+
+You should get a response containing a **JWT token**:
+```json
+{
+    "token": "your-jwt-token-here"
+}
+```
+
+#### 5.3 Test the Profile Route (Protected)
+To access the protected `/profile` route, send a `GET` request to `/profile` with the **Authorization** header.
+
+**URL**: `http://localhost:3000/profile`  
+**Header**:  
+- `Authorization: Bearer your-jwt-token-here`
+
+If the token is valid, you'll get a response like this:
+```json
+{
+    "message": "Hello, john"
+}
+```
+
+If the token is expired or invalid, you'll get an error message.
+
+---
+
+### **Step 6: Session Expiry Handling**
+
+To ensure your session expires after a certain time, you have already configured the session timeout in the `express-session` middleware:
+```js
+cookie: { maxAge: 600000 } // Session expires in 10 minutes
+```
+
+If a user is inactive for 10 minutes, their session will expire automatically.
+
+---
+
+### **Step 7: Summary**
+
+1. **Set up the project**: Initialize a Node.js project, install necessary packages (`express`, `bcryptjs`, `jsonwebtoken`, `dotenv`).
+2. **Create the server**: Set up routes for user registration, login (with JWT), and a protected profile route.
+3. **Session expiry handling**: Use `express-session` to manage session timeout (set to 10 minutes in this case).
+4. **Test the functionality**: Use tools like Postman to test user registration, login, and protected routes.

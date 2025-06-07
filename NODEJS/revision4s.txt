@@ -1,0 +1,200 @@
+
+##  **Node.js**
+
+
+###  **Lecture 1: Introduction to Node.js**
+
+####  **What is Node.js?**
+
+* Node.js is an open-source, cross-platform **JavaScript runtime** built on **Chrome’s V8 engine**.
+* It allows JavaScript to run **outside the browser**, mainly on servers.
+
+####  **Features and Uses of Node.js**
+
+* **Non-blocking I/O** (Fast performance)
+* **Single-threaded but scalable**
+* Used in **real-time applications**: chat apps, REST APIs, file handling, etc.
+* Example use: A chat server like WhatsApp backend
+
+####  **Installing Node.js**
+
+* Visit: [https://nodejs.org](https://nodejs.org)
+* Download LTS version
+* Check:
+
+  
+  node -v  
+  npm -v
+  
+
+####  **Writing & Running First Program**
+
+js
+// hello.js
+console.log("Hello from Node.js!");
+
+Run:
+
+node hello.js
+
+
+#### **Real-world Analogy:**
+
+Running `console.log()` in Node.js is like sending a message from a server to the console — instead of the browser.
+
+---
+
+###  **Lecture 2: Understanding Node.js Basics**
+
+####  **Node.js as a JavaScript Runtime**
+
+* **Executes JS outside browsers**
+* Enables backend development in JavaScript
+
+####  **Node.js vs JS in Browser**
+
+| Feature       | Browser JS | Node.js |
+| ------------- | ---------- | ------- |
+| Access to DOM | Yes        | No      |
+| File System   | No         | Yes     |
+| Server-side   | No         | Yes     |
+
+####  **REPL (Read-Eval-Print-Loop)**
+
+* Use: type `node` in terminal
+
+
+node
+> 2 + 3
+5
+
+
+* It’s like a calculator + code editor in terminal.
+
+####  **Running .js Files**
+
+
+node myfile.js
+
+####**Real-world Example:**
+
+REPL is like a **sandbox environment**—quickly test ideas before using in real projects.
+
+---
+
+###  **Lecture 3: Node.js Modules**
+
+####  **What are Modules?**
+
+* Modules help split code into **reusable blocks**.
+
+####  **Built-in Modules**
+
+1. `fs` – File system operations
+2. `path` – Work with file paths
+3. `os` – Info about your computer
+
+####  **Create & Use Your Own Module**
+
+**math.js**
+
+js
+function add(x, y) {
+  return x + y;
+}
+module.exports = { add };
+
+
+**app.js**
+
+js
+const math = require('./math');
+console.log(math.add(5, 3));
+
+
+####  **Using require and exports**
+
+* `require` – to **import**
+* `module.exports` – to **export**
+
+#### **Real-world Example:**
+
+Modules are like **Lego blocks** – you create small parts and combine them into one big structure.
+
+---
+
+###  **Lecture 4: File System Module (fs)**
+
+#### **Reading Files**
+
+js
+const fs = require('fs');
+fs.readFile('data.txt', 'utf8', (err, data) => {
+  console.log(data);
+});
+
+
+####  **Writing Files**
+
+js
+fs.writeFile('data.txt', 'Hello Node.js!', (err) => {
+  if (!err) console.log("Written successfully");
+});
+
+
+####  **Updating Files**
+
+js
+fs.appendFile('data.txt', '\nNew Line', (err) => {
+  console.log("Updated");
+});
+
+
+### **Deleting Files**
+
+js
+fs.unlink('data.txt', (err) => {
+  console.log("Deleted");
+});
+
+
+####  **Sync vs Async**
+
+* **Synchronous:** blocks code until done
+  `fs.readFileSync()`
+* **Asynchronous:** non-blocking
+  `fs.readFile()`
+
+####  **Real-world Analogy:**
+
+Reading a file asynchronously is like **ordering food online** – you can continue other work while waiting for delivery.
+
+---
+
+##  **Revision Table (All Lectures)**
+
+| Topic         | Key Point              | Real-world Example        |
+| ------------- | ---------------------- | ------------------------- |
+| Node.js Intro | JS on the server       | Messaging app backend     |
+| REPL          | Quick test environment | Coding calculator         |
+| Modules       | Code reusability       | Lego bricks               |
+| fs module     | File operations        | Reading/writing documents |
+
+============
+
+// brake.js
+module.exports = function applyBrakes() {
+  console.log("Brakes applied");
+};
+
+// engine.js
+module.exports = function startEngine() {
+  console.log("Engine started");
+};
+
+// car.js
+const startEngine = require('./engine');
+const applyBrakes = require('./brake');
+
+startEngine();
+applyBrakes();

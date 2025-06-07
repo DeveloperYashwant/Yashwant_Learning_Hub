@@ -1,0 +1,44 @@
+
+## **Lecture 1: Introduction to C# with .NET Framework**
+
+### **1. What is C#?**
+C# (pronounced as "C-Sharp") is a modern, object-oriented programming language developed by **Microsoft** as part of its **.NET Framework**. It is widely used for developing:
+- Desktop applications
+- Web applications
+- Mobile apps
+- Game development (Unity)
+- Cloud-based applications
+
+🔹 **Real-world Example**:  
+Think of C# as English grammar. Just like grammar helps in forming correct sentences, C# provides **rules and structures** to write efficient programs.
+
+---
+
+### **2. What is .NET Framework?**
+.NET is a **software development framework** that provides tools, libraries, and runtime environments for running C# applications.
+
+🔹 **Key Components of .NET Framework:**
+1. **Common Language Runtime (CLR):**  
+   - Helps in **executing** C# programs.
+   - Manages **memory allocation** and **garbage collection**.
+   
+2. **Framework Class Library (FCL):**  
+   - Provides **predefined classes** and **methods** (like a toolbox) to perform tasks such as:
+     - File handling
+     - Database connections
+     - Web development
+
+3. **ASP.NET:**  
+   - Used for building **web applications**.
+
+🔹 **Real-world Example**:  
+Think of **.NET** as a **smartphone** where different apps (C# programs) can run because the phone provides an **operating system (CLR)** and **pre-installed apps (FCL)**.
+
+
+### **3. Features of C#**
+✅ **Object-Oriented** – Uses concepts like classes, objects, and inheritance.  
+✅ **Type-Safe** – Prevents invalid memory access.  
+✅ **Garbage Collection** – Automatically manages memory.  
+✅ **Cross-Platform (.NET Core)** – Runs on Windows, Linux, and Mac.  
+✅ **Scalable and Versatile** – Used in enterprise applications, mobile apps, and game development.
+

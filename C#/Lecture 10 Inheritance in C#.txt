@@ -1,0 +1,283 @@
+### **Lecture 10: Inheritance in C#**
+
+---
+
+#### **1. Introduction to Inheritance**
+- **Definition:** Inheritance is an object-oriented programming (OOP) concept where one class (child or derived class) inherits properties and methods from another class (parent or base class).
+- **Objective:** To promote code reuse and establish a relationship between classes.
+
+---
+
+#### **2. Why Use Inheritance?**
+- Avoids code duplication.
+- Supports hierarchical classification.
+- Enhances code organization and maintainability.
+
+---
+
+#### **3. Real-World Analogy:**
+- **Family Tree:** A child inherits traits (properties and behaviors) from parents.
+- **Example:** A **Car** class can inherit from a **Vehicle** class because cars are a type of vehicle.
+
+---
+
+#### **4. Syntax of Inheritance:**
+
+class BaseClass
+{
+    // Base class properties and methods
+}
+
+class DerivedClass : BaseClass
+{
+    // Derived class properties and methods
+}
+
+---
+
+#### **5. Types of Inheritance in C#:**
+
+| Type                | Description                                          | Example                                 |
+|---------------------|------------------------------------------------------|------------------------------------------|
+| Single Inheritance  | One derived class inherits from one base class       | A `Dog` class inherits from an `Animal` class |
+| Multilevel Inheritance | A class inherits from a derived class              | `Car` -> `Vehicle` -> `Transport`         |
+| Hierarchical Inheritance | Multiple derived classes inherit from one base class | `Cat`, `Dog`, `Bird` -> `Animal`         |
+
+**Note:** C# does not support **Multiple Inheritance** (i.e., a class cannot inherit from more than one class directly).
+
+---
+
+#### **6. Example of Single Inheritance:**
+
+**Base Class:**
+
+class Animal
+{
+    public void Eat()
+    {
+        Console.WriteLine("Eating...");
+    }
+}
+
+**Derived Class:**
+
+class Dog : Animal
+{
+    public void Bark()
+    {
+        Console.WriteLine("Barking...");
+    }
+}
+
+**Usage:**
+
+Dog myDog = new Dog();
+myDog.Eat();   // Inherited method
+myDog.Bark();  // Own method
+
+**Output:**
+
+Eating...
+Barking...
+
+---
+
+#### **7. Example of Multilevel Inheritance:**
+
+
+class Vehicle
+{
+    public void Start()
+    {
+        Console.WriteLine("Vehicle starting...");
+    }
+}
+
+class Car : Vehicle
+{
+    public void Drive()
+    {
+        Console.WriteLine("Car is driving...");
+    }
+}
+
+class SportsCar : Car
+{
+    public void TurboBoost()
+    {
+        Console.WriteLine("Turbo boost activated!");
+    }
+}
+
+SportsCar myCar = new SportsCar();
+myCar.Start();        // Inherited from Vehicle
+myCar.Drive();        // Inherited from Car
+myCar.TurboBoost();   // Own method
+
+**Output:**
+
+Vehicle starting...
+Car is driving...
+Turbo boost activated!
+
+---
+
+#### **8. Example of Hierarchical Inheritance:**
+
+class Shape
+{
+    public void Draw()
+    {
+        Console.WriteLine("Drawing shape...");
+    }
+}
+
+class Circle : Shape
+{
+    public void DrawCircle()
+    {
+        Console.WriteLine("Drawing a circle...");
+    }
+}
+
+class Rectangle : Shape
+{
+    public void DrawRectangle()
+    {
+        Console.WriteLine("Drawing a rectangle...");
+    }
+}
+
+Circle circle = new Circle();
+Rectangle rectangle = new Rectangle();
+circle.Draw();
+circle.DrawCircle();
+rectangle.Draw();
+rectangle.DrawRectangle();
+
+**Output:**
+
+Drawing shape...
+Drawing a circle...
+Drawing shape...
+Drawing a rectangle...
+
+---
+
+#### **9. Access Modifiers and Inheritance:**
+
+| Modifier    | Accessible within Base Class | Accessible in Derived Class | Accessible from outside |
+|------------|-------------------------------|-----------------------------|--------------------------|
+| public      | Yes                           | Yes                         | Yes                      |
+| private     | Yes                           | No                          | No                       |
+| protected   | Yes                           | Yes                         | No                       |
+| internal    | Yes                           | Yes (if in same assembly)    | No                       |
+| protected internal | Yes                    | Yes (if in same assembly)    | No                       |
+
+---
+
+#### **10. Using the `base` Keyword:**
+- Used to access members of the base class.
+- Commonly used to call the base class constructor or methods.
+
+**Example:**
+
+class Parent
+{
+    public Parent()
+    {
+        Console.WriteLine("Parent constructor");
+    }
+}
+
+class Child : Parent
+{
+    public Child() : base()
+    {
+        Console.WriteLine("Child constructor");
+    }
+}
+
+Child obj = new Child();
+
+**Output:**
+
+Parent constructor
+Child constructor
+
+---
+
+#### **11. Method Overriding in Inheritance:**
+- Allows a derived class to provide a specific implementation of a method already provided by its base class.
+- Uses the **virtual** keyword in the base class and the **override** keyword in the derived class.
+
+**Example:**
+
+class Animal
+{
+    public virtual void MakeSound()
+    {
+        Console.WriteLine("Some sound...");
+    }
+}
+
+class Dog : Animal
+{
+    public override void MakeSound()
+    {
+        Console.WriteLine("Barking...");
+    }
+}
+
+Dog dog = new Dog();
+dog.MakeSound();
+
+**Output:**
+
+Barking...
+
+---
+
+#### **12. Practical Real-World Example: Employee Inheritance**
+
+**Base Class:**
+
+class Employee
+{
+    public string Name;
+    public int ID;
+
+    public void ShowDetails()
+    {
+        Console.WriteLine($"Name: {Name}, ID: {ID}");
+    }
+}
+**Derived Class:**
+
+class Manager : Employee
+{
+    public void ManageTeam()
+    {
+        Console.WriteLine("Managing team...");
+    }
+}
+
+**Usage:**
+
+Manager mgr = new Manager();
+mgr.Name = "Alice";
+mgr.ID = 101;
+mgr.ShowDetails();
+mgr.ManageTeam();
+
+**Output:**
+Name: Alice, ID: 101
+Managing team...
+
+---
+
+#### **13. Best Practices for Inheritance:**
+- Use inheritance when classes share a **common relationship**.
+- Avoid **deep inheritance hierarchies** (more than 3 levels).
+- Prefer **composition over inheritance** when relationships do not naturally fit.
+

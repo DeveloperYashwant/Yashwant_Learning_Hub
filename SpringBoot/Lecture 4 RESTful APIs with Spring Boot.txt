@@ -1,0 +1,273 @@
+### Lecture 4: **RESTful APIs with Spring Boot**
+
+
+#### **1. Introduction to RESTful APIs**
+
+A **RESTful API** (Representational State Transfer) is a way of providing interoperability between computer systems on the internet. It is an architectural style that defines a set of constraints to be used when creating web services. RESTful APIs are stateless and operate over HTTP.
+
+
+#### **2. RESTful API Principles**
+
+Before diving into Spring Boot, let's go over some key principles of RESTful APIs:
+
+1. **Stateless**: Each request from a client to a server must contain all the information the server needs to understand and process the request. The server should not store any state about the client session.
+2. **Client-Server Architecture**: The client and server are separate entities that communicate over HTTP. The client is responsible for the user interface, while the server handles the business logic.
+3. **Uniform Interface**: The interaction between the client and server is standardized, making it easier to develop and scale. This includes the use of standard HTTP methods like GET, POST, PUT, and DELETE.
+4. **Resource-Based**: In REST, everything is a resource, which can be represented in different formats such as JSON or XML. Resources are accessed using URLs.
+5. **HTTP Methods**: The most commonly used HTTP methods for RESTful APIs are:
+   - **GET**: Retrieve data.
+   - **POST**: Create new data.
+   - **PUT**: Update existing data.
+   - **DELETE**: Delete data.
+
+---
+
+#### **3. Setting Up a Spring Boot Project**
+
+1. **Add Dependencies**
+
+To start working with RESTful APIs in Spring Boot, you need the following dependencies:
+
+For Maven (`pom.xml`):
+xml
+
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+</dependencies>
+
+For Gradle (`build.gradle`):
+gradle
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+}
+
+2. **Configure `application.properties`**
+
+For an in-memory database (H2) configuration:
+
+properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+This configuration enables the H2 database and the H2 console to view your database through the browser at `/h2-console`.
+
+---
+
+#### **4. Creating the Model (Entity)**
+
+Let’s define an entity to represent a **Product**. This class will be mapped to a database table.
+
+java
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+@Entity
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String name;
+    private Double price;
+
+    // Getters and Setters
+}
+
+- `@Entity`: Marks the class as an entity for JPA.
+- `@Id`: Marks the `id` field as the primary key.
+- `@GeneratedValue`: Indicates that the value of the primary key will be automatically generated.
+
+---
+
+#### **5. Creating the Repository Layer**
+
+Spring Data JPA provides `JpaRepository`, which contains built-in methods for CRUD operations. Here’s the `ProductRepository` interface:
+
+java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    // You can add custom query methods here if needed
+}
+
+By extending `JpaRepository`, we automatically get methods like `save()`, `findById()`, `findAll()`, and `delete()`.
+
+---
+
+#### **6. Creating the Service Layer**
+
+The service layer handles the business logic and communicates with the repository.
+
+java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public Optional<Product> getProductById(Long id) {
+        return productRepository.findById(id);
+    }
+
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    public Product updateProduct(Long id, Product product) {
+        product.setId(id);
+        return productRepository.save(product);
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
+}
+
+- **`@Service`**: Marks the class as a service component for dependency injection.
+- The service methods call repository methods to perform CRUD operations.
+
+---
+
+#### **7. Creating the Controller Layer**
+
+The controller layer exposes the RESTful API endpoints. It maps HTTP requests to Java methods.
+
+java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    // GET all products
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    // GET a product by ID
+    @GetMapping("/{id}")
+    public Optional<Product> getProductById(@PathVariable Long id) {
+        return productService.getProductById(id);
+    }
+
+    // POST a new product
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(product);
+    }
+
+    // PUT update an existing product
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        return productService.updateProduct(id, product);
+    }
+
+    // DELETE a product by ID
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+    }
+}
+
+- `@RestController`: Marks this class as a RESTful controller.
+- `@RequestMapping("/api/products")`: Maps the controller to the `/api/products` endpoint.
+- **HTTP Methods**:
+  - `@GetMapping`: Maps GET requests.
+  - `@PostMapping`: Maps POST requests.
+  - `@PutMapping`: Maps PUT requests.
+  - `@DeleteMapping`: Maps DELETE requests.
+  
+- `@PathVariable`: Binds the `id` from the URL to the method parameter.
+- `@RequestBody`: Binds the request body to the method parameter.
+
+---
+
+#### **8. Testing the API**
+
+To test the API, you can use tools like **Postman** or **cURL**.
+
+1. **GET** `/api/products`: Fetch all products.
+2. **GET** `/api/products/{id}`: Fetch a product by ID.
+3. **POST** `/api/products`: Create a new product (pass product data in JSON format).
+4. **PUT** `/api/products/{id}`: Update an existing product.
+5. **DELETE** `/api/products/{id}`: Delete a product by ID.
+
+---
+
+#### **9. Handling HTTP Status Codes**
+
+In a REST API, the HTTP status code is used to indicate the result of a request. Spring Boot automatically handles common status codes like:
+
+- **200 OK**: For successful GET, POST, PUT requests.
+- **201 Created**: For successfully created resources via POST.
+- **404 Not Found**: For when a resource is not found.
+- **400 Bad Request**: For invalid data in the request.
+- **500 Internal Server Error**: For any server-related issues.
+
+For instance, we can customize the responses like this:
+java
+@GetMapping("/{id}")
+public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    Optional<Product> product = productService.getProductById(id);
+    if (product.isPresent()) {
+        return ResponseEntity.ok(product.get());
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+}
+
+- `ResponseEntity.ok()` returns an HTTP 200 response.
+- `ResponseEntity.status(HttpStatus.NOT_FOUND).build()` returns an HTTP 404 response when the product is not found.
+
+---
+
+#### **10. Conclusion**
+
+In this lecture, we:
+- Explored how to create **RESTful APIs** with **Spring Boot**.
+- Learned about the **Model-Repository-Service-Controller** architecture.
+- Exposed endpoints for basic CRUD operations (Create, Read, Update, Delete).
+- Tested the API using **Postman** or similar tools.

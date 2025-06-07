@@ -1,0 +1,81 @@
+
+### **1. Start with the Basics: What is a Media Query?**
+> **Explain**: A media query is a CSS technique that allows a webpage to adapt to different screen sizes and devices (responsive design).  
+> **Example**: "Have you noticed how websites look different on mobile vs. desktop? That’s because of media queries!"
+
+---
+
+### **2. Basic Syntax of Media Queries**  
+#### **Example: A Simple Media Query**
+
+/* This media query applies styles when the screen width is 600px or less */
+@media screen and (max-width: 600px) {
+    body {
+        background-color: lightblue; /* Change background color for small screens */
+    }
+}
+
+> **Explain**:
+> - `@media` → This starts the media query.
+> - `screen` → Specifies that this applies to screens (not print or other media).
+> - `(max-width: 600px)` → The styles inside will apply **only** if the screen width is **600px or smaller**.
+
+---
+
+### **3. Real-Life Example: Making a Responsive Navigation Menu**
+
+/* Default navigation styles (for larger screens) */
+.navbar {
+    background-color: navy;
+    padding: 15px;
+}
+
+/* When screen width is 768px or less, make the navbar background red */
+@media screen and (max-width: 768px) {
+    .navbar {
+        background-color: red; /* Change color for tablets and smaller devices */
+    }
+}
+
+---
+
+### **4. Using Multiple Media Queries for Different Devices**
+
+/* Default Styles for Large Screens */
+body {
+    font-size: 18px;
+}
+
+/* Tablets (width between 600px and 1024px) */
+@media screen and (min-width: 600px) and (max-width: 1024px) {
+    body {
+        font-size: 16px; /* Reduce font size for tablets */
+    }
+}
+
+/* Phones (width less than 600px) */
+@media screen and (max-width: 599px) {
+    body {
+        font-size: 14px; /* Smaller font size for mobile */
+    }
+}
+
+> **Explain**:  
+> - **Larger Screens** → `18px` font size  
+> - **Tablets (600px - 1024px)** → `16px` font size  
+> - **Phones (< 600px)** → `14px` font size  
+
+---
+
+### **5. Hands-On Practice**
+**challenge**:  
+ Change text size for different screens.  
+ Modify button color for mobile view.  
+ Hide/show images based on screen width.
+
+---
+### **6. Pro Tip: Use Developer Tools**
+> **Step 1:** Right-click → Inspect  
+> **Step 2:** Click on the **"Toggle Device Toolbar"**  
+> **Step 3:** Test different screen sizes!
+

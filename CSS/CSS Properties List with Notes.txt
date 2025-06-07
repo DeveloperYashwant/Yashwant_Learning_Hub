@@ -1,0 +1,120 @@
+
+# CSS Properties List with Notes**  
+
+## **1. Colors and Backgrounds**  
+
+color: red; /* Sets the text color */
+background-color: yellow; /* Sets the background color */
+background-image: url('image.jpg'); /* Sets a background image */
+background-size: cover; /* Scales background image to fit the container */
+background-repeat: no-repeat; /* Prevents background image from repeating */
+background-position: center center; /* Positions background image */
+background-attachment: fixed; /* Fixes background while scrolling */
+opacity: 0.5; /* Makes an element semi-transparent (0 to 1) */
+
+
+---
+
+## **2. Text and Fonts** 
+
+font-family: Arial, sans-serif; /* Sets font type */
+font-size: 16px; /* Sets font size */
+font-weight: bold; /* Sets text thickness (normal, bold, lighter, or 100-900) */
+font-style: italic; /* Makes text italic */
+text-align: center; /* Aligns text (left, right, center, justify) */
+text-decoration: underline; /* Adds underline (none, underline, overline, line-through) */
+text-transform: uppercase; /* Converts text to uppercase, lowercase, or capitalize */
+letter-spacing: 2px; /* Adjusts space between letters */
+word-spacing: 5px; /* Adjusts space between words */
+line-height: 1.5; /* Sets space between lines */
+direction: rtl; /* Sets text direction (ltr for left-to-right, rtl for right-to-left) */
+
+
+---
+
+## **3. Box Model (Margin, Border, Padding, Width, Height)**  
+
+width: 200px; /* Sets element width */
+height: 100px; /* Sets element height */
+max-width: 500px; /* Sets maximum width */
+min-height: 100px; /* Sets minimum height */
+
+margin: 10px; /* Sets margin (outside spacing) */
+padding: 15px; /* Sets padding (inside spacing) */
+border: 2px solid black; /* Sets border (width, style, color) */
+border-radius: 10px; /* Rounds corners */
+
+box-sizing: border-box; /* Includes padding and border in total width/height */
+overflow: hidden; /* Controls content overflow (visible, hidden, scroll, auto) */
+visibility: hidden; /* Hides an element without removing its space */
+display: none; /* Hides an element and removes it from layout */
+
+
+---
+
+## **4. Positioning and Layout**   
+
+position: static; /* Default positioning */
+position: relative; /* Position relative to its normal position */
+position: absolute; /* Position relative to the nearest positioned ancestor */
+position: fixed; /* Stays fixed while scrolling */
+top: 10px; /* Moves element 10px from the top */
+left: 20px; /* Moves element 20px from the left */
+z-index: 100; /* Controls element stacking order */
+
+
+---
+
+## **5. Flexbox (Flexible Layouts)**   
+
+display: flex; /* Enables flexbox */
+justify-content: center; /* Aligns items horizontally (flex-start, flex-end, center, space-between, space-around) */
+align-items: center; /* Aligns items vertically (flex-start, flex-end, center, stretch) */
+flex-direction: row; /* Sets direction (row, row-reverse, column, column-reverse) */
+flex-wrap: wrap; /* Allows items to wrap (nowrap, wrap, wrap-reverse) */
+
+
+---
+
+## **6. Grid Layout**   
+
+display: grid; /* Enables grid layout */
+grid-template-columns: 1fr 2fr; /* Defines column sizes */
+grid-template-rows: auto auto; /* Defines row sizes */
+gap: 10px; /* Sets space between grid items */
+align-items: center; /* Aligns grid items vertically */
+justify-items: center; /* Aligns grid items horizontally */
+
+
+---
+
+## **7. Transform and Animation**  
+
+transform: rotate(45deg); /* Rotates element */
+transform: scale(1.2); /* Scales element */
+transform: translate(50px, 20px); /* Moves element */
+transition: all 0.5s ease-in-out; /* Smooth transition on hover */
+animation: bounce 2s infinite; /* Animates an element */
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0); }
+}
+
+---
+
+## **8. Lists and Tables** 
+
+list-style-type: square; /* Changes bullet type (disc, circle, square, none) */
+list-style-position: inside; /* Positions bullet inside or outside */
+table-layout: fixed; /* Controls table layout */
+border-collapse: collapse; /* Merges table borders */
+
+
+---
+
+## **9. Responsive Design (Media Queries)** 
+
+@media (max-width: 768px) { 
+  body { background-color: lightgray; }
+}

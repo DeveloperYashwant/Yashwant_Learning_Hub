@@ -1,0 +1,124 @@
+Lecture 16 Database Connection with MySQL
+
+Database+Connetion
+
+
+Xampp Server
+
+###  **What is a Database Connection?**
+
+### Step-by-Step: Python to MySQL Connection
+
+---
+
+### **Step 1: Install the Connector**
+
+We need a connector library that helps Python talk to MySQL.
+
+Open your terminal or command prompt and type:
+
+pip install mysql-connector-python
+
+
+###  **Step 2: Import the Library in Python**
+
+import mysql.connector 
+
+
+### **Step 3: Connect to the MySQL Database**
+
+mydb = mysql.connector.connect(
+    host="localhost",      # Where the MySQL server is (usually localhost)
+    user="root",           # Your MySQL username
+    password="password",   # Your MySQL password
+    database="school"      # The database you want to use
+)
+
+If the connection is successful, your Python program is now connected to the MySQL database.
+
+---
+
+###  **Step 4: Create a Cursor Object**
+
+A **cursor** is like a pen to write or read from the database.
+
+mycursor = mydb.cursor()
+
+---
+
+### **Step 5: Write SQL Queries (Commands)**
+
+
+mycursor.execute("CREATE TABLE IF NOT EXISTS students (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), age INT)")
+
+To **insert data**:
+
+sql = "INSERT INTO students (name, age) VALUES (%s, %s)"
+val = ("John", 18)
+mycursor.execute(sql, val)
+mydb.commit()  # Save the changes
+
+To **fetch data**:
+
+mycursor.execute("SELECT * FROM students")
+result = mycursor.fetchall()
+
+for row in result:
+    print(row)
+
+
+---
+
+###  **Step 6: Close the Connection (Good Practice)**
+
+mydb.close()
+
+---
+
+### Full Example Code:
+
+import mysql.connector
+
+# Connect to database
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="school"
+)
+
+# Create cursor
+mycursor = mydb.cursor()
+
+# Create table
+mycursor.execute("CREATE TABLE IF NOT EXISTS students (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), age INT)")
+
+# Insert data
+sql = "INSERT INTO students (name, age) VALUES (%s, %s)"
+val = ("Alice", 20)
+mycursor.execute(sql, val)
+mydb.commit()
+
+# Select and display data
+mycursor.execute("SELECT * FROM students")
+result = mycursor.fetchall()
+for row in result:
+    print(row)
+
+# Close connection
+mydb.close()
+
+
+---
+
+### Why Use This?
+
+This is useful when building apps like:
+
+- Student record systems  
+- Inventory management  
+- Any app that needs to save and retrieve data  
+
+
+
+

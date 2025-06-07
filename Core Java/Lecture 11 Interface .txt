@@ -1,0 +1,110 @@
+##  **Lecture 11: Interface in Core Java**
+
+###  What is an Interface?
+
+An **interface** in Java is a reference type, similar to a class, that can contain **abstract methods** (methods without a body) and **constants**. It is used to achieve **abstraction** and **multiple inheritance** in Java.
+
+---
+
+###  **Key Points:**
+
+1. An interface contains **only method declarations** (until Java 7).
+2. From **Java 8**, interfaces can have **default and static methods** with implementations.
+3. From **Java 9**, interfaces can have **private methods** too.
+4. A class **implements** an interface (not extends).
+5. One class can **implement multiple interfaces** — supporting **multiple inheritance**.
+
+---
+
+### **Syntax:**
+
+java
+interface Vehicle {
+    void start();  // abstract method
+}
+
+class Car implements Vehicle {
+    public void start() {
+        System.out.println("Car is starting...");
+    }
+}
+
+---
+
+###  **Features of Interface:**
+
+| Feature                  | Description                                    |
+| ------------------------ | ---------------------------------------------- |
+| **Abstraction**          | Only method signatures (no logic until Java 7) |
+| **Multiple Inheritance** | A class can implement many interfaces          |
+| **Loose Coupling**       | Promotes flexibility and reusability           |
+| **Polymorphism**         | Allows dynamic method binding                  |
+
+---
+
+###  **Why Use Interface?**
+
+* To achieve **100% abstraction**
+* To follow **contract programming** (if a class implements an interface, it must implement all its methods)
+* To implement **callback mechanisms**
+* To enable **polymorphism** in collections and APIs
+
+---
+
+### **Example:**
+
+java
+interface Animal {
+    void sound();
+}
+
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat implements Animal {
+    public void sound() {
+        System.out.println("Cat meows");
+    }
+}
+
+public class TestInterface {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound();  // Output: Dog barks
+
+        a = new Cat();
+        a.sound();  // Output: Cat meows
+    }
+}
+
+
+---
+
+###  **Interface vs Abstract Class**
+
+| Feature                  | Interface                                         | Abstract Class                              |
+| ------------------------ | ------------------------------------------------- | ------------------------------------------- |
+| **Methods**              | Only abstract (Java 7), + default/static (Java 8) | Can have both abstract and concrete methods |
+| **Constructors**         | No                                                | Yes                                         |
+| **Multiple Inheritance** | Yes                                               | No                                          |
+| **Fields**               | Only `public static final` (constants)            | Can have any type of fields                 |
+
+---
+
+###  **Important Notes:**
+
+* All methods in an interface are **public and abstract** by default.
+* Variables in an interface are **public, static, and final**.
+* Interface **cannot be instantiated** directly.
+
+---
+
+### Practice Questions:
+
+1. Write an interface `Shape` with a method `area()` and implement it in `Circle` and `Rectangle` classes.
+2. Can a class implement two interfaces that have the same method signature? What will happen?
+3. Explain how interface supports multiple inheritance in Java with an example.
+

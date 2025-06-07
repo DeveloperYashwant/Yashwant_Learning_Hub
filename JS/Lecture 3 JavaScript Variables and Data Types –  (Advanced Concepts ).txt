@@ -1,0 +1,158 @@
+# **JavaScript Variables and Data Types – Lecture 3 (Advanced Concepts )**  
+
+In **Lecture 2**, we covered the basics of **data types and variables** in JavaScript. Now, in **Lecture 3**, we will explore:  
+1. **Type Conversion**  
+2. **Type Coercion**  
+3. **Variable Scope (Global & Local)**  
+4. **Hoisting**  
+5. **Template Literals (String Interpolation)**  
+
+---
+
+## **1. Type Conversion (Explicit Type Casting)**
+JavaScript allows converting one data type into another manually.
+
+### **Example 1: Converting String to Number**  
+
+let str = "50";  
+let num = Number(str);  
+console.log(num, typeof num); // Output: 50 "number"
+
+### **Example 2: Converting Number to String**  
+
+let price = 500;  
+let priceStr = String(price);  
+console.log(priceStr, typeof priceStr); // Output: "500" "string"
+
+### **Real-World Example – Converting User Input**  
+Imagine an **age verification system** where user input is taken as a string and converted into a number:  
+
+let age = prompt("Enter your age:");  
+let ageNum = Number(age);  
+
+if (ageNum >= 18) {  
+    console.log("You can vote!");  
+} else {  
+    console.log("You cannot vote yet!");  
+}
+--
+
+## **2. Type Coercion (Implicit Conversion)**
+JavaScript **automatically** converts data types when needed.
+
+### **Example 1: Number + String = String**  
+
+let result = 5 + "10";  
+console.log(result, typeof result); // Output: "510" "string"
+
+### **Example 2: String * Number = Number**
+
+let multiply = "5" * 2;  
+console.log(multiply, typeof multiply); // Output: 10 "number"
+
+### **Real-World Example – Price Calculation**  
+
+let price = "100";  
+let quantity = 2;  
+let total = price * quantity;  
+console.log("Total Price: $" + total); // Output: Total Price: $200
+
+---
+
+## **3. Variable Scope (Global & Local)**
+JavaScript variables can have different scopes:  
+- **Global Scope** – Accessible everywhere in the script  
+- **Local Scope** – Accessible only inside a function  
+
+### **Example 1: Global Scope**  
+
+let userName = "Rahul"; // Global variable  
+
+function greet() {  
+    console.log("Hello, " + userName);  
+}  
+
+greet(); // Output: Hello, Rahul
+
+### **Example 2: Local Scope**  
+
+function calculate() {  
+    let discount = 10; // Local variable  
+    console.log("Discount: " + discount);  
+}  
+
+calculate();  
+console.log(discount); // Error: discount is not defined
+
+
+### **Real-World Example – Shopping Cart**
+
+let cartTotal = 500; // Global variable  
+
+function applyDiscount() {  
+    let discount = 50; // Local variable  
+    return cartTotal - discount;  
+}  
+
+console.log(applyDiscount()); // Output: 450
+console.log(cartTotal); // Output: 500
+
+---
+
+## **4. Hoisting (Variable & Function Hoisting)**
+JavaScript moves **variable and function declarations** to the top of the script before execution.
+
+### **Example 1: Hoisting with `var` (Variables Declared But Undefined)**
+
+console.log(user); // Output: undefined  
+var user = "Amit";  
+
+### **Example 2: Hoisting with Functions**
+
+greet();  
+
+function greet() {  
+    console.log("Hello!");  
+}  
+// Output: Hello!
+
+### **Real-World Example – Login System**
+
+console.log(isLoggedIn); // Output: undefined  
+var isLoggedIn = false;  
+
+---
+
+## **5. Template Literals (String Interpolation)**
+ES6 introduced **template literals** (``` ` ``) for **dynamic string formatting**.
+
+### **Example 1: Old Way (Concatenation)**
+
+let name = "Anita";  
+let message = "Hello, " + name + "! Welcome.";  
+console.log(message);
+
+### **Example 2: New Way (Template Literals)**
+
+let name = "Anita";  
+let message = `Hello, ${name}! Welcome.`;  
+console.log(message);
+
+
+### **Real-World Example – Invoice Generation**
+
+let customer = "Raj";  
+let billAmount = 2500;  
+let invoice = `Dear ${customer}, your total bill is ₹${billAmount}.`;  
+console.log(invoice);
+
+---
+
+## **Summary**
+| Concept | Explanation |
+|---------|------------|
+| **Type Conversion** | Manually changing a data type (String → Number) |
+| **Type Coercion** | Automatic conversion by JavaScript (e.g., "5" * 2 = 10) |
+| **Variable Scope** | Global variables are accessible everywhere, local only inside functions |
+| **Hoisting** | Variables/functions are moved to the top before execution |
+| **Template Literals** | Use `${variable}` inside \`backticks\` for dynamic strings |

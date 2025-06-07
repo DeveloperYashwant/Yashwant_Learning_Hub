@@ -1,0 +1,94 @@
+
+## **Lecture 4: Aggregation & Grouping in MongoDB**
+
+---
+
+### **What is Aggregation?**
+
+Aggregation is the process of transforming and combining documents in a collection to get meaningful results — like totals, averages, or grouped reports.
+
+Think of it like SQL's `GROUP BY`, `SUM()`, `AVG()` etc.
+
+---
+
+### **1. Basic Aggregation Structure**
+
+db.collection.aggregate([
+  { /* Stage 1 */ },
+  { /* Stage 2 */ },
+  ...
+]);
+
+---
+
+### **2. `$group` Operator**
+
+**Count students in each course:**
+
+db.students.aggregate([
+  { $group: { _id: "$course", total: { $sum: 1 } } }
+]);
+
+**Find average age in each course:**
+
+db.students.aggregate([
+  { $group: { _id: "$course", avgAge: { $avg: "$age" } } }
+]);
+
+**Find maximum marks in each course:**
+
+db.students.aggregate([
+  { $group: { _id: "$course", maxMarks: { $max: "$marks" } } }
+]);
+
+
+---
+
+### **3. `$match` + `$group` (Filter Before Grouping)**
+
+ Group only those students where age > 22:
+
+db.students.aggregate([
+  { $match: { age: { $gt: 22 } } },
+  { $group: { _id: "$course", total: { $sum: 1 } } }
+]);
+
+
+---
+
+###**4. `$project` – Rename / Format Output**
+
+ Show only name and uppercase course:
+
+db.students.aggregate([
+  {
+    $project: {
+      name: 1,
+      course: { $toUpper: "$course" }
+    }
+  }
+]);
+
+
+---
+
+###  **5. `$sort`, `$limit`, `$skip` in Aggregation**
+
+Top 2 courses with most students:
+
+db.students.aggregate([
+  { $group: { _id: "$course", total: { $sum: 1 } } },
+  { $sort: { total: -1 } },
+  { $limit: 2 }
+]);
+
+
+---
+
+###**Practice Questions**
+
+1. Count how many students are enrolled in each course.
+2. Find the average marks of students grouped by course.
+3. Get the names and convert the course field to lowercase.
+4. Group students with age > 24 and count them per course.
+5. Show top 3 courses with highest number of students.

@@ -1,0 +1,213 @@
+### Lecture 7: **Exception Handling in Spring Boot**
+
+---
+
+#### **1. Introduction to Exception Handling in Spring Boot**
+
+In any software application, exception handling is a critical component. It ensures that errors are properly managed, providing meaningful feedback to the user or the system. Spring Boot simplifies exception handling by offering several features that allow developers to manage errors in a clean and consistent way.
+
+---
+
+#### **2. Types of Exceptions**
+
+In Spring Boot, exceptions can be categorized as:
+
+- **Checked Exceptions**: These are exceptions that must be explicitly handled (e.g., `IOException`, `SQLException`).
+- **Unchecked Exceptions**: These exceptions do not need to be explicitly handled (e.g., `NullPointerException`, `IndexOutOfBoundsException`).
+- **Custom Exceptions**: These are exceptions defined by the developer to handle specific business logic errors.
+
+---
+
+#### **3. Basic Exception Handling in Spring Boot**
+
+Spring Boot offers two primary ways to handle exceptions:
+
+1. **Using `@ControllerAdvice`**: For global exception handling.
+2. **Using `@ExceptionHandler`**: For handling exceptions in specific controllers.
+
+##### **3.1 Handling Exceptions in a Single Controller Using `@ExceptionHandler`**
+
+You can handle exceptions in a controller by using the `@ExceptionHandler` annotation. This annotation allows you to specify a method that will handle a specific exception.
+
+**Example:**
+
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
+        User user = userService.findUserById(id);
+        if (user == null) {
+            throw new UserNotFoundException("User not found with id " + id);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+}
+```
+
+- The `@ExceptionHandler(UserNotFoundException.class)` method will catch the `UserNotFoundException` thrown within the controller.
+- This method returns a custom response with a 404 status code and an error message.
+
+---
+
+##### **3.2 Handling Global Exceptions Using `@ControllerAdvice`**
+
+For handling exceptions globally across all controllers in your Spring Boot application, you can use the `@ControllerAdvice` annotation. This class will intercept exceptions thrown in any controller and provide a centralized place to handle them.
+
+**Example:**
+
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+    }
+}
+```
+
+- The `@ControllerAdvice` is a global handler that catches exceptions across all controllers.
+- The `@ExceptionHandler` inside the `@ControllerAdvice` class defines how to handle specific exceptions globally.
+- If an exception is not specifically caught, the `Exception.class` handler will catch any generic exception.
+
+---
+
+#### **4. Using `@ResponseStatus` to Return HTTP Status Codes**
+
+Spring provides the `@ResponseStatus` annotation to define the HTTP status code for exceptions. This annotation can be used on custom exception classes to set a specific status code that will be returned when that exception is thrown.
+
+**Example:**
+
+```java
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class UserNotFoundException extends RuntimeException {
+
+    public UserNotFoundException(String message) {
+        super(message);
+    }
+}
+```
+
+- The `@ResponseStatus(HttpStatus.NOT_FOUND)` annotation ensures that whenever `UserNotFoundException` is thrown, a `404 NOT FOUND` status is returned.
+- This approach simplifies the exception handling logic, but it is less flexible than using `@ExceptionHandler` or `@ControllerAdvice` because it cannot add additional information (like custom error messages).
+
+---
+
+#### **5. Customizing Error Response Using `@RestControllerAdvice`**
+
+To customize the error response with additional fields (e.g., error code, timestamp), you can use `@RestControllerAdvice` and create a more detailed response body.
+
+**Example:**
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("USER_NOT_FOUND", ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+        ErrorResponse errorResponse = new ErrorResponse("INTERNAL_SERVER_ERROR", "An unexpected error occurred.", LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+
+- **ErrorResponse**: A custom class to structure error messages.
+
+```java
+public class ErrorResponse {
+
+    private String errorCode;
+    private String message;
+    private LocalDateTime timestamp;
+
+    // Constructors, getters, and setters
+}
+```
+
+- The `ErrorResponse` class adds extra details like an error code and timestamp to the response, making the error message more informative.
+
+---
+
+#### **6. Spring Boot’s Default Error Handling**
+
+Spring Boot has built-in error handling, which can be customized. The default error page is shown for errors like 404 or 500, and it will provide a generic error message. However, you can override this behavior by customizing the error page or response body.
+
+**Example:**
+
+You can create an `error.html` page under `src/main/resources/templates/` for custom error handling in a web application.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+</head>
+<body>
+    <h1>An error occurred: ${error}</h1>
+    <p>${message}</p>
+</body>
+</html>
+```
+
+- You can customize the `error.html` page to show more user-friendly messages or provide debugging information.
+
+---
+
+#### **7. Using `ErrorAttributes` for Customizing Error Response**
+
+If you want to have more control over the error response for all exceptions, you can implement a custom `ErrorAttributes` class. This allows you to customize the attributes of the error response.
+
+**Example:**
+
+```java
+@Component
+public class CustomErrorAttributes implements ErrorAttributes {
+
+    @Override
+    public Map<String, Object> getErrorAttributes(WebRequest webRequest, ErrorAttributeOptions options) {
+        Map<String, Object> errorAttributes = new LinkedHashMap<>();
+        Throwable error = getError(webRequest);
+        errorAttributes.put("message", error.getMessage());
+        errorAttributes.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorAttributes.put("timestamp", LocalDateTime.now());
+        return errorAttributes;
+    }
+
+    @Override
+    public Throwable getError(WebRequest webRequest) {
+        return (Throwable) webRequest.getAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, WebRequest.SCOPE_REQUEST);
+    }
+}
+```
+
+- The custom `ErrorAttributes` class gives you full control over the error response's content, such as adding specific fields and formatting the response.
+
+---
+
+#### **8. Conclusion**
+
+In this lecture, we have learned the following:
+
+- **Exception Handling Basics**: How Spring Boot handles exceptions, including using `@ExceptionHandler` and `@ControllerAdvice`.
+- **Custom Exceptions**: How to create custom exceptions and handle them efficiently in Spring Boot.
+- **Global Error Handling**: Using `@ControllerAdvice` and `@RestControllerAdvice` to handle exceptions globally.
+- **Customizing Error Response**: Creating custom error messages and responses for the client using `ErrorAttributes` and custom response structures.
+- **Default Error Handling**: How Spring Boot’s default error handling works and how to override it with custom error pages.

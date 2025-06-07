@@ -1,0 +1,220 @@
+### **Java Lecture 7: Static and Non-Static Methods**  
+
+---
+
+#### **1. Introduction to Methods in Java:**  
+
+- **Static Method:** Belongs to the class rather than an instance of the class.  
+- **Non-Static Method:** Belongs to an instance of the class (object).  
+
+---
+
+### **2. Static Methods:**  
+- Declared using the **`static`** keyword.  
+- Can be called without creating an object of the class.  
+- Can only access **static data members** and **static methods**.  
+- Cannot access **non-static members** directly.  
+- Often used for utility or helper methods.  
+
+#### **Syntax:**  
+
+class Example {
+    static void display() {
+        System.out.println("This is a static method.");
+    }
+}
+
+#### **Calling a Static Method:**  
+
+Example.display();  // Directly using the class name
+
+---
+
+#### **Real-World Example: Utility Class (Math Operations)**  
+
+class MathOperations {
+    static int add(int a, int b) {
+        return a + b;
+    }
+
+    static int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public static void main(String[] args) {
+        int sum = MathOperations.add(5, 10);  
+        int product = MathOperations.multiply(3, 7);  
+        System.out.println("Sum: " + sum);
+        System.out.println("Product: " + product);
+    }
+}
+
+- **Output:**  
+
+Sum: 15  
+Product: 21  
+
+- **Explanation:** Static methods are used to perform mathematical operations without needing an object.  
+
+---
+
+### **3. Non-Static Methods:**  
+- Do not use the **`static`** keyword.  
+- Belong to an instance of the class.  
+- Can access both **static and non-static members**.  
+- Need to create an object to call these methods.  
+
+#### **Syntax:**  
+
+class Example {
+    void greet() {
+        System.out.println("Hello from a non-static method.");
+    }
+}
+
+#### **Calling a Non-Static Method:**  
+
+Example obj = new Example();
+obj.greet();
+
+---
+
+#### **Real-World Example: Bank Account Operations**  
+
+class BankAccount {
+    String accountHolder;
+    double balance;
+
+    // Non-static method to deposit money
+    void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposited: ₹" + amount);
+    }
+
+    // Non-static method to display balance
+    void displayBalance() {
+        System.out.println("Balance: ₹" + balance);
+    }
+
+    public static void main(String[] args) {
+        BankAccount account1 = new BankAccount();
+        account1.accountHolder = "Yashwant";
+        account1.deposit(5000);
+        account1.displayBalance();
+    }
+}
+
+- **Output:**  
+
+Deposited: ₹5000  
+Balance: ₹5000  
+
+- **Explanation:** Non-static methods operate on specific instances of the class.  
+
+---
+
+### **4. Differences between Static and Non-Static Methods:**  
+| **Feature**               | **Static Method**                               | **Non-Static Method**                         |
+|--------------------------|--------------------------------------------------|----------------------------------------------|
+| **Keyword**              | `static`                                         | No keyword                                    |
+| **Belongs To**           | Class itself                                     | Instance of the class (object)                 |
+| **Access**               | Can only access static data                      | Can access both static and non-static data     |
+| **Calling Method**       | `ClassName.methodName()`                         | `objectName.methodName()`                     |
+| **Use Case**             | Utility methods, main method                     | Instance-specific operations                   |
+
+---
+
+### **5. Static and Non-Static Combined:**  
+
+class Person {
+    static String species = "Homo sapiens";  // Static member
+
+    String name;  // Non-static member
+
+    // Static method
+    static void speciesInfo() {
+        System.out.println("Species: " + species);
+    }
+
+    // Non-static method
+    void introduce() {
+        System.out.println("Hello, my name is " + name);
+    }
+
+    public static void main(String[] args) {
+        // Calling static method directly
+        Person.speciesInfo();
+
+        // Creating an object to call a non-static method
+        Person p = new Person();
+        p.name = "omkar";
+        p.introduce();
+    }
+}
+
+- **Output:**  
+
+Species: Homo sapiens  
+Hello, my name is omkar  
+
+- **Explanation:**  
+  - Static method is called using the class name.  
+  - Non-static method is called using an object.  
+
+---
+
+### **6. Real-World Scenario: Student Management System**  
+
+class Student {
+    static int totalStudents = 0;  // Static variable
+
+    String name;
+
+    // Static method to display the total number of students
+    static void displayTotalStudents() {
+        System.out.println("Total Students: " + totalStudents);
+    }
+
+    // Non-static method to enroll a student
+    void enroll(String studentName) {
+        name = studentName;
+        totalStudents++;
+        System.out.println(name + " enrolled.");
+    }
+
+    public static void main(String[] args) {
+        // Static method call
+        Student.displayTotalStudents();
+
+        // Non-static method call
+        Student s1 = new Student();
+        s1.enroll("Omkar");
+
+        Student s2 = new Student();
+        s2.enroll("Sai");
+
+        // Display total students again
+        Student.displayTotalStudents();
+    }
+}
+
+- **Output:**  
+
+Total Students: 0  
+Abhang enrolled.  
+Omkar enrolled.  
+Sai Students: 2  
+
+- **Explanation:**  
+  - The **static method** tracks the total number of students.  
+  - The **non-static method** enrolls a specific student.  
+
+---
+
+### **7. Key Takeaways:**  
+- Use **static methods** when:  
+  - You don't need to access instance variables.  
+  - The method serves a utility purpose (like calculations).  
+- Use **non-static methods** when:  
+  - You need to manipulate instance-specific data.  
+  - The method should belong to a particular object.  

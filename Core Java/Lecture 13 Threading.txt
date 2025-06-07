@@ -1,0 +1,119 @@
+##  **Lecture 13: Threading in Core Java**
+
+###  What is a Thread?
+
+A **Thread** is a lightweight subprocess, the smallest unit of execution. Java supports **multithreading**, which means running **multiple tasks simultaneously**.
+
+---
+
+### **Key Concepts:**
+
+| Term               | Meaning                                           |
+| ------------------ | ------------------------------------------------- |
+| **Thread**         | A path of execution within a program              |
+| **Multithreading** | Running multiple threads at the same time         |
+| **Main Thread**    | The thread that starts when a Java program begins |
+| **Concurrency**    | Executing two or more threads in parallel         |
+
+---
+
+### **Ways to Create a Thread:**
+
+####  Method 1: **Extending `Thread` class**
+
+java
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread is running...");
+    }
+
+    public static void main(String args[]) {
+        MyThread t = new MyThread();
+        t.start();  // calls run() method in a new thread
+    }
+}
+
+#### Method 2: **Implementing `Runnable` interface**
+
+java
+class MyRunnable implements Runnable {
+    public void run() {
+        System.out.println("Runnable thread is running...");
+    }
+
+    public static void main(String args[]) {
+        MyRunnable r = new MyRunnable();
+        Thread t = new Thread(r);
+        t.start();
+    }
+}
+
+---
+
+### ️ **Common Thread Methods:**
+
+| Method             | Description                             |
+| ------------------ | --------------------------------------- |
+| `start()`          | Starts the thread                       |
+| `run()`            | Defines the code executed by the thread |
+| `sleep(ms)`        | Suspends the thread for a given time    |
+| `join()`           | Waits for a thread to die               |
+| `isAlive()`        | Checks if a thread is alive             |
+| `setPriority(int)` | Sets thread priority (1 to 10)          |
+| `getName()`        | Gets thread name                        |
+
+---
+
+###  **Thread Life Cycle:**
+
+New → Runnable → Running → Blocked/Waiting → Terminated
+
+
+---
+
+###  **Example with Sleep:**
+
+java
+class DemoThread extends Thread {
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(i);
+            try {
+                Thread.sleep(500); // pause for 500ms
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        DemoThread t1 = new DemoThread();
+        t1.start();
+    }
+}
+
+
+---
+
+###  **Advantages of Multithreading:**
+
+* Efficient use of CPU
+* Better program performance
+* Easy to manage asynchronous tasks (like downloads, animations)
+
+---
+
+###  **Important Notes:**
+
+* Never call `run()` directly – always use `start()`.
+* Threads share memory, so **synchronization** may be needed to avoid conflicts.
+* Always handle **`InterruptedException`** when using `sleep()` or `join()`.
+
+---
+
+### Practice Questions:
+
+1. Create a thread using both `Thread` class and `Runnable` interface.
+2. Write a program where two threads print even and odd numbers alternatively.
+3. What happens if `start()` is called twice on the same thread object?
+

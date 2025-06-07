@@ -1,0 +1,57 @@
+**Lecture 1: Introduction to Java**.
+
+### **Lecture 1: Introduction to Java**
+
+#### **1. What is Java?**
+- Java is a high-level, object-oriented, platform-independent programming language developed by **Sun Microsystems** (now owned by **Oracle**).
+- It was released in **1995** and designed to be **simple, secure, robust, and portable**.
+
+#### **2. Key Features of Java:**
+1. **Object-Oriented:** Based on objects and classes, promoting reusability and modularity.
+2. **Platform-Independent:** "Write Once, Run Anywhere" (WORA) due to the **Java Virtual Machine (JVM)**.
+3. **Simple:** Easy to learn with a syntax similar to C++ but with reduced complexity.
+4. **Secure:** Built-in security features to develop virus-free and tamper-free systems.
+5. **Robust:** Strong memory management and automatic garbage collection.
+6. **Multithreaded:** Supports multiple threads of execution for performing tasks simultaneously.
+7. **Distributed:** Facilitates creating distributed applications.
+8. **Dynamic:** Adapts to evolving environments.
+
+#### **3. Why Learn Java?**
+- **Versatile:** Used in web, mobile, desktop applications, and large-scale enterprise systems.
+- **Job Opportunities:** Widely used in corporate environments.
+- **Community Support:** A large community of developers and vast libraries/frameworks.
+
+---
+
+### **4. Java Editions:**
+1. **Java SE (Standard Edition):** Core functionality (basic libraries, data types, networking).
+2. **Java EE (Enterprise Edition):** Builds large-scale, distributed, network-based applications.
+3. **Java ME (Micro Edition):** For mobile and embedded devices.
+4. **JavaFX:** Used for building rich internet applications.
+
+---
+
+### **5. The Java Development Kit (JDK):**
+- JDK is a software development environment used for building Java applications.
+- Includes:
+  - **Compiler (javac)**: Compiles Java code into bytecode.
+  - **Java Runtime Environment (JRE)**: Runs Java programs.
+  - **Java Virtual Machine (JVM)**: Platform-dependent runtime environment.
+
+---
+
+
+**Explanation:**
+1. `public class HelloWorld`: Defines a class named HelloWorld.
+2. `public static void main(String[] args)`: Main method - entry point of the program.
+3. `System.out.println("Hello, World!");`: Prints text to the console.
+
+---
+
+### **6. Advantages of Java:**
+- **Platform Independence:** Code can run on any device with JVM.
+- **High Performance:** Optimized for speed through Just-In-Time (JIT) compilation.
+- **Automatic Memory Management:** Garbage collection handles memory cleanup.
+- **Rich API:** Provides libraries for data structures, networking, and GUI.
+
+

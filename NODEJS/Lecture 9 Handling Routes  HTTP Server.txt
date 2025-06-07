@@ -1,0 +1,112 @@
+
+#  **Lecture 9: Handling Routes in Node.js HTTP Server**
+
+---
+
+###  **What Are Routes?**
+
+In a web server, **routes** determine how the server responds to different URLs (paths).
+
+For example:
+
+* `/` → Home page
+* `/about` → About page
+* `/contact` → Contact page
+
+Each route can return different content.
+
+---
+
+###  Real-Life Analogy
+
+Imagine a receptionist at an office:
+
+* Visitor says: “I want to go to the Accounts department” → `/accounts`
+* Receptionist guides them accordingly.
+
+Just like that, the Node server listens to requests and routes them to the correct response.
+
+---
+
+##  Source Code with Comments
+
+js
+// routes-server.js
+
+const http = require('http');
+
+// Create server
+const server = http.createServer((req, res) => {
+  // Get the URL path
+  const url = req.url;
+
+  // Set response header
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+
+  // Home route
+  if (url === '/') {
+    res.write('<h1>🏠 Welcome to the Home Page</h1>');
+  }
+  // About route
+  else if (url === '/about') {
+    res.write('<h1>ℹ️ About Us</h1><p>We are building with Node.js!</p>');
+  }
+  // Contact route
+  else if (url === '/contact') {
+    res.write('<h1>📞 Contact Us</h1><p>Email: support@example.com</p>');
+  }
+  // 404 - not found
+  else {
+    res.writeHead(404, { 'Content-Type': 'text/html' });
+    res.write('<h1>❌ 404 Not Found</h1><p>The page you are looking for does not exist.</p>');
+  }
+
+  // End the response
+  res.end();
+});
+
+// Start server
+const PORT = 3000;
+server.listen(PORT, () => {
+  console.log(` Server is running at http://localhost:${PORT}`);
+});
+
+
+---
+
+###  How to Run:
+
+1. Save as `routes-server.js`
+2. Run with:
+
+
+node routes-server.js
+
+
+3. Open these in your browser:
+
+   * `http://localhost:3000/`
+   * `http://localhost:3000/about`
+   * `http://localhost:3000/contact`
+   * `http://localhost:3000/anything` → 404 Error
+
+---
+
+##  Summary
+
+| Route         | Response             |
+| ------------- | -------------------- |
+| `/`           | Home page            |
+| `/about`      | About page           |
+| `/contact`    | Contact page         |
+| Anything else | 404 - Page not found |
+
+---
+
+###  Real-World Connection
+
+Routing is used in:
+
+* WhatsApp: `/status`, `/chat`, `/profile`
+* E-commerce: `/product`, `/cart`, `/checkout`
+* Any web app with multiple pages or views
