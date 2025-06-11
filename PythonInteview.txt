@@ -1,0 +1,141 @@
+100 logical and technical interview questions.  
+
+---
+
+### **1. Overview of Python**  
+1. What are the key features of Python?  
+2. What is the difference between Python 2 and Python 3?  
+3. Why is Python called an interpreted language?  
+4. How does Python handle memory management?  
+5. What are Python’s built-in data types?  
+
+### **2. Data Types and Variables**  
+6. What is dynamic typing in Python?  
+7. What is the difference between mutable and immutable data types?  
+8. How do you check the data type of a variable in Python?  
+9. Explain the concept of type conversion in Python.  
+10. Write a program to swap two variables without using a third variable.  
+
+### **3. Operators**  
+11. What is the difference between `is` and `==` operators?  
+12. How does the `//` operator work in Python?  
+13. What is the difference between `&` and `and` operators?  
+14. Explain the working of bitwise operators in Python.  
+15. Write a Python program to check if a number is odd or even using bitwise operators.  
+
+### **4. Decision Making (if, if-else, elif)**  
+16. How does Python handle nested `if` statements?  
+17. Write a program to find the largest of three numbers using if-else statements.  
+18. What is the difference between `elif` and multiple `if` statements?  
+19. How does short-circuiting work in conditional statements?  
+20. Can we use an `if` statement without an `else`?  
+
+### **5. Loops (for, while), Nested Loops, Control Statements**  
+21. What is the difference between `for` and `while` loops?  
+22. How can we use `else` with a loop?  
+23. Write a Python program to print the Fibonacci series using a loop.  
+24. What is the purpose of the `break` and `continue` statements?  
+25. Write a program to check if a number is prime using loops.  
+
+### **6. Functions**  
+26. What are the different types of functions in Python?  
+27. Explain function arguments: positional, keyword, and default arguments.  
+28. What is a lambda function?  
+29. Write a function to calculate the factorial of a number using recursion.  
+30. Can a function return multiple values in Python?  
+
+### **7. String**  
+31. What are different string methods in Python?  
+32. How does Python handle string immutability?  
+33. Write a Python program to reverse a string.  
+34. How can we format strings in Python?  
+35. What is the difference between `split()` and `join()` methods?  
+
+### **8. List**  
+36. What are the properties of lists in Python?  
+37. What is list comprehension?  
+38. How do you remove duplicates from a list?  
+39. Write a program to sort a list without using the `sort()` function.  
+40. What is the difference between `append()` and `extend()` methods?  
+
+### **9. Tuple**  
+41. How is a tuple different from a list?  
+42. What are some use cases of tuples?  
+43. How can we convert a list into a tuple?  
+44. Can a tuple contain mutable elements?  
+45. Write a program to find the index of an element in a tuple.  
+
+### **10. Dictionary**  
+46. What is the difference between a dictionary and a list?  
+47. How do you iterate over dictionary keys and values?  
+48. Write a program to merge two dictionaries.  
+49. How do you remove an item from a dictionary?  
+50. What is the purpose of `get()` method in dictionaries?  
+
+### **11. Class and Object with Constructor**  
+51. What is a class and an object in Python?  
+52. What is the purpose of the `__init__` method?  
+53. How does Python handle private and public variables?  
+54. Write a class to represent a bank account with deposit and withdrawal methods.  
+55. What is the difference between a class variable and an instance variable?  
+
+### **12. Inheritance & Method Overriding**  
+56. What are the types of inheritance in Python?  
+57. What is the `super()` function used for?  
+58. Write a program to demonstrate multilevel inheritance.  
+59. Can constructors be inherited in Python?  
+60. What is method overriding?  
+
+### **13. Exception Handling**  
+61. What is the purpose of exception handling?  
+62. What is the difference between `try-except` and `try-finally`?  
+63. Write a program to handle division by zero exception.  
+64. What are custom exceptions?  
+65. Can we catch multiple exceptions in a single `except` block?  
+
+### **14. File I/O**  
+66. How do you open and close a file in Python?  
+67. What are the different file opening modes in Python?  
+68. Write a program to read a file line by line.  
+69. How do you write data to a file?  
+70. What is the difference between `read()`, `readline()`, and `readlines()`?  
+
+### **15. Web Scraping**  
+71. What is web scraping, and why is it used?  
+72. What libraries are used for web scraping in Python?  
+73. Write a simple program to extract headings from a webpage using `BeautifulSoup`.  
+74. What is the difference between `requests` and `urllib` modules?  
+75. What are some ethical concerns in web scraping?  
+
+### **16. Database Connection with MySQL**  
+76. How do you connect Python to MySQL?  
+77. What is the purpose of the `cursor` object?  
+78. Write a program to insert a record into a MySQL database.  
+79. How can we execute multiple queries in Python?  
+80. What is the difference between `fetchone()`, `fetchall()`, and `fetchmany()`?  
+
+### **17. CRUD Application**  
+81. What are the basic operations of a CRUD application?  
+82. Write a Python script to create a table in MySQL.  
+83. Write a Python script to update a record in MySQL.  
+84. Write a Python script to delete a record from MySQL.  
+85. How do you prevent SQL injection in Python?  
+
+### **18. Authentication**  
+86. What is authentication in web applications?  
+87. What are different authentication techniques in Python?  
+88. Write a program for user login authentication using Python and MySQL.  
+89. How can we hash passwords for authentication?  
+90. What is OAuth, and how does it work?  
+
+### **Additional Logical Questions**  
+91. Write a program to check if a string is a palindrome.  
+92. Write a program to count the occurrences of each character in a string.  
+93. Write a program to find the largest element in a list.  
+94. Write a program to generate random numbers.  
+95. Write a program to convert a decimal number to binary.  
+96. Write a program to find the intersection of two lists.  
+97. Write a program to find the factorial of a number using recursion.  
+98. Write a program to check if two strings are anagrams.  
+99. Write a program to implement a simple calculator using functions.  
+100. Write a Python program to fetch live weather data from an API.  

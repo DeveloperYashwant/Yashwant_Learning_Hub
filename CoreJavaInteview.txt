@@ -1,0 +1,179 @@
+**100 Practical Questions** on **Core Java** 
+
+### **1] Introduction to Java & Command Line Arguments (5 Questions)**  
+1. Write a Java program to print "Hello, Java!"  
+2. How do you set up Java in a system and run a Java program using the command line?  
+3. Write a Java program to accept command-line arguments and print them.  
+4. How do you check the version of Java installed using the command line?  
+5. What is the significance of the `main` method in Java?  
+
+---
+
+### **2] Data Types and Variables (5 Questions)**  
+6. Write a Java program to declare and print all primitive data types.  
+7. What happens when you assign a `double` value to an `int`? Demonstrate with an example.  
+8. What is type casting? Write a program to convert `int` to `double`.  
+9. How do you swap two variables without using a third variable?  
+10. Explain the difference between static and instance variables with an example.  
+
+---
+
+### **3] Operators (5 Questions)**  
+11. Write a Java program to demonstrate all arithmetic operators.  
+12. Write a Java program to check whether a number is even or odd using the modulus operator.  
+13. What is the difference between `==` and `.equals()`? Show with an example.  
+14. Explain the precedence of operators in Java with an example.  
+15. Write a program to perform bitwise AND, OR, XOR, and NOT operations.  
+
+---
+
+### **4] Decision Making (5 Questions)**  
+16. Write a Java program to check if a number is positive, negative, or zero.  
+17. Write a program to find the largest of three numbers using `if-else`.  
+18. How do you check if a number is divisible by both 3 and 5 using a single `if` statement?  
+19. Write a Java program to implement a simple calculator using `switch-case`.  
+20. What is the difference between `if-else` and `switch-case`? Explain with an example.  
+
+---
+
+### **5] Loops, Nested Loops, and Control Statements (5 Questions)**  
+21. Write a program to print numbers from 1 to 100 using a `for` loop.  
+22. Write a Java program to print the Fibonacci series using a `while` loop.  
+23. Write a program to check if a number is prime using a loop.  
+24. Implement a `do-while` loop to ask for user input until they enter "exit".  
+25. What is the purpose of `break` and `continue` in Java? Show with examples.  
+
+---
+
+### **6] Static and Non-static Methods (5 Questions)**  
+26. Write a Java program to demonstrate a static method.  
+27. Write a Java program to create a non-static method and call it in `main()`.  
+28. Can a static method access non-static members? Explain with an example.  
+29. How do you call a static method without creating an object? Demonstrate.  
+30. What happens when you declare the `main` method as non-static?  
+
+---
+
+### **7] Arrays (5 Questions)**  
+31. Write a program to find the largest element in an array.  
+32. How do you reverse an array in Java?  
+33. Write a program to sort an array in ascending order.  
+34. How do you find duplicate elements in an array?  
+35. Write a Java program to find the sum of elements in an array.  
+
+---
+
+### **8] Constructor & Finalize (5 Questions)**  
+36. Write a program to demonstrate parameterized constructors.  
+37. How do you create a copy constructor in Java?  
+38. What happens if you define a constructor as `private`?  
+39. Explain the purpose of the `finalize` method with an example.  
+40. What is constructor chaining? Show with an example.  
+
+---
+
+### **9] Inheritance (5 Questions)**  
+41. Write a Java program to demonstrate single inheritance.  
+42. Write a Java program to demonstrate multilevel inheritance.  
+43. Can a subclass access private members of a superclass? Explain.  
+44. How do you call the superclass constructor in Java?  
+45. What is method hiding in Java?  
+
+---
+
+### **10] Method Overloading & Overriding (5 Questions)**  
+46. Write a Java program to demonstrate method overloading.  
+47. Write a Java program to demonstrate method overriding.  
+48. Can you overload the `main` method in Java?  
+49. What happens when you override a method with a different return type?  
+50. How does Java differentiate between overloaded methods?  
+
+---
+
+### **11] Interface (5 Questions)**  
+51. Write a Java program to implement an interface.  
+52. Can an interface have static methods? Demonstrate.  
+53. What happens if a class implements two interfaces with the same method?  
+54. What is a functional interface? Show with an example.  
+55. Can an interface extend another interface?  
+
+---
+
+### **12] Abstract Methods (5 Questions)**  
+56. Write a Java program to demonstrate an abstract class.  
+57. Can an abstract class have a constructor? Show with an example.  
+58. What happens if a class has an abstract method but is not declared abstract?  
+59. Can an abstract class implement an interface?  
+60. Write a Java program with an abstract method that is implemented in a subclass.  
+
+---
+
+### **13] Threading (5 Questions)**  
+61. Write a Java program to create a thread using `Thread` class.  
+62. Write a Java program to create a thread using `Runnable` interface.  
+63. What is the purpose of the `synchronized` keyword in Java?  
+64. How do you make a thread sleep in Java?  
+65. What is the difference between `start()` and `run()` methods in Java threads?  
+
+---
+
+### **14] Packages (5 Questions)**  
+66. How do you create and import a user-defined package?  
+67. Write a Java program to import a package and use its class.  
+68. What is the difference between `import package.*` and `import package.ClassName`?  
+69. Can a package have multiple classes? Demonstrate.  
+70. What is the purpose of the `java.lang` package?  
+
+---
+
+### **15] Exception Handling (5 Questions)**  
+71. Write a Java program to handle `ArrayIndexOutOfBoundsException`.  
+72. How do you handle multiple exceptions in Java?  
+73. Write a program to use `finally` block in exception handling.  
+74. What is the difference between `throw` and `throws`?  
+75. Write a Java program to create a user-defined exception.  
+
+---
+
+### **16] Input Methods (BufferedReader) & String Methods (5 Questions)**  
+76. Write a Java program to read input using `BufferedReader`.  
+77. How do you find the length of a string in Java?  
+78. Write a Java program to reverse a string.  
+79. How do you replace a character in a string?  
+80. Write a program to check if a string is a palindrome.  
+
+---
+
+### **17] File Handling (5 Questions)**  
+81. Write a Java program to create a new file.  
+82. How do you write data to a file in Java?  
+83. Write a program to read data from a file.  
+84. How do you delete a file in Java?  
+85. Write a program to count the number of lines in a file.  
+
+---
+
+### **18] Nested Classes (5 Questions)**  
+86. Write a Java program to demonstrate an inner class.  
+87. How do you create a static nested class in Java?  
+88. What is the difference between an inner class and a static nested class?  
+89. Write a Java program to access members of an outer class from an inner class.  
+90. What is an anonymous inner class?  
+
+---
+
+### **19] Database Connection with MySQL (5 Questions)**  
+91. Write a Java program to connect to a MySQL database.  
+92. How do you execute an SQL query in Java?  
+93. Write a Java program to insert data into a MySQL database.  
+94. How do you update data in MySQL using Java?  
+95. Write a Java program to delete a record from a database.  
+
+---
+
+### **20] JDBC CRUD & Authentication (5 Questions)**  
+96. Write a JDBC program for CRUD operations.  
+97. Write a Java program for user login authentication using JDBC.  
+98. How do you prevent SQL injection in JDBC?  
+99. What is the difference between `Statement` and `PreparedStatement`?  
+100. Write a Java program to fetch all records from a MySQL table using JDBC.  

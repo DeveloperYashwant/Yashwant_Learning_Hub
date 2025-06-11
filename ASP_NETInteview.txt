@@ -1,0 +1,159 @@
+ **ASP.NET**:
+
+---
+
+### **1. Introduction to ASP.NET**  
+1. What is ASP.NET, and how does it differ from traditional ASP?  
+2. Explain the ASP.NET Page Life Cycle.  
+3. What are the main features of ASP.NET?  
+4. What is the difference between **Web Forms** and **MVC** in ASP.NET?  
+5. What is the role of the **Global.asax** file?  
+6. Explain the difference between **ASP.NET Core** and **ASP.NET Framework**.  
+7. What are HTTP Handlers and HTTP Modules in ASP.NET?  
+8. How does ASP.NET handle requests and responses?  
+9. What is the difference between **Web.config** and **Machine.config**?  
+10. How do you enable debugging in ASP.NET applications?  
+
+---
+
+### **2. Web Form Development**  
+11. What are ASP.NET Web Forms?  
+12. Explain the structure of an ASP.NET Web Form.  
+13. How do you manage the state of controls in ASP.NET Web Forms?  
+14. What is the difference between **PostBack** and **IsPostBack**?  
+15. How do you dynamically add controls to a Web Form?  
+16. What are the advantages and disadvantages of using Web Forms?  
+17. How do you navigate between Web Forms?  
+18. What is the **AutoPostBack** property?  
+19. How do you use the **ViewState** in Web Forms?  
+20. How does ASP.NET handle user authentication in Web Forms?  
+
+---
+
+### **3. Client-Side & Server-Side State Management**  
+21. What is **State Management**, and why is it important in ASP.NET?  
+22. What are the different ways to manage **state** in ASP.NET?  
+23. What is the difference between **Session State** and **Application State**?  
+24. Explain the working of **Cookies** in ASP.NET.  
+25. How do you store data in **ViewState**?  
+26. What is the difference between **Hidden Fields** and **Session State**?  
+27. How does **QueryString** help in state management?  
+28. Explain the benefits of using **Cache** in ASP.NET.  
+29. What are the limitations of using **Session State**?  
+30. How can you maintain state in a **Web Farm environment**?  
+
+---
+
+### **4. Validation Controls**  
+31. What are Validation Controls in ASP.NET?  
+32. Explain the different types of **Validation Controls** in ASP.NET.  
+33. How does the **RequiredFieldValidator** work?  
+34. What is the purpose of the **CompareValidator** control?  
+35. How does the **RegularExpressionValidator** help in form validation?  
+36. What is the use of the **RangeValidator** control?  
+37. How do you validate a **Custom Condition** in ASP.NET?  
+38. What is **Client-Side Validation**?  
+39. What is the difference between **Client-Side** and **Server-Side Validation**?  
+40. How do you use **ValidationSummary** to display validation errors?  
+
+---
+
+### **5. Table Controls**  
+41. What are Table Controls in ASP.NET?  
+42. How do you create a **Dynamic Table** in ASP.NET?  
+43. What is the difference between **GridView** and **Repeater Control**?  
+44. How do you bind a **DataTable** to a GridView?  
+45. How do you format data in a Table Control?  
+46. What is the use of **DataBound Controls**?  
+47. How do you apply styles to a Table Control?  
+48. What is the difference between **ListView** and **DataList**?  
+49. How do you perform **Paging in GridView**?  
+50. How do you add **Sorting functionality** in a GridView?  
+
+---
+
+### **6. Calendar Control (Technical & Logical Questions)**  
+51. What is the **Calendar Control** in ASP.NET?  
+52. How do you handle **date selection** in a Calendar Control?  
+53. How do you disable specific dates in a Calendar Control?  
+54. What event is triggered when a user selects a date in a Calendar?  
+55. How do you customize the appearance of a Calendar Control?  
+56. How can you allow users to **select multiple dates** in a Calendar?  
+57. How do you integrate a Calendar Control with a database?  
+58. How do you use the Calendar Control to schedule events?  
+59. How do you get the **current month and year** in a Calendar Control?  
+60. How can you restrict users from selecting past dates?  
+
+---
+
+### **7. AdRotator Control**  
+61. What is the AdRotator Control in ASP.NET?  
+62. How do you configure an **AdRotator XML file**?  
+63. How do you link an AdRotator to an advertisement database?  
+64. What are the different types of ad file formats supported?  
+65. How do you set the **Priority of Ads** in an AdRotator?  
+
+---
+
+### **8. User Controls**  
+66. What are User Controls in ASP.NET?  
+67. How do you create a reusable User Control?  
+68. What is the difference between **User Controls** and **Custom Controls**?  
+69. How do you load a User Control dynamically?  
+70. How do you pass data between a User Control and a Web Page?  
+
+---
+
+### **9. Chart Control**  
+71. What is the Chart Control in ASP.NET?  
+72. How do you bind **database data** to a Chart Control?  
+73. What are the different types of charts available in ASP.NET?  
+74. How do you customize colors in a Chart?  
+75. How do you implement **real-time chart updates** in ASP.NET?  
+
+---
+
+### **10. MultiView Control**  
+76. What is a MultiView Control?  
+77. How do you navigate between different views in a MultiView?  
+78. What is the difference between **MultiView** and **Wizard Control**?  
+
+---
+
+### **11. Master Page**  
+79. What is a Master Page in ASP.NET?  
+80. How do you apply a Master Page to multiple pages?  
+81. How do you change a Master Page dynamically?  
+82. What are the advantages of using Master Pages?  
+
+---
+
+### **12. File Upload & Download**  
+83. How do you upload a file in ASP.NET?  
+84. How do you implement **multiple file uploads**?  
+85. How do you allow only specific file formats for upload?  
+
+---
+
+### **13. Exception Handling in ASP.NET**  
+86. What are the different ways to handle exceptions in ASP.NET?  
+87. What is the difference between **try-catch-finally** and **Global Error Handling**?  
+
+---
+
+### **14. Themes & CSS**  
+88. How do you apply themes in ASP.NET?  
+89. What is the difference between **Themes** and **CSS** in ASP.NET?  
+
+---
+
+### **15-16. ADO.NET (Parts 1 & 2)**  
+90. What is ADO.NET?  
+91. What are the key objects of ADO.NET?  
+92. What is the difference between **DataSet** and **DataReader**?  
+
+---
+
+### **17. AJAX Control**  
+93. What is AJAX in ASP.NET?  
+94. How do you implement partial page updates using AJAX?  

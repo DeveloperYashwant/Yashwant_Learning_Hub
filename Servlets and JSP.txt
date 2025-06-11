@@ -1,0 +1,159 @@
+Servlets and JSP**.  
+
+---
+
+## **1. Introduction to Servlet**  
+1. What is a servlet?  
+2. How does a servlet work?  
+3. What are the lifecycle methods of a servlet?  
+4. How is a servlet different from JSP?  
+5. What are the advantages of using servlets over CGI?  
+
+## **2. Servlet Request**  
+6. What is the `HttpServletRequest` interface?  
+7. How can you retrieve request parameters in a servlet?  
+8. What is the difference between `GET` and `POST` requests?  
+9. How do you handle form data in a servlet?  
+10. Write a program to fetch data from an HTML form using a servlet.  
+
+## **3. Servlet Collaboration**  
+11. What is servlet collaboration?  
+12. How do you forward a request from one servlet to another?  
+13. What is the difference between `RequestDispatcher` and `sendRedirect`?  
+14. How do you share data between servlets?  
+15. Write a program to forward a request using `RequestDispatcher`.  
+
+## **4. JDBC with Servlet**  
+16. How do you connect a servlet with a database?  
+17. What is `DriverManager` in JDBC?  
+18. How do you perform CRUD operations in JDBC with servlets?  
+19. Write a program to fetch and display data from a database in a servlet.  
+20. What are prepared statements, and why should they be used?  
+
+## **5. Session Tracking (Using Sessions and Cookies)**  
+21. What is session tracking?  
+22. What are the different ways to track a session in servlets?  
+23. What is the difference between `HttpSession` and cookies?  
+24. How do you create and retrieve session attributes?  
+25. Write a program to implement session tracking using cookies.  
+
+## **6. Introduction to JSP & JSP Scripting Elements**  
+26. What is JSP?  
+27. How is JSP different from servlets?  
+28. What are JSP scripting elements?  
+29. What is the difference between `<% %>`, `<%= %>`, and `<%! %>`?  
+30. Write a program to demonstrate the use of JSP scripting elements.  
+
+## **7. Implicit Objects of JSP**  
+31. What are implicit objects in JSP?  
+32. Name and explain the 9 implicit objects in JSP.  
+33. What is the purpose of the `session` implicit object?  
+34. How do you use the `application` implicit object?  
+35. Write a program to display the current date and time using the `out` implicit object.  
+
+## **8. Directive Elements**  
+36. What are directive elements in JSP?  
+37. Explain the three types of directive elements.  
+38. How do you include an external file in JSP using the `include` directive?  
+39. What is the difference between `page` and `include` directives?  
+40. Write a program to include a CSS file using a directive in JSP.  
+
+## **9. Action Elements**  
+41. What are action elements in JSP?  
+42. Explain the `<jsp:include>` action tag with an example.  
+43. What is the `<jsp:forward>` action tag used for?  
+44. How do you use the `<jsp:param>` tag?  
+45. Write a program to demonstrate the `<jsp:useBean>` action tag.  
+
+## **10. Expression Language (EL)**  
+46. What is Expression Language (EL) in JSP?  
+47. How does EL simplify accessing data from JavaBeans?  
+48. What are implicit objects in EL?  
+49. Write an example of using EL to display session attributes.  
+50. How do you perform arithmetic operations using EL in JSP?  
+
+## **11. JSP with JDBC**  
+51. How do you connect JSP with a MySQL database?  
+52. What is the difference between JSP and servlet in database handling?  
+53. Write a program to insert data into a database using JSP.  
+54. How do you handle SQL exceptions in JSP?  
+55. Write a JSP program to display records from a MySQL database in a table.  
+
+---
+
+### **Advanced Technical and Logical Questions**  
+
+#### **Servlets Advanced Questions**  
+56. What is servlet chaining?  
+57. How does the `SingleThreadModel` interface work?  
+58. How do you configure a servlet using `web.xml`?  
+59. What is the difference between `GenericServlet` and `HttpServlet`?  
+60. Explain the working of filters in servlets.  
+
+#### **JSP Advanced Questions**  
+61. How do you handle exceptions in JSP?  
+62. What is JSP pagination?  
+63. How do you manage user authentication using JSP and servlets?  
+64. How does JSP handle multithreading?  
+65. What are custom tags in JSP?  
+
+#### **Practical Scenario-Based Questions**  
+66. How do you prevent SQL injection in a JSP and servlet-based web application?  
+67. How do you implement a login system using JSP, servlets, and JDBC?  
+68. Write a program to upload a file using JSP and servlets.  
+69. How do you implement role-based authentication in JSP and servlets?  
+70. How do you display data dynamically from a database in JSP?  
+
+---
+
+### **Logical and Programming-Based Questions**  
+71. Write a servlet program to count the number of visitors to a website.  
+72. Create a servlet that takes user input and displays it in an HTML response.  
+73. Write a JSP program that displays user details from a database.  
+74. Implement a shopping cart using JSP and servlets.  
+75. Write a program to generate a PDF report using servlets and JSP.  
+
+---
+
+### **JDBC CRUD Operations in JSP and Servlets**  
+76. What is CRUD?  
+77. Write a program to insert a record into a MySQL database using JSP.  
+78. Write a program to update a record using JSP.  
+79. Write a program to delete a record from a database using JSP.  
+80. Write a program to retrieve and display database records in JSP.  
+
+---
+
+### **Session Management and Cookies Practical Questions**  
+81. Write a JSP program to store user preferences using cookies.  
+82. How do you handle user authentication using sessions in JSP?  
+83. Write a program to log out a user using sessions in JSP.  
+84. How do you prevent session hijacking in JSP applications?  
+85. Write a program to create a login and logout system using JSP.  
+
+---
+
+### **Exception Handling and Debugging in JSP & Servlets**  
+86. How do you handle exceptions in JSP?  
+87. What is the `errorPage` directive in JSP?  
+88. Write a servlet program to handle errors gracefully.  
+89. How do you log errors in a JSP application?  
+90. What are the best practices for debugging JSP applications?  
+
+---
+
+### **Security and Performance Optimization Questions**  
+91. How do you secure a JSP and servlet application?  
+92. What is HTTPS, and how do you enforce it in JSP applications?  
+93. How do you improve the performance of a servlet-based application?  
+94. What are best practices for writing efficient JSP code?  
+95. How do you prevent XSS (Cross-Site Scripting) in JSP?  
+
+---
+
+### **Final Logical and Scenario-Based Questions**  
+96. How do you design a user registration system using JSP and servlets?  
+97. How do you implement a CAPTCHA in a JSP login form?  
+98. Write a program to create a REST API using servlets.  
+99. How do you generate dynamic charts in JSP using data from MySQL?  
+100. How do you deploy a JSP and servlet application on a Tomcat server?  

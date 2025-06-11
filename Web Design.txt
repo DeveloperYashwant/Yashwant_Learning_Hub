@@ -1,0 +1,54 @@
+
+### **HTML, CSS, and Bootstrap Final Exam Paper**
+
+#### **Section A: HTML (20 Marks)**
+
+1. **Define HTML and explain its structure.** (5 marks)  
+2. **Write the HTML code to create a simple webpage with a title, a heading, a paragraph, and an image.** (5 marks)  
+3. **What are the differences between the `<div>` and `<span>` tags? Provide examples for each.** (5 marks)  
+4. **Explain the following HTML tags with examples:**
+   - `<form>`
+   - `<input>`
+   - `<select>` (5 marks)  
+5. **What is the purpose of the `<meta>` tag in HTML? Provide an example.** (5 marks)
+
+#### **Section B: CSS (20 Marks)**
+
+1. **Explain the three types of CSS and provide examples of each.** (5 marks)  
+2. **Write a CSS code to style a webpage with the following:**
+   - A background color of light blue
+   - Heading in bold, with a font size of 30px
+   - Paragraph with 20px margin and 15px padding (5 marks)  
+3. **What is the CSS box model? Explain the components of the box model.** (5 marks)  
+4. **What are pseudo-classes in CSS? Provide examples of the following pseudo-classes:**
+   - `:hover`
+   - `:first-child`
+   - `:nth-child()` (5 marks)  
+5. **What is the difference between `absolute`, `relative`, and `fixed` positioning in CSS? Provide an example for each.** (5 marks)
+
+#### **Section C: Bootstrap (20 Marks)**
+
+1. **What is Bootstrap and why is it used in web development?** (5 marks)  
+2. **How do you include Bootstrap in an HTML page? Explain the two main methods.** (5 marks)  
+3. **Write the HTML code to create a responsive navigation bar using Bootstrap.** (5 marks)  
+4. **Explain the difference between `.container` and `.container-fluid` in Bootstrap.** (5 marks)  
+5. **What is the purpose of the `grid system` in Bootstrap? Explain how the 12-column layout works.** (5 marks)
+
+#### **Section D: Practical (20 Marks)**
+
+1. **Design a webpage with the following requirements using HTML, CSS, and Bootstrap:**
+   - A navbar with at least 3 items.
+   - A header section with a background image and a heading.
+   - A content section with two columns (using Bootstrap's grid system).
+   - A footer with contact information. (10 marks)
+
+2. **Create a form with the following fields using HTML and Bootstrap:**
+   - Name (text input)
+   - Email (email input)
+   - Gender (radio buttons)
+   - Preferred contact method (checkboxes)
+   - Submit button (5 marks)
+
+3. **Using CSS, create a button that changes color when hovered over. Provide the HTML and CSS code.** (5 marks)
+
+---

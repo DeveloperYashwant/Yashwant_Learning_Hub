@@ -1,0 +1,156 @@
+Web Developement 
+
+## **1. HTML5 & CSS3 Interview Questions and Answers**  
+
+### **Q1: What are the new features introduced in HTML5?**  
+**A:** HTML5 introduced new semantic elements (`<header>`, `<section>`, `<article>`, `<nav>`, etc.), new form controls (`<datalist>`, `<output>`, `<progress>`, `<meter>`), multimedia support (`<audio>`, `<video>`), APIs (Canvas, WebSockets, Geolocation), and better storage options (localStorage, sessionStorage).  
+
+### **Q2: What is the difference between `localStorage` and `sessionStorage`?**  
+**A:**  
+- `localStorage` stores data permanently unless manually cleared.  
+- `sessionStorage` stores data only for the session (clears when the browser is closed).  
+
+### **Q3: What is Flexbox, and how does it work?**  
+**A:** Flexbox is a CSS layout model that makes it easy to align elements in a row or column. It provides properties like `justify-content`, `align-items`, and `flex-wrap` to control positioning.  
+
+---
+
+## **2. JavaScript (ES6+) Interview Questions and Answers**  
+
+### **Q4: What is the difference between `var`, `let`, and `const`?**  
+**A:**  
+- `var`: Function-scoped, can be redeclared.  
+- `let`: Block-scoped, cannot be redeclared but can be reassigned.  
+- `const`: Block-scoped, cannot be reassigned or redeclared.  
+
+### **Q5: What is the difference between `==` and `===` in JavaScript?**  
+**A:**  
+- `==` (loose equality) compares values but allows type coercion (`'5' == 5` → `true`).  
+- `===` (strict equality) compares values and types (`'5' === 5` → `false`).  
+
+### **Q6: What are Promises and how do they work?**  
+**A:** A **Promise** is an object that represents the result of an asynchronous operation. It has three states: `pending`, `fulfilled`, and `rejected`. Example:  
+
+--javascript
+const fetchData = new Promise((resolve, reject) => {
+    let success = true;
+    if (success) resolve("Data fetched");
+    else reject("Error occurred");
+});
+
+fetchData.then((message) => console.log(message)).catch((error) => console.log(error));
+
+
+---
+
+## **3. React.js Interview Questions and Answers**  
+
+### **Q7: What is the Virtual DOM in React?**  
+**A:** The Virtual DOM is a lightweight copy of the real DOM. React updates the Virtual DOM first, compares it with the previous version, and applies only the necessary changes to the real DOM. This makes React faster.  
+
+### **Q8: What are React Hooks?**  
+**A:** Hooks are functions that let you use React features (like state and lifecycle methods) inside functional components. Example:  
+
+-- javascript
+import React, { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
+}
+
+
+### **Q9: What is the useEffect hook?**  
+**A:** `useEffect` is used to handle side effects like API calls, event listeners, or subscriptions. Example:  
+
+-- javascript
+useEffect(() => {
+  console.log("Component mounted");
+  return () => console.log("Component unmounted");
+}, []);
+
+
+---
+
+## **4. Node.js & Express.js Interview Questions and Answers**  
+
+### **Q10: What is the difference between Node.js and JavaScript?**  
+**A:** JavaScript is a programming language that runs in browsers. Node.js is a runtime environment that allows JavaScript to run on servers.  
+
+### **Q11: How do you create a simple Express server?**  
+**A:**  
+
+--javascript
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+
+---
+
+## **5. MongoDB Interview Questions and Answers**  
+
+### **Q12: What is the difference between SQL and NoSQL databases?**  
+**A:**  
+- **SQL (MySQL, PostgreSQL):** Structured, uses tables, predefined schema.  
+- **NoSQL (MongoDB):** Unstructured, stores data as JSON-like documents, flexible schema.  
+
+### **Q13: How do you perform a basic CRUD operation in MongoDB?**  
+**A:**  
+
+-- javascript
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost:27017/testDB");
+
+const User = mongoose.model("User", { name: String, age: Number });
+
+const newUser = new User({ name: "John", age: 25 });
+newUser.save().then(() => console.log("User saved"));
+
+
+---
+
+## **6. REST API Interview Questions and Answers**  
+
+### **Q14: What are RESTful APIs?**  
+**A:** REST APIs use HTTP methods (`GET`, `POST`, `PUT`, `DELETE`) to perform operations on resources.  
+
+### **Q15: How do you handle CORS issues in Express?**  
+**A:** Use the `cors` middleware:  
+
+--javascript
+const cors = require("cors");
+app.use(cors());
+```
+
+---
+
+## **7. Deployment (Netlify, Vercel, Heroku) Interview Questions and Answers**  
+
+### **Q16: How do you deploy a React app to Netlify?**  
+**A:**  
+1. Push your React project to GitHub.  
+2. Go to [Netlify](https://www.netlify.com/) and link your GitHub repository.  
+3. Netlify will auto-deploy your project.  
+
+### **Q17: How do you deploy a Node.js app on Heroku?**  
+**A:**  
+1. Install the Heroku CLI.  
+2. Run `heroku create` to create a new app.  
+3. Push your code using `git push heroku main`.  
+4. Run `heroku open` to see your app live.  
+
+---
+
+### **Bonus: Logical Questions**  
+
+### **Q18: How would you design a URL shortener like Bit.ly?**  
+**A:**  
+- Use a **hash function** to generate short URLs from long URLs.  
+- Store mappings in a **MongoDB database**.  
+- Use Express.js to handle short URL redirection.  

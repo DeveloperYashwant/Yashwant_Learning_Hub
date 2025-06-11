@@ -1,0 +1,141 @@
+ **DBMS & SQL**.  
+
+---
+
+## **1. DBMS Overview & Keys**  
+1. What is DBMS? How does it differ from RDBMS?  
+2. What are the advantages of using a DBMS?  
+3. Explain the different types of database models.  
+4. What are the different types of keys in DBMS?  
+5. What is the difference between **Primary Key** and **Unique Key**?  
+6. What is a **Foreign Key**, and how does it maintain referential integrity?  
+7. Can a table have multiple **Candidate Keys**? Explain.  
+8. What is the difference between **Super Key** and **Composite Key**?  
+9. How does a **Foreign Key** handle cascading updates and deletes?  
+10. Write a query to define a **Primary Key** and **Foreign Key** in SQL.  
+
+---
+
+## **2. DDL (Data Definition Language) Operations**  
+11. What are the DDL commands in SQL?  
+12. What is the difference between **CREATE** and **ALTER**?  
+13. How do you **modify** an existing table structure?  
+14. What happens when you **DROP** a table?  
+15. Write SQL queries to **CREATE**, **ALTER**, and **DROP** a table.  
+16. What is the purpose of the **TRUNCATE** command?  
+17. How does **TRUNCATE** differ from **DELETE**?  
+18. Can you rename a column using SQL? Provide an example.  
+19. What happens if you try to drop a table that has a Foreign Key constraint?  
+20. How do you change the **data type** of a column in SQL?  
+
+---
+
+## **3. DML (Data Manipulation Language) Operations**  
+21. What are the DML commands in SQL?  
+22. Explain the **INSERT** command with an example.  
+23. What are the different ways to **insert multiple records** in SQL?  
+24. Explain the **UPDATE** command with an example.  
+25. How does the **DELETE** command work?  
+26. What is the difference between **DELETE** and **TRUNCATE**?  
+27. How do you use the **MERGE** statement in SQL?  
+28. Write a query to **update a record** using a condition.  
+29. How do you delete all records from a table **without removing the structure**?  
+30. What is the significance of the **RETURNING** clause in SQL?  
+
+---
+
+## **4. DQL (Data Query Language) Operations**  
+31. What is DQL in SQL?  
+32. Explain the **SELECT** statement with an example.  
+33. How do you retrieve all columns from a table?  
+34. How do you filter records using the **WHERE** clause?  
+35. What is the purpose of the **ORDER BY** clause?  
+36. What is the difference between **LIMIT** and **OFFSET**?  
+37. How does the **DISTINCT** keyword work?  
+38. Write a query to select the **first 5 records** from a table.  
+39. How do you retrieve records **with NULL values**?  
+40. Explain the **GROUP BY** clause with an example.  
+
+---
+
+## **5. Aggregate Functions**  
+41. What are Aggregate Functions in SQL?  
+42. Explain the **COUNT()** function with an example.  
+43. What is the difference between **COUNT(*)** and **COUNT(column_name)**?  
+44. How does the **SUM()** function work?  
+45. What is the use of the **AVG()** function?  
+46. Write a query to find the **maximum and minimum salary** in a table.  
+47. Explain how the **HAVING** clause works with aggregate functions.  
+48. Write a query to **count the number of employees per department**.  
+49. What is the difference between **GROUP BY** and **ORDER BY**?  
+50. How do you find the **total number of distinct values** in a column?  
+
+---
+
+## **6. Mathematical & String Functions**  
+51. What are Mathematical Functions in SQL?  
+52. Explain the **ROUND()** function with an example.  
+53. What is the difference between **CEIL()** and **FLOOR()**?  
+54. How does the **MOD()** function work?  
+55. Write a query using **POWER()** and **SQRT()** functions.  
+56. What are String Functions in SQL?  
+57. How does the **CONCAT()** function work?  
+58. Explain the **LENGTH()** and **CHAR_LENGTH()** functions.  
+59. How do you convert a string to **UPPERCASE** and **LOWERCASE** in SQL?  
+60. Write a query to extract a substring from a column.  
+
+---
+
+## **7. Working on Views**  
+61. What is a View in SQL?  
+62. How do you create a View? Provide an example.  
+63. What is the difference between a **View** and a **Table**?  
+64. Can you update data in a View? Explain.  
+65. How do you modify an existing View?  
+66. What are the advantages of using Views?  
+67. What happens when you **DROP** a View?  
+68. Write a query to create a View that **displays only active employees**.  
+69. Can a View contain multiple tables? Provide an example.  
+70. How do you check if a View exists in SQL?  
+
+---
+
+## **8. Subqueries**  
+71. What is a Subquery in SQL?  
+72. How does a **correlated subquery** work?  
+73. What is the difference between **Subquery** and **JOIN**?  
+74. Write a query using a **Subquery inside a WHERE clause**.  
+75. How do you use a Subquery in the **SELECT** clause?  
+76. Explain the **EXISTS** and **NOT EXISTS** keywords.  
+77. How do you retrieve the **second-highest salary** using a subquery?  
+78. Write a query to find employees who **earn more than the average salary**.  
+79. Can a Subquery return multiple rows? How do you handle it?  
+80. What is the difference between **IN** and **EXISTS** in SQL?  
+
+---
+
+## **9. Joins (Technical & Logical Questions)**  
+81. What are **Joins** in SQL?  
+82. Explain the difference between **INNER JOIN** and **OUTER JOIN**.  
+83. What is the difference between **LEFT JOIN** and **RIGHT JOIN**?  
+84. Write a query using **INNER JOIN** between two tables.  
+85. What is a **CROSS JOIN**, and when is it used?  
+86. How does a **SELF JOIN** work?  
+87. Write a query using **LEFT JOIN** to display all records from the first table.  
+88. What is a **FULL OUTER JOIN**, and how does it work?  
+89. How do you retrieve **matching records** from both tables using JOIN?  
+90. Write a query to get employee details along with department names using **JOIN**.  
+
+---
+
+### **Advanced Technical and Logical SQL Questions**  
+91. What is the difference between **UNION** and **JOIN**?  
+92. How do you optimize queries for large datasets?  
+93. What are **Indexes**, and how do they improve query performance?  
+94. How do you handle **duplicate records** in SQL?  
+95. Write a query to remove **duplicate rows** from a table.  
+96. How do you implement a **recursive query** in SQL?  
+97. What is **denormalization**, and when should it be used?  
+98. How do you handle **transactions** in SQL?  
+99. Explain **ACID properties** in the context of a database.  
+100. How do you implement **pagination** in SQL queries?  
