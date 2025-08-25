@@ -1,0 +1,108 @@
+##  2] DDL Operations in DBMS
+
+**DDL = Data Definition Language**
+
+###  What it does:
+
+DDL commands are used to **create**, **modify**, or **delete the structure** of a database (like tables, schemas, etc.).
+
+It **does not manage data** inside the table — it **manages the structure** of the table.
+
+---
+
+##  Main DDL Commands:
+
+| Command    | Purpose                                                |
+| ---------- | ------------------------------------------------------ |
+| `CREATE`   | To create a new table/database                         |
+| `ALTER`    | To modify an existing table                            |
+| `DROP`     | To delete a table/database                             |
+| `TRUNCATE` | To delete all data from a table, but not the structure |
+| `RENAME`   | To change the table name                               |
+
+---
+
+##  Let's Understand with Real-World Examples:
+
+Imagine you're the admin of a **college database system**, and you want to manage student records.
+
+---
+
+### 1. `CREATE` – Creating a Table
+
+**Example:**
+You want to create a new table to store student info.
+
+CREATE TABLE Students (
+  RollNo INT,
+  Name VARCHAR(50),
+  Course VARCHAR(30),
+  Age INT
+);
+
+**Real Life Meaning:**
+You made a **new notebook** with specific columns to store student data.
+
+---
+
+###  2. `ALTER` – Changing a Table
+
+**Example:**
+You decide to add a **new column** for Email.
+
+ALTER TABLE Students ADD Email VARCHAR(50);
+
+**Real Life Meaning:**
+You added a **new column** in your notebook to write student email addresses.
+
+You can also **remove or rename** columns with ALTER.
+
+---
+
+###  3. `DROP` – Deleting a Table
+
+**Example:**
+You no longer need the “Students” table.
+
+DROP TABLE Students;
+
+**Real Life Meaning:**
+You **threw away the entire notebook** with student data and structure — nothing is left.
+
+---
+
+###  4. `TRUNCATE` – Empty the Table
+
+**Example:**
+You want to remove all student records but keep the table for future use.
+
+TRUNCATE TABLE Students;
+
+**Real Life Meaning:**
+You **erased all the pages inside** the notebook, but kept the notebook structure.
+
+---
+
+###  5. `RENAME` – Rename the Table
+
+**Example:**
+You want to rename the “Students” table to “StudentRecords”.
+
+RENAME TABLE Students TO StudentRecords;
+
+**Real Life Meaning:**
+You **changed the label** on the front of the notebook from “Students” to “StudentRecords”.
+
+---
+
+## Summary Chart:
+
+| DDL Command | Action                               | Real World Meaning                |
+| ----------- | ------------------------------------ | --------------------------------- |
+| CREATE      | Make a new table                     | Create new notebook               |
+| ALTER       | Modify structure (add/remove column) | Add new column/page in notebook   |
+| DROP        | Delete the whole table               | Throw away the entire notebook    |
+| TRUNCATE    | Delete data only                     | Erase all pages but keep notebook |
+| RENAME      | Change table name                    | Change the notebook's label       |
+
+---

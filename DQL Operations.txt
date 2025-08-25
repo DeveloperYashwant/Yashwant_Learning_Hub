@@ -1,0 +1,100 @@
+
+##  4] DQL Operations in DBMS
+
+**DQL = Data Query Language**
+
+---
+
+###  What does DQL do?
+
+DQL is used to **retrieve or fetch data** from a database.
+It helps us to **ask questions (queries)** and get **answers** from the data.
+
+**DQL = Asking Questions to the Data**
+
+It works **only with the SELECT command**.
+
+---
+
+##  DQL Main Command:
+
+| Command  | Purpose           |
+| -------- | ----------------- |
+| `SELECT` | View or read data |
+
+---
+
+### Real-Life Analogy:
+
+Imagine your college database is like a **register** filled with students' records.
+You want to know:
+
+* Which students are in BCA?
+* What is the age of student Roll No 105?
+* List of all students?
+
+You don’t want to change anything — just **view** the data. That’s where **DQL** helps!
+
+---
+
+##  SELECT Command – Examples:
+
+###  Example 1: View all records from the table
+
+SELECT * FROM Students;
+
+**Meaning:** Show **all data** of all students.
+
+---
+
+###  Example 2: View specific columns
+
+SELECT Name, Course FROM Students;
+
+**Meaning:** Show **only Name and Course** of all students.
+
+---
+
+###  Example 3: Filter using WHERE condition
+
+
+SELECT * FROM Students WHERE Course = 'BCA';
+
+**Meaning:** Show details of students who are in **BCA course** only.
+
+---
+
+### Example 4: Filter by age
+
+SELECT Name, Age FROM Students WHERE Age > 20;
+
+**Meaning:** Show name and age of students whose age is **greater than 20**.
+
+---
+
+###  Example 5: Sort the result
+
+SELECT * FROM Students ORDER BY Name;
+
+**Meaning:** Show all student records in **alphabetical order** of their names.
+
+---
+
+##  Summary Table of DQL:
+
+| Command    | Description                       | Example                                  |
+| ---------- | --------------------------------- | ---------------------------------------- |
+| `SELECT`   | Fetch or view data from table     | `SELECT * FROM Students;`                |
+| `WHERE`    | Apply condition to fetch specific | `SELECT * FROM Students WHERE Age > 20;` |
+| `ORDER BY` | Sort the data                     | `SELECT * FROM Students ORDER BY Name;`  |
+
+---
+
+##  Difference Between DDL, DML, and DQL:
+
+| Language | Full Form                  | Used For                      | Example          |
+| -------- | -------------------------- | ----------------------------- | ---------------- |
+| DDL      | Data Definition Language   | Create/Change table structure | `CREATE TABLE`   |
+| DML      | Data Manipulation Language | Insert/Update/Delete data     | `INSERT, UPDATE` |
+| DQL      | Data Query Language        | Only fetch (read) data        | `SELECT`         |
+

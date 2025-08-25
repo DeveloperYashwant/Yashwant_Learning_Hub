@@ -1,0 +1,115 @@
+DBMS Normalization
+---------------------------------
+Definition:
+- Normalization = Process of organizing data in DB to reduce redundancy & improve consistency.
+- Goal: Avoid duplicate data, ensure data dependency is logical.
+
+---------------------------------
+Why Normalization?
+- Remove duplicate/repeated data
+- Save storage
+- Maintain data integrity
+- Easy updates & insertions
+
+---------------------------------
+1) First Normal Form (1NF)
+---------------------------------
+Rule:
+- Each column has atomic (single) values
+- No repeating groups or arrays
+
+Example (Unnormalized):
+   RollNo | Name   | Courses
+   101    | Rahul  | Math, Science
+   102    | Asha   | English
+
+After 1NF:
+   RollNo | Name   | Course
+   101    | Rahul  | Math
+   101    | Rahul  | Science
+   102    | Asha   | English
+
+---------------------------------
+2) Second Normal Form (2NF)
+---------------------------------
+Rule:
+- Table must be in 1NF
+- No partial dependency (non-key column should depend on whole Primary Key)
+
+Example (Before 2NF):
+   (RollNo, Subject) → Primary Key
+   RollNo | Subject  | StudentName
+   101    | Math     | Rahul
+   101    | Science  | Rahul
+
+Problem: StudentName depends only on RollNo, not on Subject
+
+After 2NF:
+   Student Table:
+     RollNo | Name
+     101    | Rahul
+   Subject Table:
+     RollNo | Subject
+     101    | Math
+     101    | Science
+
+---------------------------------
+3) Third Normal Form (3NF)
+---------------------------------
+Rule:
+- Table must be in 2NF
+- No transitive dependency (Non-key column depends on another non-key column)
+
+Example (Before 3NF):
+   RollNo | Name   | DeptID | DeptName
+   101    | Rahul  | D1     | Computer
+
+Problem: DeptName depends on DeptID, not RollNo
+
+After 3NF:
+   Student Table:
+     RollNo | Name   | DeptID
+     101    | Rahul  | D1
+   Department Table:
+     DeptID | DeptName
+     D1     | Computer
+
+---------------------------------
+4) Boyce-Codd Normal Form (BCNF)
+---------------------------------
+Rule:
+- Stronger version of 3NF
+- For every functional dependency (X → Y), X should be a super key.
+
+Example (Before BCNF):
+   TeacherID | Subject | TeacherName
+   T1        | DBMS    | Amit
+   T2        | DBMS    | Sunil
+
+Problem: Subject → TeacherID (not a super key)
+
+After BCNF:
+   Subject Table:
+     Subject | TeacherID
+     DBMS    | T1
+     DBMS    | T2
+   Teacher Table:
+     TeacherID | TeacherName
+     T1        | Amit
+     T2        | Sunil
+
+---------------------------------
+Summary of Normal Forms
+---------------------------------
+1NF → Remove repeating groups
+2NF → Remove partial dependency
+3NF → Remove transitive dependency
+BCNF → Every determinant must be a super key
+
+---------------------------------
+Real-Life Analogy
+---------------------------------
+- 1NF → Writing phone numbers separately (not in a single box)
+- 2NF → Avoiding storing same student name with every subject
+- 3NF → Keeping department info in separate table
+- BCNF → Strict rule ensuring no confusion in data relations

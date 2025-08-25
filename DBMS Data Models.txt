@@ -1,0 +1,90 @@
+DBMS Data Models
+---------------------------------
+Definition:
+- Data Model = Way to represent and organize data in a database.
+- Shows: how data is stored, connected, and used.
+- Types: Hierarchical, Network, Relational, Entity-Relationship (ER), Object-Oriented
+
+---------------------------------
+1) Hierarchical Data Model
+---------------------------------
+- Data stored in Tree structure (Parent → Child)
+- One parent can have many children
+- Child has only one parent
+
+Example:
+   - Company → Department → Employees
+
+Pros: Fast for hierarchical data
+Cons: Difficult to modify/add new relations
+
+---------------------------------
+2) Network Data Model
+---------------------------------
+- Data stored in Graph structure
+- Many-to-Many relationships allowed
+- Record can have multiple parent & child records
+
+Example:
+   - Student ↔ Course
+   - A student takes many courses, a course has many students
+
+---------------------------------
+3) Relational Data Model (Most Popular)
+---------------------------------
+- Data stored in Tables (Rows & Columns)
+- Tables connected using Keys (PK, FK)
+- Easy to use & understand
+
+Example: Student Table
+   RollNo | Name  | Course
+   101    | Rahul | BCA
+   102    | Asha  | BSc
+
+Pros: Simple, powerful, widely used
+Cons: Performance slow for very large/complex data
+
+---------------------------------
+4) Entity-Relationship (ER) Model
+---------------------------------
+- Data represented as:
+   - Entity (object like Student, Teacher)
+   - Attributes (properties like Name, RollNo)
+   - Relationships (link between entities)
+
+Example:
+   Student (Entity) → "enrolled in" → Course (Entity)
+
+Pros: Easy for designing database before implementation
+
+---------------------------------
+5) Object-Oriented Data Model
+---------------------------------
+- Data represented as Objects (like in OOP)
+- Objects contain data + methods
+- Good for multimedia, CAD, AI
+
+Example:
+   - Object: Student
+     Attributes: Name, RollNo
+     Methods: enrollCourse(), getResult()
+
+---------------------------------
+Summary Table
+---------------------------------
+Model Type       → Structure       → Example Use
+----------------------------------------------------------
+Hierarchical     → Tree            → Org Chart
+Network          → Graph           → Student-Course
+Relational       → Tables          → Banking, E-commerce
+ER Model         → Entities/Links  → Database Design
+Object-Oriented  → Objects         → Multimedia, AI
+
+---------------------------------
+Simple Real-Life Analogy
+---------------------------------
+- Hierarchical → Family Tree
+- Network      → Social Media (friends many-to-many)
+- Relational   → Excel Sheet (rows & columns)
+- ER Model     → Flowchart of relationships
+- Object Model → Real-world object (Car = attributes + methods)

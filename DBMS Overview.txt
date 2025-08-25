@@ -1,0 +1,87 @@
+DBMS (Database Management System)
+---------------------------------
+
+1) Definition:
+   - DBMS is software used to Store, Organize & Manage data in a structured way.
+
+2) Real-Life Example: College Admission Office
+   - Data needed: Name, Roll No, Course, Marks
+
+   * Before Computers (Manual System):
+     - Records written in notebooks
+     - Hard to search, update, protect
+
+   * With DBMS (Computer System):
+     - Data stored in software (MySQL, Oracle, MS Access)
+     - Easy search, quick updates, no duplication, secure
+
+---------------------------------
+Why Do We Use DBMS?
+---------------------------------
+Manual Problem              →   DBMS Advantage
+------------------------------------------------
+Duplicate Data              →   Avoids duplication
+Difficult to Search         →   Fast & Easy search
+No Data Security            →   Access control & security
+Difficult Updates           →   Quick & Accurate updates
+
+---------------------------------
+Keys in DBMS
+---------------------------------
+Definition: Keys are used to uniquely identify records in a table.
+
+1) Primary Key
+   - Unique for every row
+   - No duplicate, No NULL
+   Example:
+     Roll No (PK) | Name   | Course
+     101          | Rahul  | BCA
+     102          | Asha   | BSc
+   → Roll No is Primary Key
+
+2) Candidate Key
+   - More than one unique column
+   - One of them is chosen as Primary Key
+   Example:
+     Roll No | Email            | Name
+     101     | rahul@gmail.com  | Rahul
+   → Roll No and Email both unique → Candidate Keys
+   → Choose Roll No as Primary Key
+
+3) Foreign Key
+   - A column that refers to Primary Key of another table
+   - Used to connect two tables
+   Example:
+     Student Table
+       StudentID | Name
+       1         | Neha
+       2         | Amit
+
+     Marks Table
+       MarksID | StudentID (FK) | Marks
+       1       | 1              | 85
+       2       | 2              | 90
+   → StudentID in Marks = Foreign Key
+
+4) Composite Key
+   - Combination of 2+ columns to make row unique
+   Example:
+     StudentID | Subject | Marks
+     101       | Math    | 90
+     101       | Science | 88
+   → StudentID + Subject = Composite Key
+
+---------------------------------
+Summary Table of Keys
+---------------------------------
+Key Type       → What it Does                  → Example
+Primary Key    → Unique ID for each row        → Roll No
+Candidate Key  → All possible unique keys      → Email, Roll No
+Foreign Key    → Link between tables           → StudentID in Marks
+Composite Key  → Combination of columns unique → StudentID + Subject
+
+---------------------------------
+Real-Life Analogy
+---------------------------------
+- Aadhaar Number → Primary Key (unique ID for every person)
+- Ration Card    → Foreign Key (linked with Aadhaar to verify identity)

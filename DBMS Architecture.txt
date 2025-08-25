@@ -1,0 +1,74 @@
+DBMS Architecture
+---------------------------------
+Definition:
+- Architecture = Structure that shows how users, DBMS, and database are connected.
+- Common types: 1-Tier, 2-Tier, 3-Tier
+
+---------------------------------
+1) 1-Tier Architecture
+---------------------------------
+- User directly interacts with the database.
+- No separation between user and DBMS.
+- Used by developers for testing.
+Example:
+   - SQL commands run directly on MySQL / Oracle console.
+
+Pros:
+   - Simple & fast
+Cons:
+   - Not secure, not for multi-user
+
+---------------------------------
+2) 2-Tier Architecture
+---------------------------------
+- Application (client) communicates directly with DBMS (server).
+- Client → Application
+- Server → Database
+
+Example:
+   - Student Result Application
+     Client → Request result
+     Server (DBMS) → Returns data
+
+Pros:
+   - Faster communication
+Cons:
+   - Limited scalability (not good for very large systems)
+
+---------------------------------
+3) 3-Tier Architecture
+---------------------------------
+- Adds one more layer (Application Server) between client & DBMS.
+- Layers:
+   1. Client (User Interface)
+   2. Application Server (Business Logic)
+   3. Database Server (Data storage)
+
+Example:
+   - Banking System
+     Client → Login
+     Application Server → Process rules (check balance, transaction)
+     Database Server → Stores account details
+
+Pros:
+   - Secure
+   - Scalable (can handle many users)
+   - Easier maintenance
+Cons:
+   - Slightly slower (because of extra layer)
+
+---------------------------------
+Comparison Table
+---------------------------------
+Architecture → Layers       → Example         → Use
+----------------------------------------------------------
+1-Tier       → User + DBMS  → SQL console     → Testing
+2-Tier       → Client + DB → Student result   → Small apps
+3-Tier       → Client + App + DB → Banking    → Large apps
+
+---------------------------------
+Real-Life Analogy
+---------------------------------
+- 1-Tier → Talking directly to Shop Store Room
+- 2-Tier → Talking to Shopkeeper (he brings items from store)
+- 3-Tier → Talking to Cashier → Cashier asks Store Manager → Manager gets items from Warehouse

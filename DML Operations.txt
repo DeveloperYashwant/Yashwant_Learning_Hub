@@ -1,0 +1,95 @@
+
+##  3] DML Operations in DBMS
+
+**DML = Data Manipulation Language**
+
+###  What it does:
+
+DML commands are used to **work with data inside a table** — like adding, updating, deleting, and viewing data.
+
+ **DML = Change Data** (not structure)
+ Works on tables created using **DDL**
+
+---
+
+##  Main DML Commands:
+
+| Command  | Purpose                  |
+| -------- | ------------------------ |
+| `INSERT` | Add new data to a table  |
+| `UPDATE` | Modify existing data     |
+| `DELETE` | Remove data from a table |
+| `SELECT` | View data from a table   |
+
+---
+
+##  Real-Life Analogy:
+
+Imagine your table is like a **register** (notebook) for student details.
+You’ve already created it using DDL. Now you want to fill or change the information.
+
+---
+
+###  1. `INSERT` – Add New Data
+
+ **Example:**
+
+INSERT INTO Students (RollNo, Name, Course, Age)
+VALUES (101, 'Amit', 'BCA', 20);
+
+**Real-Life Meaning:**
+You **write a new entry** in your register for a new student.
+
+---
+
+###  2. `SELECT` – View Data
+
+**Example:**
+
+SELECT * FROM Students;
+
+**Real-Life Meaning:**
+You **read all student entries** from the register.
+
+You can also select specific columns:
+
+SELECT Name, Course FROM Students;
+
+
+---
+
+###  3. `UPDATE` – Change Existing Data
+
+**Example:**
+
+UPDATE Students
+SET Age = 21
+WHERE RollNo = 101;
+
+**Real-Life Meaning:**
+You **update the student’s age** in the register (change a value).
+
+---
+
+###  4. `DELETE` – Remove Data
+
+**Example:**
+
+DELETE FROM Students
+WHERE RollNo = 101;
+
+**Real-Life Meaning:**
+You **erase the row** of that student from the register.
+
+---
+
+##  Summary Table:
+
+| DML Command | Use For              | Real-World Example            |
+| ----------- | -------------------- | ----------------------------- |
+| `INSERT`    | Add new records      | Add a student to the register |
+| `SELECT`    | View data            | Read data from the register   |
+| `UPDATE`    | Modify existing data | Change a student’s age        |
+| `DELETE`    | Remove specific data | Remove a student’s record     |
+
+---
